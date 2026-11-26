@@ -131,7 +131,12 @@
       out.push({ req: r.no, clause: r.clause, quote: r.text, type: type, severity: sev, finding: f, action: String(m.action_ar || '').trim() || 'يلزم تقديم المستند الداعم.', src: 'model', verified: verified });
       covered[r.no] = true;
     });
-    ruleItems.forEach(function (i) { if (!covered[i.req]) out.push(i); });
+    ruleItems.forEach(function (i) {
+      if (covered[i.req] || i.type === 'clarification') return;
+      var c = {}; Object.keys(i).forEach(function (k) { c[k] = i[k]; });
+      c.finding = i.finding + ' (ملاحظة آلية لم يؤكدها الموديل، يلزم التحقق منها)';
+      out.push(c);
+    });
     return out;
   }
 
