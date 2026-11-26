@@ -1,0 +1,14 @@
+name = "team-ai-api-proxy"
+main = "api-proxy.js"
+compatibility_date = "2026-01-01"
+
+[vars]
+# Restrict to your production domain, e.g. "https://example.com"
+ALLOWED_ORIGIN = "*"
+
+# Store API keys securely as Wrangler secrets (do not put keys in this file):
+# wrangler secret put GEMINI_API_KEY
+# wrangler secret put GROQ_API_KEY
+# wrangler secret put OPENROUTER_API_KEY
+# wrangler secret put OPENAI_API_KEY
+# wrangler secret put ANTHROPIC_API_KEY
