@@ -28,7 +28,6 @@ $('resumeGo').onclick=function(){var c=ckPeek();if(!c||!c.task)return;if(abort)r
 $('resumeX').onclick=function(){ckClear();$('resumeBox').hidden=true};
 showResume();
 $('copy').onclick=async()=>{try{await navigator.clipboard.writeText(plainText($('final').textContent));$('copy').textContent='Copied ✔';setTimeout(()=>$('copy').textContent='Copy',1500)}catch{}};
-function histTitle(x){if(x.ttl)return x.ttl;var t=(x.title||x.task||'').replace(/\s+/g,' ').trim();var w=t.split(' ');return w.slice(0,7).join(' ')+(w.length>7?'...':'')}
 function renderHist(){const h=LS.get('teamai.hist',[]);$('histCard').hidden=false;$('noHist').hidden=h.length>0;$('hist').innerHTML='';
  h.forEach(x=>{const d=document.createElement('div');d.className='hist';const a=document.createElement('span');a.textContent=histTitle(x);a.title=histTitle(x);a.dir='auto';const b=document.createElement('span');b.className='hint';b.textContent=new Date(x.t).toLocaleDateString();d.append(a,b);
  if(current&&current.id===x.id)d.classList.add('on');
