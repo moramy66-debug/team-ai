@@ -1,0 +1,2501 @@
+{
+ "_readme": "Team AI engineering tables, DRAFT. Each table has source, status, unit. status: verified_mirror = numbers extracted by script from a public reproduction of the named table (still verify against the official standard before sealing a design); verified_secondary = stated in a public secondary source; from_memory_needs_review = NOT from a fetched source, must be reviewed. To replace a table edit only its entry here; code reads rows by the columns array.",
+ "version": "2026-11-26-draft",
+ "tables": {
+  "iec_b52_2_pvc_cu_2loaded": {
+   "title": "IEC 60364-5-52 Table B.52.2: PVC, 2 loaded conductors, Cu, 70 C, 30 C air / 20 C ground",
+   "source": "https://ti-soft.com/en/support/help/electricaldesign/standards/iec-60364-5-52/current-carrying-capacity/table_b_52_2  (same tables listed in Top Cable catalogue https://www.topcable.com/topmatic/data/en.pdf)",
+   "status": "verified_mirror",
+   "unit": "A",
+   "conditions": {
+    "insulation": "PVC",
+    "conductor": "Cu",
+    "loaded_conductors": 2,
+    "conductor_temp_c": 70,
+    "ambient_air_c": 30,
+    "ambient_ground_c": 20
+   },
+   "columns": [
+    "size_mm2",
+    "A1",
+    "A2",
+    "B1",
+    "B2",
+    "C",
+    "D1",
+    "D2"
+   ],
+   "method_notes": {
+    "A1": "insulated conductors in conduit in thermally insulated wall",
+    "A2": "multi-core cable in conduit in thermally insulated wall",
+    "B1": "insulated conductors in conduit on wall",
+    "B2": "multi-core cable in conduit on wall",
+    "C": "cable clipped direct on wall",
+    "D1": "multi-core cable in ducts in ground",
+    "D2": "sheathed cable direct buried"
+   },
+   "rows": [
+    [
+     1.5,
+     14.5,
+     14.0,
+     17.5,
+     16.5,
+     19.5,
+     22.0,
+     22.0
+    ],
+    [
+     2.5,
+     19.5,
+     18.5,
+     24.0,
+     23.0,
+     27.0,
+     29.0,
+     28.0
+    ],
+    [
+     4.0,
+     26.0,
+     25.0,
+     32.0,
+     30.0,
+     36.0,
+     37.0,
+     38.0
+    ],
+    [
+     6.0,
+     34.0,
+     32.0,
+     41.0,
+     38.0,
+     46.0,
+     46.0,
+     48.0
+    ],
+    [
+     10.0,
+     46.0,
+     43.0,
+     57.0,
+     52.0,
+     63.0,
+     60.0,
+     64.0
+    ],
+    [
+     16.0,
+     61.0,
+     57.0,
+     76.0,
+     69.0,
+     85.0,
+     78.0,
+     83.0
+    ],
+    [
+     25.0,
+     80.0,
+     75.0,
+     101.0,
+     90.0,
+     112.0,
+     99.0,
+     110.0
+    ],
+    [
+     35.0,
+     99.0,
+     92.0,
+     125.0,
+     111.0,
+     138.0,
+     119.0,
+     132.0
+    ],
+    [
+     50.0,
+     119.0,
+     110.0,
+     151.0,
+     133.0,
+     168.0,
+     140.0,
+     156.0
+    ],
+    [
+     70.0,
+     151.0,
+     139.0,
+     192.0,
+     168.0,
+     213.0,
+     173.0,
+     192.0
+    ],
+    [
+     95.0,
+     182.0,
+     167.0,
+     232.0,
+     201.0,
+     258.0,
+     204.0,
+     230.0
+    ],
+    [
+     120.0,
+     210.0,
+     192.0,
+     269.0,
+     232.0,
+     299.0,
+     231.0,
+     261.0
+    ],
+    [
+     150.0,
+     240.0,
+     219.0,
+     300.0,
+     258.0,
+     344.0,
+     261.0,
+     293.0
+    ],
+    [
+     185.0,
+     273.0,
+     248.0,
+     341.0,
+     294.0,
+     392.0,
+     292.0,
+     331.0
+    ],
+    [
+     240.0,
+     321.0,
+     291.0,
+     400.0,
+     344.0,
+     461.0,
+     336.0,
+     382.0
+    ],
+    [
+     300.0,
+     367.0,
+     334.0,
+     458.0,
+     394.0,
+     530.0,
+     379.0,
+     427.0
+    ]
+   ]
+  },
+  "iec_b52_2_pvc_al_2loaded": {
+   "title": "IEC 60364-5-52 Table B.52.2: PVC, 2 loaded conductors, Al, 70 C, 30 C air / 20 C ground",
+   "source": "https://ti-soft.com/en/support/help/electricaldesign/standards/iec-60364-5-52/current-carrying-capacity/table_b_52_2  (same tables listed in Top Cable catalogue https://www.topcable.com/topmatic/data/en.pdf)",
+   "status": "verified_mirror",
+   "unit": "A",
+   "conditions": {
+    "insulation": "PVC",
+    "conductor": "Al",
+    "loaded_conductors": 2,
+    "conductor_temp_c": 70,
+    "ambient_air_c": 30,
+    "ambient_ground_c": 20
+   },
+   "columns": [
+    "size_mm2",
+    "A1",
+    "A2",
+    "B1",
+    "B2",
+    "C",
+    "D1",
+    "D2"
+   ],
+   "method_notes": {
+    "A1": "insulated conductors in conduit in thermally insulated wall",
+    "A2": "multi-core cable in conduit in thermally insulated wall",
+    "B1": "insulated conductors in conduit on wall",
+    "B2": "multi-core cable in conduit on wall",
+    "C": "cable clipped direct on wall",
+    "D1": "multi-core cable in ducts in ground",
+    "D2": "sheathed cable direct buried"
+   },
+   "rows": [
+    [
+     2.5,
+     15.0,
+     14.5,
+     18.5,
+     17.5,
+     21.0,
+     22.0,
+     null
+    ],
+    [
+     4.0,
+     20.0,
+     19.5,
+     25.0,
+     24.0,
+     28.0,
+     29.0,
+     null
+    ],
+    [
+     6.0,
+     26.0,
+     25.0,
+     32.0,
+     30.0,
+     36.0,
+     36.0,
+     null
+    ],
+    [
+     10.0,
+     36.0,
+     33.0,
+     44.0,
+     41.0,
+     49.0,
+     47.0,
+     null
+    ],
+    [
+     16.0,
+     48.0,
+     44.0,
+     60.0,
+     54.0,
+     66.0,
+     61.0,
+     63.0
+    ],
+    [
+     25.0,
+     63.0,
+     58.0,
+     79.0,
+     71.0,
+     83.0,
+     77.0,
+     82.0
+    ],
+    [
+     35.0,
+     77.0,
+     71.0,
+     97.0,
+     86.0,
+     103.0,
+     93.0,
+     98.0
+    ],
+    [
+     50.0,
+     93.0,
+     86.0,
+     118.0,
+     104.0,
+     125.0,
+     109.0,
+     117.0
+    ],
+    [
+     70.0,
+     118.0,
+     108.0,
+     150.0,
+     131.0,
+     160.0,
+     135.0,
+     145.0
+    ],
+    [
+     95.0,
+     142.0,
+     130.0,
+     181.0,
+     157.0,
+     195.0,
+     159.0,
+     173.0
+    ],
+    [
+     120.0,
+     164.0,
+     150.0,
+     210.0,
+     181.0,
+     226.0,
+     180.0,
+     200.0
+    ],
+    [
+     150.0,
+     189.0,
+     172.0,
+     234.0,
+     201.0,
+     261.0,
+     204.0,
+     224.0
+    ],
+    [
+     185.0,
+     215.0,
+     195.0,
+     266.0,
+     230.0,
+     298.0,
+     228.0,
+     255.0
+    ],
+    [
+     240.0,
+     252.0,
+     229.0,
+     312.0,
+     269.0,
+     352.0,
+     262.0,
+     298.0
+    ],
+    [
+     300.0,
+     289.0,
+     263.0,
+     358.0,
+     308.0,
+     406.0,
+     296.0,
+     336.0
+    ]
+   ]
+  },
+  "iec_b52_3_xlpe_cu_2loaded": {
+   "title": "IEC 60364-5-52 Table B.52.3: XLPE, 2 loaded conductors, Cu, 90 C, 30 C air / 20 C ground",
+   "source": "https://ti-soft.com/en/support/help/electricaldesign/standards/iec-60364-5-52/current-carrying-capacity/table_b_52_3  (same tables listed in Top Cable catalogue https://www.topcable.com/topmatic/data/en.pdf)",
+   "status": "verified_mirror",
+   "unit": "A",
+   "conditions": {
+    "insulation": "XLPE",
+    "conductor": "Cu",
+    "loaded_conductors": 2,
+    "conductor_temp_c": 90,
+    "ambient_air_c": 30,
+    "ambient_ground_c": 20
+   },
+   "columns": [
+    "size_mm2",
+    "A1",
+    "A2",
+    "B1",
+    "B2",
+    "C",
+    "D1",
+    "D2"
+   ],
+   "method_notes": {
+    "A1": "insulated conductors in conduit in thermally insulated wall",
+    "A2": "multi-core cable in conduit in thermally insulated wall",
+    "B1": "insulated conductors in conduit on wall",
+    "B2": "multi-core cable in conduit on wall",
+    "C": "cable clipped direct on wall",
+    "D1": "multi-core cable in ducts in ground",
+    "D2": "sheathed cable direct buried"
+   },
+   "rows": [
+    [
+     1.5,
+     19.0,
+     18.5,
+     23.0,
+     22.0,
+     24.0,
+     25.0,
+     27.0
+    ],
+    [
+     2.5,
+     26.0,
+     25.0,
+     31.0,
+     30.0,
+     33.0,
+     33.0,
+     35.0
+    ],
+    [
+     4.0,
+     35.0,
+     33.0,
+     42.0,
+     40.0,
+     45.0,
+     43.0,
+     46.0
+    ],
+    [
+     6.0,
+     45.0,
+     42.0,
+     54.0,
+     51.0,
+     58.0,
+     53.0,
+     58.0
+    ],
+    [
+     10.0,
+     61.0,
+     57.0,
+     75.0,
+     69.0,
+     80.0,
+     71.0,
+     77.0
+    ],
+    [
+     16.0,
+     81.0,
+     76.0,
+     100.0,
+     91.0,
+     107.0,
+     91.0,
+     100.0
+    ],
+    [
+     25.0,
+     106.0,
+     99.0,
+     133.0,
+     119.0,
+     138.0,
+     116.0,
+     129.0
+    ],
+    [
+     35.0,
+     131.0,
+     121.0,
+     164.0,
+     146.0,
+     171.0,
+     139.0,
+     155.0
+    ],
+    [
+     50.0,
+     158.0,
+     145.0,
+     198.0,
+     175.0,
+     209.0,
+     164.0,
+     183.0
+    ],
+    [
+     70.0,
+     200.0,
+     183.0,
+     253.0,
+     221.0,
+     269.0,
+     203.0,
+     225.0
+    ],
+    [
+     95.0,
+     241.0,
+     220.0,
+     306.0,
+     265.0,
+     328.0,
+     239.0,
+     270.0
+    ],
+    [
+     120.0,
+     278.0,
+     253.0,
+     354.0,
+     305.0,
+     382.0,
+     271.0,
+     306.0
+    ],
+    [
+     150.0,
+     318.0,
+     290.0,
+     393.0,
+     334.0,
+     441.0,
+     306.0,
+     343.0
+    ],
+    [
+     185.0,
+     362.0,
+     329.0,
+     449.0,
+     384.0,
+     506.0,
+     343.0,
+     387.0
+    ],
+    [
+     240.0,
+     424.0,
+     386.0,
+     528.0,
+     459.0,
+     599.0,
+     395.0,
+     448.0
+    ],
+    [
+     300.0,
+     486.0,
+     442.0,
+     603.0,
+     532.0,
+     693.0,
+     446.0,
+     502.0
+    ]
+   ]
+  },
+  "iec_b52_3_xlpe_al_2loaded": {
+   "title": "IEC 60364-5-52 Table B.52.3: XLPE, 2 loaded conductors, Al, 90 C, 30 C air / 20 C ground",
+   "source": "https://ti-soft.com/en/support/help/electricaldesign/standards/iec-60364-5-52/current-carrying-capacity/table_b_52_3  (same tables listed in Top Cable catalogue https://www.topcable.com/topmatic/data/en.pdf)",
+   "status": "verified_mirror",
+   "unit": "A",
+   "conditions": {
+    "insulation": "XLPE",
+    "conductor": "Al",
+    "loaded_conductors": 2,
+    "conductor_temp_c": 90,
+    "ambient_air_c": 30,
+    "ambient_ground_c": 20
+   },
+   "columns": [
+    "size_mm2",
+    "A1",
+    "A2",
+    "B1",
+    "B2",
+    "C",
+    "D1",
+    "D2"
+   ],
+   "method_notes": {
+    "A1": "insulated conductors in conduit in thermally insulated wall",
+    "A2": "multi-core cable in conduit in thermally insulated wall",
+    "B1": "insulated conductors in conduit on wall",
+    "B2": "multi-core cable in conduit on wall",
+    "C": "cable clipped direct on wall",
+    "D1": "multi-core cable in ducts in ground",
+    "D2": "sheathed cable direct buried"
+   },
+   "rows": [
+    [
+     2.5,
+     20.0,
+     19.5,
+     25.0,
+     23.0,
+     26.0,
+     26.0,
+     null
+    ],
+    [
+     4.0,
+     27.0,
+     26.0,
+     33.0,
+     31.0,
+     35.0,
+     33.0,
+     null
+    ],
+    [
+     6.0,
+     35.0,
+     33.0,
+     43.0,
+     40.0,
+     45.0,
+     42.0,
+     null
+    ],
+    [
+     10.0,
+     48.0,
+     45.0,
+     59.0,
+     54.0,
+     62.0,
+     55.0,
+     null
+    ],
+    [
+     16.0,
+     64.0,
+     60.0,
+     79.0,
+     72.0,
+     84.0,
+     71.0,
+     76.0
+    ],
+    [
+     25.0,
+     84.0,
+     78.0,
+     105.0,
+     94.0,
+     101.0,
+     90.0,
+     98.0
+    ],
+    [
+     35.0,
+     103.0,
+     96.0,
+     130.0,
+     115.0,
+     126.0,
+     108.0,
+     117.0
+    ],
+    [
+     50.0,
+     125.0,
+     115.0,
+     157.0,
+     138.0,
+     154.0,
+     128.0,
+     139.0
+    ],
+    [
+     70.0,
+     158.0,
+     145.0,
+     200.0,
+     175.0,
+     198.0,
+     158.0,
+     170.0
+    ],
+    [
+     95.0,
+     191.0,
+     175.0,
+     242.0,
+     210.0,
+     241.0,
+     186.0,
+     204.0
+    ],
+    [
+     120.0,
+     220.0,
+     201.0,
+     281.0,
+     242.0,
+     280.0,
+     211.0,
+     233.0
+    ],
+    [
+     150.0,
+     253.0,
+     230.0,
+     307.0,
+     261.0,
+     324.0,
+     238.0,
+     261.0
+    ],
+    [
+     185.0,
+     288.0,
+     262.0,
+     351.0,
+     300.0,
+     371.0,
+     267.0,
+     296.0
+    ],
+    [
+     240.0,
+     338.0,
+     307.0,
+     412.0,
+     358.0,
+     439.0,
+     307.0,
+     343.0
+    ],
+    [
+     300.0,
+     387.0,
+     352.0,
+     471.0,
+     415.0,
+     508.0,
+     346.0,
+     386.0
+    ]
+   ]
+  },
+  "iec_b52_4_pvc_cu_3loaded": {
+   "title": "IEC 60364-5-52 Table B.52.4: PVC, 3 loaded conductors, Cu, 70 C, 30 C air / 20 C ground",
+   "source": "https://ti-soft.com/en/support/help/electricaldesign/standards/iec-60364-5-52/current-carrying-capacity/table_b_52_4  (same tables listed in Top Cable catalogue https://www.topcable.com/topmatic/data/en.pdf)",
+   "status": "verified_mirror",
+   "unit": "A",
+   "conditions": {
+    "insulation": "PVC",
+    "conductor": "Cu",
+    "loaded_conductors": 3,
+    "conductor_temp_c": 70,
+    "ambient_air_c": 30,
+    "ambient_ground_c": 20
+   },
+   "columns": [
+    "size_mm2",
+    "A1",
+    "A2",
+    "B1",
+    "B2",
+    "C",
+    "D1",
+    "D2"
+   ],
+   "method_notes": {
+    "A1": "insulated conductors in conduit in thermally insulated wall",
+    "A2": "multi-core cable in conduit in thermally insulated wall",
+    "B1": "insulated conductors in conduit on wall",
+    "B2": "multi-core cable in conduit on wall",
+    "C": "cable clipped direct on wall",
+    "D1": "multi-core cable in ducts in ground",
+    "D2": "sheathed cable direct buried"
+   },
+   "rows": [
+    [
+     1.5,
+     13.5,
+     13.0,
+     15.5,
+     15.0,
+     17.5,
+     18.0,
+     19.0
+    ],
+    [
+     2.5,
+     18.0,
+     17.5,
+     21.0,
+     20.0,
+     24.0,
+     24.0,
+     24.0
+    ],
+    [
+     4.0,
+     24.0,
+     23.0,
+     28.0,
+     27.0,
+     32.0,
+     30.0,
+     33.0
+    ],
+    [
+     6.0,
+     31.0,
+     29.0,
+     36.0,
+     34.0,
+     41.0,
+     38.0,
+     41.0
+    ],
+    [
+     10.0,
+     42.0,
+     39.0,
+     50.0,
+     46.0,
+     57.0,
+     50.0,
+     54.0
+    ],
+    [
+     16.0,
+     56.0,
+     52.0,
+     68.0,
+     62.0,
+     76.0,
+     64.0,
+     70.0
+    ],
+    [
+     25.0,
+     73.0,
+     68.0,
+     89.0,
+     80.0,
+     96.0,
+     82.0,
+     92.0
+    ],
+    [
+     35.0,
+     89.0,
+     83.0,
+     110.0,
+     99.0,
+     119.0,
+     98.0,
+     110.0
+    ],
+    [
+     50.0,
+     108.0,
+     99.0,
+     134.0,
+     118.0,
+     144.0,
+     116.0,
+     130.0
+    ],
+    [
+     70.0,
+     136.0,
+     125.0,
+     171.0,
+     149.0,
+     184.0,
+     143.0,
+     162.0
+    ],
+    [
+     95.0,
+     164.0,
+     150.0,
+     207.0,
+     179.0,
+     223.0,
+     169.0,
+     193.0
+    ],
+    [
+     120.0,
+     188.0,
+     172.0,
+     239.0,
+     206.0,
+     259.0,
+     192.0,
+     220.0
+    ],
+    [
+     150.0,
+     216.0,
+     196.0,
+     262.0,
+     225.0,
+     299.0,
+     217.0,
+     246.0
+    ],
+    [
+     185.0,
+     245.0,
+     223.0,
+     296.0,
+     255.0,
+     341.0,
+     243.0,
+     278.0
+    ],
+    [
+     240.0,
+     286.0,
+     261.0,
+     346.0,
+     297.0,
+     403.0,
+     280.0,
+     320.0
+    ],
+    [
+     300.0,
+     328.0,
+     298.0,
+     394.0,
+     339.0,
+     464.0,
+     316.0,
+     359.0
+    ]
+   ]
+  },
+  "iec_b52_4_pvc_al_3loaded": {
+   "title": "IEC 60364-5-52 Table B.52.4: PVC, 3 loaded conductors, Al, 70 C, 30 C air / 20 C ground",
+   "source": "https://ti-soft.com/en/support/help/electricaldesign/standards/iec-60364-5-52/current-carrying-capacity/table_b_52_4  (same tables listed in Top Cable catalogue https://www.topcable.com/topmatic/data/en.pdf)",
+   "status": "verified_mirror",
+   "unit": "A",
+   "conditions": {
+    "insulation": "PVC",
+    "conductor": "Al",
+    "loaded_conductors": 3,
+    "conductor_temp_c": 70,
+    "ambient_air_c": 30,
+    "ambient_ground_c": 20
+   },
+   "columns": [
+    "size_mm2",
+    "A1",
+    "A2",
+    "B1",
+    "B2",
+    "C",
+    "D1",
+    "D2"
+   ],
+   "method_notes": {
+    "A1": "insulated conductors in conduit in thermally insulated wall",
+    "A2": "multi-core cable in conduit in thermally insulated wall",
+    "B1": "insulated conductors in conduit on wall",
+    "B2": "multi-core cable in conduit on wall",
+    "C": "cable clipped direct on wall",
+    "D1": "multi-core cable in ducts in ground",
+    "D2": "sheathed cable direct buried"
+   },
+   "rows": [
+    [
+     2.5,
+     14.0,
+     13.5,
+     16.5,
+     15.5,
+     18.5,
+     18.5,
+     null
+    ],
+    [
+     4.0,
+     18.5,
+     17.5,
+     22.0,
+     21.0,
+     25.0,
+     24.0,
+     null
+    ],
+    [
+     6.0,
+     24.0,
+     23.0,
+     28.0,
+     27.0,
+     32.0,
+     30.0,
+     null
+    ],
+    [
+     10.0,
+     32.0,
+     31.0,
+     39.0,
+     36.0,
+     44.0,
+     39.0,
+     null
+    ],
+    [
+     16.0,
+     43.0,
+     41.0,
+     53.0,
+     48.0,
+     59.0,
+     50.0,
+     53.0
+    ],
+    [
+     25.0,
+     57.0,
+     53.0,
+     70.0,
+     62.0,
+     73.0,
+     64.0,
+     69.0
+    ],
+    [
+     35.0,
+     70.0,
+     65.0,
+     86.0,
+     77.0,
+     90.0,
+     77.0,
+     83.0
+    ],
+    [
+     50.0,
+     84.0,
+     78.0,
+     104.0,
+     92.0,
+     110.0,
+     91.0,
+     99.0
+    ],
+    [
+     70.0,
+     107.0,
+     98.0,
+     133.0,
+     116.0,
+     140.0,
+     112.0,
+     122.0
+    ],
+    [
+     95.0,
+     129.0,
+     118.0,
+     161.0,
+     139.0,
+     170.0,
+     132.0,
+     148.0
+    ],
+    [
+     120.0,
+     149.0,
+     135.0,
+     186.0,
+     160.0,
+     197.0,
+     150.0,
+     169.0
+    ],
+    [
+     150.0,
+     170.0,
+     155.0,
+     204.0,
+     176.0,
+     227.0,
+     169.0,
+     189.0
+    ],
+    [
+     185.0,
+     194.0,
+     176.0,
+     230.0,
+     199.0,
+     259.0,
+     190.0,
+     214.0
+    ],
+    [
+     240.0,
+     227.0,
+     207.0,
+     269.0,
+     232.0,
+     305.0,
+     218.0,
+     250.0
+    ],
+    [
+     300.0,
+     261.0,
+     237.0,
+     306.0,
+     265.0,
+     351.0,
+     247.0,
+     282.0
+    ]
+   ]
+  },
+  "iec_b52_5_xlpe_cu_3loaded": {
+   "title": "IEC 60364-5-52 Table B.52.5: XLPE, 3 loaded conductors, Cu, 90 C, 30 C air / 20 C ground",
+   "source": "https://ti-soft.com/en/support/help/electricaldesign/standards/iec-60364-5-52/current-carrying-capacity/table_b_52_5  (same tables listed in Top Cable catalogue https://www.topcable.com/topmatic/data/en.pdf)",
+   "status": "verified_mirror",
+   "unit": "A",
+   "conditions": {
+    "insulation": "XLPE",
+    "conductor": "Cu",
+    "loaded_conductors": 3,
+    "conductor_temp_c": 90,
+    "ambient_air_c": 30,
+    "ambient_ground_c": 20
+   },
+   "columns": [
+    "size_mm2",
+    "A1",
+    "A2",
+    "B1",
+    "B2",
+    "C",
+    "D1",
+    "D2"
+   ],
+   "method_notes": {
+    "A1": "insulated conductors in conduit in thermally insulated wall",
+    "A2": "multi-core cable in conduit in thermally insulated wall",
+    "B1": "insulated conductors in conduit on wall",
+    "B2": "multi-core cable in conduit on wall",
+    "C": "cable clipped direct on wall",
+    "D1": "multi-core cable in ducts in ground",
+    "D2": "sheathed cable direct buried"
+   },
+   "rows": [
+    [
+     1.5,
+     17.0,
+     16.5,
+     20.0,
+     19.5,
+     22.0,
+     21.0,
+     23.0
+    ],
+    [
+     2.5,
+     23.0,
+     22.0,
+     28.0,
+     26.0,
+     30.0,
+     28.0,
+     30.0
+    ],
+    [
+     4.0,
+     31.0,
+     30.0,
+     37.0,
+     35.0,
+     40.0,
+     36.0,
+     39.0
+    ],
+    [
+     6.0,
+     40.0,
+     38.0,
+     48.0,
+     44.0,
+     52.0,
+     44.0,
+     49.0
+    ],
+    [
+     10.0,
+     54.0,
+     51.0,
+     66.0,
+     60.0,
+     71.0,
+     58.0,
+     65.0
+    ],
+    [
+     16.0,
+     73.0,
+     68.0,
+     88.0,
+     80.0,
+     96.0,
+     75.0,
+     84.0
+    ],
+    [
+     25.0,
+     95.0,
+     89.0,
+     117.0,
+     105.0,
+     119.0,
+     96.0,
+     107.0
+    ],
+    [
+     35.0,
+     117.0,
+     109.0,
+     144.0,
+     128.0,
+     147.0,
+     115.0,
+     129.0
+    ],
+    [
+     50.0,
+     141.0,
+     130.0,
+     175.0,
+     154.0,
+     179.0,
+     135.0,
+     153.0
+    ],
+    [
+     70.0,
+     179.0,
+     164.0,
+     222.0,
+     194.0,
+     229.0,
+     167.0,
+     188.0
+    ],
+    [
+     95.0,
+     216.0,
+     197.0,
+     269.0,
+     233.0,
+     278.0,
+     197.0,
+     226.0
+    ],
+    [
+     120.0,
+     249.0,
+     227.0,
+     312.0,
+     268.0,
+     322.0,
+     223.0,
+     257.0
+    ],
+    [
+     150.0,
+     285.0,
+     259.0,
+     342.0,
+     300.0,
+     371.0,
+     251.0,
+     287.0
+    ],
+    [
+     185.0,
+     324.0,
+     295.0,
+     384.0,
+     340.0,
+     424.0,
+     281.0,
+     324.0
+    ],
+    [
+     240.0,
+     380.0,
+     346.0,
+     450.0,
+     398.0,
+     500.0,
+     324.0,
+     375.0
+    ],
+    [
+     300.0,
+     435.0,
+     396.0,
+     514.0,
+     455.0,
+     576.0,
+     365.0,
+     419.0
+    ]
+   ]
+  },
+  "iec_b52_5_xlpe_al_3loaded": {
+   "title": "IEC 60364-5-52 Table B.52.5: XLPE, 3 loaded conductors, Al, 90 C, 30 C air / 20 C ground",
+   "source": "https://ti-soft.com/en/support/help/electricaldesign/standards/iec-60364-5-52/current-carrying-capacity/table_b_52_5  (same tables listed in Top Cable catalogue https://www.topcable.com/topmatic/data/en.pdf)",
+   "status": "verified_mirror",
+   "unit": "A",
+   "conditions": {
+    "insulation": "XLPE",
+    "conductor": "Al",
+    "loaded_conductors": 3,
+    "conductor_temp_c": 90,
+    "ambient_air_c": 30,
+    "ambient_ground_c": 20
+   },
+   "columns": [
+    "size_mm2",
+    "A1",
+    "A2",
+    "B1",
+    "B2",
+    "C",
+    "D1",
+    "D2"
+   ],
+   "method_notes": {
+    "A1": "insulated conductors in conduit in thermally insulated wall",
+    "A2": "multi-core cable in conduit in thermally insulated wall",
+    "B1": "insulated conductors in conduit on wall",
+    "B2": "multi-core cable in conduit on wall",
+    "C": "cable clipped direct on wall",
+    "D1": "multi-core cable in ducts in ground",
+    "D2": "sheathed cable direct buried"
+   },
+   "rows": [
+    [
+     2.5,
+     19.0,
+     18.0,
+     22.0,
+     21.0,
+     24.0,
+     22.0,
+     null
+    ],
+    [
+     4.0,
+     25.0,
+     24.0,
+     29.0,
+     28.0,
+     32.0,
+     28.0,
+     null
+    ],
+    [
+     6.0,
+     32.0,
+     31.0,
+     38.0,
+     35.0,
+     41.0,
+     35.0,
+     null
+    ],
+    [
+     10.0,
+     44.0,
+     41.0,
+     52.0,
+     48.0,
+     57.0,
+     46.0,
+     null
+    ],
+    [
+     16.0,
+     58.0,
+     55.0,
+     71.0,
+     64.0,
+     76.0,
+     59.0,
+     64.0
+    ],
+    [
+     25.0,
+     76.0,
+     71.0,
+     93.0,
+     84.0,
+     90.0,
+     75.0,
+     82.0
+    ],
+    [
+     35.0,
+     94.0,
+     87.0,
+     116.0,
+     103.0,
+     112.0,
+     90.0,
+     98.0
+    ],
+    [
+     50.0,
+     113.0,
+     104.0,
+     140.0,
+     124.0,
+     136.0,
+     106.0,
+     117.0
+    ],
+    [
+     70.0,
+     142.0,
+     131.0,
+     179.0,
+     156.0,
+     174.0,
+     130.0,
+     144.0
+    ],
+    [
+     95.0,
+     171.0,
+     157.0,
+     217.0,
+     188.0,
+     211.0,
+     154.0,
+     172.0
+    ],
+    [
+     120.0,
+     197.0,
+     180.0,
+     251.0,
+     216.0,
+     245.0,
+     174.0,
+     197.0
+    ],
+    [
+     150.0,
+     226.0,
+     206.0,
+     267.0,
+     240.0,
+     283.0,
+     197.0,
+     220.0
+    ],
+    [
+     185.0,
+     256.0,
+     233.0,
+     300.0,
+     272.0,
+     323.0,
+     220.0,
+     250.0
+    ],
+    [
+     240.0,
+     300.0,
+     273.0,
+     351.0,
+     318.0,
+     382.0,
+     253.0,
+     290.0
+    ],
+    [
+     300.0,
+     344.0,
+     313.0,
+     402.0,
+     364.0,
+     440.0,
+     286.0,
+     326.0
+    ]
+   ]
+  },
+  "iec_b52_14_ambient_air_k1": {
+   "title": "IEC 60364-5-52 Table B.52.14: ambient AIR temperature correction (base 30 C)",
+   "source": "https://www.ti-soft.com/en/support/help/electricaldesign/standards/iec-60364-5-52/cables-installed-in-air/correction-factor-k1/table-b_52_14",
+   "status": "verified_mirror",
+   "unit": "factor",
+   "columns": [
+    "ambient_c",
+    "PVC",
+    "XLPE_EPR",
+    "mineral_pvc_70",
+    "mineral_bare_105"
+   ],
+   "rows": [
+    [
+     10,
+     1.22,
+     1.15,
+     1.26,
+     1.14
+    ],
+    [
+     15,
+     1.17,
+     1.12,
+     1.2,
+     1.11
+    ],
+    [
+     20,
+     1.12,
+     1.08,
+     1.14,
+     1.07
+    ],
+    [
+     25,
+     1.06,
+     1.04,
+     1.07,
+     1.04
+    ],
+    [
+     30,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    [
+     35,
+     0.94,
+     0.96,
+     0.93,
+     0.96
+    ],
+    [
+     40,
+     0.87,
+     0.91,
+     0.85,
+     0.92
+    ],
+    [
+     45,
+     0.79,
+     0.87,
+     0.78,
+     0.88
+    ],
+    [
+     50,
+     0.71,
+     0.82,
+     0.67,
+     0.84
+    ],
+    [
+     55,
+     0.61,
+     0.76,
+     0.57,
+     0.8
+    ],
+    [
+     60,
+     0.5,
+     0.71,
+     0.45,
+     0.75
+    ],
+    [
+     65,
+     null,
+     0.65,
+     null,
+     0.7
+    ],
+    [
+     70,
+     null,
+     0.58,
+     null,
+     0.65
+    ],
+    [
+     75,
+     null,
+     0.5,
+     null,
+     0.6
+    ],
+    [
+     80,
+     null,
+     0.41,
+     null,
+     0.54
+    ],
+    [
+     85,
+     null,
+     null,
+     null,
+     0.47
+    ],
+    [
+     90,
+     null,
+     null,
+     null,
+     0.4
+    ],
+    [
+     95,
+     null,
+     null,
+     null,
+     0.32
+    ]
+   ]
+  },
+  "iec_b52_15_ambient_ground_k1": {
+   "title": "IEC 60364-5-52 Table B.52.15: GROUND temperature correction (base 20 C)",
+   "source": "https://www.ti-soft.com/en/support/help/electricaldesign/standards/iec-60364-5-52/cables-installed-in-ground/correction-factor-k1/table-b_52_15",
+   "status": "verified_mirror",
+   "unit": "factor",
+   "columns": [
+    "ground_c",
+    "PVC",
+    "XLPE_EPR"
+   ],
+   "rows": [
+    [
+     10,
+     1.1,
+     1.07
+    ],
+    [
+     15,
+     1.05,
+     1.04
+    ],
+    [
+     20,
+     1.0,
+     1.0
+    ],
+    [
+     25,
+     0.95,
+     0.96
+    ],
+    [
+     30,
+     0.89,
+     0.93
+    ],
+    [
+     35,
+     0.84,
+     0.89
+    ],
+    [
+     40,
+     0.77,
+     0.85
+    ],
+    [
+     45,
+     0.71,
+     0.8
+    ],
+    [
+     50,
+     0.63,
+     0.76
+    ],
+    [
+     55,
+     0.55,
+     0.71
+    ],
+    [
+     60,
+     0.45,
+     0.65
+    ],
+    [
+     65,
+     null,
+     0.6
+    ],
+    [
+     70,
+     null,
+     0.53
+    ],
+    [
+     75,
+     null,
+     0.46
+    ],
+    [
+     80,
+     null,
+     0.38
+    ]
+   ]
+  },
+  "iec_b52_17_grouping_k2": {
+   "title": "IEC 60364-5-52 Table B.52.17 items 1-5: grouping reduction factors (cables touching)",
+   "source": "https://www.ti-soft.com/en/support/help/electricaldesign/standards/iec-60364-5-52/cables-installed-in-air/correction-factor-k2/table-b_52_17",
+   "status": "verified_mirror",
+   "unit": "factor",
+   "n_circuits": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    12,
+    16,
+    20
+   ],
+   "items": {
+    "1_bunched_in_air_surface_embedded_enclosed": [
+     1.0,
+     0.8,
+     0.7,
+     0.65,
+     0.6,
+     0.57,
+     0.54,
+     0.52,
+     0.5,
+     0.45,
+     0.41,
+     0.38
+    ],
+    "2_single_layer_wall_floor_unperforated_tray": [
+     1.0,
+     0.85,
+     0.79,
+     0.75,
+     0.73,
+     0.72,
+     0.72,
+     0.71,
+     0.7,
+     null,
+     null,
+     null
+    ],
+    "3_single_layer_under_wooden_ceiling": [
+     0.95,
+     0.81,
+     0.72,
+     0.68,
+     0.66,
+     0.64,
+     0.63,
+     0.62,
+     0.61,
+     null,
+     null,
+     null
+    ],
+    "4_single_layer_perforated_tray": [
+     1.0,
+     0.88,
+     0.82,
+     0.77,
+     0.75,
+     0.73,
+     0.73,
+     0.72,
+     0.72,
+     null,
+     null,
+     null
+    ],
+    "5_single_layer_ladder_cleats": [
+     1.0,
+     0.87,
+     0.82,
+     0.8,
+     0.8,
+     0.79,
+     0.79,
+     0.78,
+     0.78,
+     null,
+     null,
+     null
+    ]
+   },
+   "note": "Items 2-5: no further reduction for more than 9 circuits (per source). NOT included: B.52.18/19/20/21 (buried/ducts grouping, multi-core in tray)."
+  },
+  "bs7671_4d1a_pvc_cu_singlecore": {
+   "title": "BS 7671 Table 4D1A: 70 C thermoplastic single-core cables, copper, 30 C ambient (UK table)",
+   "source": "https://www.elandcables.com/media/vyrp3kxq/table-4d1a-and-4d1b.pdf (reproduced from BS 7671:2018 by a cable manufacturer)",
+   "status": "verified_mirror",
+   "unit": "A",
+   "columns": [
+    "size_mm2",
+    "A_2c_1ph",
+    "A_3c_3ph",
+    "B_2c_1ph",
+    "B_3c_3ph",
+    "C_2c_1ph",
+    "C_3c_3ph",
+    "F_touching_2c_1ph",
+    "F_touching_3c_3ph_flat",
+    "F_touching_3c_trefoil",
+    "F_spaced_2c_horiz",
+    "F_spaced_2c_vert"
+   ],
+   "note": "Columns follow printed columns 2 to 12. Small sizes only have A/B/C. Extracted by script from a PDF text layer, so verify against the printed book.",
+   "rows": [
+    [
+     1.0,
+     11,
+     10.5,
+     13.5,
+     12,
+     15.5,
+     14,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    [
+     1.5,
+     14.5,
+     13.5,
+     17.5,
+     15.5,
+     20.0,
+     18.0,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    [
+     2.5,
+     20.0,
+     18.0,
+     24.0,
+     21.0,
+     27.0,
+     25.0,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    [
+     4.0,
+     26,
+     24,
+     32,
+     28,
+     37,
+     33,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    [
+     6.0,
+     34,
+     31,
+     41,
+     36,
+     47,
+     43,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    [
+     10.0,
+     46.0,
+     42.0,
+     57.0,
+     50.0,
+     65.0,
+     59.0,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    [
+     16.0,
+     61.0,
+     56.0,
+     76.0,
+     68.0,
+     87.0,
+     79.0,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    [
+     25.0,
+     80.0,
+     73.0,
+     101.0,
+     89.0,
+     114.0,
+     104.0,
+     131.0,
+     114.0,
+     110.0,
+     146.0,
+     130.0
+    ],
+    [
+     35.0,
+     99.0,
+     89.0,
+     125.0,
+     110.0,
+     141.0,
+     129.0,
+     162.0,
+     143.0,
+     137.0,
+     181.0,
+     162.0
+    ],
+    [
+     50.0,
+     119.0,
+     108.0,
+     151.0,
+     134.0,
+     182.0,
+     167.0,
+     196.0,
+     174.0,
+     167.0,
+     219.0,
+     197.0
+    ],
+    [
+     70.0,
+     151.0,
+     136.0,
+     192.0,
+     171.0,
+     234.0,
+     214.0,
+     251.0,
+     225.0,
+     216.0,
+     281.0,
+     254.0
+    ],
+    [
+     95.0,
+     182.0,
+     164.0,
+     232.0,
+     207.0,
+     284.0,
+     261.0,
+     304.0,
+     275.0,
+     264.0,
+     341.0,
+     311.0
+    ],
+    [
+     120.0,
+     210.0,
+     188.0,
+     269.0,
+     239.0,
+     330.0,
+     303.0,
+     352.0,
+     321.0,
+     308.0,
+     396.0,
+     362.0
+    ],
+    [
+     150.0,
+     240.0,
+     216.0,
+     300.0,
+     262.0,
+     381.0,
+     349.0,
+     406.0,
+     372.0,
+     356.0,
+     456.0,
+     419.0
+    ],
+    [
+     185.0,
+     273.0,
+     245.0,
+     341.0,
+     296.0,
+     436.0,
+     400.0,
+     463.0,
+     427.0,
+     409.0,
+     521.0,
+     480.0
+    ],
+    [
+     240.0,
+     321.0,
+     286.0,
+     400.0,
+     346.0,
+     515.0,
+     472.0,
+     546.0,
+     507.0,
+     485.0,
+     615.0,
+     569.0
+    ],
+    [
+     300.0,
+     367.0,
+     328.0,
+     458.0,
+     394.0,
+     594.0,
+     545.0,
+     629.0,
+     587.0,
+     561.0,
+     709.0,
+     659.0
+    ],
+    [
+     400.0,
+     null,
+     null,
+     546.0,
+     467.0,
+     694.0,
+     634.0,
+     754.0,
+     689.0,
+     656.0,
+     852.0,
+     795.0
+    ],
+    [
+     500.0,
+     null,
+     null,
+     626.0,
+     533.0,
+     792.0,
+     723.0,
+     868.0,
+     789.0,
+     749.0,
+     982.0,
+     920.0
+    ],
+    [
+     630.0,
+     null,
+     null,
+     720.0,
+     611.0,
+     904.0,
+     826.0,
+     1005.0,
+     905.0,
+     855.0,
+     1138.0,
+     1070.0
+    ],
+    [
+     800.0,
+     null,
+     null,
+     null,
+     null,
+     1030.0,
+     943.0,
+     1086.0,
+     1020.0,
+     971.0,
+     1265.0,
+     1188.0
+    ],
+    [
+     1000.0,
+     null,
+     null,
+     null,
+     null,
+     1154.0,
+     1058.0,
+     1216.0,
+     1149.0,
+     1079.0,
+     1420.0,
+     1337.0
+    ]
+   ]
+  },
+  "bs7671_4d1b_voltage_drop_cu_70c_upto16mm2": {
+   "title": "BS 7671 Table 4D1B (sizes up to 16 mm2): voltage drop mV/A/m, copper, 70 C",
+   "source": "https://www.elandcables.com/media/vyrp3kxq/table-4d1a-and-4d1b.pdf ; cross-check https://www.18theditionprep.co.uk/quick-reference/voltage-drop/",
+   "status": "verified_mirror",
+   "unit": "mV/A/m",
+   "columns": [
+    "size_mm2",
+    "dc_2cables",
+    "1ph_AB",
+    "1ph_C_F_touching",
+    "1ph_spaced",
+    "3ph_AB",
+    "3ph_trefoil",
+    "3ph_flat_touching",
+    "3ph_flat_spaced"
+   ],
+   "note": "For 25 mm2 and above the source gives r, x, z columns whose layout did not extract reliably. Use r and x from the formula table, or type 4D1B in by hand.",
+   "rows": [
+    [
+     1.0,
+     44.0,
+     44.0,
+     44.0,
+     44.0,
+     38.0,
+     38.0,
+     38.0,
+     38.0
+    ],
+    [
+     1.5,
+     29.0,
+     29.0,
+     29.0,
+     29.0,
+     25.0,
+     25.0,
+     25.0,
+     25.0
+    ],
+    [
+     2.5,
+     18.0,
+     18.0,
+     18.0,
+     18.0,
+     15.0,
+     15.0,
+     15.0,
+     15.0
+    ],
+    [
+     4.0,
+     11.0,
+     11.0,
+     11.0,
+     11.0,
+     9.5,
+     9.5,
+     9.5,
+     9.5
+    ],
+    [
+     6.0,
+     7.3,
+     7.3,
+     7.3,
+     7.3,
+     6.4,
+     6.4,
+     6.4,
+     6.4
+    ],
+    [
+     10.0,
+     4.4,
+     4.4,
+     4.4,
+     4.4,
+     3.8,
+     3.8,
+     3.8,
+     3.8
+    ],
+    [
+     16.0,
+     2.8,
+     2.8,
+     2.8,
+     2.8,
+     2.4,
+     2.4,
+     2.4,
+     2.4
+    ]
+   ]
+  },
+  "iec_60228_conductor_resistance_20c": {
+   "title": "Conductor DC resistance at 20 C, ohm/km (IEC 60228 class 2 maximum values)",
+   "source": "FROM MEMORY of IEC 60228 values, not fetched from any source in this research. NEEDS REVIEW against IEC 60228 or a cable datasheet.",
+   "status": "from_memory_needs_review",
+   "unit": "ohm/km",
+   "temp_coefficient_per_c": {
+    "Cu": 0.00393,
+    "Al": 0.00403
+   },
+   "columns": [
+    "size_mm2",
+    "R20_ohm_per_km"
+   ],
+   "rows_Cu": [
+    [
+     1.5,
+     12.1
+    ],
+    [
+     2.5,
+     7.41
+    ],
+    [
+     4,
+     4.61
+    ],
+    [
+     6,
+     3.08
+    ],
+    [
+     10,
+     1.83
+    ],
+    [
+     16,
+     1.15
+    ],
+    [
+     25,
+     0.727
+    ],
+    [
+     35,
+     0.524
+    ],
+    [
+     50,
+     0.387
+    ],
+    [
+     70,
+     0.268
+    ],
+    [
+     95,
+     0.193
+    ],
+    [
+     120,
+     0.153
+    ],
+    [
+     150,
+     0.124
+    ],
+    [
+     185,
+     0.0991
+    ],
+    [
+     240,
+     0.0754
+    ],
+    [
+     300,
+     0.0601
+    ]
+   ],
+   "rows_Al": [
+    [
+     16,
+     1.91
+    ],
+    [
+     25,
+     1.2
+    ],
+    [
+     35,
+     0.868
+    ],
+    [
+     50,
+     0.641
+    ],
+    [
+     70,
+     0.443
+    ],
+    [
+     95,
+     0.32
+    ],
+    [
+     120,
+     0.253
+    ],
+    [
+     150,
+     0.206
+    ],
+    [
+     185,
+     0.164
+    ],
+    [
+     240,
+     0.125
+    ],
+    [
+     300,
+     0.1
+    ]
+   ],
+   "reactance_ohm_per_km_typical": 0.08,
+   "reactance_note": "typical LV multicore value, from memory, NEEDS REVIEW"
+  },
+  "mcb_iec60898_rated_currents": {
+   "title": "Preferred rated currents of MCBs (IEC 60898-1 Renard series)",
+   "source": "https://feng.stafpu.bu.edu.eg/Electrical%20Engineering/2441/crs-5773/Files/CircuitBreaker.pdf states 6,10,13,16,20,25,32,40,50,63,80,100,125 A; standard page https://webstore.iec.ch/en/publication/21972",
+   "status": "verified_secondary",
+   "unit": "A",
+   "values": [
+    6,
+    10,
+    13,
+    16,
+    20,
+    25,
+    32,
+    40,
+    50,
+    63,
+    80,
+    100,
+    125
+   ]
+  },
+  "mccb_iec60947_2_typical_ratings": {
+   "title": "Typical MCCB rated currents (IEC 60947-2 does not fix a list; manufacturers choose frames)",
+   "source": "Manufacturer catalogues e.g. https://www.chintglobal.com/content/dam/chint/global/product-center/low-voltage/iec/secondary-power-distribution/mccb/nm8n/catalog/NM8N-MCCB-Catalog.pdf and https://viox.com/standard-breaker-sizes/ ; the exact list below is FROM MEMORY (R10/R20 style).",
+   "status": "from_memory_needs_review",
+   "unit": "A",
+   "values": [
+    16,
+    20,
+    25,
+    32,
+    40,
+    50,
+    63,
+    80,
+    100,
+    125,
+    160,
+    200,
+    250,
+    315,
+    400,
+    500,
+    630,
+    800,
+    1000,
+    1250,
+    1600
+   ]
+  },
+  "coordination_rules": {
+   "title": "Protection coordination rules (IEC 60364-4-43 cl.433.1)",
+   "source": "From memory, widely cited. Example worked cases: https://ti-soft.com/en/support/help/electricaldesign/examples/iec-60364-5-52/cable-sizing-examples/installation-method-c",
+   "status": "from_memory_needs_review",
+   "rules": [
+    "Ib <= In <= Iz",
+    "I2 <= 1.45 x Iz",
+    "I2 = 1.45 x In for MCB (IEC 60898-1); 1.30 x In for MCCB (IEC 60947-2) (from memory)",
+    "Iz = I_tabulated x k1 (ambient) x k2 (grouping)"
+   ]
+  },
+  "sec_voltage_drop_allocation_dps": {
+   "title": "SEC Distribution Planning Standard (DPS, March 2004): LV voltage drop allocation and standard voltages",
+   "source": "https://mm4design.wordpress.com/wp-content/uploads/2014/09/dps-sec.pdf (third-party copy of SEC DPS, Table 1.3 and 1.4)",
+   "status": "verified_mirror_old_edition",
+   "unit": "percent",
+   "rows": {
+    "substation_regulator_bandwidth": 1.0,
+    "primary_feeders": 1.5,
+    "distribution_transformer": 2.5,
+    "secondary_feeder": 3.5,
+    "service_feeder": 1.5,
+    "total_service_drop": 10.0,
+    "customer_wiring_to_furthest_point": 2.5,
+    "total_utilization_drop": 12.5
+   },
+   "standard_service_voltage": {
+    "380/220V": {
+     "low": "360/209",
+     "high": "400/231",
+     "limits_pct": "-5/+5"
+    },
+    "220/127V": {
+     "low": "209/120",
+     "high": "231/134",
+     "limits_pct": "-5/+5"
+    }
+   },
+   "standard_utilization_voltage": {
+    "380/220V": {
+     "low": "352/203",
+     "high": "400/231",
+     "limits_pct": "-7.5/+5"
+    }
+   },
+   "note": "2004 edition from a third-party copy. The current SEC edition and SBC 401 may differ. NEEDS REVIEW before use as a design limit."
+  }
+ }
+}
