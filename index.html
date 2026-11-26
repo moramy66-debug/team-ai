@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f1115">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAAD8UlEQVR4nO3SwY0VQQxFUTJALIgQifyJABZfGiGGxWjc3c92ndINwKp3vnz99l36dF/iF2h0AKkUQCoFkEoBpFIAqRRAKgWQSgGkUgCpFEAqBZBKAaRSAKkUQCoFkEoBpFIAqRRAKgWQSgGkUgCpFEAqBZBKAfT9x89fleL3ZzsOUJELUv90CqAH3JwpaTOgCJrTMO0EFOdyDqNVgOI+DpS0BFAcxLGMxgOKIzic0WBA8eExmgooPjZGgwHFN2ZoKqD4tBgNBhRflKGpgOJDYjQYUHy/DsVXmAoovlyf4lsMAxQfrGfxXWYAiu/Uufg63QHFF+pffKO+gOLbTCm+VEdA8VVmFd+rF6D4HhOLr9YFUHyJucW3ywOKbzC9owHFf39HhwKK//umABJA9JxnKAMo/tdbOwJQ/Jd3B5AAoucYQ48Civ/sOQEkgOg5wNBDgOK/eWYACSB6VhsCaHnjAcV/UADpVEDxv9MrgFRqJKD4r1X6/b8Xv6qhIYA+RGcBI4Ba6JlraBig+H/dp4chgKp6hhoaAyj+UwA9ZgigT+oZaggggADqF0CNAMX/CKAnDQEEEEAArQEU/x2AHjYE0OcNxW8GqFEAAfSoofi1AHXsBD0AJRnFb7ukpoDi/3JtK+m8BdBHhw/O3+eS9wH00cEi4/W5BKDLNntsuT6XAHTxZg8s1+cSgG7Z7Nbl+lwC0MjZ+lwC0I2b3bRcn0sAGjlbn0sAGjlbn0sAGjlbn0sAGjlbn0sAGjlbn0sAGjlbn0sAun259ZcANHK2PpcAdONyh1wC0C3LHXUJQBcvd+AlAF0z3uGXvA8gleoIiKEpXbg4QCcGkEoBpFIAqRRAKtUXEEP9u3ZugI4LIJXqDoihzl2+NUBnBZBKAaRSMwAx1LM7hgbooCYBYqhbN60M0CkBpFLzADHUp/smBuiIpgJiqEO37gvQ/mYDYmixHoD2twEQQ1v1ALS8PYAYWqnnUUAM7dMD0Np2AmJomZ4AIIY26QFoYfsBMbRGTwwQQzv0JAExtEAPQHs6ERBD0/XkATE0Wk8LQAzN1dMFEEND9TQCxNBEPb0AMTROTztADM3S0xEQQ4P0NAXE0BQ9fQFh1J/OAEAMNdczABBD8f8fD+hYRvE/XwXoNEPx314I6BBG8R9eDmi3ofjfHgFoJaP4fx4HaA2j+B8eDejrZEbxf6u3BNCrOIij6LxaBeituI/1bt7aCehVnMtuOq82A/o7aG7qFEBvcXNtxwF6Hy6VAFIpgFQKIJUCSKUAUimAVAoglQJIpQBSKYBUCiCVAkilAFIpgFQKIJUCSKUAUimAVAoglQJIpQBSKYBUCiCVAkil/gBsCT9RH0h6dAAAAABJRU5ErkJggg==">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Team AI</title><script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js" defer></script>
+ <script src="./js/storage-idb.js" defer></script>
+ <script src="./js/sanitize.js" defer></script>
+<link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+<div class="topbar"><button id="menuBtn" class="sec" aria-label="القائمة">القائمة</button><span class="brand-s">Team AI</span></div>
+<div class="app">
+<aside class="side" id="side">
+<div class="brand"><div class="logo">T</div><div><b>Team AI</b><small>فريقك من نماذج الذكاء الاصطناعي</small></div></div>
+<button id="newBtn" class="newb i-plus">New Task</button>
+<section id="histCard"><h2 class="i-clock">History</h2><p id="noHist" class="hint">لسه مفيش مهام محفوظة</p><div id="hist"></div><button id="clearH" class="sec i-trash" style="margin-top:8px;width:100%">مسح السجل</button></section>
+<div class="sidefoot"><button id="install" class="sec i-down">تثبيت التطبيق</button><button id="codesBtn" class="sec i-book">Codes Library</button><button id="setBtn" class="sec i-gear">Settings</button></div>
+</aside>
+<div class="scrim" id="scrim"></div>
+<section id="codes" class="card" hidden>
+<div class="row" style="justify-content:space-between;margin-bottom:6px"><h2 style="margin:0;font-size:17px;color:var(--tx)">Codes Library</h2><button id="codesClose" class="sec">إغلاق</button></div>
+<p class="hint">ضيف الأكواد اللي بتشتغل بيها. أسماءها ومحتواها (ضمن حد حجم) بيتحطوا مصادر مرجعية في كل مهمة. بتتحفظ على جهازك.</p>
+<p class="hint" style="color:#e8c872">الأكواد الجاهزة هنا ملخصات مرجعية مش النص الكامل. راجع القيم من النص الرسمي قبل الاعتماد. حد المحتوى في المهمة: 6000 حرف مع Groq و40000 مع Gemini. الكود المذكور اسمه في نص المهمة ياخد الحصة الأكبر، فاكتب اسمه (مثلاً SBC 401). وتقدر تعطّل اللي مش محتاجه.</p>
+<label>اسم الكود</label>
+<input id="cdName" placeholder="مثال: SBC 401 أو IEC 60364 أو SEC DPS">
+<label>النص (الصقه هنا) أو ارفع PDF</label>
+<textarea id="cdText" style="min-height:110px" placeholder="الصق نص الكود أو البنود المهمة"></textarea>
+<div class="row"><input type="file" id="cdFile" accept="application/pdf,.pdf,.txt,text/plain" class="grow"><button id="cdAdd" class="sec">إضافة للمكتبة</button></div>
+<p class="hint" id="cdMsg"></p>
+<div id="cdList"></div>
+</section>
+<section id="settings" class="card" hidden>
+<div class="row" style="justify-content:space-between;margin-bottom:6px"><h2 style="margin:0;font-size:17px;color:var(--tx)">Settings</h2><button id="setClose" class="sec">إغلاق</button></div>
+<h2>مفاتيح الـ API (بتتحفظ على جهازك بس)</h2>
+<p class="hint">المفتاح بيتخزن في المتصفح ده وبيتبعت مباشرة لجوجل وGroq. مفيش سيرفر وسيط.</p>
+<label>Gemini API Key <span class="hint">(مجاني: افتح <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener" style="color:#8fb0f0">aistudio.google.com/apikey</a> واعمل Create API key والصقه هنا. اشتراك Gemini العادي مش هو المفتاح)</span></label>
+<div class="row"><input class="grow" id="k_gemini" type="password" autocomplete="off" placeholder="Paste AI Studio key (AIza...)"><input class="grow" id="m_gemini" list="gmodels" placeholder="الموديل"><datalist id="gmodels"><option value="gemini-3.5-flash-lite"><option value="gemini-3.8-flash"></datalist></div>
+<label>GPT-OSS عن طريق Groq (من console.groq.com/keys)</label>
+<div class="row"><input class="grow" id="k_groq" type="password" autocomplete="off" placeholder="gsk_..."><input class="grow" id="m_groq" placeholder="الموديل"></div>
+<label>Qwen 3.8 27B عن طريق Groq (بيستخدم نفس مفتاح Groq وليه حد مستقل)</label>
+<div class="row"><label class="row" style="gap:6px;margin:0"><input type="checkbox" id="c_groq2" style="width:auto"> تفعيل</label><input class="grow" id="m_groq2" placeholder="الموديل"></div>
+<label>OpenRouter (موديلات مجانية :free، مفتاح مجاني من openrouter.ai/keys، حد حوالي 50 طلب في اليوم)</label>
+<div class="row"><input class="grow" id="k_openrouter" type="password" autocomplete="off" placeholder="sk-or-..."><input class="grow" id="m_openrouter" placeholder="الموديل"></div>
+<details><summary>إضافة موديلات مدفوعة (اختياري)</summary>
+<label>ChatGPT (OpenAI)</label>
+<div class="row"><input class="grow" id="k_openai" type="password" autocomplete="off" placeholder="sk-..."><input class="grow" id="m_openai" placeholder="الموديل"></div>
+<label>Claude (Anthropic)</label>
+<div class="row"><input class="grow" id="k_anthropic" type="password" autocomplete="off" placeholder="sk-ant-..."><input class="grow" id="m_anthropic" placeholder="الموديل"></div>
+</details>
+<label>تعليمات ثابتة (بتتطبق على كل مهمة)</label>
+<textarea id="rules" style="min-height:70px" placeholder="مثال: اكتب ملاحظات الاعتماد بأسلوب رسمي مختصر، ورقم كل ملاحظة"></textarea>
+<label>ذاكرة مستوردة (الصق هنا اللي أدوات AI التانية تعرفه عنك)</label>
+<textarea id="mem" style="min-height:70px" placeholder="الصق هنا الميموري من ChatGPT أو Claude أو أي أداة تانية"></textarea>
+<label>التوقيع (صورة بتظهر آخر الخطابات الرسمية)</label>
+<div class="row"><input type="file" id="sigFile" accept="image/*"><button id="sigDel" class="sec">مسح التوقيع</button></div>
+<img id="sigPrev" alt="" style="max-height:80px;background:#fff;border-radius:6px;margin-top:6px" hidden>
+<label class="hint" for="mailTo">Your email (for task results)</label>
+<input id="mailTo" type="email" dir="ltr" autocomplete="email" placeholder="name@example.com" style="width:100%">
+<details style="margin-top:8px"><summary class="hint">Professional HTML email (EmailJS, optional)</summary><p class="hint" style="line-height:1.7">اختياري لو عايز الإيميل نفسه يوصل منسق HTML مباشرة في جسم الرسالة: اعمل حساب مجاني على emailjs.com، اربط Gmail كـ Service، واعمل Template فيه To = {{to_email}} وSubject = {{subject}} والمحتوى {{{html}}} (3 أقواس) بوضع HTML، وانسخ هنا Service ID وTemplate ID وPublic Key. من غيره، الإيميل بيوصل بنص منظم ومعاه التقرير المنسق كملف HTML مرفق.</p><input id="ejsS" dir="ltr" placeholder="Service ID" style="width:100%;margin-bottom:6px"><input id="ejsT" dir="ltr" placeholder="Template ID" style="width:100%;margin-bottom:6px"><input id="ejsK" dir="ltr" placeholder="Public Key" style="width:100%"></details>
+<div class="row" style="margin-top:12px"><button id="saveBtn">حفظ</button><button id="testBtn" class="sec">اختبار المفاتيح</button><span id="testOut" class="hint"></span></div>
+</section>
+<section class="card compose">
+<div class="ch"><h2>New Task</h2><span>اكتب المهمة أو اختار قالب، وارفق ملفات لو محتاج</span></div>
+<div id="resumeBox" class="resumebox" hidden><div id="resumeTxt"></div><div class="row" style="gap:8px"><button id="resumeGo" class="pri" type="button">Resume</button><button id="resumeX" class="sec" type="button">Discard</button></div></div>
+<div class="hint" style="margin-bottom:6px;font-weight:600">Templates</div><div id="tmpls" class="row" style="margin-bottom:8px"></div>
+<div id="tmplBox" hidden><div class="th"><span class="tg">برومبت جاهز</span><b id="tmplName"></b><button id="tmplView" class="sec" type="button">View</button><button id="tmplX" class="sec" type="button" aria-label="Remove template">✕</button></div><div id="tmplPre" dir="auto"></div></div>
+<textarea id="task" dir="rtl" placeholder="اكتب المهمة هنا..."></textarea>
+<div class="row" style="margin-top:8px">
+<button id="mic" class="sec i-mic">Voice</button>
+<button id="attach" class="sec i-clip">Attach</button>
+<input type="file" id="file" multiple accept="image/*,application/pdf,.txt,.md,.xlsx,.xls,.xlsm,.csv" hidden>
+</div>
+<div id="chips" class="row" style="margin-top:6px"></div>
+<div class="row" style="margin-top:10px">
+<label style="margin:0">Effort Level</label>
+<select id="effort" style="width:120px" aria-label="Effort Level"><option value="1">Simple</option><option value="2" selected>Medium</option><option value="3">Advanced</option></select>
+<button id="go" class="grow i-play">Start</button>
+<button id="stop" class="sec i-stop" disabled>Stop</button>
+<button id="logBtn" class="sec i-list" type="button">Team Log</button>
+</div>
+<label class="mailauto"><input type="checkbox" id="mailAuto"><span>Email me the result when done</span></label>
+<div id="procHome"><div id="proc" role="status" aria-live="polite" hidden><div class="pr"><span class="spin"></span><b id="procT">جاري التنفيذ</b><span id="procTime"></span></div><div id="procS" class="hint"></div><div class="bar"><i></i></div></div></div>
+</section>
+<div id="logScrim"></div><aside class="logp" id="logPanel"><div class="lh"><h2>الفريق وسير العمل</h2><button id="logClose" class="sec i-x" type="button">Close</button></div><p id="who" class="hint"></p><div id="steps"></div></aside>
+<section id="run" hidden>
+<div id="thread"></div>
+<div id="finalCard" class="card final" hidden>
+<div class="row" style="justify-content:space-between"><h2 style="margin:0">النتيجة النهائية</h2><span class="row" style="gap:8px"><button id="convTop" class="sec i-up" type="button" hidden>المحادثة من الأول</button><button id="repBtn" class="sec i-down" type="button">Report</button><button id="docBtn" class="sec i-down" type="button">Word</button><button id="pdfBtn" class="sec i-down" type="button">PDF</button><button id="mailBtn" class="sec i-mail" type="button">Email Result</button><button id="logBtn2" class="sec i-list" type="button">Team Log</button><button id="copy" class="sec i-copy">Copy</button></span></div>
+<div id="final" class="out" style="margin-top:8px"></div>
+<div id="repHead" class="rephead"></div>
+<div id="mailNote" class="hint" style="margin-top:8px" hidden></div>
+<div id="finalView" class="out md" style="margin-top:8px"></div>
+<div id="xlOut" style="margin-top:10px" hidden><button id="xlDl">تحميل الإكسيل المحسّن</button> <span id="xlNote" class="hint"></span></div>
+<div id="pdfOut" style="margin-top:10px" hidden><button id="pdfDl" class="sec i-down" type="button">Download PDF</button> <span id="pdfNote" class="hint"></span></div>
+<div id="sigOut" style="margin-top:10px" hidden><img id="sigImg" alt="" style="max-height:90px;background:#fff;border-radius:6px"></div>
+<div class="row" style="margin-top:10px"><textarea id="follow" class="grow" rows="1" dir="rtl" placeholder="كمل كلام مع الفريق في نفس المهمة... (Enter للإرسال، Shift+Enter سطر جديد)"></textarea><button id="sendF" class="sec i-send">Send</button></div>
+</div>
+</section>
+</div>
+<script src="./js/codes-and-templates.js" defer></script><script src="./js/files-and-export.js" defer></script><script src="./js/code-search.js" defer></script><script src="./js/orchestrator.js" defer></script><script src="./js/app.js" defer></script><script src="./js/team-extras.js" defer></script>
+</body>
+</html>
