@@ -65,5 +65,7 @@ eq('ordered: critical first', sorted[0].severity, 'critical');
 var rev = { items: merged, reqCount: 5, concl: S.conclusion(merged), method: 'm', date: '2026-11-26', title: 'T', project: {} };
 eq('report text has conclusion line', /كود الاعتماد المقترح: C/.test(S.reportText(rev)), true);
 eq('pdf doc has summary,text,table', S.pdfDoc(rev).blocks.map(function (b) { return b.type; }).join(','), 'summary,text,table');
+var m2 = S.mergeModel([], reqs, offer, rr.items);
+eq('rule-only leftovers: clarification dropped, others labelled', m2.every(function (m) { return m.type !== 'clarification' && /لم يؤكدها الموديل/.test(m.finding); }), true);
 if (fails) { console.log(fails + ' FAILED'); process.exit(1); }
 console.log('ALL ENG-SUBMITTAL TESTS PASSED');
