@@ -41,6 +41,12 @@
       '.ec-badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700;border:1px solid var(--line,#2a3347);}',
       '.ec-badge-warn{border-color:#d97706;color:#f59e0b;}',
       '.ec-badge-ok{border-color:#16a34a;color:#22c55e;}',
+      '.ec-modal .ec-tab{background:var(--bg,#0b1020)!important;background-image:none!important;color:var(--tx,#e5e7eb)!important;border:1px solid var(--line,#2a3347)!important;box-shadow:none!important;opacity:1!important;text-shadow:none!important;}',
+      '.ec-modal .ec-tab.ec-active{background:var(--ac,#2563eb)!important;color:#ffffff!important;border-color:var(--ac,#2563eb)!important;}',
+      '.ec-modal .ec-close,.ec-modal .ec-btn-sec{background:var(--bg,#0b1020)!important;background-image:none!important;color:var(--tx,#e5e7eb)!important;box-shadow:none!important;}',
+      '.ec-cx{padding:10px 12px;border-radius:8px;margin:10px 0;font-size:13px;line-height:1.6;direction:rtl;text-align:right;color:var(--tx,#e5e7eb);}',
+      '.ec-cx-warn{border:1px solid #d97706;background:rgba(217,119,6,0.14);}',
+      '.ec-cx-ok{border:1px solid #16a34a;background:rgba(22,163,74,0.10);}',
       '@media (max-width:520px){.ec-modal{padding:12px;width:calc(100vw - 12px);}.ec-grid{grid-template-columns:1fr;}.ec-tab{flex:1 1 45%;font-size:12px;padding:6px 8px;}.ec-actions .ec-btn{flex:1 1 100%;}}'
     ].join('\n');
     document.head.appendChild(style);
@@ -234,7 +240,20 @@
     ]));
     grid.appendChild(createField('ec-cs-method', 'Method', 'select', [
       { value: 'air', label: 'In Air', selected: true },
-      { value: 'ground', label: 'In Ground' }
+      { value: 'ground', label: 'Buried direct (D2)' },
+      { value: 'duct', label: 'Buried in ducts (D1)' }
+    ]));
+    grid.appendChild(createField('ec-cs-sp', 'Spacing (buried only)', 'select', [
+      { value: 'touching', label: 'Touching', selected: true },
+      { value: 'one_diameter', label: 'One cable diameter (D2 only)' },
+      { value: '0.125', label: '0.125 m (D2 only)' },
+      { value: '0.25', label: '0.25 m' },
+      { value: '0.5', label: '0.5 m' },
+      { value: '1.0', label: '1.0 m (ducts only)' }
+    ]));
+    grid.appendChild(createField('ec-cs-dc', 'Cable type (ducts only)', 'select', [
+      { value: 'multi', label: 'Multi-core', selected: true },
+      { value: 'single', label: 'Single-core' }
     ]));
     grid.appendChild(createField('ec-cs-amb', 'Ambient Temp (C)', 'number', 35));
     grid.appendChild(createField('ec-cs-circ', 'Grouping Circuits', 'number', 1));
@@ -265,6 +284,8 @@
           method: val('ec-cs-method'),
           ambientC: numVal('ec-cs-amb'),
           circuits: numVal('ec-cs-circ'),
+          spacing: val('ec-cs-sp'),
+          ductCable: val('ec-cs-dc'),
           lengthM: numVal('ec-cs-len'),
           maxVdropPct: numVal('ec-cs-maxvd')
         };
@@ -425,6 +446,12 @@
     });
   }
 
+  var extraTabs = [];
+  function registerTab(id, label, renderFn) {
+    for (var i = 0; i < extraTabs.length; i++) { if (extraTabs[i].id === id) { extraTabs[i] = { id: id, label: label, render: renderFn }; return; } }
+    extraTabs.push({ id: id, label: label, render: renderFn });
+  }
+
   function renderModalContent() {
     var modal = document.getElementById('ec-modal');
     if (!modal) return;
@@ -445,6 +472,7 @@
     else if (activeTab === 'vdrop') renderVdropTab(body);
     else if (activeTab === 'breaker') renderBreakerTab(body);
     else if (activeTab === 'tables') renderTablesTab(body);
+    else extraTabs.forEach(function (x) { if (x.id === activeTab) x.render(body); });
   }
 
   function open() {
@@ -477,7 +505,7 @@
       { id: 'vdrop', label: 'Voltage drop' },
       { id: 'breaker', label: 'Breaker' },
       { id: 'tables', label: 'Tables' }
-    ].forEach(function (item) {
+    ].concat(extraTabs.map(function (x) { return { id: x.id, label: x.label }; })).forEach(function (item) {
       var btn = el('button', 'ec-tab', item.label);
       btn.type = 'button';
       btn.setAttribute('data-tab', item.id);
@@ -533,6 +561,8 @@
     open: open,
     close: close,
     openModal: open,
+    registerTab: registerTab,
+    helpers: { el: el, createField: createField, val: val, numVal: numVal, showResult: showResult, ensureTables: ensureTables, renderResultActions: renderResultActions },
     closeModal: close,
     init: init
   };
