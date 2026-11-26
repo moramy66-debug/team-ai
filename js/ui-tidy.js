@@ -20,7 +20,7 @@
     style.id = 'ut-styles';
     style.textContent = [
       'html, body { max-width: 100%; overflow-x: hidden; }',
-      '.topbar { position: relative; max-width: 100%; box-sizing: border-box; }',
+      '.topbar { max-width: 100%; box-sizing: border-box; z-index: 60; }',
       '.topbar button { min-height: 44px; }',
       '#utMoreWrap { position: relative; display: inline-flex; align-items: center; margin-inline-start: auto; }',
       '#utMoreBtn { min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 0 12px; cursor: pointer; box-sizing: border-box; }',
