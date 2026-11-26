@@ -36,7 +36,75 @@ async function run(){
  // combined, in load order (catches duplicate const/let declarations across files)
  var order=scripts.filter(function(s){return texts[s]!=null&&/\.js$/.test(s)&&s.indexOf('storage-idb')<0&&s.indexOf('sanitize')<0}),all=order.map(function(s){return texts[s]}).join('\n;\n');
  try{new Function(all);row('ok','Combined load order has no duplicate declarations',order.join(' > '))}catch(e){row('bad','Combined scripts conflict (duplicate declaration or cross-file error)',e.message)}
- // service worker
+ const STRICT = false;
+  function scanTopLevel(text) {
+    var decls = [], n = text.length, i = 0, line = 1, brace = 0, paren = 0, bracket = 0, tplStack = [], canRegex = true, varDecl = null;
+    function isIdStart(c) { return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c === '_' || c === '$'; }
+    function isIdPart(c) { return isIdStart(c) || (c >= '0' && c <= '9'); }
+    while (i < n) {
+      var c = text[i];
+      if (c === '\n') { line++; i++; continue; }
+      if (c === ' ' || c === '\t' || c === '\r' || c === '\f' || c === '\v') { i++; continue; }
+      if (c === '/' && text[i + 1] === '/') { i += 2; while (i < n && text[i] !== '\n') i++; continue; }
+      if (c === '/' && text[i + 1] === '*') { i += 2; while (i < n && !(text[i] === '*' && text[i + 1] === '/')) { if (text[i] === '\n') line++; i++; } i += 2; continue; }
+      if (c === "'" || c === '"') { var q = c; i++; while (i < n && text[i] !== q) { if (text[i] === '\\') { i++; if (text[i] === '\n') line++; } else if (text[i] === '\n') { line++; } i++; } i++; canRegex = false; continue; }
+      if (c === '`') { i++; while (i < n) { if (text[i] === '\\') { i++; if (text[i] === '\n') line++; i++; } else if (text[i] === '$' && text[i + 1] === '{') { tplStack.push(brace); brace++; i += 2; canRegex = true; break; } else if (text[i] === '`') { i++; canRegex = false; break; } else { if (text[i] === '\n') line++; i++; } } continue; }
+      if (c === '/' && canRegex) { i++; var inClass = false; while (i < n) { if (text[i] === '\\') { i += 2; } else if (text[i] === '[') { inClass = true; i++; } else if (text[i] === ']' && inClass) { inClass = false; i++; } else if (text[i] === '/' && !inClass) { i++; while (i < n && isIdStart(text[i])) i++; break; } else if (text[i] === '\n') { break; } else { i++; } } canRegex = false; continue; }
+      if (c === '}' && tplStack.length > 0 && brace - 1 === tplStack[tplStack.length - 1]) { tplStack.pop(); brace--; i++; while (i < n) { if (text[i] === '\\') { i++; if (text[i] === '\n') line++; i++; } else if (text[i] === '$' && text[i + 1] === '{') { tplStack.push(brace); brace++; i += 2; canRegex = true; break; } else if (text[i] === '`') { i++; canRegex = false; break; } else { if (text[i] === '\n') line++; i++; } } continue; }
+      if (c === '{') { brace++; i++; canRegex = true; continue; }
+      if (c === '}') { if (brace > 0) brace--; i++; canRegex = false; continue; }
+      if (c === '(') { paren++; i++; canRegex = true; continue; }
+      if (c === ')') { if (paren > 0) paren--; i++; canRegex = false; continue; }
+      if (c === '[') { bracket++; i++; canRegex = true; continue; }
+      if (c === ']') { if (bracket > 0) bracket--; i++; canRegex = false; continue; }
+      if (c === ';') { if (brace === 0 && paren === 0 && bracket === 0) varDecl = null; i++; canRegex = true; continue; }
+      if (c === ',') { if (varDecl && brace === 0 && paren === 0 && bracket === 0) varDecl.state = 'name'; i++; canRegex = true; continue; }
+      if (c === '=') { if (varDecl && brace === 0 && paren === 0 && bracket === 0 && text[i + 1] !== '=') varDecl.state = 'skip'; i++; canRegex = true; continue; }
+      if (c >= '0' && c <= '9') { while (i < n && (isIdPart(text[i]) || text[i] === '.')) i++; canRegex = false; continue; }
+      if (isIdStart(c)) {
+        var startLine = line, prevChar = i > 0 ? text[i - 1] : '', j = i + 1;
+        while (j < n && isIdPart(text[j])) j++;
+        var word = text.slice(i, j); i = j;
+        var atTop = brace === 0 && paren === 0 && bracket === 0;
+        if (atTop && prevChar !== '.') {
+          if (varDecl && varDecl.state === 'name') { decls.push({ name: word, type: varDecl.type, line: startLine }); varDecl.state = 'skip'; canRegex = false; continue; }
+          if (word === 'var' || word === 'let' || word === 'const') { varDecl = { type: word, state: 'name' }; canRegex = true; continue; }
+          if (word === 'function' || word === 'class') {
+            varDecl = null; var k = i, fnLine = startLine;
+            while (k < n && (text[k] === ' ' || text[k] === '\t' || text[k] === '\r' || text[k] === '\n' || text[k] === '*')) { if (text[k] === '\n') fnLine++; k++; }
+            if (k < n && isIdStart(text[k])) { var m2 = k + 1; while (m2 < n && isIdPart(text[m2])) m2++; decls.push({ name: text.slice(k, m2), type: word, line: fnLine }); i = m2; }
+            canRegex = false; continue;
+          }
+          if (word === 'async') { var k2 = i; while (k2 < n && (text[k2] === ' ' || text[k2] === '\t' || text[k2] === '\r')) k2++; if (text.slice(k2, k2 + 8) === 'function' && !isIdPart(text[k2 + 8] || '')) { canRegex = true; continue; } }
+        }
+        canRegex = (word === 'return' || word === 'typeof' || word === 'void' || word === 'delete' || word === 'throw' || word === 'case' || word === 'in' || word === 'of' || word === 'else' || word === 'yield' || word === 'await');
+        continue;
+      }
+      canRegex = '+-*%&|^!~<>?:'.indexOf(c) !== -1; i++;
+    }
+    return decls;
+  }
+  var dupMap = {};
+  for (var di = 0; di < order.length; di++) {
+    var df = order[di], dlist = scanTopLevel(texts[df]);
+    for (var dj = 0; dj < dlist.length; dj++) {
+      var dd = dlist[dj];
+      if (!dupMap[dd.name]) dupMap[dd.name] = [];
+      dupMap[dd.name].push({ file: df, line: dd.line, type: dd.type });
+    }
+  }
+  var dupNames = Object.keys(dupMap).filter(function(k) { return dupMap[k].length > 1; });
+  if (!dupNames.length) {
+    row('ok', 'No cross-file top-level duplicates', order.length + ' scripts checked');
+  } else {
+    for (var dk = 0; dk < dupNames.length; dk++) {
+      var dname = dupNames[dk], occs = dupMap[dname];
+      var types = occs.map(function(o) { return o.type; }).filter(function(v, idx, a) { return a.indexOf(v) === idx; }).join('/');
+      var filesStr = occs.map(function(o) { return o.file + ':' + o.line + ' (' + o.type + ')'; }).join(', ');
+      row(STRICT ? 'bad' : 'warn', 'Duplicate top-level: ' + dname + ' (' + types + ')', filesStr);
+    }
+  }
+  // service worker
  try{var sw=await get('./sw.js');var v=(sw.match(/CACHE_NAME\s*=\s*'([^']+)'/)||[])[1];try{new Function(sw);row('ok','sw.js syntax OK, cache '+v)}catch(e){row('bad','sw.js syntax error',e.message)}
   var miss=scripts.filter(function(s){return sw.indexOf(s.replace('./',''))<0&&sw.indexOf(s)<0});if(miss.length)row('warn','Not in the service worker precache list',miss.join(', '))}
  catch(e){row('bad','sw.js failed to load',e.message)}
