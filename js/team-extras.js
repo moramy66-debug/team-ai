@@ -66,7 +66,8 @@ async function verifyCalc(text,followUp){
  if(!(/حسابات/.test(tn)||hits>=4))return text;
  try{if(RCK&&RCK.steps.__ver!=null)return RCK.steps.__ver}catch(e){}
  var p='You are an independent calculation checker for a consulting electrical/mechanical engineering report. From the REPORT below choose up to 12 of the most important calculations (design current, breaker selection vs cable capacity Ib<=In<=Iz, cable size and derating, voltage drop percentage, short-circuit, demand/diversity totals, equipment sizing, any other key numeric result). For each one, recompute it yourself ONLY from the inputs and formula stated in the report, using the same assumptions. Treat a difference within 2 percent as rounding (ok). Skip any calculation whose inputs are not in the report; never invent inputs; do not judge the choice of code. Return JSON only in this shape: {"checks":[{"item":"short Arabic name","stated":"value as written with unit","recomputed":"your value with unit","ok":true,"note":"if not ok, one short Arabic sentence about the likely error"}]}\n\nREPORT:\n'+text;
-  var a=pickVerifier(p);if(!a){return text}
+  var a=pickVerifier(p);if(!a){return text};var _A=agents();if(_A.length>1&&_A[0]&&a.id===_A[0].id){var _alt=_A.find(function(x){return x&&x.id!==_A[0].id&&!(isGroq(x)&&estTok(p)>5200);})||_A.find(function(x){return x&&x.id!==_A[0].id;});if(_alt)a=_alt;}
+   
   var d=addStep('تحقق آلي من الحسابات',a.name);
   try{
   var j=parseJ(await ask(a,sys(a),p,true));
