@@ -1,4 +1,4 @@
-const CACHE_NAME = 'teamai-v95';
+const CACHE_NAME = 'teamai-v96';
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -9,7 +9,7 @@ const CORE_ASSETS = [
   './js/codes-and-templates.js',
   './js/files-and-export.js',
   './js/orchestrator.js',
-  './js/code-search.js', './js/app.js', './js/team-extras.js', './js/pro-tools.js', './js/project-header.js', './js/eng-tables.js', './js/eng-calc.js', './js/eng-ui.js', './js/eng-shortcircuit-ui.js', './js/eng-crosscheck.js', './js/eng-pdf.js', './js/eng-submittal.js', './js/eng-loadschedule.js', './data/eng-tables.json', './codes-data.json'
+  './js/code-search.js', './js/app.js', './js/team-extras.js', './js/pro-tools.js', './js/project-header.js', './js/eng-tables.js', './js/eng-calc.js', './js/eng-ui.js', './js/eng-shortcircuit-ui.js', './js/eng-crosscheck.js', './js/eng-pdf.js', './js/eng-submittal.js', './js/eng-loadschedule.js', './data/eng-tables.json', './codes-data.json', './js/ui-tidy.js'
 ];
 
 self.addEventListener('install', (event) => {
