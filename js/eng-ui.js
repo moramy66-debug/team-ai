@@ -37,6 +37,7 @@
       '.ec-table th,.ec-table td{padding:8px 10px;border-bottom:1px solid var(--line,#2a3347);vertical-align:top;}',
       '.ec-table th{background:var(--bg,#0b1020);color:var(--mut,#9ca3af);font-weight:700;white-space:nowrap;}',
       '.ec-table tr:last-child td{border-bottom:none;}',
+      '.ec-ok{padding:6px 10px;border-radius:8px;border:1px solid #16a34a;background:rgba(22,163,74,0.10);color:var(--tx,#e5e7eb);font-size:12px;margin-bottom:8px;line-height:1.5;word-break:break-all;}',
       '.ec-badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700;border:1px solid var(--line,#2a3347);}',
       '.ec-badge-warn{border-color:#d97706;color:#f59e0b;}',
       '.ec-badge-ok{border-color:#16a34a;color:#22c55e;}',
@@ -129,7 +130,7 @@
 
   function renderTableWarning(container, meta) {
     if (!meta) return;
-    if (meta.status === 'placeholder' || meta.status === 'from_memory') {
+    if (!isOkStatus(meta.status)) {
       var msg = 'تحذير: الجدول المستخدم (' + (meta.key || meta.title || '') + ') حالته "' + meta.status + '"';
       if (meta.source) msg += ' - المصدر: ' + meta.source;
       msg += '. يرجى التحقق من القيم أمام الكود الهندسي المعتمد قبل الاعتماد النهائي.';
@@ -139,7 +140,7 @@
 
   function buildReportText(title, summaryLines, steps, meta) {
     var lines = [title];
-    if (meta && (meta.status === 'placeholder' || meta.status === 'from_memory')) {
+    if (meta && (!isOkStatus(meta.status))) {
       lines.push('[تنبيه: بيانات الجدول (' + (meta.key || '') + ') بحالة ' + meta.status + ' - للمراجعة]');
     }
     summaryLines.forEach(function (l) { lines.push(l); });
@@ -149,6 +150,26 @@
       lines.push(s.step + ' | ' + s.formula + ' | ' + s.substitution + ' | ' + s.result);
     });
     return lines.join('\n');
+  }
+
+  function isOkStatus(st) { return String(st || '').indexOf('verified') === 0 && String(st).indexOf('old_edition') < 0; }
+
+  function showResult(out, res, title) {
+    var used = res.tablesUsed || [];
+    used.forEach(function (u) {
+      var ok = isOkStatus(u.status);
+      var line = el('div', ok ? 'ec-ok' : 'ec-warn', 'الجدول: ' + u.id + ' | الحالة: ' + u.status + (u.source ? ' | المصدر: ' + u.source : ''));
+      out.appendChild(line);
+    });
+    (res.warnings || []).forEach(function (w) { out.appendChild(el('div', 'ec-warn', w)); });
+    out.appendChild(el('div', 'ec-summary', res.summary || ''));
+    renderStepsTable(out, res.steps || []);
+    var lines = [title];
+    used.forEach(function (u) { lines.push('[الجدول ' + u.id + ' | الحالة: ' + u.status + ' | المصدر: ' + u.source + ']'); });
+    (res.warnings || []).forEach(function (w) { lines.push('[تنبيه: ' + w + ']'); });
+    lines.push(res.summary || '', '', 'الخطوة | المعادلة | التعويض | النتيجة');
+    (res.steps || []).forEach(function (st) { lines.push(st.step + ' | ' + st.formula + ' | ' + st.substitution + ' | ' + st.result); });
+    lastReportText = lines.join('\n');
   }
 
   function renderResultActions(container, statusNode) {
@@ -248,52 +269,8 @@
           maxVdropPct: numVal('ec-cs-maxvd')
         };
         var res = window.EngCalc.cableSizing(input);
-        renderTableWarning(out, res.table);
-
-        var summaryText = 'المقطع المختار: ' + res.size_mm2 + ' mm2 | السعة المصححة: ' +
-          res.deratedAmpacityA.toFixed(1) + ' A | تيار التصميم: ' + res.designCurrentA.toFixed(1) + ' A';
-        if (res.vdrop) {
-          summaryText += ' | هبوط الجهد: ' + res.vdrop.vdropV.toFixed(2) + ' V (' + res.vdrop.vdropPct.toFixed(2) + '%)';
-        }
-        out.appendChild(el('div', 'ec-summary', summaryText));
-
-        var steps = [
-          {
-            step: '1. تيار التصميم Ib',
-            formula: input.currentA > 0 ? 'Ib = I' : 'Ib = (P * 1000) / (k * V * PF)',
-            substitution: input.currentA > 0 ? String(input.currentA) : 'P=' + input.powerKW + ' kW, V=' + input.voltageV + ' V, PF=' + input.powerFactor,
-            result: res.designCurrentA.toFixed(2) + ' A'
-          },
-          {
-            step: '2. معاملات التصحيح',
-            formula: 'Ct = Ca * Cg',
-            substitution: res.factors.ca.toFixed(3) + ' * ' + res.factors.cg.toFixed(3),
-            result: res.factors.combined.toFixed(3)
-          },
-          {
-            step: '3. السعة الأساسية المطلوبة',
-            formula: 'Iz_req = Ib / Ct',
-            substitution: res.designCurrentA.toFixed(2) + ' / ' + res.factors.combined.toFixed(3),
-            result: res.requiredBaseAmpacityA.toFixed(2) + ' A'
-          },
-          {
-            step: '4. اختيار المقطع من الجدول',
-            formula: 'Iz_table >= Iz_req',
-            substitution: (res.table ? res.table.key : 'table') + ' -> ' + res.baseAmpacityA + ' A',
-            result: res.size_mm2 + ' mm2 (مصحح ' + res.deratedAmpacityA.toFixed(1) + ' A)'
-          }
-        ];
-        if (res.vdrop) {
-          steps.push({
-            step: '5. التحقق من هبوط الجهد',
-            formula: 'dV% = (dV / V) * 100 <= ' + (input.maxVdropPct || 5) + '%',
-            substitution: res.vdrop.vdropV.toFixed(2) + ' / ' + res.vdrop.voltageV,
-            result: res.vdrop.vdropPct.toFixed(2) + '%'
-          });
-        }
-        renderStepsTable(out, steps);
+        showResult(out, res, 'Cable Sizing Result');
         var statusNode = el('div', null);
-        lastReportText = buildReportText('Cable Sizing Result', [summaryText], steps, res.table);
         renderResultActions(out, statusNode);
         out.appendChild(statusNode);
       }).catch(function (err) {
@@ -346,34 +323,8 @@
           powerFactor: numVal('ec-vd-pf')
         };
         var res = window.EngCalc.voltageDrop(input);
-        renderTableWarning(out, res.table);
-
-        var summaryText = 'هبوط الجهد: ' + res.vdropV.toFixed(2) + ' V (' + res.vdropPct.toFixed(2) + '%) | الطريقة: ' + res.methodUsed;
-        out.appendChild(el('div', 'ec-summary', summaryText));
-
-        var steps = [
-          {
-            step: '1. المعطيات',
-            formula: 'I, L, S, V, PF',
-            substitution: input.currentA + ' A, ' + input.lengthM + ' m, ' + input.size_mm2 + ' mm2, ' + input.voltageV + ' V, PF=' + input.powerFactor,
-            result: input.phases + '-Phase ' + input.conductor
-          },
-          {
-            step: '2. حساب هبوط الجهد',
-            formula: res.methodUsed === 'mv_a_m' ? 'dV = (mV/A/m * I * L) / 1000' : 'dV = k * I * L * (R*cos + X*sin) / 1000',
-            substitution: 'جدول: ' + (res.table ? res.table.key : res.methodUsed),
-            result: res.vdropV.toFixed(2) + ' V'
-          },
-          {
-            step: '3. النسبة المئوية',
-            formula: 'dV% = (dV / V) * 100',
-            substitution: '(' + res.vdropV.toFixed(2) + ' / ' + res.voltageV + ') * 100',
-            result: res.vdropPct.toFixed(2) + '%'
-          }
-        ];
-        renderStepsTable(out, steps);
+        showResult(out, res, 'Voltage Drop Result');
         var statusNode = el('div', null);
-        lastReportText = buildReportText('Voltage Drop Result', [summaryText], steps, res.table);
         renderResultActions(out, statusNode);
         out.appendChild(statusNode);
       }).catch(function (err) {
@@ -414,35 +365,8 @@
           safetyFactor: numVal('ec-br-sf')
         };
         var res = window.EngCalc.breakerSelection(input);
-        renderTableWarning(out, res.table);
-
-        var coordText = res.coordinated === null ? 'غير محدد' : (res.coordinated ? 'متوافق (In <= Iz)' : 'غير متوافق (In > Iz)');
-        var summaryText = 'القاطع المختار: ' + res.rating_a + ' A (' + res.type + ') | التنسيق: ' + coordText;
-        out.appendChild(el('div', 'ec-summary', summaryText));
-
-        var steps = [
-          {
-            step: '1. تيار التصميم المضروب بالمعامل',
-            formula: 'I_req = Ib * SF',
-            substitution: input.designCurrentA + ' * ' + (input.safetyFactor || 1),
-            result: (input.designCurrentA * (input.safetyFactor || 1)).toFixed(2) + ' A'
-          },
-          {
-            step: '2. اختيار المقاس القياسي',
-            formula: 'In >= I_req',
-            substitution: 'الجدول: ' + (res.table ? res.table.key : 'standard_breakers'),
-            result: res.rating_a + ' A (' + res.type + ')'
-          },
-          {
-            step: '3. التحقق من التنسيق مع الكابل',
-            formula: 'Ib <= In <= Iz',
-            substitution: input.designCurrentA + ' <= ' + res.rating_a + ' <= ' + (input.cableAmpacityA || '-'),
-            result: coordText
-          }
-        ];
-        renderStepsTable(out, steps);
+        showResult(out, res, 'Breaker Selection Result');
         var statusNode = el('div', null);
-        lastReportText = buildReportText('Breaker Selection Result', [summaryText], steps, res.table);
         renderResultActions(out, statusNode);
         out.appendChild(statusNode);
       }).catch(function (err) {
@@ -475,14 +399,14 @@
       var tbody = document.createElement('tbody');
       keys.forEach(function (k) {
         var meta = window.EngTables.meta(k) || { key: k, status: 'unknown', source: '' };
-        if (meta.status === 'placeholder' || meta.status === 'from_memory') {
+        if (!isOkStatus(meta.status)) {
           hasPlaceholder = true;
         }
         var tr = document.createElement('tr');
         tr.appendChild(el('td', null, meta.key || k));
         tr.appendChild(el('td', null, meta.title || '-'));
         var stTd = document.createElement('td');
-        var badgeClass = (meta.status === 'placeholder' || meta.status === 'from_memory') ? 'ec-badge ec-badge-warn' : 'ec-badge ec-badge-ok';
+        var badgeClass = (!isOkStatus(meta.status)) ? 'ec-badge ec-badge-warn' : 'ec-badge ec-badge-ok';
         stTd.appendChild(el('span', badgeClass, meta.status || 'unknown'));
         tr.appendChild(stTd);
         tr.appendChild(el('td', null, meta.source || '-'));
@@ -492,7 +416,7 @@
       wrap.appendChild(table);
 
       if (hasPlaceholder) {
-        out.appendChild(el('div', 'ec-warn', 'تنبيه: بعض الجداول حالتها placeholder أو from_memory ويجب التحقق منها أمام المرجع الهندسي المعتمد.'));
+        out.appendChild(el('div', 'ec-warn', 'تنبيه: بعض الجداول حالتها from_memory_needs_review أو old_edition ويجب التحقق منها أمام المرجع الهندسي المعتمد.'));
       }
       out.appendChild(wrap);
     }).catch(function (err) {
