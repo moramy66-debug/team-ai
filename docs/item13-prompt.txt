@@ -1,0 +1,79 @@
+===== ابدأ الـ prompt من هنا =====
+
+انت مهندس front-end + مهندس كهرباء. المطلوب: إضافة حاسبات هندسية deterministic (حساب مباشر بالـ JavaScript، بدون أي استدعاء لموديل) ومكتبة جداول أكواد داخل تطبيق ويب جاهز اسمه Team AI. المستخدم مهندس استشاري كهرباء في السعودية، وأهم حاجة عنده إن الأرقام تكون مضمونة وتتعرض بالمعادلة والتعويض والنتيجة بالوحدات. اقرا كل الوصف قبل ما تكتب سطر.
+
+## 1) التطبيق والـ repo
+- PWA static على GitHub Pages: https://moramy66-debug.github.io/team-ai/ والـ repo: github.com/moramy66-debug/team-ai (branch main). مفيش build ولا npm. اللغة: واجهة بأزرار English ومحتوى عربي مصري، والمصطلحات الهندسية English.
+- الـ scripts بتتحمل بـ plain <script defer> بالترتيب في index.html: storage-idb.js, sanitize.js, codes-and-templates.js, files-and-export.js, code-search.js, orchestrator.js, app.js, team-extras.js, pro-tools.js, project-header.js. كلهم بيشاركوا نفس الـ global scope، ومتحطش أي تعريف top-level (const/let/var/function) بيتعارض مع الأسماء الموجودة. فيه فاحص تلقائي (tools/dupcheck.js وcheck.html) بيكشف التكرار.
+- جداول الأكواد الحالية في codes-data.json (JSON array من {sid,name,ver,text}) وبتتحمل بـ fetch lazy. ده المثال اللي تمشي عليه في فصل البيانات.
+- موجود حاليًا في pro-tools.js: زرار "حاسبات" في الـ topbar بيفتح modal فيه حاسبة تيار وهبوط جهد بسيطة (calcCurrent / calcVdrop). ممنوع تعدل pro-tools.js. اعمل modal جديد وزرار جديد.
+
+## 2) المطلوب
+### أ) مكتبة الجداول (فصل البيانات عن الكود)
+- ملف بيانات جديد: data/eng-tables.json. هو المصدر الوحيد للأرقام، لأن المستخدم هيبعت جداوله هو ويستبدلها. الكود ميحتويش أي رقم جدول hard-coded.
+- ملف كود جديد: js/eng-tables.js (IIFE، بيعرّف global واحد بس: window.EngTables). فيه تحميل lazy بالـ fetch لـ ./data/eng-tables.json، وكاش في الذاكرة، وواجهة: EngTables.load(), EngTables.get(tableId), EngTables.list(), EngTables.lookup(tableId, keys), EngTables.meta(tableId) (بيرجع المصدر والإصدار والملاحظات).
+- شكل الـ JSON (ثابت وموثق في أول الملف كـ _readme):
+  {"_readme":"...","tables":{"cable_ampacity_xlpe_cu_3c_air":{"title":"...","source":"اسم الكود + رقم الجدول + الإصدار","status":"placeholder|verified","unit":"A","conditions":{"insulation":"XLPE","conductor":"Cu","cores":3,"method":"air","ambient_c":40},"rows":[{"size_mm2":1.5,"value":...}, ...]}}, "factors":{...}}
+- كل جدول لازم فيه source و status. لو الرقم مش جاي من مصدر المستخدم، status="placeholder" والواجهة لازم تعرض تحذير واضح "جدول مبدئي، راجعه مع الكود قبل الاعتماد" جنب أي نتيجة بتعتمد عليه. ممنوع تخترع أرقام وتسميها verified. استخدم قيم مرجعية معروفة من IEC 60364-5-52 / IEC 60287 (طريقة التركيب، XLPE و PVC، نحاس وألمنيوم) كـ placeholder وعلّمها صراحة، واكتب في الـ source إنها قيم مرجعية عامة مش جدول الكود الرسمي.
+- المصدر: ملف data/eng-tables.json موجود بالفعل في الـ repo على main (https://raw.githubusercontent.com/moramy66-debug/team-ai/main/data/eng-tables.json). اقراه من هناك. ممنوع تعيد إنشاؤه أو تغيّر أي رقم فيه، وممنوع تعمل Create أو Delete لنفس الملف. لو محتاج تضيف جدول، اكتب لي اسمه وحقوله وأنا هضيفه، أو اعمل ملف تاني باسم data/eng-tables-extra.json. المستخدم ملوش جداول خاصة بيه، فدي الجداول اللي هتشتغل عليها، وكل جدول فيه status: verified_mirror (اتاخد بالسكريبت من نسخة عامة منشورة للجدول، ولازم المستخدم يراجعه مع الكود الرسمي قبل أي اعتماد)، أو verified_secondary، أو from_memory_needs_review (مش من مصدر اتجاب، لازم مراجعة). الواجهة لازم تعرض الـ status والمصدر جنب أي نتيجة، وتحذير أحمر/برتقالي واضح لو الجدول from_memory أو old_edition. استبدال أي جدول بجدول المستخدم لازم يكون تعديل في ملف الـ JSON بس.
+- الجداول الموجودة في الملف المرفق: IEC 60364-5-52 B.52.2 إلى B.52.5 (PVC/XLPE، نحاس وألمنيوم، موصلين وثلاثة، طرق A1 A2 B1 B2 C D1 D2)، B.52.14 (تصحيح حرارة الهواء)، B.52.15 (حرارة الأرض)، B.52.17 (تجميع، بنود 1 إلى 5 بس)، BS 7671 4D1A (نحاس PVC single-core)، 4D1B (هبوط الجهد mV/A/m لحد 16 mm2 بس)، مقاومة الموصلات IEC 60228 (من الذاكرة)، قياسات MCB (IEC 60898-1)، MCCB (من الذاكرة)، قواعد التنسيق، وتوزيع هبوط الجهد في SEC DPS 2004 (نسخة قديمة).
+- الناقص: هبوط الجهد للمقاطع 25 mm2 وأكتر: احسبه بالمعادلة ΔV = k × I × L × (R×cosφ + X×sinφ) باستخدام R من جدول IEC 60228 (مصححة لدرجة حرارة التشغيل: R_θ = R20 × (1 + α×(θ-20))) وX المبدئي 0.08 Ω/km، واذكر في النتيجة إنها حسابية مش من جدول 4D1B. ولازم الواجهة تقول ده صراحة.
+- (القائمة القديمة للجداول، للتوضيح فقط، والملف المرفق هو الأصل): (1) ampacity للكابلات (XLPE/PVC، Cu/Al، 1.5 حتى 400 mm2، in air وunderground على الأقل)، (2) correction factors للحرارة المحيطة، (3) grouping factors، (4) voltage drop mV/A/m (r و x أو z) لكل مقطع، (5) المقاطع القياسية للقواطع (MCB/MCCB in-ratings)، (6) مقاومة وتفاعل الموصل لو لزم.
+- الـ lookup لازم يرجّع دايمًا الجدول والصف والمصدر عشان الحاسبة تعرضهم في الشرح.
+
+### ب) الحاسبات (js/eng-calc.js)
+- IIFE، global واحد: window.EngCalc. كل حاسبة دالة نقية pure: بتاخد object مدخلات وبترجع {ok, inputs, steps:[{label, formula, substitution, result, unit}], result:{value,unit}, warnings:[], tablesUsed:[{id,source,status}]}. من غير DOM ولا fetch جوه الحساب نفسه (الجداول بتتمرر أو بتتقرا من EngTables بعد load).
+- ثلاث حاسبات في المرحلة دي:
+  1) Cable sizing: مدخلات: load (kW أو A)، V، phases، PF، efficiency، طريقة التركيب، نوع العزل والموصل، ambient، عدد الدوائر المجمعة، طول الكابل، حد هبوط الجهد %. الخطوات: Ib من القدرة، In (القاطع) ≥ Ib، Iz المطلوب = In / (Ca × Cg × ...)، اختيار أصغر مقطع Iz الجدولي له ≥ المطلوب، وبعدين فحص voltage drop ورفع المقطع لو فشل. الشرط In ≤ Iz بعد التصحيح (Ib ≤ In ≤ Iz) لازم يظهر ويتأكد.
+  2) Voltage drop: 1-phase و3-phase، بالمعادلة الدقيقة باستخدام mV/A/m (أو r و x و cosφ)، النتيجة بالـ V وبالـ % ومقارنة بالحد (افتراضي من إعدادات قابلة للتعديل: مثلًا 3% إنارة و5% قوى، والمستخدم يغيرها، وكل حد يتكتب إنه مدخل مش من الكود).
+  3) Breaker selection: In القياسية الأقرب من الجدول بحيث Ib ≤ In ≤ Iz، مع ملاحظة short-circuit rating (Icu) كمدخل اختياري يتقارن بـ Isc لو اتدخل (من غير حساب short circuit في المرحلة دي).
+- كل نتيجة تعرض: الخطوات بالترتيب، المعادلة بالرموز، التعويض بالأرقام، النتيجة بالوحدة، واسم الجدول المستخدم ومصدره وحالته (verified/placeholder). تقريب واضح (مثلًا 2 خانات عشرية) ومعروف.
+- تحقق من المدخلات: قيم سالبة أو صفر أو ناقصة تدي ok:false ورسالة عربي مفهومة. مفيش NaN يوصل للشاشة.
+- ملف اختبار: tools/eng-calc-test.js (Node، بدون dependencies) بيحمل js/eng-calc.js وdata/eng-tables.json ويعمل assertions على حالات معروفة تتحسب بإيدك (اكتب الحساب اليدوي في تعليق جنب كل حالة). لازم يطبع ALL ENGCALC TESTS PASSED. ملاحظة: tools/ مسموح تضيف فيه ملفات جديدة بالاسم ده بس.
+
+### ج) الواجهة
+- زرار جديد "Eng Calc" يتضاف في الـ topbar بنفس أسلوب pro-tools (createElement + appendChild، className='sec'، بدون إيموجي، أيقونات SVG لو لزم)، وبيفتح modal جديد بتابز: Cable sizing / Voltage drop / Breaker / Tables. اعمل الـ CSS بنفسك عن طريق style tag بتحقنه من الـ JS (زي injectStyles في pro-tools.js) بـ prefix مميز (مثلًا ec-) لأن styles.css ممنوع.
+- الموبايل (390px): من غير horizontal overflow، وأزرار وحقول ارتفاعها 44px على الأقل، والـ modal بيتمرر بالطول. الـ theme فاتح/غامق: استخدم متغيرات CSS الموجودة (var(--card), var(--line), var(--tx), var(--ac)).
+- نتيجة كل حاسبة تتعرض كجدول خطوات (معادلة | تعويض | نتيجة) وتحتها زرار Copy بيحط النتيجة كنص عادي (من غير LaTeX) وزرار "Insert into task" بيحط الملخص في حقل #task (فيه نفس الفكرة في pro-tools insertIntoTask، اقراها بس وانسخ المنطق).
+- تابة Tables: بتعرض الجداول (العنوان، المصدر، status، الصفوف) وبتدي تحذير على أي جدول placeholder.
+- API للقراءة بس عشان نربطها بعدين: window.EngTables و window.EngCalc. متعملش أي تعديل على قسم "التحقق من المراجع" في orchestrator.js ولا على أي ملف موجود. احنا هنربطه بعدين.
+
+## 3) الملفات
+### مسموح تنشئها (جديدة فقط):
+- data/eng-tables.json
+- js/eng-tables.js
+- js/eng-calc.js
+- js/eng-ui.js (الـ modal والزرار وحقن الـ CSS)
+- tools/eng-calc-test.js
+### ممنوع تلمسها نهائيًا:
+- أي ملف موجود في js/ (app.js, orchestrator.js, pro-tools.js, team-extras.js, project-header.js, codes-and-templates.js, files-and-export.js, code-search.js, sanitize.js, storage-idb.js)
+- css/styles.css, sw.js, index.html, check.html, .github/workflows/lint.yml, tools/dupcheck.js, tools/dupcheck-test.js, tools/dup-allowlist.json, codes-data.json
+(المستخدم والموديل التاني بيشتغلوا على بعض دول. أنا اللي هطبّق تعديلات index.html وsw.js بعد ما تسلمني القايمة.)
+### تسلّمني في الآخر قايمة بالتعديلات المطلوبة مني:
+- سطور <script defer src="./js/..."> بالترتيب الصح اللي لازم تتضاف في index.html (بعد project-header.js: eng-tables.js ثم eng-calc.js ثم eng-ui.js).
+- الملفات اللي تتضاف لـ CORE_ASSETS في sw.js (js الجديدة + ./data/eng-tables.json) وإن CACHE_NAME يتزود.
+- أي global جديد بتعرّفه (المفروض window.EngTables, window.EngCalc, ويمكن window.EngUI).
+
+## 4) قواعد الأمان (مهمة)
+1. كل ملف جديد بـ Create (مفيهوش نسخة قديمة)، لكن أي تعديل في ملف موجود (ممنوع أصلًا هنا، بس لو اتغيّر القرار) يكون Edit وليس Delete+Create، لأن فيه لحظة الملف بيكون فيها غايب والموقع بيكسر.
+2. كل ملف js جديد يتفحص بـ node --check قبل ما يترفع، وكمان tools/eng-calc-test.js بيشتغل ويعدي، وdata/eng-tables.json يتفحص بـ JSON.parse (node -e) قبل الرفع.
+3. الملفات الجديدة مش متحملة في index.html لحد ما أنا أضيفها، فالرفع بتاعك ميأثرش على الموقع الحي. اختبر محليًا: انسخ الـ repo، ضيف الـ script tags في نسخة محلية من index.html، وافتحها واتأكد إن مفيش console errors. متحطش ملف مكسور على main.
+4. ممنوع أي استدعاء لـ API خارجي أو موديل أو مفتاح. الحاسبات كلها محلية. ممنوع إرسال أي بيانات المستخدم لأي مكان. المفاتيح موجودة في localStorage للمستخدم ومتتلمسش.
+5. ماتعرّفش أي top-level declaration (const/let/var/function/class) برا الـ IIFE غير window.X. شغّل node tools/dupcheck.js ./tools/dup-allowlist.json على نسخة محلية فيها ملفاتك لازم يطلع "No top-level duplicates".
+6. ممنوع إيموجي في الواجهة. النتائج نص عادي (من غير LaTeX). الأرقام العربية/الإنجليزية: استخدم أرقام إنجليزية (0-9) في كل الحسابات.
+7. لو أي جدول مش متأكد من رقمه، علّمه placeholder. دقة الأرقام أهم من اكتمال الجداول. اكتب في الـ report النهائي صراحة أنهي جداول placeholder.
+8. بعد ما أضيف الملفات في index.html وأبوّب sw.js هتتأكد معايا من check.html (ALL GOOD) وlint أخضر. ارجع للـ release v73-good لو حصلت كارثة: github.com/moramy66-debug/team-ai/releases/tag/v73-good
+
+## 5) Definition of done
+- [ ] data/eng-tables.json صحيح (JSON.parse)، كل جدول فيه source وstatus وunit وconditions، والـ _readme بيشرح الشكل بحيث المستخدم يقدر يستبدل جدول بجدوله بسهولة.
+- [ ] js/eng-tables.js بيحمل الـ JSON lazy، والواجهة المذكورة شغالة، والـ lookup بيرجّع المصدر.
+- [ ] js/eng-calc.js فيه الحاسبات التلاتة، pure، بدون DOM أو fetch أو أي رقم جدول hard-coded.
+- [ ] tools/eng-calc-test.js بيطبع ALL ENGCALC TESTS PASSED، وفيه على الأقل: 3 حالات cable sizing (واحدة بتفشل في voltage drop وبترفع المقطع)، 3 حالات voltage drop (1-phase، 3-phase، نحاس وألمنيوم)، حالتين breaker، وحالات إدخال غلط.
+- [ ] js/eng-ui.js: زرار Eng Calc + modal بأربع تابز، CSS محقون بـ prefix، لا يلمس أي عنصر موجود غير إضافة الزرار للـ topbar.
+- [ ] كل نتيجة بتعرض: معادلة + تعويض + نتيجة بالوحدة + الجدول ومصدره وحالته. ونتيجة placeholder معاها تحذير ظاهر.
+- [ ] اختبار محلي على 390px: مفيش horizontal overflow، الأزرار 44px+، الـ modal بيقفل ويفتح، Copy وInsert into task شغالين، بدون console errors.
+- [ ] dupcheck بدون تكرارات، node --check على كل js، وmodel-free (grep: مفيش fetch لأي URL غير ./data/eng-tables.json).
+- [ ] مفيش أي ملف موجود اتغير (قارن قايمة الـ commits: لازم تكون كلها Create لملفات جديدة).
+- [ ] تقرير نهائي للمستخدم: الملفات الجديدة، قايمة تعديلات index.html وsw.js المطلوبة مني، الجداول الـ placeholder، المعادلات المستخدمة بالتفصيل (مع المرجع)، وأي افتراض افترضته (مثلًا حدود الـ voltage drop أو طريقة التقريب) بصراحة.
+
+===== انتهى الـ prompt =====
