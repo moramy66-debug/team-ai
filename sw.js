@@ -1,10 +1,15 @@
-const CACHE_NAME = 'teamai-v68';
+const CACHE_NAME = 'teamai-v69';
 const CORE_ASSETS = [
   './',
   './index.html',
   './manifest.webmanifest',
   './js/storage-idb.js',
-  './js/sanitize.js'
+  './js/sanitize.js',
+  './css/styles.css',
+  './js/codes-and-templates.js',
+  './js/files-and-export.js',
+  './js/orchestrator.js',
+  './js/app.js'
 ];
 
 self.addEventListener('install', (event) => {
