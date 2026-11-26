@@ -1,4 +1,4 @@
-const CACHE_NAME = 'teamai-v71';
+const CACHE_NAME = 'teamai-v72';
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -9,7 +9,7 @@ const CORE_ASSETS = [
   './js/codes-and-templates.js',
   './js/files-and-export.js',
   './js/orchestrator.js',
-  './js/app.js'
+  './js/code-search.js', './js/app.js'
 ];
 
 self.addEventListener('install', (event) => {
@@ -36,7 +36,7 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   if (request.method !== 'GET') return;
   const url = new URL(request.url);
-  if (url.origin !== self.location.origin) return;
+  const TRUSTED_CDN_HOSTS = new Set(['cdn.jsdelivr.net', 'cdnjs.cloudflare.com', 'fonts.googleapis.com', 'fonts.gstatic.com']); if (TRUSTED_CDN_HOSTS.has(url.hostname)) { event.respondWith(caches.open(CACHE_NAME).then(async (cache) => { const cached = await cache.match(request); const net = fetch(request).then((res) => { if (res && (res.ok || res.type === 'opaque')) cache.put(request, res.clone()); return res; }).catch(() => cached); return cached || net; })); return; } if (url.origin !== self.location.origin) return;
 
   event.respondWith(
     fetch(request)
