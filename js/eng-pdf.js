@@ -74,7 +74,7 @@
   function measure(ctx, text, w, size, bold) { setFont(ctx, size, bold); return wrap(ctx, text, w).length * Math.round(size * 1.5); }
 
   function heading(pg, text) {
-    pg.space(90);
+    pg.space(200);
     var c = pg.ctx;
     c.fillStyle = C.soft; c.fillRect(M, pg.y, W - 2 * M, 54);
     c.fillStyle = C.ac; c.fillRect(hasArabic(text) ? W - M - 8 : M, pg.y, 8, 54);
@@ -100,7 +100,7 @@
     function rowH(cells, bold) { var h = 0; cells.forEach(function (t, i) { h = Math.max(h, measure(pg.ctx, t, widths[i] - 2 * padd, fs, bold)); }); return h + 2 * padd; }
     function drawRow(cells, bold, bg) {
       var h = rowH(cells, bold), c = pg.ctx;
-      if (pg.y + h > H - M - 40) { pg.newPage(); pg.y = M + 10; drawHead(); h = rowH(cells, bold); }
+      if (pg.y + h > H - M - 40) { pg.newPage(); pg.y = M + 10; drawHead(); h = rowH(cells, bold); c = pg.ctx; }
       if (bg) { c.fillStyle = bg; c.fillRect(M, pg.y, tw, h); }
       c.strokeStyle = C.line; c.lineWidth = 1.5; c.strokeRect(M, pg.y, tw, h);
       cells.forEach(function (t, i) {
