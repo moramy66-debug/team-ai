@@ -1,6 +1,6 @@
 # Team AI — منصة العمل الهندسية متعددة الوكلاء (Multi-Agent AI Workspace)
 
-[<kbd>Live Demo</kbd>](https://moramy66-debug.github.io/team-ai/) [<kbd>Check Page</kbd>](https://moramy66-debug.github.io/team-ai/check.html) [<kbd>Version: v81</kbd>](./CHANGELOG.md) [<kbd>License: MIT</kbd>](./LICENSE) <kbd>PWA Offline Ready</kbd> <kbd>Zero-Build Vanilla JS</kbd>
+[<kbd>Live Demo</kbd>](https://moramy66-debug.github.io/team-ai/) [<kbd>Check Page</kbd>](https://moramy66-debug.github.io/team-ai/check.html) [<kbd>Version: v88</kbd>](./CHANGELOG.md) [<kbd>License: MIT</kbd>](./LICENSE) <kbd>PWA Offline Ready</kbd> <kbd>Zero-Build Vanilla JS</kbd>
 
 تطبيق ويب تقدمي (**PWA**) يعمل بالكامل من المتصفح بواجهة عربية (**RTL**) مبنية بتقنيات **Zero-Build Vanilla HTML/CSS/JS** لتنسيق فرق الوكلاء الذكيين ومراجعة المشاريع الهندسية بدقة واحترافية.
 
@@ -28,7 +28,7 @@ team-ai/
 ├── preview.html            # صفحة المعاينة
 ├── codes-data.json         # قاعدة بيانات الأكواد الهندسية المدمجة
 ├── manifest.webmanifest    # ملف تعريف تطبيق الويب التقدمي (PWA)
-├── sw.js                   # Service Worker للتخزين المؤقت (teamai-v81)
+├── sw.js                   # Service Worker للتخزين المؤقت (teamai-v88)
 ├── CHANGELOG.md            # سجل التغييرات والإصدارات
 ├── LICENSE                 # رخصة MIT
 ├── css/
@@ -45,6 +45,14 @@ team-ai/
 │   └── team-extras.js      # إضافات وتخصيصات الفريق
 └── worker/                 # ملفات العامل السحابي
 ```
+
+## حالة التطبيق في الإصدار v88
+
+- **`js/eng-shortcircuit-ui.js`**: واجهة حاسبة تيارات القصر والمحركات الهندسية.
+- **`js/eng-crosscheck.js`**: وحدة `cross-check` التي تقارن إجابة الموديل بالحساب الديتيرمنستيك للتحقق من الدقة الهندسية.
+- **`js/eng-pdf.js`**: تصدير PDF من نتائج الحاسبة على جانب العميل بصيغة صور A4 (بدون نص قابل للتحديد).
+- **`data/eng-tables.json`**: يحتوي على 22 جدولاً هندسياً لكل منها حقلا `status` و`source` (مستخرجة من مرايا عامة وبعضها يحمل الحالة `needs_review`).
+- **التشغيل الفعلي (Gemini API)**: تم تأكيد نجاح التشغيل الحقيقي بمفتاح Gemini حقيقي في كل من اختبار المفتاح وفي مهمة فعلية كاملة.
 
 ## التشغيل المحلي
 ```bash
