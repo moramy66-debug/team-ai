@@ -19,10 +19,10 @@ function isGroq(a){return a&&(a.id==='groq'||a.id==='groq2')}
 function showWho(){const a=agents();$('who').textContent=a.length?'الفريق: '+a.map(x=>x.name).join(' + '):'ضيف مفاتيح من الإعدادات الأول.';$('go').disabled=!a.length}
 
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-let abort=null;
+let abort=null;function proxyRoute(url){const c=typeof cfg==='function'?cfg():cfg;const raw=c?.proxyUrl;if(!raw)return url;const s=raw===true?'':String(raw).trim().replace(/\/+$/,'');if(raw!==true&&!String(raw).trim())return url;const map=[['https://generativelanguage.googleapis.com','gemini'],['https://api.anthropic.com','anthropic'],['https://api.groq.com','groq'],['https://openrouter.ai','openrouter'],['https://api.openai.com','openai']];for(const [origin,prov] of map){if(url.startsWith(origin))return s+'/proxy/'+prov+url.slice(origin.length)}return url}
 async function post(url,headers,body,signal){
  for(let t=0;t<6;t++){
-  const r=await fetch(url,{method:'POST',headers:{'content-type':'application/json',...headers},body:JSON.stringify(body),signal});
+  const r=await fetch(proxyRoute(url),{method:'POST',headers:{'content-type':'application/json',...headers},body:JSON.stringify(body),signal});
   if((r.status===429||r.status===503)&&!window.__fast){const w=Math.min(60,5*2**t);await sleep(w*1000);continue}
   const j=await r.json().catch(()=>({}));
   if(!r.ok)throw new Error((j.error?.message||j.error||r.statusText)+' ['+r.status+']');
@@ -57,7 +57,7 @@ function codeMentioned(c,tn){var al=[codeNorm(c.name),codeNorm(String(c.name).sp
 function codesLimit(a){var id=a&&a.id;return (id==='groq'||id==='groq2')?6000:id==='gemini'?40000:12000}
 function codesBlock(a){var L=LS.get('teamai.codes',[]).filter(function(c){return c.on!==false});if(!L.length)return '';var tot=codesLimit(a),tn=codeNorm(window.codesTask||'');var m=L.map(function(c){return codeMentioned(c,tn)});var any=m.some(Boolean);var w=m.map(function(x){return any?(x?6:1):1}),sw=w.reduce(function(p,q){return p+q},0);
 var o='\nReference codes and standards library (the user\'s authoritative sources. Comply with them, cite them by name and clause, and say so if something conflicts with or is not covered by them):\n';
-L.forEach(function(c,i){var t=(c.text||'').replace(/\s+/g,' ').trim(),per=Math.max(200,Math.floor(tot*w[i]/sw));o+='\n### '+c.name+(c.ver?' - latest: '+c.ver:'')+(any&&m[i]?' [referenced in the task]':'')+(t.length>per?' (excerpt, first '+per+' of '+t.length+' chars)':'')+'\n'+t.slice(0,per)+'\n'});return o}
+L.forEach(function(c,i){var t=(c.text||'').replace(/\s+/g,' ').trim(),per=Math.max(200,Math.floor(tot*w[i]/sw));o+='\n### '+c.name+(c.ver?' - latest: '+c.ver:'')+(any&&m[i]?' [referenced in the task]':'')+(t.length>per?' (excerpt, first '+per+' of '+t.length+' chars)':'')+'\n'+(window.TeamAICodeSearch?.extractRelevantChunks?window.TeamAICodeSearch.extractRelevantChunks(c.text||'',window.codesTask||'',per):t.slice(0,per))+'\n'});return o}
 function sys(a){const r=LS.get('teamai.rules','').trim(),m=LS.get('teamai.memory','').trim();let s=SYS;if(r)s+='\nStanding instructions from the user (apply to every task):\n'+r;if(m)s+='\nWhat the user\'s other AI tools remember about him (his imported memory):\n'+m;s+=codesBlock(a);return s}
 async function step(title,a,fn){const d=addStep(title,a.name);try{const r=await fn();doneStep(d,r);return r}catch(e){if(e.skip){d.remove();throw e}doneStep(d,e.message||String(e),true);throw e}}
 let noSkip=false;
@@ -74,7 +74,8 @@ async function stepF0(title,a,makeFn){
  }
 }
 
-async function askFiles(a,system,prompt,files){
+async function askStream(prov,sysPrompt,userPrompt,onChunk){const s=abort?.signal,H='https://';try{if(isGroq(prov)&&!noSkip&&estTok(sysPrompt+userPrompt)>5200){const e=new Error('oversize for Groq free limit');e.skip=true;throw e}let url,headers,body,mode;if(prov.id==='gemini'){mode='gemini';url=H+'generativelanguage'+'.googleapis.com/v1beta/models/'+encodeURIComponent(prov.model)+':streamGenerateContent?alt=sse';headers={'content-type':'application/json','x-goog-api-key':prov.key};body={contents:[{role:'user',parts:[{text:userPrompt}]}],systemInstruction:{parts:[{text:sysPrompt}]}}}else if(prov.id==='anthropic'){mode='anthropic';url=H+'api'+'.anthropic.com/v1/messages';headers={'content-type':'application/json','x-api-key':prov.key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'};body={model:prov.model,max_tokens:4096,stream:true,system:sysPrompt,messages:[{role:'user',content:userPrompt}]}}else{mode='openai';url=isGroq(prov)?H+'api'+'.groq.com/openai/v1/chat/completions':prov.id==='openrouter'?H+'openrouter'+'.ai/api/v1/chat/completions':H+'api'+'.openai.com/v1/chat/completions';headers={'content-type':'application/json','authorization':'Bearer '+prov.key};body={model:prov.model,stream:true,messages:[{role:'system',content:sysPrompt},{role:'user',content:userPrompt}]}}const r=await fetch(proxyRoute(url),{method:'POST',headers,body:JSON.stringify(body),signal:s});if(!r.ok||!r.body)throw new Error('stream failed ['+r.status+']');const reader=r.body.getReader(),dec=new TextDecoder();let buf='',full='';while(true){const{done,value}=await reader.read();if(done)break;buf+=dec.decode(value,{stream:true});const lines=buf.split('
+');buf=lines.pop()||'';for(const ln of lines){const line=ln.trim();if(!line.startsWith('data:'))continue;const data=line.slice(5).trim();if(!data||data==='[DONE]')continue;try{const j=JSON.parse(data);let delta='';if(mode==='gemini'){delta=(j.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('');if(j.modelVersion)window.__lm=j.modelVersion}else if(mode==='anthropic'){if(j.type==='content_block_delta'&&j.delta?.text)delta=j.delta.text}else{delta=j.choices?.[0]?.delta?.content||'';if(j.model)window.__lm=j.model}if(delta){full+=delta;if(typeof onChunk==='function')onChunk(delta,full)}}catch(_){}}}if(!full)throw new Error('empty stream');return full}catch(e){if(e?.name==='AbortError'||e?.skip)throw e;const res=await ask(prov,sysPrompt,userPrompt,false);if(typeof onChunk==='function')onChunk(res,res);return res}}window.askStream=askStream;async function askFiles(a,system,prompt,files){
  const s=abort?.signal;
  const parts=files.map(f=>({inlineData:{mimeType:f.mime,data:f.b64}}));
  parts.push({text:prompt});
