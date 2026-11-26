@@ -165,19 +165,27 @@
     return { title: 'Submittal Review', subtitle: rev.title || 'Technical submittal review', blocks: blocks, signature: true, fileBase: 'Submittal-Review' };
   }
 
+  function pickAgent(prompt) {
+    var A = window.agents(), pref = ['gemini', 'groq', 'groq2', 'openrouter', 'anthropic', 'openai'];
+    var fits = function (a) { try { return !(typeof window.isGroq === 'function' && window.isGroq(a) && typeof window.estTok === 'function' && window.estTok(prompt) > 5200); } catch (e) { return true; } };
+    var c = pref.map(function (id) { return A.filter(function (x) { return x.id === id; })[0]; }).filter(Boolean).filter(fits);
+    return c[0] || null;
+  }
+  function parseJson(raw) { try { var m = String(raw).match(/\{[\s\S]*\}/); return JSON.parse(m[0]); } catch (e) { return null; } }
+
   async function review(spec, offer, meta) {
     meta = meta || {};
     var rr = ruleReview(spec, offer), reqs = rr.reqs, items = rr.items, method = 'فحص آلي بالقواعد فقط (مطابقة نصية للمراجع والقيم والكلمات المفتاحية)، دون موديل ذكاء اصطناعي. النتيجة تقريبية وتحتاج مراجعة المهندس.', warnings = [];
     var a = null, G = window;
-    if (reqs.length && typeof G.agents === 'function' && typeof G.ask === 'function' && typeof G.pickVerifier === 'function') {
+    if (reqs.length && typeof G.agents === 'function' && typeof G.ask === 'function') {
       var off = String(offer), cut = off.length > 14000;
       if (cut) { off = off.slice(0, 14000); warnings.push('نص العرض أطول من 14000 حرف، وتمت مراجعة أول 14000 حرف فقط.'); }
       var prompt = buildPrompt(reqs, off, meta);
       try {
-        a = G.pickVerifier(prompt);
+        a = pickAgent(prompt);
         if (a) {
           var raw = await G.ask(a, 'You are a precise consultant engineer. Output valid JSON only.', prompt, true);
-          var j = G.parseJ ? G.parseJ(raw) : null;
+          var j = parseJson(raw);
           if (j && Array.isArray(j.items)) {
             items = mergeModel(j.items, reqs, offer, rr.items);
             method = 'مراجعة بموديل ' + a.name + ' مع التحقق من الاقتباسات، مدعومة بفحص آلي بالقواعد للبنود التي لم يغطها الموديل.';
