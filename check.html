@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Team AI - Pre-deploy check</title>
+<meta name="robots" content="noindex">
+<style>
+body{font:15px/1.5 system-ui,sans-serif;background:#0b0d12;color:#e6e9f0;margin:0;padding:20px;max-width:760px;margin-inline:auto}
+h1{font-size:20px;margin:0 0 4px}.sub{color:#8b93a7;margin-bottom:16px}
+.row{display:flex;gap:10px;padding:8px 12px;border:1px solid #232838;border-radius:10px;margin:6px 0;background:#121521}
+.ok b{color:#3ddc97}.bad b{color:#ff6b6b}.warn b{color:#ffc857}.row span{color:#9aa3b8;font-size:13px;word-break:break-word}
+#sum{font-size:18px;font-weight:700;margin:14px 0;padding:12px;border-radius:10px}
+#sum.ok{background:#12301f;color:#3ddc97}#sum.bad{background:#3a1616;color:#ff6b6b}
+button{background:#5b6cf0;color:#fff;border:0;border-radius:8px;padding:8px 14px;font:inherit;cursor:pointer}
+iframe{position:absolute;left:-9999px;width:1100px;height:800px;border:0}
+</style></head><body>
+<h1>Team AI - Pre-deploy check</h1>
+<div class="sub">Open this page after every edit. It checks the files that are live right now (cache bypassed). All rows must be green.</div>
+<button id="rerun">Run again</button>
+<div id="sum">Running...</div><div id="out"></div>
+<script>
+(function(){
+var out=document.getElementById('out'),sum=document.getElementById('sum'),fails=0,warns=0;
+function row(kind,title,detail){if(kind==='bad')fails++;if(kind==='warn')warns++;var d=document.createElement('div');d.className='row '+(kind==='ok'?'ok':kind==='warn'?'warn':'bad');d.innerHTML='<b>'+(kind==='ok'?'OK':kind==='warn'?'WARN':'FAIL')+'</b><div>'+esc(title)+(detail?'<br><span>'+esc(detail)+'</span>':'')+'</div>';out.appendChild(d)}
+function esc(s){return String(s).replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})}
+var NF='?nocache='+Date.now();
+async function get(u){var r=await fetch(u+(u.indexOf('?')<0?NF:'&nc='+Date.now()),{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);return r.text()}
+async function run(){
+ out.innerHTML='';fails=0;warns=0;sum.className='';sum.textContent='Running...';
+ var html,scripts=[];
+ try{html=await get('./index.html');row('ok','index.html loaded',html.length+' chars')}catch(e){row('bad','index.html failed to load',e.message);return done()}
+ var re=/<script[^>]*\ssrc="(\.\/[^"]+)"[^>]*>/g,m;while((m=re.exec(html)))scripts.push(m[1]);
+ if(!scripts.length)row('bad','No local scripts found in index.html');
+ var texts={};
+ for(var i=0;i<scripts.length;i++){var s=scripts[i];
+  try{var t=await get(s);texts[s]=t;try{new Function(t);row('ok','Syntax: '+s,t.length+' chars')}catch(e){row('bad','SYNTAX ERROR in '+s,e.message)}}
+  catch(e){row('bad','Cannot load '+s,e.message)}}
+ // combined, in load order (catches duplicate const/let declarations across files)
+ var order=scripts.filter(function(s){return texts[s]!=null&&/\.js$/.test(s)&&s.indexOf('storage-idb')<0&&s.indexOf('sanitize')<0}),all=order.map(function(s){return texts[s]}).join('\n;\n');
+ try{new Function(all);row('ok','Combined load order has no duplicate declarations',order.join(' > '))}catch(e){row('bad','Combined scripts conflict (duplicate declaration or cross-file error)',e.message)}
+ // service worker
+ try{var sw=await get('./sw.js');var v=(sw.match(/CACHE_NAME\s*=\s*'([^']+)'/)||[])[1];try{new Function(sw);row('ok','sw.js syntax OK, cache '+v)}catch(e){row('bad','sw.js syntax error',e.message)}
+  var miss=scripts.filter(function(s){return sw.indexOf(s.replace('./',''))<0&&sw.indexOf(s)<0});if(miss.length)row('warn','Not in the service worker precache list',miss.join(', '))}
+ catch(e){row('bad','sw.js failed to load',e.message)}
+ // run the real app in a hidden iframe and watch for runtime errors
+ await new Promise(function(res){
+  var errs=[],f=document.createElement('iframe');f.src='./index.html?check=1&t='+Date.now();document.body.appendChild(f);
+  var t0=setInterval(function(){try{if(f.contentWindow&&!f.contentWindow.__chk){f.contentWindow.__chk=1;f.contentWindow.addEventListener('error',function(e){errs.push(e.message+' @'+String(e.filename||'').split('/').pop()+':'+e.lineno)});f.contentWindow.addEventListener('unhandledrejection',function(e){errs.push('promise: '+(e.reason&&e.reason.message||e.reason))})}}catch(_){}},5);
+  f.onload=function(){setTimeout(function(){clearInterval(t0);try{
+   var w=f.contentWindow,d=f.contentDocument;
+   errs.length?row('bad','Runtime errors on load',errs.join(' | ')):row('ok','No runtime errors on load');
+   var need=['sendMail','mailPayload','wordReport','pdfReport','fmtPass','showResume','renderFinal','keepAwake','askFiles','ask'],miss=need.filter(function(n){return typeof w[n]!=='function'});
+   miss.length?row('bad','Missing functions',miss.join(', ')):row('ok','Core functions defined',need.join(', '));
+   var T=0;try{T=w.eval('TMPLS.length')}catch(e){}
+   T>=10?row('ok','Templates',T+' defined, '+d.querySelectorAll('#tmpls button, #tmplList button, .tmpl').length+' buttons rendered'):row('bad','Templates missing or fewer than 10',String(T));
+   var ids=['go','newBtn','setBtn','mailBtn','copy','resumeGo'],nb=ids.filter(function(i){var e=d.getElementById(i);return !e||!e.onclick});
+   nb.length?row('bad','Buttons not bound',nb.join(', ')):row('ok','Buttons bound',ids.join(', '));
+   var tb=d.querySelectorAll('.tst').length;tb?row('ok','Provider test buttons',String(tb)):row('warn','No provider test buttons rendered');
+   var lsOk=false;try{lsOk=typeof w.LS==='object'&&typeof w.LS.get==='function'}catch(e){}lsOk?row('ok','Storage wrapper (LS) available'):row('bad','Storage wrapper (LS) missing');
+   var ov=d.documentElement.scrollWidth>f.clientWidth+2;
+  }catch(e){row('bad','Check crashed',String(e))}
+  f.remove();res()},4000)}});
+ done()}
+function done(){if(fails){sum.className='bad';sum.textContent='NOT SAFE: '+fails+' problem(s). Do not trust the live site. Roll back the last edit.'}else{sum.className='ok';sum.textContent='ALL GOOD'+(warns?' ('+warns+' warning(s))':'')+' - safe to use.'}}
+document.getElementById('rerun').onclick=run;run();
+})();
+</script></body></html>
