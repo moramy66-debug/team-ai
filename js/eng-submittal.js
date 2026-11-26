@@ -15,10 +15,11 @@
   var SEV_LABEL = { critical: 'جوهرية', major: 'مهمة', minor: 'ثانوية' };
   var SEV_ORDER = { critical: 0, major: 1, minor: 2 };
   var CODES = {
-    A: 'A - معتمد (Approved)',
-    B: 'B - معتمد مع الملاحظات (Approved as Noted)',
-    C: 'C - يعاد التقديم بعد التعديل (Revise and Resubmit)',
-    D: 'D - مرفوض (Rejected)'
+    A: 'A: معتمد (بقبول)',
+    B: 'B: معتمد مع ملاحظات - إعادة التقديم غير ضرورية',
+    C: 'C: معتمد مع ملاحظات ويجب إعادة التقديم',
+    D: 'D: غير معتمد (مرفوض)',
+    E: 'E: بدون إجراء'
   };
 
   function norm(s) {
@@ -103,13 +104,18 @@
     return items.slice().sort(function (a, b) { return (SEV_ORDER[a.severity] - SEV_ORDER[b.severity]) || ((a.req || 0) - (b.req || 0)); });
   }
 
-  /* Proposed rule, shown in the UI: critical>=1 or major>=3 -> C; major 1-2 or any minor -> B; none -> A. D is manual only. */
-  function conclusion(items) {
+  /* Proposed mapping (adjustable on screen): none -> A; one major or minor only -> B (no resubmission);
+     any critical or 2+ major -> C (resubmission). D and E are manual choices only. */
+  var RULE = 'التوزيع المقترح (قابل للتعديل): لا ملاحظات = A. ملاحظات ثانوية فقط، أو ملاحظة مهمة واحدة = B (إعادة التقديم غير ضرورية). أي ملاحظة جوهرية، أو ملاحظتان مهمتان أو أكثر = C (يجب إعادة التقديم). الكودان D و E يختارهما المراجع يدويًا.';
+  function conclusion(items, manualCode) {
     var c = { critical: 0, major: 0, minor: 0 };
     items.forEach(function (i) { if (c[i.severity] != null) c[i.severity]++; });
-    var code = (c.critical >= 1 || c.major >= 3) ? 'C' : ((c.major >= 1 || c.minor >= 1) ? 'B' : 'A');
-    return { code: code, label: CODES[code], counts: c, rule: 'القاعدة المقترحة: ملاحظة جوهرية واحدة أو أكثر، أو 3 ملاحظات مهمة أو أكثر = C. ملاحظة أو ملاحظتان مهمتان أو أي ملاحظة ثانوية = B. لا ملاحظات = A. الكود D يحدده المراجع يدويًا. عدّل الكود حسب جدول الأكواد في العقد.' };
+    var code = (c.critical >= 1 || c.major >= 2) ? 'C' : ((c.major >= 1 || c.minor >= 1) ? 'B' : 'A');
+    var manual = !!(manualCode && CODES[manualCode] && manualCode !== code);
+    if (manual) code = manualCode;
+    return { code: code, label: CODES[code], counts: c, rule: RULE, manual: manual };
   }
+  function codesRows() { return Object.keys(CODES).map(function (k) { return [k, CODES[k].slice(3)]; }); }
 
   function buildPrompt(reqs, offer, meta) {
     var list = reqs.map(function (r) { return r.no + '. ' + r.text; }).join('\n');
@@ -156,7 +162,7 @@
     L.push('');
     L.push('ثانيًا: الخلاصة وكود الاعتماد');
     L.push('عدد المتطلبات التي تمت مراجعتها: ' + rev.reqCount + '. الملاحظات: جوهرية ' + rev.concl.counts.critical + '، مهمة ' + rev.concl.counts.major + '، ثانوية ' + rev.concl.counts.minor + '.');
-    L.push('كود الاعتماد المقترح: ' + rev.concl.label);
+    L.push('كود الاعتماد المقترح: ' + rev.concl.label + (rev.concl.manual ? ' (اختيار يدوي من المراجع)' : ''));
     L.push('يلزم على المقاول معالجة الملاحظات أعلاه وإعادة التقديم عند الحاجة قبل التوريد أو التنفيذ.');
     L.push('طريقة المراجعة: ' + rev.method);
     return L.join('\n');
@@ -164,9 +170,10 @@
 
   function pdfDoc(rev) {
     var rows = sortItems(rev.items).map(function (i, k) { return [String(k + 1), TYPE_LABEL[i.type] + ' / ' + SEV_LABEL[i.severity], 'المتطلب ' + i.req + ': ' + i.quote, i.finding + (i.verified ? '' : ' [يحتاج مراجعة يدوية]'), i.action]; });
-    var blocks = [{ type: 'summary', text: 'كود الاعتماد المقترح: ' + rev.concl.label + ' | جوهرية ' + rev.concl.counts.critical + ' | مهمة ' + rev.concl.counts.major + ' | ثانوية ' + rev.concl.counts.minor, ok: rev.concl.code === 'A' ? true : (rev.concl.code === 'B' ? undefined : false) }];
+    var blocks = [{ type: 'summary', text: 'كود الاعتماد المقترح: ' + rev.concl.label + ' | جوهرية ' + rev.concl.counts.critical + ' | مهمة ' + rev.concl.counts.major + ' | ثانوية ' + rev.concl.counts.minor, ok: rev.concl.code === 'A' ? true : ((rev.concl.code === 'C' || rev.concl.code === 'D') ? false : undefined) }];
     blocks.push({ type: 'text', heading: 'نطاق المراجعة', text: 'المستند: ' + (rev.title || '-') + '. عدد المتطلبات: ' + rev.reqCount + '. طريقة المراجعة: ' + rev.method + '. ' + rev.concl.rule });
     if (rows.length) blocks.push({ type: 'table', heading: 'ملاحظات المراجعة / Review remarks', columns: ['م', 'النوع', 'المتطلب', 'الملاحظة', 'الإجراء المطلوب'], rows: rows, widths: [0.05, 0.15, 0.24, 0.31, 0.25], rtl: true, fontSize: 19 });
+    blocks.push({ type: 'table', heading: 'أكواد الاعتماد / Approval codes', columns: ['الكود', 'المعنى'], rows: codesRows(), widths: [0.12, 0.88], rtl: true, fontSize: 20 });
     return { title: 'Submittal Review', subtitle: rev.title || 'Technical submittal review', blocks: blocks, signature: true, fileBase: 'Submittal-Review' };
   }
 
@@ -204,9 +211,10 @@
     return { items: items, reqCount: reqs.length, concl: concl, method: method, warnings: warnings, modelUsed: method.indexOf('بموديل') === 0 };
   }
 
-  window.EngSubmittal = { norm: norm, splitRequirements: splitRequirements, ruleReview: ruleReview, conclusion: conclusion, mergeModel: mergeModel, buildPrompt: buildPrompt, reportText: reportText, pdfDoc: pdfDoc, review: review, sortItems: sortItems, CODES: CODES };
+  window.EngSubmittal = { norm: norm, splitRequirements: splitRequirements, ruleReview: ruleReview, conclusion: conclusion, mergeModel: mergeModel, buildPrompt: buildPrompt, reportText: reportText, codesRows: codesRows, pdfDoc: pdfDoc, review: review, sortItems: sortItems, CODES: CODES };
 
   /* ---------------- UI ---------------- */
+  var S_CODES = CODES;
   function register() {
     if (typeof document === 'undefined' || !window.EngUI || typeof window.EngUI.registerTab !== 'function') return false;
     var h = window.EngUI.helpers, el = h.el;
@@ -242,9 +250,19 @@
       function render(rev) {
         out.innerHTML = '';
         rev.warnings.forEach(function (w) { out.appendChild(el('div', 'ec-warn', w)); });
-        var cls = rev.concl.code === 'A' ? 'ec-cx ec-cx-ok' : 'ec-cx ec-cx-warn';
-        out.appendChild(el('div', cls, 'كود الاعتماد المقترح: ' + rev.concl.label + ' | جوهرية ' + rev.concl.counts.critical + ' | مهمة ' + rev.concl.counts.major + ' | ثانوية ' + rev.concl.counts.minor));
+        var cls = (rev.concl.code === 'A' || rev.concl.code === 'B') ? 'ec-cx ec-cx-ok' : 'ec-cx ec-cx-warn';
+        out.appendChild(el('div', cls, (rev.concl.manual ? 'كود الاعتماد (يدوي): ' : 'كود الاعتماد المقترح: ') + rev.concl.label + ' | جوهرية ' + rev.concl.counts.critical + ' | مهمة ' + rev.concl.counts.major + ' | ثانوية ' + rev.concl.counts.minor));
         out.appendChild(el('div', 'ec-summary', rev.method + ' ' + rev.concl.rule));
+        var cw = el('div', 'ec-field'), cl = el('label', null, 'Approval code (adjust manually if needed)'); cl.setAttribute('for', 'ec-sb-code');
+        var cs = document.createElement('select'); cs.id = 'ec-sb-code';
+        cs.style.cssText = 'width:100%;min-height:44px;padding:8px 10px;border-radius:8px;border:1px solid var(--line,#2a3347);background:var(--bg,#0b1020);color:var(--tx,#e5e7eb);font-size:14px;box-sizing:border-box;';
+        Object.keys(S_CODES).forEach(function (k) { var o = document.createElement('option'); o.value = k; o.textContent = S_CODES[k]; if (k === rev.concl.code) o.selected = true; cs.appendChild(o); });
+        cs.addEventListener('change', function () { rev.concl = conclusion(rev.items, cs.value); render(rev); });
+        cw.appendChild(cl); cw.appendChild(cs); out.appendChild(cw);
+        var tb = el('div', 'ec-summary'); tb.style.direction = 'rtl'; tb.style.textAlign = 'right';
+        tb.appendChild(el('div', null, 'أكواد الاعتماد:')); tb.firstChild.style.fontWeight = '700';
+        codesRows().forEach(function (r) { tb.appendChild(el('div', null, r[0] + ' = ' + r[1])); });
+        out.appendChild(tb);
         var items = sortItems(rev.items);
         if (!items.length) out.appendChild(el('div', 'ec-ok', 'لم تظهر ملاحظات على ' + rev.reqCount + ' متطلب.'));
         items.forEach(function (i, k) {
