@@ -50,7 +50,7 @@
   function unitValues(text) {
     var out = [], t = String(text).replace(/[٠-٩]/g, function (d) { return String(d.charCodeAt(0) - 1632); }), m;
     UNIT_RE.lastIndex = 0;
-    while ((m = UNIT_RE.exec(t))) out.push({ v: parseFloat(m[1]), u: m[2].replace('²', '2').toLowerCase() });
+    while ((m = UNIT_RE.exec(t))) out.push({ v: parseFloat(m[1]), u: m[2].replace('²', '2').toLowerCase(), ud: m[2] });
     return out;
   }
   function wordsOf(t) {
@@ -73,7 +73,7 @@
       if (same.some(function (o) { return o.v === x.v; })) return;
       if (min && same.some(function (o) { return o.v >= x.v; })) return;
       if (max && same.some(function (o) { return o.v <= x.v; })) return;
-      if (same.length) uvBad.push({ x: x, found: same.map(function (o) { return o.v + ' ' + o.u; }) });
+      if (same.length) uvBad.push({ x: x, found: same.map(function (o) { return o.v + ' ' + o.ud; }) });
       else uvNo.push(x);
     });
     var ws = wordsOf(t), hit = ws.filter(function (w) { return offerNorm.indexOf(w) >= 0; }).length, cov = ws.length ? hit / ws.length : 0;
@@ -81,8 +81,8 @@
     var q = { no: req.no, clause: req.clause, quote: t };
     if (stdMissing.length) issues.push(mk(req, 'missing', req.mandatory ? 'critical' : 'major', 'المرجع القياسي المطلوب (' + (t.match(STD_RE) || []).join('، ') + ') غير مذكور في العرض المقدم.', 'يلزم تأكيد المطابقة مع المرجع المذكور وتقديم شهادة اختبار أو بيان مطابقة معتمد.'));
     if (ipMissing.length) issues.push(mk(req, 'missing', req.mandatory ? 'critical' : 'major', 'درجة الحماية المطلوبة (' + (t.match(IP_RE) || []).join('، ') + ') غير مذكورة في العرض.', 'يلزم تقديم Datasheet يوضح درجة الحماية المطلوبة.'));
-    uvBad.forEach(function (b) { issues.push(mk(req, 'deviation', req.mandatory ? 'major' : 'minor', 'المتطلب يحدد القيمة ' + b.x.v + ' ' + b.x.u + '، بينما يذكر العرض لنفس الوحدة القيم: ' + b.found.join('، ') + '، ولا يتضمن القيمة المطلوبة.', 'يلزم توضيح القيمة المعتمدة وتقديم المستند الداعم، وإلا تُعدّ مخالفة للمواصفات.')); });
-    uvNo.forEach(function (x) { issues.push(mk(req, 'missing', req.mandatory ? 'critical' : 'major', 'القيمة المطلوبة ' + x.v + ' ' + x.u + ' غير مذكورة في العرض المقدم.', 'يلزم تقديم البيانات الفنية التي تثبت استيفاء هذه القيمة.')); });
+    uvBad.forEach(function (b) { issues.push(mk(req, 'deviation', req.mandatory ? 'major' : 'minor', 'المتطلب يحدد القيمة ' + b.x.v + ' ' + b.x.ud + '، بينما يذكر العرض لنفس الوحدة القيم: ' + b.found.join('، ') + '، ولا يتضمن القيمة المطلوبة.', 'يلزم توضيح القيمة المعتمدة وتقديم المستند الداعم، وإلا تُعدّ مخالفة للمواصفات.')); });
+    uvNo.forEach(function (x) { issues.push(mk(req, 'missing', req.mandatory ? 'critical' : 'major', 'القيمة المطلوبة ' + x.v + ' ' + x.ud + ' غير مذكورة في العرض المقدم.', 'يلزم تقديم البيانات الفنية التي تثبت استيفاء هذه القيمة.')); });
     if (!issues.length) {
       if (!hasTok && cov < 0.2) issues.push(mk(req, 'missing', req.mandatory ? 'critical' : 'major', 'لم يتم العثور في العرض المقدم على ما يفي بهذا المتطلب.', 'يلزم تقديم ما يثبت المطابقة (كتالوج أو Datasheet أو شهادة اختبار).'));
       else if (!hasTok && cov < 0.5) issues.push(mk(req, 'clarification', 'minor', 'العرض يتناول هذا المتطلب جزئيًا فقط، ولا يظهر استيفاؤه بوضوح.', 'يلزم توضيح المطابقة بند ببند مع المرجع في المستند المقدم.'));
