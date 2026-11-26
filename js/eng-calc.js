@@ -54,7 +54,7 @@
     if (used.some(function (u) { return u.status === 'verified_mirror' || u.status === 'verified_secondary'; })) {
       w.push('الأرقام من نسخة منشورة للجداول (مش من الكود الرسمي المدفوع). راجعها مع IEC 60364-5-52 / BS 7671 قبل الاعتماد في تصميم مختوم.');
     }
-    return w;
+    return w.filter(function (x, i) { return w.indexOf(x) === i; });
   }
 
   /* ---------- design current ---------- */
