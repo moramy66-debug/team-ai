@@ -463,10 +463,51 @@
       topbar.appendChild(bkBtn);
     }
   }
-
+  function openHelpModal() {
+var id = 'ptHelpBackdrop';
+var el = document.getElementById(id);
+if (!el) {
+el = document.createElement('div');
+el.id = id;
+el.className = 'pt-backdrop';
+el.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:9999;display:none;align-items:center;justify-content:center;padding:16px;';
+el.innerHTML = '<div class="pt-modal" role="dialog" aria-modal="true" aria-labelledby="ptHelpTitle" style="max-width:520px;width:100%;direction:rtl;">' +
+'<div class="pt-head"><h3 id="ptHelpTitle">الدليل السريع للاستخدام</h3>' +
+'<button type="button" class="pt-close" id="ptHelpClose" aria-label="إغلاق">×</button></div>' +
+'<div class="pt-body">' +
+'<ol class="pt-help-list" style="margin:0;padding-inline-start:20px;line-height:1.85;">' +
+'<li><strong>إضافة مفتاح API:</strong> افتح الإعدادات وأدخل مفتاح Gemini API لتفعيل التحليل والبث المباشر.</li>' +
+'<li><strong>رفع الأكواد الهندسية:</strong> من مكتبة الأكواد اختر الكود المعتمد أو ارفع ملفاتك الهندسية المرجعية.</li>' +
+'<li><strong>استخدام الحاسبة والترويسة:</strong> استخدم الحاسبة للحسابات الهندسية السريعة، والترويسة لإضافة اسم وشعار مكتبك.</li>' +
+'<li><strong>النسخ الاحتياطي:</strong> صدّر واستورد القواعد والأكواد والسجل والترويسة كملف JSON للحفظ والاستعادة.</li>' +
+'</ol>' +
+'</div></div>';
+document.body.appendChild(el);
+el.addEventListener('click', function (e) { if (e.target === el) { el.classList.remove('open'); el.style.display = 'none'; } });
+document.getElementById('ptHelpClose').addEventListener('click', function () { el.classList.remove('open'); el.style.display = 'none'; });
+}
+el.classList.add('open');
+el.style.display = 'flex';
+}
+function initHelpGuide() {
+var topbar = document.querySelector('.topbar');
+if (topbar && !document.getElementById('helpBtn')) {
+var hBtn = document.createElement('button');
+hBtn.id = 'helpBtn';
+hBtn.type = 'button';
+hBtn.className = 'sec';
+hBtn.title = 'الدليل السريع';
+hBtn.setAttribute('aria-label', 'الدليل السريع');
+hBtn.textContent = '?';
+hBtn.addEventListener('click', openHelpModal);
+topbar.appendChild(hBtn);
+}
+}
+  
   function init() {
     injectStyles();
     addTopbarButtons();
+initHelpGuide();
     buildModal();
     wrapReportHTML();
     setTimeout(wrapReportHTML, 400);
