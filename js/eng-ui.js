@@ -6,6 +6,7 @@
   var BTN_ID = 'ec-topbar-btn';
   var activeTab = 'cable';
   var lastReportText = '';
+  var lastResult = null;
   var tablesReady = false;
 
   function injectStyles() {
@@ -176,9 +177,10 @@
     lines.push(res.summary || '', '', 'الخطوة | المعادلة | التعويض | النتيجة');
     (res.steps || []).forEach(function (st) { lines.push(st.step + ' | ' + st.formula + ' | ' + st.substitution + ' | ' + st.result); });
     lastReportText = lines.join('\n');
+    lastResult = { title: title, res: res };
   }
 
-  function renderResultActions(container, statusNode) {
+  function renderResultActions(container, statusNode, pdfDocFn) {
     var row = el('div', 'ec-actions');
     var copyBtn = el('button', 'ec-btn ec-btn-sec', 'Copy');
     copyBtn.type = 'button';
@@ -217,6 +219,19 @@
 
     row.appendChild(copyBtn);
     row.appendChild(insertBtn);
+    var snap = lastResult;
+    var pdfBtn = el('button', 'ec-btn ec-btn-sec', 'PDF');
+    pdfBtn.type = 'button';
+    pdfBtn.addEventListener('click', function () {
+      if (!window.EngPDF) { statusNode.textContent = 'وحدة PDF غير محملة.'; return; }
+      try {
+        var doc = pdfDocFn ? pdfDocFn() : (snap ? window.EngPDF.docFromResult(snap.title, snap.res) : null);
+        if (!doc) { statusNode.textContent = 'مفيش نتيجة للتصدير.'; return; }
+        var name = window.EngPDF.download(doc);
+        statusNode.textContent = 'تم إنشاء الملف: ' + name;
+      } catch (e) { statusNode.textContent = 'تعذر إنشاء PDF: ' + (e && e.message ? e.message : e); }
+    });
+    row.appendChild(pdfBtn);
     container.appendChild(row);
   }
 
