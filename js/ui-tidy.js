@@ -25,7 +25,7 @@
       '#utMoreWrap { position: relative; display: inline-flex; align-items: center; margin-inline-start: auto; }',
       '#utMoreBtn { min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 0 12px; cursor: pointer; box-sizing: border-box; }',
       '#utMoreBtn svg { width: 18px; height: 18px; flex-shrink: 0; }',
-      '#utMoreMenu { position: absolute; top: calc(100% + 6px); inset-inline-end: 0; min-width: 210px; max-width: calc(100vw - 24px); background: var(--card, #111827); border: 1px solid var(--border, rgba(255,255,255,0.16)); border-radius: 10px; padding: 6px; box-shadow: 0 10px 28px rgba(0,0,0,0.35); z-index: 1200; display: none; flex-direction: column; gap: 4px; box-sizing: border-box; }',
+      '#utMoreMenu { position: fixed; top: 60px; left: 8px; min-width: 210px; max-width: calc(100vw - 24px); background: var(--card, #111827); border: 1px solid var(--border, rgba(255,255,255,0.16)); border-radius: 10px; padding: 6px; box-shadow: 0 10px 28px rgba(0,0,0,0.35); z-index: 1200; display: none; flex-direction: column; gap: 4px; box-sizing: border-box; }',
       '#utMoreMenu.open { display: flex; }',
       '#utMoreMenu button, #utMoreMenu a { min-height: 44px; width: 100%; display: flex; align-items: center; justify-content: flex-start; gap: 8px; padding: 8px 12px; border-radius: 8px; box-sizing: border-box; margin: 0; }',
       '#utTmplFilters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; max-width: 100%; box-sizing: border-box; }',
@@ -109,6 +109,13 @@
       function toggleMenu(e) {
         if (e) e.stopPropagation();
         var isOpen = menu.classList.toggle('open');
+        if (isOpen) {
+          var br = btn.getBoundingClientRect();
+          var mw = Math.max(210, menu.offsetWidth || 210);
+          var left = Math.min(Math.max(8, br.right - mw), window.innerWidth - mw - 8);
+          menu.style.top = (br.bottom + 6) + 'px';
+          menu.style.left = Math.max(8, left) + 'px';
+        }
         btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
       }
 
