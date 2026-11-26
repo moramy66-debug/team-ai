@@ -66,6 +66,45 @@ eq('ambient 30C = 1', cg.factors.ca, 1);
 // Case 6: power input 3ph: P=30 kW, V=400, PF 0.85 -> Ib=30000/(1.73205*400*0.85)=50.944
 var cp = C.cableSizing({ phases: 3, powerKW: 30, voltageV: 400, powerFactor: 0.85, conductor: 'Al', insulation: 'XLPE', method: 'ground', ambientC: 20, circuits: 1 });
 eq('Ib from kW ~50.94', cp.designCurrentA, 50.94, 0.01);
+// ---- Buried grouping (B.52.18 direct D2, B.52.19 ducts D1), values read by hand from the tables ----
+function cgOf(o) { return C.cableSizing(Object.assign({ phases: 3, currentA: 30, conductor: 'Cu', insulation: 'XLPE', ambientC: 20 }, o)).factors.cg; }
+eq('D2 3 circuits touching = 0.65', cgOf({ method: 'ground', circuits: 3 }), 0.65);
+eq('D2 3 circuits 0.25 m = 0.80', cgOf({ method: 'ground', circuits: 3, spacing: '0.25' }), 0.8);
+eq('D2 4 circuits one diameter = 0.60', cgOf({ method: 'ground', circuits: 4, spacing: 'one_diameter' }), 0.6);
+eq('D2 10 circuits -> next listed (12) touching = 0.36', cgOf({ method: 'ground', circuits: 10 }), 0.36);
+eq('D2 1 circuit = 1', cgOf({ method: 'ground', circuits: 1 }), 1);
+eq('D1 multicore 4 ducts 0.5 m = 0.85', cgOf({ method: 'duct', circuits: 4, spacing: '0.5' }), 0.85);
+eq('D1 single-core 3 ducts touching = 0.70', cgOf({ method: 'duct', circuits: 3, ductCable: 'single' }), 0.7);
+var thr = false; try { cgOf({ method: 'duct', circuits: 3, spacing: 'one_diameter' }); } catch (e) { thr = true; }
+eq('D1 with spacing one_diameter throws (not in B.52.19)', thr, true);
+var sus = C.cableSizing({ phases: 3, currentA: 30, conductor: 'Cu', insulation: 'XLPE', method: 'ground', ambientC: 20, circuits: 16, spacing: '0.5' });
+has('suspect mirror cell is flagged', sus.warnings, 'غير متسق');
+eq('buried sizing uses table B.52.5 col D2 (not estimate)', sus.steps.filter(function (x) { return x.step === 'معامل التجميع Cg'; })[0].formula.indexOf('B.52.18') >= 0, true);
+
+// ---- Short circuit: I2t <= k2 S2 ----
+// 4 mm2 XLPE Cu: k=143 -> 143^2*16 = 20449*16 = 327,184 A2s (Schneider G53: 0.3272e6)
+var sc1 = C.shortCircuit({ size_mm2: 4, conductor: 'Cu', insulation: 'XLPE', iscKA: 10, letThroughKA2s: 0.05 });
+eq('4mm2 XLPE Cu withstand = 327184', sc1.withstandA2s, 327184);
+eq('let-through 0.05 kA2s passes', sc1.ok, true);
+// Smin = sqrt(50000)/143 = 223.607/143 = 1.5637
+eq('Smin = 1.56', sc1.minSizeMm2, 1.56, 0.01);
+eq('k table status passes through', sc1.table.status, 'verified_secondary');
+var sc2 = C.shortCircuit({ size_mm2: 4, conductor: 'Cu', insulation: 'XLPE', iscKA: 10, letThroughKA2s: 0.5 });
+eq('let-through 0.5 kA2s fails (5e5 > 327184)', sc2.ok, false);
+// 1.5 mm2 PVC Cu: 115^2*2.25 = 13225*2.25 = 29756.25 (Schneider G53: 0.0297e6)
+eq('1.5mm2 PVC Cu withstand = 29756.25', C.shortCircuit({ size_mm2: 1.5, insulation: 'PVC', conductor: 'Cu', iscKA: 6, letThroughKA2s: 0.01 }).withstandA2s, 29756.25, 0.01);
+// 4 mm2 PVC Cu, Isc 10 kA, t 0.1 s: I2t = 1e8*0.1 = 1e7; withstand 211,600 -> fail; Smin = sqrt(1e7)/115 = 27.50; tmax = 211600/1e8 = 0.002116
+var sc3 = C.shortCircuit({ size_mm2: 4, insulation: 'PVC', conductor: 'Cu', iscKA: 10, clearingTimeS: 0.1 });
+eq('time basis I2t = 1e7', sc3.letThroughA2s, 1e7, 1);
+eq('time basis fails', sc3.ok, false);
+eq('Smin = 27.50', sc3.minSizeMm2, 27.5, 0.01);
+eq('tmax = 0.002 s', sc3.maxTimeS, 0.002, 0.0005);
+// 4 mm2 Al XLPE: 94^2*16 = 8836*16 = 141,376
+eq('Al XLPE k=94', C.shortCircuit({ size_mm2: 4, insulation: 'XLPE', conductor: 'Al', iscKA: 5, letThroughKA2s: 0.01 }).withstandA2s, 141376);
+has('time basis flagged as an estimate', sc3.warnings, 'تقدير');
+var thr2 = false; try { C.shortCircuit({ size_mm2: 4, iscKA: 5 }); } catch (e) { thr2 = true; }
+eq('no let-through and no time throws', thr2, true);
+
 // Error cases
 var threw = false; try { C.cableSizing({ conductor: 'Cu' }); } catch (e) { threw = true; }
 eq('missing current/power throws', threw, true);
