@@ -1,323 +1,294 @@
+/* Team AI engineering calculators (deterministic, no model calls).
+   Reads the tables from window.EngTables (data/eng-tables.json). Pure functions:
+   every result carries steps (formula, substitution, result), warnings and tablesUsed. */
 (function () {
   'use strict';
 
-  function getTablesApi(tablesApi) {
-    var api = tablesApi || window.EngTables;
-    if (!api || typeof api.get !== 'function') {
-      throw new Error('EngTables is not available. Load js/eng-tables.js first.');
+  function isNum(x) { return typeof x === 'number' && isFinite(x); }
+  function pos(x) { return isNum(x) && x > 0; }
+  function r2(x) { return Math.round(x * 100) / 100; }
+  function r3(x) { return Math.round(x * 1000) / 1000; }
+  function f(x, d) { return Number(x).toFixed(d === undefined ? 2 : d); }
+
+  function api(tablesApi) {
+    var a = tablesApi || window.EngTables;
+    if (!a || typeof a.get !== 'function' || typeof a.meta !== 'function') {
+      throw new Error('جداول الهندسة غير محملة (EngTables).');
     }
-    return api;
+    return a;
   }
 
-  function requireTable(api, name) {
-    var tbl = api.get(name);
-    if (!tbl || !Array.isArray(tbl.rows)) {
-      throw new Error('Engineering table not loaded or missing: ' + name);
-    }
-    return tbl;
+  function need(a, id) {
+    var t = a.get(id);
+    if (!t) throw new Error('الجدول غير موجود في ملف البيانات: ' + id);
+    return t;
   }
 
-  function resolveAmpacityTableName(opts) {
-    if (opts.tableName) {
-      return opts.tableName;
-    }
-    var ins = String(opts.insulation || 'XLPE').toLowerCase();
-    var cond = String(opts.conductor || 'Cu').toLowerCase();
-    var cores = Number(opts.cores || (Number(opts.phases) === 1 ? 2 : 3));
-    var method = String(opts.method || 'air').toLowerCase();
-    return 'cable_ampacity_' + ins + '_' + cond + '_' + cores + 'c_' + method;
+  function col(t, name) {
+    var i = (t.columns || []).indexOf(name);
+    if (i < 0) throw new Error('العمود غير موجود في الجدول: ' + name);
+    return i;
   }
 
-  function getAmbientFactor(api, method, ambientC, insulation) {
-    var factorName = String(method || 'air').toLowerCase() === 'ground'
-      ? 'ambient_ground'
-      : 'ambient_air';
-    var tbl = requireTable(api, factorName);
-    var insKey = String(insulation || 'XLPE').toLowerCase();
-    var refTemp = tbl.conditions && typeof tbl.conditions.reference_ambient_c === 'number'
-      ? tbl.conditions.reference_ambient_c
-      : null;
-    var targetTemp = typeof ambientC === 'number' && !isNaN(ambientC) ? ambientC : refTemp;
-
-    var sorted = tbl.rows.slice().sort(function (a, b) {
-      return a.temp_c - b.temp_c;
-    });
-
-    var row = sorted.find(function (r) {
-      return r.temp_c === targetTemp;
-    });
-    if (!row && typeof targetTemp === 'number') {
-      row = sorted.find(function (r) {
-        return r.temp_c >= targetTemp;
-      }) || sorted[sorted.length - 1];
+  function useTable(used, a, id) {
+    var m = a.meta(id) || {};
+    if (!used.some(function (u) { return u.id === id; })) {
+      used.push({ id: id, source: m.source || '', status: m.status || 'unknown', title: m.title || '' });
     }
-    if (!row || typeof row[insKey] !== 'number') {
-      throw new Error('Ambient factor not found in ' + factorName + ' for ' + insKey + ' at ' + targetTemp);
-    }
-    return { factor: row[insKey], temp_c: row.temp_c, table: api.meta(factorName) };
+    return m;
   }
 
-  function getGroupingFactor(api, circuits) {
-    var tbl = requireTable(api, 'grouping');
-    var count = typeof circuits === 'number' && circuits >= 1 ? Math.round(circuits) : 1;
-    var sorted = tbl.rows.slice().sort(function (a, b) {
-      return a.circuits - b.circuits;
-    });
-    var row = sorted.find(function (r) {
-      return r.circuits === count;
-    });
-    if (!row) {
-      row = count > sorted[sorted.length - 1].circuits
-        ? sorted[sorted.length - 1]
-        : sorted[0];
-    }
-    return { factor: row.value, circuits: row.circuits, table: api.meta('grouping') };
+  function isVerified(status) {
+    return String(status || '').indexOf('verified') === 0;
   }
 
-  function computeDesignCurrent(opts) {
-    if (typeof opts.currentA === 'number' && !isNaN(opts.currentA) && opts.currentA > 0) {
-      return opts.currentA;
-    }
-    if (typeof opts.designCurrentA === 'number' && !isNaN(opts.designCurrentA) && opts.designCurrentA > 0) {
-      return opts.designCurrentA;
-    }
-    if (typeof opts.powerKw === 'number' && opts.powerKw > 0) {
-      var phases = Number(opts.phases || 3);
-      var voltageV = Number(opts.voltageV || (phases === 1 ? 230 : 400));
-      var pf = typeof opts.powerFactor === 'number' && opts.powerFactor > 0 ? opts.powerFactor : 0.85;
-      var denom = phases === 1 ? (voltageV * pf) : (Math.sqrt(3) * voltageV * pf);
-      return (opts.powerKw * 1000) / denom;
-    }
-    throw new Error('Provide positive currentA (or powerKw with voltageV).');
-  }
-
-  function voltageDrop(input, tablesApi) {
-    var opts = input || {};
-    var api = getTablesApi(tablesApi);
-    var size = Number(opts.size_mm2);
-    var currentA = Number(opts.currentA);
-    var lengthM = Number(opts.lengthM);
-    var phases = Number(opts.phases || 3);
-    var voltageV = Number(opts.voltageV || (phases === 1 ? 230 : 400));
-    var conductor = String(opts.conductor || 'Cu');
-    var insulation = String(opts.insulation || 'XLPE').toUpperCase();
-    var pf = typeof opts.powerFactor === 'number' ? opts.powerFactor : 0.85;
-    var method = String(opts.method || 'auto').toLowerCase();
-
-    if (!(size > 0) || !(currentA > 0) || !(lengthM > 0) || !(voltageV > 0)) {
-      throw new Error('voltageDrop requires positive size_mm2, currentA, lengthM, and voltageV.');
-    }
-
-    if (method === 'mv_a_m' || method === '4d1b') {
-      var mvTableName = 'vdrop_mv_a_m_4d1b';
-      requireTable(api, mvTableName);
-      var mvRow = api.lookup(mvTableName, 'size_mm2', size);
-      if (!mvRow) {
-        throw new Error('Size ' + size + ' mm2 not found in ' + mvTableName);
+  function buildWarnings(used, extra) {
+    var w = (extra || []).slice();
+    used.forEach(function (u) {
+      if (!isVerified(u.status)) {
+        w.push('الجدول ' + u.id + ' حالته ' + u.status + ': مش من مصدر متأكد منه، لازم مراجعة قبل أي اعتماد.');
+      } else if (u.status === 'verified_mirror_old_edition') {
+        w.push('الجدول ' + u.id + ' من إصدار قديم، راجع الإصدار الحالي.');
       }
-      var mvKey = phases === 1 ? 'mv_1ph' : 'mv_3ph';
-      var mvVal = mvRow[mvKey];
-      var vdropMv = (mvVal * currentA * lengthM) / 1000;
-      return {
-        size_mm2: size,
-        vdropV: Number(vdropMv.toFixed(3)),
-        vdropPct: Number(((vdropMv / voltageV) * 100).toFixed(3)),
-        voltageV: voltageV,
-        phases: phases,
-        conductor: conductor,
-        methodUsed: mvTableName,
-        table: api.meta(mvTableName)
-      };
+    });
+    if (used.some(function (u) { return u.status === 'verified_mirror' || u.status === 'verified_secondary'; })) {
+      w.push('الأرقام من نسخة منشورة للجداول (مش من الكود الرسمي المدفوع). راجعها مع IEC 60364-5-52 / BS 7671 قبل الاعتماد في تصميم مختوم.');
     }
-
-    var resTableName = 'conductor_resistance_iec60228';
-    var resTbl = requireTable(api, resTableName);
-    var conds = resTbl.conditions || {};
-    var resRow = api.lookup(resTableName, 'size_mm2', size);
-    var condKey = conductor.toLowerCase() === 'al' ? 'r20_al' : 'r20_cu';
-    if (!resRow || typeof resRow[condKey] !== 'number') {
-      throw new Error('Resistance not available for ' + conductor + ' ' + size + ' mm2 in ' + resTableName);
-    }
-
-    var r20 = resRow[condKey];
-    var refTempC = typeof conds.temp_c === 'number' ? conds.temp_c : 20;
-    var defaultOpTempC = typeof opts.operatingTempC === 'number'
-      ? opts.operatingTempC
-      : (insulation === 'PVC' ? 70 : 90);
-    var alpha = conductor.toLowerCase() === 'al'
-      ? Number(conds.alpha_al)
-      : Number(conds.alpha_cu);
-    var x = typeof opts.reactanceOhmKm === 'number'
-      ? opts.reactanceOhmKm
-      : Number(conds.reactance_default_ohm_km);
-
-    var rOp = r20 * (1 + alpha * (defaultOpTempC - refTempC));
-    var sinPhi = Math.sqrt(Math.max(0, 1 - pf * pf));
-    var kPhase = phases === 1 ? 2 : Math.sqrt(3);
-    var vdropV = kPhase * currentA * (lengthM / 1000) * (rOp * pf + x * sinPhi);
-
-    return {
-      size_mm2: size,
-      vdropV: Number(vdropV.toFixed(3)),
-      vdropPct: Number(((vdropV / voltageV) * 100).toFixed(3)),
-      voltageV: voltageV,
-      phases: phases,
-      conductor: conductor,
-      operatingTempC: defaultOpTempC,
-      rOpOhmKm: Number(rOp.toFixed(4)),
-      xOhmKm: x,
-      methodUsed: resTableName,
-      table: api.meta(resTableName)
-    };
+    return w;
   }
 
-  function cableSizing(input, tablesApi) {
-    var opts = input || {};
-    var api = getTablesApi(tablesApi);
-    var designCurrentA = computeDesignCurrent(opts);
-    var tableName = resolveAmpacityTableName(opts);
-    var tbl = requireTable(api, tableName);
-
-    var caInfo = getAmbientFactor(api, opts.method || 'air', opts.ambientC, opts.insulation || 'XLPE');
-    var cgInfo = getGroupingFactor(api, opts.circuits);
-    var combinedFactor = caInfo.factor * cgInfo.factor;
-    var requiredBaseAmpacityA = designCurrentA / combinedFactor;
-
-    var sortedRows = tbl.rows.slice().sort(function (a, b) {
-      return a.size_mm2 - b.size_mm2;
-    });
-
-    var checkVdrop = typeof opts.lengthM === 'number' && opts.lengthM > 0 &&
-      typeof opts.maxVdropPct === 'number' && opts.maxVdropPct > 0;
-
-    var selectedRow = null;
-    var selectedVdrop = null;
-
-    for (var i = 0; i < sortedRows.length; i += 1) {
-      var row = sortedRows[i];
-      if (row.value < requiredBaseAmpacityA) {
-        continue;
-      }
-      if (checkVdrop) {
-        var vd = voltageDrop({
-          size_mm2: row.size_mm2,
-          currentA: designCurrentA,
-          lengthM: opts.lengthM,
-          voltageV: opts.voltageV,
-          phases: opts.phases || (Number(opts.cores) === 2 ? 1 : 3),
-          conductor: opts.conductor || 'Cu',
-          insulation: opts.insulation || 'XLPE',
-          powerFactor: opts.powerFactor,
-          operatingTempC: opts.operatingTempC
-        }, api);
-        if (vd.vdropPct > opts.maxVdropPct) {
-          continue;
-        }
-        selectedVdrop = vd;
-      }
-      selectedRow = row;
-      break;
+  /* ---------- design current ---------- */
+  function designCurrent(o, steps) {
+    var phases = Number(o.phases) === 1 ? 1 : 3;
+    var V = pos(o.voltageV) ? o.voltageV : (phases === 1 ? 230 : 400);
+    var pf = pos(o.powerFactor) && o.powerFactor <= 1 ? o.powerFactor : 0.85;
+    var P = pos(o.powerKW) ? o.powerKW : (pos(o.powerKw) ? o.powerKw : null);
+    var Ib;
+    if (pos(o.currentA)) {
+      Ib = o.currentA;
+      steps.push({ step: 'تيار التصميم Ib', formula: 'Ib = I (مدخل)', substitution: 'I = ' + f(Ib) + ' A', result: f(Ib) + ' A', value: Ib, unit: 'A' });
+    } else if (P) {
+      Ib = phases === 1 ? (P * 1000) / (V * pf) : (P * 1000) / (Math.sqrt(3) * V * pf);
+      steps.push({
+        step: 'تيار التصميم Ib',
+        formula: phases === 1 ? 'Ib = P x 1000 / (V x PF)' : 'Ib = P x 1000 / (sqrt(3) x V x PF)',
+        substitution: phases === 1 ? f(P) + ' x 1000 / (' + V + ' x ' + pf + ')' : f(P) + ' x 1000 / (1.732 x ' + V + ' x ' + pf + ')',
+        result: f(Ib) + ' A', value: Ib, unit: 'A'
+      });
+    } else {
+      throw new Error('ادخل التيار (A) أو القدرة (kW).');
     }
+    return { Ib: Ib, phases: phases, V: V, pf: pf };
+  }
 
-    if (!selectedRow) {
-      return {
-        compliant: false,
-        size_mm2: null,
-        designCurrentA: Number(designCurrentA.toFixed(2)),
-        requiredBaseAmpacityA: Number(requiredBaseAmpacityA.toFixed(2)),
-        factors: {
-          ca: caInfo.factor,
-          cg: cgInfo.factor,
-          combined: Number(combinedFactor.toFixed(4))
-        },
-        table: api.meta(tableName),
-        vdrop: selectedVdrop
-      };
+  /* ---------- breakers ---------- */
+  function ratingsFor(a, type, used, warnings) {
+    var t = String(type || 'any').toUpperCase();
+    if (t === 'ACB') throw new Error('جدول ACB مش موجود في البيانات. اختار MCB أو MCCB.');
+    var mcb = need(a, 'mcb_iec60898_rated_currents'), mccb = need(a, 'mccb_iec60947_2_typical_ratings');
+    if (t === 'MCB') { useTable(used, a, 'mcb_iec60898_rated_currents'); return { type: 'MCB', values: mcb.values }; }
+    if (t === 'MCCB') { useTable(used, a, 'mccb_iec60947_2_typical_ratings'); return { type: 'MCCB', values: mccb.values }; }
+    return { any: true, mcb: mcb.values, mccb: mccb.values };
+  }
+
+  function pickBreaker(a, type, minIn, used, warnings) {
+    var r = ratingsFor(a, type, used, warnings), i, sel = null;
+    if (r.any) {
+      for (i = 0; i < r.mcb.length; i++) if (r.mcb[i] >= minIn) { sel = { type: 'MCB', rating: r.mcb[i] }; break; }
+      if (sel) { useTable(used, a, 'mcb_iec60898_rated_currents'); return sel; }
+      for (i = 0; i < r.mccb.length; i++) if (r.mccb[i] >= minIn) { sel = { type: 'MCCB', rating: r.mccb[i] }; break; }
+      if (sel) { useTable(used, a, 'mccb_iec60947_2_typical_ratings'); }
+      return sel;
     }
-
-    if (!selectedVdrop && typeof opts.lengthM === 'number' && opts.lengthM > 0) {
-      selectedVdrop = voltageDrop({
-        size_mm2: selectedRow.size_mm2,
-        currentA: designCurrentA,
-        lengthM: opts.lengthM,
-        voltageV: opts.voltageV,
-        phases: opts.phases || (Number(opts.cores) === 2 ? 1 : 3),
-        conductor: opts.conductor || 'Cu',
-        insulation: opts.insulation || 'XLPE',
-        powerFactor: opts.powerFactor,
-        operatingTempC: opts.operatingTempC
-      }, api);
-    }
-
-    return {
-      compliant: true,
-      size_mm2: selectedRow.size_mm2,
-      baseAmpacityA: selectedRow.value,
-      deratedAmpacityA: Number((selectedRow.value * combinedFactor).toFixed(2)),
-      designCurrentA: Number(designCurrentA.toFixed(2)),
-      requiredBaseAmpacityA: Number(requiredBaseAmpacityA.toFixed(2)),
-      factors: {
-        ca: caInfo.factor,
-        cg: cgInfo.factor,
-        combined: Number(combinedFactor.toFixed(4))
-      },
-      table: api.meta(tableName),
-      vdrop: selectedVdrop
-    };
+    for (i = 0; i < r.values.length; i++) if (r.values[i] >= minIn) return { type: r.type, rating: r.values[i] };
+    return null;
   }
 
   function breakerSelection(input, tablesApi) {
-    var opts = input || {};
-    var api = getTablesApi(tablesApi);
-    var tableName = 'breaker_ratings_standard';
-    var tbl = requireTable(api, tableName);
-
-    var designCurrentA = Number(opts.designCurrentA || opts.currentA || opts.ib);
-    if (!(designCurrentA > 0)) {
-      throw new Error('breakerSelection requires positive designCurrentA.');
+    var o = input || {}, a = api(tablesApi), used = [], steps = [];
+    var Ib = Number(o.designCurrentA || o.currentA || o.ib);
+    if (!pos(Ib)) throw new Error('ادخل تيار التصميم Ib (رقم موجب).');
+    var sf = pos(o.safetyFactor) ? o.safetyFactor : 1;
+    var need_In = Ib * sf;
+    steps.push({ step: 'التيار المطلوب للقاطع', formula: 'In_min = Ib x SF', substitution: f(Ib) + ' x ' + sf, result: f(need_In) + ' A', value: need_In, unit: 'A' });
+    var sel = pickBreaker(a, o.type, need_In, used);
+    if (!sel) throw new Error('مفيش قاطع في الجداول أكبر من ' + f(need_In) + ' A.');
+    steps.push({ step: 'اختيار القاطع القياسي', formula: 'أقرب In قياسي >= In_min', substitution: sel.type + ': In >= ' + f(need_In) + ' A', result: 'In = ' + sel.rating + ' A (' + sel.type + ')', value: sel.rating, unit: 'A' });
+    var Iz = pos(o.cableAmpacityA) ? o.cableAmpacityA : (pos(o.iz) ? o.iz : null);
+    var coordinated = sel.rating >= Ib && (Iz === null || sel.rating <= Iz);
+    if (Iz !== null) {
+      steps.push({ step: 'تنسيق القاطع مع الكابل', formula: 'Ib <= In <= Iz', substitution: f(Ib) + ' <= ' + sel.rating + ' <= ' + f(Iz), result: coordinated ? 'متحقق' : 'غير متحقق', value: coordinated, unit: '' });
+      if (!coordinated) steps.push({ step: 'ملاحظة', formula: 'In > Iz', substitution: sel.rating + ' > ' + f(Iz), result: 'كبّر مقطع الكابل أو اختار قاطع أصغر', value: null, unit: '' });
     }
-
-    var safetyFactor = typeof opts.safetyFactor === 'number' && opts.safetyFactor > 0 ? opts.safetyFactor : 1;
-    var requiredIn = designCurrentA * safetyFactor;
-    var filterType = opts.type && String(opts.type).toLowerCase() !== 'any'
-      ? String(opts.type).toUpperCase()
-      : null;
-
-    var candidates = tbl.rows
-      .filter(function (r) {
-        return !filterType || String(r.type).toUpperCase() === filterType;
-      })
-      .sort(function (a, b) {
-        return a.rating_a - b.rating_a;
-      });
-
-    var selected = candidates.find(function (r) {
-      return r.rating_a >= requiredIn;
-    }) || null;
-
-    var cableAmpacityA = typeof opts.cableAmpacityA === 'number' && opts.cableAmpacityA > 0
-      ? opts.cableAmpacityA
-      : (typeof opts.iz === 'number' && opts.iz > 0 ? opts.iz : null);
-
-    var coordinated = Boolean(
-      selected &&
-      selected.rating_a >= designCurrentA &&
-      (cableAmpacityA === null || selected.rating_a <= cableAmpacityA)
-    );
-
+    var warnings = [];
+    if (pos(o.iscKA) && pos(o.icuKA)) {
+      var ok = o.icuKA >= o.iscKA;
+      steps.push({ step: 'قدرة القطع', formula: 'Icu >= Isc', substitution: f(o.icuKA) + ' >= ' + f(o.iscKA) + ' kA', result: ok ? 'متحقق' : 'غير متحقق', value: ok, unit: 'kA' });
+    }
+    warnings.push('تنسيق الحماية (I2 <= 1.45 Iz) محتاج مراجعة مع بيانات المصنع وقاعدة IEC 60364-4-43.');
+    var table = a.meta(sel.type === 'MCB' ? 'mcb_iec60898_rated_currents' : 'mccb_iec60947_2_typical_ratings');
     return {
-      rating_a: selected ? selected.rating_a : null,
-      type: selected ? selected.type : null,
-      designCurrentA: Number(designCurrentA.toFixed(2)),
-      cableAmpacityA: cableAmpacityA,
-      coordinated: coordinated,
-      table: api.meta(tableName)
+      rating_a: sel.rating, type: sel.type, designCurrentA: r2(Ib), cableAmpacityA: Iz, coordinated: coordinated,
+      table: table, steps: steps, tablesUsed: used, warnings: buildWarnings(used, warnings),
+      summary: 'القاطع: ' + sel.rating + ' A (' + sel.type + ') | Ib = ' + f(Ib) + ' A'
     };
   }
 
-  window.EngCalc = {
-    cableSizing: cableSizing,
-    voltageDrop: voltageDrop,
-    breakerSelection: breakerSelection
-  };
+  /* ---------- voltage drop ---------- */
+  function resistance(a, used, size, conductor) {
+    var t = need(a, 'iec_60228_conductor_resistance_20c');
+    useTable(used, a, 'iec_60228_conductor_resistance_20c');
+    var rows = String(conductor).toLowerCase() === 'al' ? t.rows_Al : t.rows_Cu;
+    var hit = (rows || []).filter(function (r) { return r[0] === size; })[0];
+    if (!hit) throw new Error('مقاومة ' + conductor + ' ' + size + ' mm2 غير موجودة في الجدول.');
+    var alpha = t.temp_coefficient_per_c && t.temp_coefficient_per_c[String(conductor).toLowerCase() === 'al' ? 'Al' : 'Cu'];
+    return { r20: hit[1], alpha: alpha, x: t.reactance_ohm_per_km_typical };
+  }
+
+  function voltageDrop(input, tablesApi) {
+    var o = input || {}, a = api(tablesApi), used = [], steps = [], extra = [];
+    var size = Number(o.size_mm2), I = Number(o.currentA), L = Number(o.lengthM);
+    var phases = Number(o.phases) === 1 ? 1 : 3;
+    var V = pos(o.voltageV) ? o.voltageV : (phases === 1 ? 230 : 400);
+    var cond = String(o.conductor || 'Cu'), ins = String(o.insulation || 'XLPE').toUpperCase();
+    var pf = pos(o.powerFactor) && o.powerFactor <= 1 ? o.powerFactor : 0.85;
+    if (!pos(size) || !pos(I) || !pos(L)) throw new Error('ادخل المقطع والتيار والطول (أرقام موجبة).');
+    var dv, rOp = null, x = null, theta = null, methodUsed;
+    var use4d1b = (o.method === '4d1b' || !o.method || o.method === 'auto') && cond.toLowerCase() === 'cu' && ins === 'PVC' && size <= 16;
+    if (use4d1b) {
+      var t = need(a, 'bs7671_4d1b_voltage_drop_cu_70c_upto16mm2');
+      useTable(used, a, 'bs7671_4d1b_voltage_drop_cu_70c_upto16mm2');
+      var row = t.rows.filter(function (r) { return r[0] === size; })[0];
+      if (!row) { use4d1b = false; }
+      else {
+        var mv = row[col(t, phases === 1 ? '1ph_AB' : '3ph_AB')];
+        dv = mv * I * L / 1000;
+        methodUsed = 'bs7671_4d1b';
+        steps.push({ step: 'قيمة mV/A/m من الجدول', formula: 'mV/A/m (BS 7671 4D1B, ' + (phases === 1 ? '1-phase' : '3-phase') + ')', substitution: size + ' mm2 Cu PVC 70C', result: mv + ' mV/A/m', value: mv, unit: 'mV/A/m' });
+        steps.push({ step: 'هبوط الجهد', formula: 'dV = mV/A/m x I x L / 1000', substitution: mv + ' x ' + f(I) + ' x ' + f(L) + ' / 1000', result: f(dv, 3) + ' V', value: dv, unit: 'V' });
+      }
+    }
+    if (!use4d1b) {
+      var res = resistance(a, used, size, cond);
+      theta = pos(o.operatingTempC) ? o.operatingTempC : (ins === 'PVC' ? 70 : 90);
+      x = isNum(o.reactanceOhmKm) ? o.reactanceOhmKm : res.x;
+      rOp = res.r20 * (1 + res.alpha * (theta - 20));
+      var sin = Math.sqrt(Math.max(0, 1 - pf * pf)), k = phases === 1 ? 2 : Math.sqrt(3);
+      dv = k * I * (L / 1000) * (rOp * pf + x * sin);
+      methodUsed = 'computed_r_x';
+      steps.push({ step: 'مقاومة الموصل عند درجة التشغيل', formula: 'R = R20 x (1 + a x (theta - 20))', substitution: f(res.r20, 4) + ' x (1 + ' + res.alpha + ' x (' + theta + ' - 20))', result: f(rOp, 4) + ' ohm/km', value: rOp, unit: 'ohm/km' });
+      steps.push({ step: 'هبوط الجهد', formula: phases === 1 ? 'dV = 2 x I x L/1000 x (R cos(phi) + X sin(phi))' : 'dV = sqrt(3) x I x L/1000 x (R cos(phi) + X sin(phi))', substitution: (phases === 1 ? '2' : '1.732') + ' x ' + f(I) + ' x ' + f(L / 1000, 3) + ' x (' + f(rOp, 4) + ' x ' + pf + ' + ' + x + ' x ' + f(sin, 3) + ')', result: f(dv, 3) + ' V', value: dv, unit: 'V' });
+      extra.push('هبوط الجهد هنا محسوب من المقاومة والمفاعلة (مش من جدول BS 7671 4D1B)' + (size > 16 ? ': جدول 4D1B للمقاطع 25 mm2 فأكتر مش متاح في البيانات.' : ': الجدول متاح لنحاس PVC لحد 16 mm2 بس.') + ' المقاومة والمفاعلة من الذاكرة وتحتاج مراجعة.');
+    }
+    var pct = dv / V * 100;
+    steps.push({ step: 'نسبة الهبوط', formula: 'dV% = dV / V x 100', substitution: f(dv, 3) + ' / ' + V + ' x 100', result: f(pct, 3) + ' %', value: pct, unit: '%' });
+    return {
+      size_mm2: size, vdropV: r3(dv), vdropPct: r3(pct), voltageV: V, phases: phases, conductor: cond,
+      operatingTempC: theta, rOpOhmKm: rOp === null ? null : r3(rOp), xOhmKm: x, methodUsed: methodUsed,
+      table: a.meta(use4d1b ? 'bs7671_4d1b_voltage_drop_cu_70c_upto16mm2' : 'iec_60228_conductor_resistance_20c'),
+      steps: steps, tablesUsed: used, warnings: buildWarnings(used, extra),
+      summary: 'هبوط الجهد: ' + f(dv, 2) + ' V (' + f(pct, 2) + ' %) | ' + size + ' mm2 ' + cond
+    };
+  }
+
+  /* ---------- cable sizing ---------- */
+  var AMP_TABLE = { 'PVC2': 2, 'XLPE2': 3, 'PVC3': 4, 'XLPE3': 5 };
+  var METHODS = { air: 'C', ground: 'D2' };
+
+  function ampTable(ins, cond, loaded) {
+    var n = AMP_TABLE[ins + loaded];
+    if (!n) throw new Error('نوع عزل غير مدعوم: ' + ins);
+    return 'iec_b52_' + n + '_' + ins.toLowerCase() + '_' + cond.toLowerCase() + '_' + loaded + 'loaded';
+  }
+
+  function ambientFactor(a, used, method, ins, amb, steps) {
+    var ground = method === 'D1' || method === 'D2';
+    var id = ground ? 'iec_b52_15_ambient_ground_k1' : 'iec_b52_14_ambient_air_k1';
+    var t = need(a, id); useTable(used, a, id);
+    var base = ground ? 20 : 30;
+    var c = col(t, ins === 'PVC' ? 'PVC' : 'XLPE_EPR');
+    var T = isNum(amb) ? amb : base, hit = null, i;
+    for (i = 0; i < t.rows.length; i++) { if (t.rows[i][0] >= T && isNum(t.rows[i][c])) { hit = t.rows[i]; break; } }
+    if (!hit) throw new Error('درجة الحرارة ' + T + ' C خارج جدول التصحيح للعزل ' + ins + '.');
+    steps.push({ step: 'معامل الحرارة Ca', formula: 'Ca من ' + (ground ? 'B.52.15' : 'B.52.14') + ' (أول صف >= الحرارة)', substitution: 'T = ' + T + ' C -> صف ' + hit[0] + ' C', result: f(hit[c], 2), value: hit[c], unit: '' });
+    return hit[c];
+  }
+
+  function groupingFactor(a, used, method, circuits, steps, extra) {
+    var t = need(a, 'iec_b52_17_grouping_k2'); useTable(used, a, 'iec_b52_17_grouping_k2');
+    var n = pos(circuits) ? Math.round(circuits) : 1, item = t.items['1_bunched_in_air_surface_embedded_enclosed'];
+    var idx = -1, i;
+    for (i = 0; i < t.n_circuits.length; i++) { if (t.n_circuits[i] >= n) { idx = i; break; } }
+    if (idx < 0) { idx = t.n_circuits.length - 1; extra.push('عدد الدوائر أكبر من 20: استخدمت معامل 20 دايرة.'); }
+    var cg = item[idx];
+    if (method === 'D1' || method === 'D2') extra.push('جداول تجميع الكابلات المدفونة (B.52.18/19) مش في البيانات: استخدمت B.52.17 بند 1 كتقدير. راجع.');
+    steps.push({ step: 'معامل التجميع Cg', formula: 'Cg من B.52.17 بند 1 (مجمعة، أول عدد >= عدد الدوائر)', substitution: n + ' دايرة -> ' + t.n_circuits[idx], result: f(cg, 2), value: cg, unit: '' });
+    return cg;
+  }
+
+  function cableSizing(input, tablesApi) {
+    var o = input || {}, a = api(tablesApi), used = [], steps = [], extra = [];
+    var d = designCurrent(o, steps);
+    var ins = String(o.insulation || 'XLPE').toUpperCase(), cond = String(o.conductor || 'Cu');
+    var loaded = d.phases === 1 ? 2 : 3;
+    var mkey = METHODS[String(o.method || 'air').toLowerCase()] || String(o.method).toUpperCase();
+    var tid = ampTable(ins, cond, loaded);
+    var t = need(a, tid); useTable(used, a, tid);
+    var mc = col(t, mkey);
+    var ca = ambientFactor(a, used, mkey, ins, o.ambientC, steps);
+    var cg = groupingFactor(a, used, mkey, o.circuits, steps, extra);
+    var ct = ca * cg;
+    steps.push({ step: 'المعامل الكلي', formula: 'Ct = Ca x Cg', substitution: f(ca, 2) + ' x ' + f(cg, 2), result: f(ct, 3), value: ct, unit: '' });
+    var minIn = d.Ib * (pos(o.safetyFactor) ? o.safetyFactor : 1);
+    var br = pos(o.inA) ? { type: String(o.breakerType || 'MCB').toUpperCase(), rating: o.inA } : pickBreaker(a, o.breakerType || 'any', minIn, used);
+    if (!br) throw new Error('مفيش قاطع قياسي مناسب للتيار ' + f(d.Ib) + ' A.');
+    steps.push({ step: 'القاطع المختار In', formula: 'Ib <= In (أقرب قيمة قياسية)', substitution: f(d.Ib) + ' A -> ' + br.type, result: 'In = ' + br.rating + ' A', value: br.rating, unit: 'A' });
+    var izReq = br.rating / ct;
+    steps.push({ step: 'السعة المطلوبة من الجدول', formula: 'Iz_tab >= In / Ct', substitution: br.rating + ' / ' + f(ct, 3), result: f(izReq) + ' A', value: izReq, unit: 'A' });
+    var rows = t.rows.slice().sort(function (p, q) { return p[0] - q[0]; });
+    var useVd = pos(o.lengthM) && pos(o.maxVdropPct);
+    var chosen = null, vd = null, upsized = false, i, firstOk = null;
+    for (i = 0; i < rows.length; i++) {
+      var tab = rows[i][mc];
+      if (!isNum(tab) || tab < izReq) continue;
+      if (!firstOk) firstOk = rows[i];
+      if (useVd) {
+        var tmp = voltageDrop({ size_mm2: rows[i][0], currentA: d.Ib, lengthM: o.lengthM, voltageV: d.V, phases: d.phases, conductor: cond, insulation: ins, powerFactor: d.pf, operatingTempC: o.operatingTempC }, a);
+        if (tmp.vdropPct > o.maxVdropPct) { vd = tmp; continue; }
+        vd = tmp;
+      }
+      chosen = rows[i]; break;
+    }
+    if (!chosen) {
+      return {
+        compliant: false, size_mm2: null, baseAmpacityA: null, deratedAmpacityA: null,
+        designCurrentA: r2(d.Ib), requiredBaseAmpacityA: r2(izReq), factors: { ca: ca, cg: cg, combined: r3(ct) },
+        table: a.meta(tid), vdrop: vd, breaker: { rating_a: br.rating, type: br.type },
+        steps: steps, tablesUsed: used, warnings: buildWarnings(used, extra.concat(['مفيش مقطع في الجدول يحقق الشروط (السعة أو هبوط الجهد). قسّم على كابلين أو غيّر الشروط.'])),
+        summary: 'مفيش مقطع مناسب في الجدول'
+      };
+    }
+    upsized = firstOk && chosen[0] !== firstOk[0];
+    var base = chosen[mc], iz = base * ct;
+    steps.push({ step: 'اختيار المقطع', formula: 'Iz_tab >= In / Ct', substitution: tid + ' [' + mkey + '] : ' + base + ' A >= ' + f(izReq) + ' A', result: chosen[0] + ' mm2' + (upsized ? ' (اترفع من ' + firstOk[0] + ' mm2 بسبب هبوط الجهد)' : ''), value: chosen[0], unit: 'mm2' });
+    steps.push({ step: 'تحقق الحماية', formula: 'Ib <= In <= Iz', substitution: f(d.Ib) + ' <= ' + br.rating + ' <= ' + f(iz) + ' (Iz = ' + base + ' x ' + f(ct, 3) + ')', result: (d.Ib <= br.rating && br.rating <= iz) ? 'متحقق' : 'غير متحقق', value: br.rating <= iz, unit: '' });
+    if (useVd && vd) {
+      steps.push({ step: 'تحقق هبوط الجهد', formula: 'dV% <= الحد', substitution: f(vd.vdropPct, 2) + ' % <= ' + o.maxVdropPct + ' %', result: vd.vdropPct <= o.maxVdropPct ? 'متحقق' : 'غير متحقق', value: vd.vdropPct, unit: '%' });
+      vd.steps.forEach(function (s) { steps.push({ step: 'هبوط الجهد: ' + s.step, formula: s.formula, substitution: s.substitution, result: s.result, value: s.value, unit: s.unit }); });
+      vd.warnings.forEach(function (w) { if (extra.indexOf(w) < 0 && w.indexOf('نسخة منشورة') < 0) extra.push(w); });
+      vd.tablesUsed.forEach(function (u) { if (!used.some(function (x) { return x.id === u.id; })) used.push(u); });
+    } else if (!useVd) {
+      extra.push('هبوط الجهد لم يتحقق منه (الطول أو الحد غير مدخل).');
+    }
+    extra.push('لم تُحسب شروط short-circuit (I2t) ولا طريقة التركيب بالتفصيل. راجع.');
+    return {
+      compliant: true, size_mm2: chosen[0], baseAmpacityA: base, deratedAmpacityA: r2(iz),
+      designCurrentA: r2(d.Ib), requiredBaseAmpacityA: r2(izReq), factors: { ca: ca, cg: cg, combined: r3(ct) },
+      table: a.meta(tid), vdrop: vd, breaker: { rating_a: br.rating, type: br.type },
+      steps: steps, tablesUsed: used, warnings: buildWarnings(used, extra),
+      summary: 'المقطع: ' + chosen[0] + ' mm2 | القاطع: ' + br.rating + ' A | Iz = ' + f(iz, 1) + ' A | Ib = ' + f(d.Ib, 1) + ' A' + (vd ? ' | dV = ' + f(vd.vdropPct, 2) + ' %' : '')
+    };
+  }
+
+  window.EngCalc = { cableSizing: cableSizing, voltageDrop: voltageDrop, breakerSelection: breakerSelection };
 })();
