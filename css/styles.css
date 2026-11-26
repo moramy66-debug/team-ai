@@ -368,3 +368,30 @@ body[data-theme="light"] .rephead .rm{color:#475569;border-top-color:#c7d2fe}
 body[data-theme="light"] .rephead .rn,body[data-theme="light"] .rephead .rd{color:#1e293b}
 body[data-theme="light"] .rephead .ok{background:#dcfce7;color:#166534;border-color:#86efac}
 @media print{.rephead .rk,.rephead .rm,.rephead .rn,.rephead .rd{color:#111!important;border-color:#9ca3af!important}.rephead .ok{background:#fff!important;color:#166534!important;border:1px solid #166534!important}}
+
+/* mobile UX (v85): compact one-line topbar, 44px touch targets, sticky Run bar and result actions */
+@media (max-width: 700px) {
+  .topbar{flex-wrap:nowrap!important;overflow-x:auto;overflow-y:hidden;gap:6px!important;padding:8px 10px!important;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .topbar::-webkit-scrollbar{display:none}
+  .topbar>*{flex:0 0 auto!important}
+  .topbar button,.topbar .btn{flex:0 0 auto!important;min-width:0!important;min-height:44px;padding:8px 12px;font-size:13px;white-space:nowrap}
+  #tmpls button{min-height:44px;padding:8px 16px}
+  #tmplBox button{min-height:44px!important}
+  .cdItem button{min-height:44px;padding:8px 14px}
+  button.sec,select,input:not([type=checkbox]):not([type=radio]):not([type=file]),.side button,.sidefoot button{min-height:44px}
+  input[type=checkbox],input[type=radio]{width:22px!important;height:22px!important;min-height:0!important;flex:none}
+  .topbar #helpBtn{min-width:44px!important}
+  label:has(>input[type=checkbox]){min-height:44px;display:flex;align-items:center;gap:8px}
+  .row:has(>#go){position:sticky;bottom:0;z-index:15;background:var(--card);padding:10px 0 calc(10px + env(safe-area-inset-bottom));margin-top:10px;border-top:1px solid var(--line);flex-wrap:nowrap}
+  .row:has(>#go)>label{display:none}
+  .row:has(>#go)>#effort{width:84px!important;flex:0 0 auto;padding-inline:4px;font-size:13px;text-overflow:clip}
+  .row:has(>#go)>#go{flex:1 1 auto;min-width:80px;white-space:nowrap;padding-inline:10px}
+  .row:has(>#go)>#stop,.row:has(>#go)>#logBtn{flex:0 0 auto;padding-inline:6px;min-width:44px;white-space:nowrap;font-size:12.5px}
+  .row:has(>#go){gap:4px}
+  #finalCard>.row:first-child{position:sticky;top:60px;z-index:20;background:var(--card);padding:8px 0;margin:0;flex-wrap:wrap;gap:6px}
+  #finalCard>.row:first-child>span.row{flex-wrap:nowrap;overflow-x:auto;max-width:100%;scrollbar-width:none;gap:6px}
+  #finalCard>.row:first-child>span.row::-webkit-scrollbar{display:none}
+  #finalCard>.row:first-child>span.row button{flex:0 0 auto;white-space:nowrap;min-height:44px}
+  #finalView{overflow-wrap:anywhere}
+  #finalView img,#finalView pre{max-width:100%;overflow-x:auto}
+}
