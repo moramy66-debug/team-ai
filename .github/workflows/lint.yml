@@ -1,0 +1,40 @@
+name: lint
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Syntax check each script
+        run: |
+          for f in js/*.js sw.js worker/*.js; do
+            [ -f "$f" ] || continue
+            node --check "$f" || { echo "::error file=$f::syntax error"; exit 1; }
+          done
+      - name: Scripts listed in index.html exist
+        run: |
+          for s in $(grep -o 'src="\./[^"]*"' index.html | sed 's/src="\.\///; s/"//'); do
+            [ -f "$s" ] || { echo "::error::missing file referenced by index.html: $s"; exit 1; }
+          done
+      - name: Combined load order (catches duplicate declarations and cross-file errors)
+        run: |
+          : > /tmp/all.js
+          for s in $(grep -o 'src="\./js/[^"]*"' index.html | sed 's/src="\.\///; s/"//'); do
+            case "$s" in js/storage-idb.js|js/sanitize.js) continue;; esac
+            cat "$s" >> /tmp/all.js
+            printf '\n;\n' >> /tmp/all.js
+          done
+          node --check /tmp/all.js
+      - name: Required functions are defined
+        run: |
+          for fn in sendMail mailPayload wordReport pdfReport fmtPass showResume renderFinal keepAwake askFiles; do
+            grep -q "function $fn" /tmp/all.js || { echo "::error::function $fn is not defined in any script"; exit 1; }
+          done
+      - name: Service worker cache version is present
+        run: grep -Eq "CACHE_NAME *= *'teamai-v[0-9]+'" sw.js
