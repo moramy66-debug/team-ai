@@ -47,8 +47,14 @@ eq('Arabic-Indic digits normalised, requirement met', ar.items.length, 0);
 function c(a) { return S.conclusion(a.map(function (s) { return { severity: s }; })).code; }
 eq('no items -> A', c([]), 'A');
 eq('minor only -> B', c(['minor']), 'B');
-eq('2 majors -> B', c(['major', 'major']), 'B');
+eq('1 major -> B (no resubmission)', c(['major']), 'B');
+eq('2 majors -> C', c(['major', 'major']), 'C');
 eq('3 majors -> C', c(['major', 'major', 'major']), 'C');
+eq('manual D overrides', S.conclusion([], 'D').code, 'D');
+eq('manual flag set', S.conclusion([], 'E').manual, true);
+eq('five codes', Object.keys(S.CODES).join(''), 'ABCDE');
+eq('code B label verbatim', S.CODES.B, 'B: معتمد مع ملاحظات - إعادة التقديم غير ضرورية');
+eq('code E label verbatim', S.CODES.E, 'E: بدون إجراء');
 eq('1 critical -> C', c(['critical']), 'C');
 
 // Model merge: unverified quote flagged, hallucinated req dropped, rule items kept for uncovered reqs
@@ -64,7 +70,7 @@ var sorted = S.sortItems(merged);
 eq('ordered: critical first', sorted[0].severity, 'critical');
 var rev = { items: merged, reqCount: 5, concl: S.conclusion(merged), method: 'm', date: '2026-11-26', title: 'T', project: {} };
 eq('report text has conclusion line', /كود الاعتماد المقترح: C/.test(S.reportText(rev)), true);
-eq('pdf doc has summary,text,table', S.pdfDoc(rev).blocks.map(function (b) { return b.type; }).join(','), 'summary,text,table');
+eq('pdf doc has summary,text,table', S.pdfDoc(rev).blocks.map(function (b) { return b.type; }).join(','), 'summary,text,table,table');
 var m2 = S.mergeModel([], reqs, offer, rr.items);
 eq('rule-only leftovers: clarification dropped, others labelled', m2.every(function (m) { return m.type !== 'clarification' && /لم يؤكدها الموديل/.test(m.finding); }), true);
 if (fails) { console.log(fails + ' FAILED'); process.exit(1); }
