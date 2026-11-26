@@ -10,7 +10,9 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAAD8UlEQVR4nO3SwY0VQQxFUTJALIgQifyJABZfGiGGxWjc3c92ndINwKp3vnz99l36dF/iF2h0AKkUQCoFkEoBpFIAqRRAKgWQSgGkUgCpFEAqBZBKAaRSAKkUQCoFkEoBpFIAqRRAKgWQSgGkUgCpFEAqBZBKAfT9x89fleL3ZzsOUJELUv90CqAH3JwpaTOgCJrTMO0EFOdyDqNVgOI+DpS0BFAcxLGMxgOKIzic0WBA8eExmgooPjZGgwHFN2ZoKqD4tBgNBhRflKGpgOJDYjQYUHy/DsVXmAoovlyf4lsMAxQfrGfxXWYAiu/Uufg63QHFF+pffKO+gOLbTCm+VEdA8VVmFd+rF6D4HhOLr9YFUHyJucW3ywOKbzC9owHFf39HhwKK//umABJA9JxnKAMo/tdbOwJQ/Jd3B5AAoucYQ48Civ/sOQEkgOg5wNBDgOK/eWYACSB6VhsCaHnjAcV/UADpVEDxv9MrgFRqJKD4r1X6/b8Xv6qhIYA+RGcBI4Ba6JlraBig+H/dp4chgKp6hhoaAyj+UwA9ZgigT+oZaggggADqF0CNAMX/CKAnDQEEEEAArQEU/x2AHjYE0OcNxW8GqFEAAfSoofi1AHXsBD0AJRnFb7ukpoDi/3JtK+m8BdBHhw/O3+eS9wH00cEi4/W5BKDLNntsuT6XAHTxZg8s1+cSgG7Z7Nbl+lwC0MjZ+lwC0I2b3bRcn0sAGjlbn0sAGjlbn0sAGjlbn0sAGjlbn0sAGjlbn0sAGjlbn0sAun259ZcANHK2PpcAdONyh1wC0C3LHXUJQBcvd+AlAF0z3uGXvA8gleoIiKEpXbg4QCcGkEoBpFIAqRRAKtUXEEP9u3ZugI4LIJXqDoihzl2+NUBnBZBKAaRSMwAx1LM7hgbooCYBYqhbN60M0CkBpFLzADHUp/smBuiIpgJiqEO37gvQ/mYDYmixHoD2twEQQ1v1ALS8PYAYWqnnUUAM7dMD0Np2AmJomZ4AIIY26QFoYfsBMbRGTwwQQzv0JAExtEAPQHs6ERBD0/XkATE0Wk8LQAzN1dMFEEND9TQCxNBEPb0AMTROTztADM3S0xEQQ4P0NAXE0BQ9fQFh1J/OAEAMNdczABBD8f8fD+hYRvE/XwXoNEPx314I6BBG8R9eDmi3ofjfHgFoJaP4fx4HaA2j+B8eDejrZEbxf6u3BNCrOIij6LxaBeituI/1bt7aCehVnMtuOq82A/o7aG7qFEBvcXNtxwF6Hy6VAFIpgFQKIJUCSKUAUimAVAoglQJIpQBSKYBUCiCVAkilAFIpgFQKIJUCSKUAUimAVAoglQJIpQBSKYBUCiCVAkil/gBsCT9RH0h6dAAAAABJRU5ErkJggg==">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>Team AI</title>
+<title>Team AI</title><script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js" defer></script>
+ <script src="./js/storage-idb.js" defer></script>
+ <script src="./js/sanitize.js" defer></script>
 <style>
 :root{--bg:#0f1115;--card:#181b22;--line:#2a2f3a;--tx:#e8eaf0;--mut:#8b93a5;--ac:#6366f1;--ok:#22c55e;--er:#ef4444}
 *{box-sizing:border-box}
@@ -414,7 +416,7 @@ const PROV={
  openai:{name:'ChatGPT',model:'gpt-4o-mini'},
  anthropic:{name:'Claude',model:'claude-sonnet-4-5'}
 };
-const LS={get(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}},set(k,v){localStorage.setItem(k,JSON.stringify(v))}};
+const _idbCache={};function safeHTML(html){return window.TeamAISanitize?window.TeamAISanitize.sanitizeHTML(html):html}const LS={get(k,d){if((k==='teamai.codes'||k==='teamai.hist')&&_idbCache[k]!==undefined)return _idbCache[k];try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}if(k==='teamai.codes'){_idbCache[k]=v;window.TeamAIStorage?.saveCodes?.(v)}else if(k==='teamai.hist'){_idbCache[k]=v;window.TeamAIStorage?.saveHistory?.(v)}}};document.addEventListener('DOMContentLoaded',async()=>{try{const bkCodes=localStorage.getItem('teamai.codes'),bkHist=localStorage.getItem('teamai.hist'),bkSteps=localStorage.getItem('RCK.steps');await window.TeamAIStorage?.migrateFromLocalStorage?.();if(bkCodes&&!localStorage.getItem('teamai.codes'))localStorage.setItem('teamai.codes',bkCodes);if(bkHist&&!localStorage.getItem('teamai.hist'))localStorage.setItem('teamai.hist',bkHist);if(bkSteps&&!localStorage.getItem('RCK.steps'))localStorage.setItem('RCK.steps',bkSteps);if(window.TeamAIStorage?.getCodes){const c=await window.TeamAIStorage.getCodes();if(Array.isArray(c)&&c.length){_idbCache['teamai.codes']=c;try{localStorage.setItem('teamai.codes',JSON.stringify(c))}catch(e){}}}if(window.TeamAIStorage?.getHistory){const h=await window.TeamAIStorage.getHistory();if(Array.isArray(h)&&h.length){_idbCache['teamai.hist']=h;try{localStorage.setItem('teamai.hist',JSON.stringify(h))}catch(e){}if(typeof renderHist==='function')renderHist()}}if(window.TeamAIStorage?.getCheckpoints){const s=await window.TeamAIStorage.getCheckpoints();if(s&&typeof s==='object'){_idbCache['RCK.steps']=s;try{localStorage.setItem('RCK.steps',JSON.stringify(s));const ck=JSON.parse(localStorage.getItem('teamai.ck')||'null');if(ck&&!ck.steps){ck.steps=s;localStorage.setItem('teamai.ck',JSON.stringify(ck))}}catch(e){}}}}catch(e){console.warn('TeamAIStorage init fallback:',e)}});
 let cfg=LS.get('teamai.cfg',{});
 {const mig={'gemini-3.8-flash':'gemini-3.5-flash-lite','gemini-2.5-flash':'gemini-3.5-flash-lite','llama-3.3-70b-versatile':'openai/gpt-oss-120b'};
  let dirty=false;
@@ -503,11 +505,11 @@ function tblText(t){var L=String(t).split('\n'),o=[],i=0,isR=function(s){return 
  while(i<L.length){if(isR(L[i])&&i+1<L.length&&isS(L[i+1])){var hd=cl(L[i]);i+=2;while(i<L.length&&isR(L[i])){var c=cl(L[i++]);o.push('- '+c.map(function(v,k){return (hd[k]?hd[k]+': ':'')+v}).join(' | '))}}else o.push(L[i++])}
  return o.join('\n')}
 function plainText(t){return tblText(deLatex(t)).replace(/^\s*```.*$/gm,'').replace(/^#{1,6}\s+/gm,'').replace(/\*\*|__/g,'').replace(/`/g,'').replace(/^\s*[-*+]\s+/gm,'- ').replace(/^\s*(-{3,}|\*{3,})\s*$/gm,'').replace(/^\s*\|?\s*:?-{2,}:?\s*(\|\s*:?-{2,}:?\s*)+\|?\s*$/gm,'').replace(/\n{3,}/g,'\n\n').trim()}
-function renderFinal(){$('finalView').innerHTML=pills(secNum(md($('final').textContent),false),false);var t=(current&&histTitle(current))||'';$('repHead').innerHTML='<div class="rk">TEAM AI | ENGINEERING REPORT</div><div class="rt"></div><div class="rm"><span class="rn"></span><span class="rd"></span><span class="ok">Completed</span></div>';$('repHead').querySelector('.rt').textContent=t;$('repHead').querySelector('.rn').textContent=refNo();$('repHead').querySelector('.rd').textContent=new Date(current&&current.t||Date.now()).toLocaleString('en-GB')}
+function renderFinal(){$('finalView').innerHTML=safeHTML(pills(secNum(md($('final').textContent),false),false));var t=(current&&histTitle(current))||'';$('repHead').innerHTML='<div class="rk">TEAM AI | ENGINEERING REPORT</div><div class="rt"></div><div class="rm"><span class="rn"></span><span class="rd"></span><span class="ok">Completed</span></div>';$('repHead').querySelector('.rt').textContent=t;$('repHead').querySelector('.rn').textContent=refNo();$('repHead').querySelector('.rd').textContent=new Date(current&&current.t||Date.now()).toLocaleString('en-GB')}
 
 function addStep(title,tag){window.curStep=title;const d=document.createElement('div');d.className='step run';d.innerHTML='<b></b><div class="hint">شغال...</div>';d.querySelector('b').textContent=title;if(tag){const t=document.createElement('span');t.className='tag';t.textContent=tag;d.querySelector('b').prepend(t)}$('steps').appendChild(d);return d}
 function doneStep(d,text,err){d.className='step '+(err?'err':'done');const h=d.querySelector('.hint');if(err){h.className='bad';h.textContent=text;return}
- h.remove();const x=document.createElement('details');x.innerHTML='<summary>عرض</summary><div class="out"></div>';x.querySelector('.out').className='out md';x.querySelector('.out').innerHTML=md(text);d.appendChild(x)}
+ h.remove();const x=document.createElement('details');x.innerHTML='<summary>عرض</summary><div class="out"></div>';x.querySelector('.out').className='out md';x.querySelector('.out').innerHTML=safeHTML(md(text));d.appendChild(x)}
 async function step(title,a,fn){const d=addStep(title,a.name);try{const r=await fn();doneStep(d,r);return r}catch(e){if(e.skip){d.remove();throw e}doneStep(d,e.message||String(e),true);throw e}}
 let noSkip=false;
 function estTok(t){const ar=(t.match(/[\u0600-\u06FF]/g)||[]).length;return ar/2.2+(t.length-ar)/3.5}
@@ -533,9 +535,9 @@ async function askFiles(a,system,prompt,files){
 }
 let current=null,lastEnriched='';
 var RCK=null;
-function ckSave(){try{if(RCK)localStorage.setItem('teamai.ck',JSON.stringify(RCK))}catch(e){}}
-function ckClear(){RCK=null;try{localStorage.removeItem('teamai.ck')}catch(e){}}
-function ckPeek(){try{return JSON.parse(localStorage.getItem('teamai.ck')||'null')}catch(e){return null}}
+function ckSave(){try{if(RCK){localStorage.setItem('teamai.ck',JSON.stringify(RCK));if(RCK.steps){_idbCache['RCK.steps']=RCK.steps;localStorage.setItem('RCK.steps',JSON.stringify(RCK.steps));window.TeamAIStorage?.saveCheckpoints?.(RCK.steps)}}}catch(e){}}
+function ckClear(){RCK=null;delete _idbCache['RCK.steps'];try{localStorage.removeItem('teamai.ck');localStorage.removeItem('RCK.steps')}catch(e){}window.TeamAIStorage?.saveCheckpoints?.(null)}
+function ckPeek(){try{const ck=JSON.parse(localStorage.getItem('teamai.ck')||'null');if(ck&&!ck.steps){ck.steps=_idbCache['RCK.steps']||JSON.parse(localStorage.getItem('RCK.steps')||'null')||{}}return ck}catch(e){return null}}
 async function stepC(title,a,fn){var c=RCK&&RCK.steps[title];if(c!=null){var d=addStep(title,'saved');doneStep(d,c);return c}var r=await step(title,a,fn);if(RCK){RCK.steps[title]=r;ckSave()}return r}
 function showResume(){var c=ckPeek(),b=$('resumeBox');if(!b)return;if(!c||!c.task){b.hidden=true;return}var n=Object.keys(c.steps||{}).filter(function(k){return k.indexOf('__')!==0}).length;
  $('resumeTxt').textContent='فيه تاسك اتقطع قبل ما يخلص ('+n+' خطوة خلصت واتحفظت). تكمّل من آخر خطوة بدل ما تبدأ من الأول؟ المهمة: '+String(c.task).replace(/\s+/g,' ').slice(0,90);b.hidden=false}
@@ -622,7 +624,7 @@ async function startRun(task,followUp,res){
  finally{showResume();keepAwake(false);$('go').disabled=false;$('stop').disabled=true;$('sendF').disabled=false;abort=null;procStop()}
 }
 function homeProc(){var p=document.getElementById('proc'),ph=document.getElementById('procHome');if(p&&ph&&!ph.contains(p))ph.appendChild(p)}
-function bubble(kind,html,txt){var d=document.createElement('div');d.className='msg '+kind;if(kind==='user'){d.textContent=txt;d.dir='auto'}else{d.className+=' md';d.innerHTML=html}$('thread').appendChild(d);return d}
+function bubble(kind,html,txt){var d=document.createElement('div');d.className='msg '+kind;if(kind==='user'){d.textContent=txt;d.dir='auto'}else{d.className+=' md';d.innerHTML=safeHTML(html)}$('thread').appendChild(d);return d}
 $('sendF').onclick=()=>{
  const f=$('follow').value.trim();if(!f||!current||$('sendF').disabled)return;
  $('follow').value='';$('follow').style.height='';
