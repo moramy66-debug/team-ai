@@ -35,6 +35,8 @@ jobs:
         run: |
           node tools/dupcheck-test.js
           node tools/dupcheck.js ./tools/dup-allowlist.json
+      - name: Engineering calculator tests (real data)
+        run: node tools/eng-calc-test.js
       - name: Required functions are defined
         run: |
           for fn in sendMail mailPayload wordReport pdfReport fmtPass showResume renderFinal keepAwake askFiles; do
