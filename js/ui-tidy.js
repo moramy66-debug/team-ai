@@ -108,6 +108,7 @@
 
       function toggleMenu(e) {
         if (e) e.stopPropagation();
+        if (menu.parentNode !== document.body) document.body.appendChild(menu);
         var isOpen = menu.classList.toggle('open');
         if (isOpen) {
           var br = btn.getBoundingClientRect();
@@ -122,11 +123,11 @@
       btn.addEventListener('click', toggleMenu);
 
       document.addEventListener('click', function (e) {
-        if (!wrap.contains(e.target)) closeMenu();
+        if (!wrap.contains(e.target) && !menu.contains(e.target)) closeMenu();
       });
 
       document.addEventListener('touchend', function (e) {
-        if (!wrap.contains(e.target)) closeMenu();
+        if (!wrap.contains(e.target) && !menu.contains(e.target)) closeMenu();
       }, { passive: true });
 
       document.addEventListener('keydown', function (e) {
