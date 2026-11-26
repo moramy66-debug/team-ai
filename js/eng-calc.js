@@ -193,7 +193,7 @@
 
   /* ---------- cable sizing ---------- */
   var AMP_TABLE = { 'PVC2': 2, 'XLPE2': 3, 'PVC3': 4, 'XLPE3': 5 };
-  var METHODS = { air: 'C', ground: 'D2' };
+  var METHODS = { air: 'C', ground: 'D2', duct: 'D1' };
 
   function ampTable(ins, cond, loaded) {
     var n = AMP_TABLE[ins + loaded];
@@ -214,14 +214,45 @@
     return hit[c];
   }
 
-  function groupingFactor(a, used, method, circuits, steps, extra) {
+  var SPACING_D2 = { touching: 'touching', one_diameter: 'one_cable_diameter', '0.125': '0.125m', '0.25': '0.25m', '0.5': '0.5m' };
+  var SPACING_D1 = { touching: 'ducts_touching', '0.25': '0.25m', '0.5': '0.5m', '1.0': '1.0m', '1': '1.0m' };
+
+  function buriedGrouping(a, used, method, o, n, steps, extra) {
+    var sp = String(o.spacing || 'touching');
+    var id, cname;
+    if (method === 'D2') {
+      id = 'iec_b52_18_grouping_buried_direct_d2'; cname = SPACING_D2[sp];
+    } else {
+      id = String(o.ductCable) === 'single' ? 'iec_b52_19_grouping_ducts_d1_singlecore' : 'iec_b52_19_grouping_ducts_d1_multicore';
+      cname = SPACING_D1[sp];
+    }
+    if (!cname) throw new Error('المسافة "' + sp + '" غير متاحة في جدول ' + (method === 'D2' ? 'B.52.18 (كابلات مدفونة مباشرة)' : 'B.52.19 (مواسير مدفونة)') + '.');
+    var t = need(a, id); useTable(used, a, id);
+    var ci = col(t, cname), rows = t.rows.slice().sort(function (p, q) { return p[0] - q[0]; }), hit = null, i;
+    if (n <= 1) {
+      steps.push({ step: 'معامل التجميع Cg', formula: 'دايرة واحدة: مفيش تخفيض', substitution: 'n = 1', result: '1.00', value: 1, unit: '' });
+      return 1;
+    }
+    for (i = 0; i < rows.length; i++) { if (rows[i][0] >= n) { hit = rows[i]; break; } }
+    if (!hit) { hit = rows[rows.length - 1]; extra.push('عدد الدوائر أكبر من 20: استخدمت معامل 20 دايرة.'); }
+    var cg = hit[ci];
+    (t.suspect_cells || []).forEach(function (sc) {
+      if (sc.n_circuits === hit[0] && sc.column === cname) extra.push('القيمة المستخدمة من الجدول ' + id + ' (' + sc.n_circuits + ' دوائر، ' + sc.column + ') ظاهرة في النسخة المنشورة بشكل غير متسق (' + sc.reason + '). راجع الجدول الرسمي.');
+    });
+    steps.push({ step: 'معامل التجميع Cg', formula: 'Cg من ' + (method === 'D2' ? 'B.52.18' : 'B.52.19') + ' (أول عدد >= عدد الدوائر، المسافة ' + sp + ')', substitution: n + ' دايرة -> صف ' + hit[0] + ' | عمود ' + cname, result: f(cg, 2), value: cg, unit: '' });
+    return cg;
+  }
+
+  function groupingFactor(a, used, method, o, steps, extra) {
+    var circuits = o.circuits;
+    var n = pos(circuits) ? Math.round(circuits) : 1;
+    if (method === 'D1' || method === 'D2') return buriedGrouping(a, used, method, o, n, steps, extra);
     var t = need(a, 'iec_b52_17_grouping_k2'); useTable(used, a, 'iec_b52_17_grouping_k2');
-    var n = pos(circuits) ? Math.round(circuits) : 1, item = t.items['1_bunched_in_air_surface_embedded_enclosed'];
+    var item = t.items['1_bunched_in_air_surface_embedded_enclosed'];
     var idx = -1, i;
     for (i = 0; i < t.n_circuits.length; i++) { if (t.n_circuits[i] >= n) { idx = i; break; } }
     if (idx < 0) { idx = t.n_circuits.length - 1; extra.push('عدد الدوائر أكبر من 20: استخدمت معامل 20 دايرة.'); }
     var cg = item[idx];
-    if (method === 'D1' || method === 'D2') extra.push('جداول تجميع الكابلات المدفونة (B.52.18/19) مش في البيانات: استخدمت B.52.17 بند 1 كتقدير. راجع.');
     steps.push({ step: 'معامل التجميع Cg', formula: 'Cg من B.52.17 بند 1 (مجمعة، أول عدد >= عدد الدوائر)', substitution: n + ' دايرة -> ' + t.n_circuits[idx], result: f(cg, 2), value: cg, unit: '' });
     return cg;
   }
@@ -236,7 +267,7 @@
     var t = need(a, tid); useTable(used, a, tid);
     var mc = col(t, mkey);
     var ca = ambientFactor(a, used, mkey, ins, o.ambientC, steps);
-    var cg = groupingFactor(a, used, mkey, o.circuits, steps, extra);
+    var cg = groupingFactor(a, used, mkey, o, steps, extra);
     var ct = ca * cg;
     steps.push({ step: 'المعامل الكلي', formula: 'Ct = Ca x Cg', substitution: f(ca, 2) + ' x ' + f(cg, 2), result: f(ct, 3), value: ct, unit: '' });
     var minIn = d.Ib * (pos(o.safetyFactor) ? o.safetyFactor : 1);
@@ -290,5 +321,48 @@
     };
   }
 
-  window.EngCalc = { cableSizing: cableSizing, voltageDrop: voltageDrop, breakerSelection: breakerSelection };
+  /* ---------- short-circuit withstand (adiabatic, I2t <= k2 S2) ---------- */
+  function shortCircuit(input, tablesApi) {
+    var o = input || {}, a = api(tablesApi), used = [], steps = [], extra = [];
+    var S = Number(o.size_mm2), Isc = Number(o.iscKA) * 1000;
+    if (!pos(S) || !pos(Isc)) throw new Error('ادخل المقطع (mm2) وتيار القصر Isc (kA).');
+    var ins = String(o.insulation || 'XLPE').toUpperCase(), cond = String(o.conductor || 'Cu').toLowerCase() === 'al' ? 'al' : 'cu';
+    var kt = need(a, 'iec_60364_4_43_k_factors'); useTable(used, a, 'iec_60364_4_43_k_factors');
+    var key = ins === 'PVC' ? (S > 300 ? 'PVC_over_300mm2' : 'PVC_up_to_300mm2') : 'XLPE_EPR';
+    var krow = kt.rows.filter(function (r) { return r[0] === key; })[0];
+    var k = krow[cond === 'al' ? 2 : 1];
+    steps.push({ step: 'ثابت k', formula: 'k من IEC 60364-4-43 Table 43A (' + key + ', ' + (cond === 'al' ? 'Al' : 'Cu') + ', ' + krow[3] + ' إلى ' + krow[4] + ' C)', substitution: key + ' / ' + cond.toUpperCase(), result: k + ' A.s^0.5/mm2', value: k, unit: 'A.s^0.5/mm2' });
+    var withstand = k * k * S * S;
+    steps.push({ step: 'تحمل الكابل', formula: 'I2t_cable = k^2 x S^2', substitution: k + '^2 x ' + S + '^2', result: f(withstand / 1e6, 4) + ' x 10^6 A2s', value: withstand, unit: 'A2s' });
+    var letThrough, basis, t = null;
+    if (pos(o.letThroughKA2s)) {
+      letThrough = o.letThroughKA2s * 1e6;
+      basis = 'datasheet';
+      steps.push({ step: 'طاقة القاطع I2t (من بيانات المصنع)', formula: 'I2t_device = القيمة المدخلة', substitution: f(o.letThroughKA2s, 4) + ' kA2s x 10^6', result: f(letThrough / 1e6, 4) + ' x 10^6 A2s', value: letThrough, unit: 'A2s' });
+    } else if (pos(o.clearingTimeS)) {
+      t = o.clearingTimeS;
+      letThrough = Isc * Isc * t;
+      basis = 'time';
+      steps.push({ step: 'طاقة القصر المتوقعة', formula: 'I2t = Isc^2 x t', substitution: f(Isc / 1000, 2) + ' kA ^2 x ' + t + ' s', result: f(letThrough / 1e6, 4) + ' x 10^6 A2s', value: letThrough, unit: 'A2s' });
+      if (t > 5) extra.push('زمن القطع أكبر من 5 ثواني: المعادلة الأديباتيكية غير صالحة، استخدم منحنى التحمل الحراري للكابل.');
+      if (t < 0.1) extra.push('زمن القطع أقل من 0.1 ثانية: لازم تستخدم قيمة I2t الفعلية للقاطع من بيانات المصنع (الطاقة المحدودة) بدل Isc^2 x t.');
+    } else {
+      throw new Error('ادخل طاقة القاطع I2t (kA2s) من بيانات المصنع أو زمن القطع (s).');
+    }
+    var ok = letThrough <= withstand;
+    steps.push({ step: 'التحقق', formula: 'I2t_device <= k^2 x S^2', substitution: f(letThrough / 1e6, 4) + ' x 10^6 <= ' + f(withstand / 1e6, 4) + ' x 10^6', result: ok ? 'الكابل يتحمل (متحقق)' : 'الكابل لا يتحمل (غير متحقق)', value: ok, unit: '' });
+    var Smin = Math.sqrt(letThrough) / k;
+    steps.push({ step: 'أقل مقطع مطلوب', formula: 'S_min = sqrt(I2t) / k', substitution: 'sqrt(' + f(letThrough / 1e6, 4) + ' x 10^6) / ' + k, result: f(Smin, 2) + ' mm2', value: Smin, unit: 'mm2' });
+    var tmax = withstand / (Isc * Isc);
+    steps.push({ step: 'أقصى زمن قطع مسموح عند Isc', formula: 't_max = k^2 S^2 / Isc^2', substitution: f(withstand / 1e6, 4) + ' x 10^6 / (' + f(Isc / 1000, 2) + ' kA)^2', result: f(tmax, 3) + ' s', value: tmax, unit: 's' });
+    if (basis === 'time') extra.push('طاقة القاطع محسوبة من زمن القطع المدخل (تقدير). للاعتماد استخدم I2t الفعلي من بيانات المصنع عند Isc.');
+    extra.push('جدول طاقة القاطع (let-through) غير موجود في البيانات: القيمة المدخلة من المستخدم أو من بيانات المصنع.');
+    return {
+      ok: ok, size_mm2: S, k: k, withstandA2s: withstand, letThroughA2s: letThrough, minSizeMm2: r2(Smin), maxTimeS: r3(tmax), basis: basis,
+      table: a.meta('iec_60364_4_43_k_factors'), steps: steps, tablesUsed: used, warnings: buildWarnings(used, extra),
+      summary: (ok ? 'الكابل يتحمل: ' : 'الكابل لا يتحمل: ') + S + ' mm2 | k^2S^2 = ' + f(withstand / 1e6, 4) + 'e6 A2s | I2t القاطع = ' + f(letThrough / 1e6, 4) + 'e6 A2s | أقل مقطع ' + f(Smin, 2) + ' mm2'
+    };
+  }
+
+  window.EngCalc = { cableSizing: cableSizing, voltageDrop: voltageDrop, breakerSelection: breakerSelection, shortCircuit: shortCircuit };
 })();
