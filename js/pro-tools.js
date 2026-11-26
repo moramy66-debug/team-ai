@@ -105,72 +105,11 @@
     document.head.appendChild(st);
   }
 
-  function calcCurrent() {
-    var ph = document.getElementById('ptCurPh').value;
-    var kw = parseFloat(document.getElementById('ptCurKw').value);
-    var v = parseFloat(document.getElementById('ptCurV').value);
-    var pf = parseFloat(document.getElementById('ptCurPf').value);
-    var out = document.getElementById('ptCurRes');
-    if (!(kw > 0) || !(v > 0) || !(pf > 0 && pf <= 1)) {
-      out.textContent = 'أدخل قيماً صحيحة (kW > 0، V > 0، 0 < PF <= 1).';
-      return null;
-    }
-    var factor = ph === '3' ? Math.sqrt(3) : 1;
-    var amps = (kw * 1000) / (factor * v * pf);
-    var kva = kw / pf;
-    out.innerHTML = 'التيار المحسوب: <strong>' + amps.toFixed(2) + ' A</strong> | القدرة الظاهرية: <strong>' + kva.toFixed(2) + ' kVA</strong>';
-    return { ph: ph, kw: kw, v: v, pf: pf, amps: amps, kva: kva };
-  }
 
-  function calcVdrop() {
-    var ph = document.getElementById('ptVdPh').value;
-    var i = parseFloat(document.getElementById('ptVdI').value);
-    var l = parseFloat(document.getElementById('ptVdL').value);
-    var a = parseFloat(document.getElementById('ptVdA').value);
-    var v = parseFloat(document.getElementById('ptVdV').value);
-    var rho = parseFloat(document.getElementById('ptVdMat').value);
-    var out = document.getElementById('ptVdRes');
-    if (!(i > 0) || !(l > 0) || !(a > 0) || !(v > 0)) {
-      out.textContent = 'أدخل قيماً صحيحة للتيار والطول والمقطع والجهد.';
-      return null;
-    }
-    var k = ph === '3' ? Math.sqrt(3) : 2;
-    var dv = (k * i * l * rho) / a;
-    var pct = (dv / v) * 100;
-    out.innerHTML = 'هبوط الجهد: <strong>' + dv.toFixed(2) + ' V</strong> | النسبة: <strong>' + pct.toFixed(2) + '%</strong>';
-    return { ph: ph, i: i, l: l, a: a, v: v, dv: dv, pct: pct };
-  }
 
-  function insertIntoTask() {
-    var task = document.getElementById('task');
-    var msg = document.getElementById('ptCalcMsg');
-    if (!task) {
-      if (msg) msg.textContent = 'لم يتم العثور على حقل المهمة (#task).';
-      return;
-    }
-    var c = calcCurrent();
-    var vd = calcVdrop();
-    var lines = [];
-    if (c) {
-      lines.push('حساب تيار الحمل (' + (c.ph === '3' ? '3-Phase' : '1-Phase') + '): ' +
-        c.kw + ' kW، ' + c.v + ' V، PF=' + c.pf + ' => I = ' + c.amps.toFixed(2) + ' A (' + c.kva.toFixed(2) + ' kVA)');
-    }
-    if (vd) {
-      lines.push('حساب هبوط الجهد (' + (vd.ph === '3' ? '3-Phase' : '1-Phase') + '): I=' +
-        vd.i + ' A، L=' + vd.l + ' m، S=' + vd.a + ' mm²، V=' + vd.v + ' V => ΔV = ' +
-        vd.dv.toFixed(2) + ' V (' + vd.pct.toFixed(2) + '%)');
-    }
-    if (!lines.length) {
-      if (msg) msg.textContent = 'احسب قيمة واحدة على الأقل قبل الإدراج.';
-      return;
-    }
-    var snippet = lines.join('\n');
-    task.value = task.value.trim() ? (task.value.trim() + '\n\n' + snippet) : snippet;
-    task.dispatchEvent(new Event('input', { bubbles: true }));
-    task.dispatchEvent(new Event('change', { bubbles: true }));
-    try { localStorage.setItem('teamai.draft', task.value); } catch (_) {}
-    if (msg) msg.textContent = 'تم إدراج النتيجة في المهمة وتحديث المسودة.';
-  }
+
+
+
 
   async function exportBackup() {
     var msg = document.getElementById('ptBkMsg');
@@ -279,40 +218,11 @@
       '    <button type="button" class="pt-close" id="ptCloseBtn">إغلاق</button>',
       '  </div>',
       '  <div class="pt-tabs">',
-      '    <button type="button" class="pt-tab active" data-pt-tab="calc">حاسبات هندسية</button>',
-      '    <button type="button" class="pt-tab" data-pt-tab="backup">النسخ الاحتياطي</button>',
+      '    <button type="button" class=pt-tab active" data-pt-tab="backup">النسخ الاحتياطي</button>',
       '    <button type="button" class="pt-tab" data-pt-tab="lh">ترويسة المكتب</button>',
       '  </div>',
       '  <div class="pt-body">',
-      '    <div class="pt-panel active" data-pt-panel="calc">',
-      '      <div class="pt-card">',
-      '        <h4>1) حساب تيار الحمل (Load Current)</h4>',
-      '        <div class="pt-grid">',
-      '          <div class="pt-field"><label>الطور (Phase)</label><select id="ptCurPh"><option value="3">3-Phase</option><option value="1">1-Phase</option></select></div>',
-      '          <div class="pt-field"><label>القدرة (kW)</label><input id="ptCurKw" type="number" step="any" value="15"></div>',
-      '          <div class="pt-field"><label>الجهد (V)</label><input id="ptCurV" type="number" step="any" value="380"></div>',
-      '          <div class="pt-field"><label>معامل القدرة (PF)</label><input id="ptCurPf" type="number" step="0.01" min="0.1" max="1" value="0.85"></div>',
-      '        </div>',
-      '        <div class="pt-res" id="ptCurRes"></div>',
-      '      </div>',
-      '      <div class="pt-card">',
-      '        <h4>2) نسبة هبوط الجهد (Voltage Drop %)</h4>',
-      '        <div class="pt-grid">',
-      '          <div class="pt-field"><label>الطور</label><select id="ptVdPh"><option value="3">3-Phase</option><option value="1">1-Phase</option></select></div>',
-      '          <div class="pt-field"><label>التيار (A)</label><input id="ptVdI" type="number" step="any" value="26.8"></div>',
-      '          <div class="pt-field"><label>الطول (m)</label><input id="ptVdL" type="number" step="any" value="45"></div>',
-      '          <div class="pt-field"><label>المقطع (mm²)</label><input id="ptVdA" type="number" step="any" value="10"></div>',
-      '          <div class="pt-field"><label>الجهد (V)</label><input id="ptVdV" type="number" step="any" value="380"></div>',
-      '          <div class="pt-field"><label>الموصل</label><select id="ptVdMat"><option value="0.0175">نحاس (Cu)</option><option value="0.0282">ألمنيوم (Al)</option></select></div>',
-      '        </div>',
-      '        <div class="pt-res" id="ptVdRes"></div>',
-      '      </div>',
-      '      <div class="pt-row">',
-      '        <button type="button" class="pt-btn ok" id="ptInsertTaskBtn">إدراج النتيجة في المهمة</button>',
-      '      </div>',
-      '      <div class="pt-msg" id="ptCalcMsg"></div>',
-      '    </div>',
-      '    <div class="pt-panel" data-pt-panel="backup">',
+      '    <div class="pt-panel active" data-pt-panel="backup">',
       '      <div class="pt-card">',
       '        <h4>تصدير واستيراد البيانات (بدون مفاتيح API)</h4>',
       '        <p style="font-size:12px;color:#94a3b8;margin:0 0 10px 0">يشمل: القواعد، الذاكرة، الأكواد، السجل، وترويسة المكتب (يستثني مفاتيح k_*).</p>',
@@ -356,11 +266,10 @@
     }
 
     bd.__openTab = function (tabName) {
-      switchTab(tabName || 'calc');
+      switchTab(tabName || 'backup');
       syncLetterheadForm();
       pendingLogo = getLetterhead().logo;
-      calcCurrent();
-      calcVdrop();
+
       bd.classList.add('open');
     };
 
@@ -377,16 +286,8 @@
       if (e.target === bd) bd.classList.remove('open');
     });
 
-    ['ptCurPh', 'ptCurKw', 'ptCurV', 'ptCurPf'].forEach(function (id) {
-      document.getElementById(id).addEventListener('input', calcCurrent);
-      document.getElementById(id).addEventListener('change', calcCurrent);
-    });
-    ['ptVdPh', 'ptVdI', 'ptVdL', 'ptVdA', 'ptVdV', 'ptVdMat'].forEach(function (id) {
-      document.getElementById(id).addEventListener('input', calcVdrop);
-      document.getElementById(id).addEventListener('change', calcVdrop);
-    });
 
-    document.getElementById('ptInsertTaskBtn').addEventListener('click', insertIntoTask);
+
     document.getElementById('ptExportBtn').addEventListener('click', exportBackup);
     document.getElementById('ptImportInput').addEventListener('change', function (e) {
       var f = e.target.files && e.target.files[0];
@@ -428,27 +329,14 @@
       if (m) m.textContent = 'تم حفظ ترويسة وشعار المكتب.';
     });
 
-    calcCurrent();
-    calcVdrop();
+
     syncLetterheadForm();
   }
 
   function addTopbarButtons() {
     var topbar = document.querySelector('.topbar');
     if (!topbar) return;
-    if (!document.getElementById('calcBtn')) {
-      var calcBtn = document.createElement('button');
-      calcBtn.id = 'calcBtn';
-      calcBtn.type = 'button';
-      calcBtn.className = 'sec';
-      calcBtn.title = 'حاسبات هندسية فورية';
-      calcBtn.textContent = 'حاسبات';
-      calcBtn.addEventListener('click', function () {
-        buildModal();
-        document.getElementById('ptModalBackdrop').__openTab('calc');
-      });
-      topbar.appendChild(calcBtn);
-    }
+ 
     if (!document.getElementById('backupBtn')) {
       var bkBtn = document.createElement('button');
       bkBtn.id = 'backupBtn';
@@ -478,7 +366,7 @@ el.innerHTML = '<div class="pt-modal" role="dialog" aria-modal="true" aria-label
 '<ol class="pt-help-list" style="margin:0;padding-inline-start:20px;line-height:1.85;">' +
 '<li><strong>إضافة مفتاح API:</strong> افتح الإعدادات وأدخل مفتاح Gemini API لتفعيل التحليل والبث المباشر.</li>' +
 '<li><strong>رفع الأكواد الهندسية:</strong> من مكتبة الأكواد اختر الكود المعتمد أو ارفع ملفاتك الهندسية المرجعية.</li>' +
-'<li><strong>استخدام الحاسبة والترويسة:</strong> استخدم الحاسبة للحسابات الهندسية السريعة، والترويسة لإضافة اسم وشعار مكتبك.</li>' +
+'<li><strong>Eng Calc:</strong> افتح حاسبة الهندسة (Eng Calc) من شريط الأدوات للحسابات الكهربائية وتصدير PDF.</li>' +
 '<li><strong>النسخ الاحتياطي:</strong> صدّر واستورد القواعد والأكواد والسجل والترويسة كملف JSON للحفظ والاستعادة.</li>' +
 '</ol>' +
 '</div></div>';
