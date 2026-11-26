@@ -39,6 +39,7 @@ jobs:
         run: |
           node tools/eng-calc-test.js
           node tools/eng-crosscheck-test.js
+          node tools/eng-pdf-test.js
       - name: Required functions are defined
         run: |
           for fn in sendMail mailPayload wordReport pdfReport fmtPass showResume renderFinal keepAwake askFiles; do
