@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var AR_WARNING = 'تحذير: حسابات حجم المولد وتخفيض القدرة (Derating) ونسبة هبوط الجهد التقريبية (Voltage Dip) تعتمد على معاملات إرشادية (needs_review). يجب التحقق من منحنيات الشركة المصنعة للمولد (ISO 8528) وخصائص بدء المحرك الفعلية قبل الاعتماد.';
+  var AR_WARNING = 'تحذير: حسابات حجم Generator وتخفيض Power (Derating) ونسبة Voltage Drop التقريبية (Voltage Dip) تعتمد على معاملات إرشادية (needs_review). يجب التحقق من منحنيات الشركة المصنعة لـ Generator (ISO 8528) وخصائص بدء المحرك الفعلية قبل الاعتماد.';
 
   var CONSTANTS = {
     standardRatingsKva: { value: [20, 30, 45, 60, 80, 100, 125, 150, 200, 250, 300, 350, 400, 500, 625, 750, 800, 1000, 1250, 1500, 2000, 2500], unit: 'kVA', status: 'needs_review', source_url: null, source_note: 'السعات القياسية الشائعة لمجموعات التوليد؛ تُراجع مع كتالوج الشركة المصنعة' },
@@ -10,13 +10,13 @@
       unit: 'xFLC',
       status: 'needs_review',
       source_url: null,
-      source_note: 'مضاعفات تيار/قدرة البدء التقريبية لطرق بدء المحركات؛ تُراجع من بيانات المحرك والبادئ'
+      source_note: 'مضاعفات Current/Power البدء التقريبية لطرق بدء المحركات؛ تُراجع من بيانات المحرك والبادئ'
     },
     motorEfficiency: { value: 0.90, unit: 'ratio', status: 'needs_review', source_url: null, source_note: 'كفاءة/معامل تحويل تقديري للمحرك لحساب kVA البدء' },
-    xdSubtransientPct: { value: 15, unit: '%', status: 'needs_review', source_url: null, source_note: 'الممانعة العابرة التحتية التقريبية للمولد Xd" (15%) لحساب هبوط الجهد التقريبي' },
-    maxRecommendedDipPct: { value: 15, unit: '%', status: 'needs_review', source_url: null, source_note: 'حد هبوط الجهد اللحظي الإرشادي (15%) عند بدء أكبر محرك' },
+    xdSubtransientPct: { value: 15, unit: '%', status: 'needs_review', source_url: null, source_note: 'Impedance العابرة التحتية التقريبية لـ Generator Xd" (15%) لحساب Voltage Drop التقريبي' },
+    maxRecommendedDipPct: { value: 15, unit: '%', status: 'needs_review', source_url: null, source_note: 'حد Voltage Drop اللحظي الإرشادي (15%) عند بدء أكبر محرك' },
     altitudeBaseM: { value: 1000, unit: 'm', status: 'needs_review', source_url: null, source_note: 'الارتفاع المرجعي قبل التخفيض (1000 m)، مع تخفيض تقديري 1% لكل 100 m إضافية' },
-    tempBaseC: { value: 40, unit: 'C', status: 'needs_review', source_url: null, source_note: 'درجة الحرارة المرجعية (40°C)، مع تخفيض تقديري 0.5% لكل 1°C إضافية' }
+    tempBaseC: { value: 40, unit: 'C', status: 'needs_review', source_url: null, source_note: 'Temperature المرجعية (40°C)، مع تخفيض تقديري 0.5% لكل 1°C إضافية' }
   };
 
   function calculate(inp) {
@@ -32,7 +32,7 @@
     var mult = multMap[startMethod] || multMap['DOL'];
 
     if (!(contKw > 0 && pf > 0 && pf <= 1) || motorKw < 0 || altM < 0 || sparePct < 0) {
-      return { ok: false, error: 'أدخل قيماً موجبة صحيحة للأحمال المستمرة (kW) ومعامل القدرة PF (بين 0 و 1) وبقية المدخلات.' };
+      return { ok: false, error: 'أدخل قيماً موجبة صحيحة لـ Loads المستمرة (kW) و Power Factor PF (بين 0 و 1) وبقية المدخلات.' };
     }
 
     var runningKva = contKw / pf;
@@ -65,15 +65,15 @@
 
     var warnings = [AR_WARNING];
     if (voltageDipPct > CONSTANTS.maxRecommendedDipPct.value) {
-      warnings.push('تحذير: نسبة هبوط الجهد التقريبية (' + voltageDipPct.toFixed(1) + '%) تتجاوز الحد الإرشادي ' + CONSTANTS.maxRecommendedDipPct.value + '%؛ يُنصح بتغيير طريقة البدء أو زيادة سعة المولد.');
+      warnings.push('تحذير: نسبة Voltage Drop التقريبية (' + voltageDipPct.toFixed(1) + '%) تتجاوز الحد الإرشادي ' + CONSTANTS.maxRecommendedDipPct.value + '%؛ يُنصح بتغيير طريقة البدء أو زيادة Capacity Generator.');
     }
     if (!fitsStandard) {
-      warnings.push('تحذير: السعة المطلوبة (' + requiredIsoKva.toFixed(1) + ' kVA) تتجاوز أكبر مقاس قياسي (' + stdKva + ' kVA)؛ يلزم تشغيل مولدات على التوازي.');
+      warnings.push('تحذير: Required Capacity (' + requiredIsoKva.toFixed(1) + ' kVA) تتجاوز أكبر مقاس قياسي (' + stdKva + ' kVA)؛ يلزم تشغيل Generators على التوازي.');
     }
 
     return {
       ok: true,
-      summary: 'المقاس القياسي ' + stdKva + ' kVA | المطلوب بعد Derating ' + requiredIsoKva.toFixed(1) + ' kVA | هبوط الجهد التقريبي ' + voltageDipPct.toFixed(1) + '%',
+      summary: 'المقاس القياسي ' + stdKva + ' kVA | المطلوب بعد Derating ' + requiredIsoKva.toFixed(1) + ' kVA | Voltage Drop التقريبي ' + voltageDipPct.toFixed(1) + '%',
       runningKva: runningKva,
       motorStartKva: motorStartKva,
       requiredSiteKva: requiredSiteKva,
@@ -84,20 +84,20 @@
       warnings: warnings,
       constants: CONSTANTS,
       steps: [
-        { step: 'الأحمال المستمرة الظاهرية', formula: 'S_run = kW / PF', substitution: contKw + ' / ' + pf + ' ; مع الاحتياطي ' + sparePct + '%', result: runningKva.toFixed(2) + ' kVA (مع الاحتياطي ' + runningWithSpareKva.toFixed(2) + ' kVA)' },
-        { step: 'قدرة بدء أكبر موتور', formula: 'S_start = (kW / η) × مضاعف البدء', substitution: '(' + motorKw + ' / ' + CONSTANTS.motorEfficiency.value + ') × ' + mult + ' (' + startMethod + ')', result: motorStartKva.toFixed(2) + ' kVA' },
-        { step: 'حمل الذروة والمطلوب بالموقع', formula: 'S_step = S_run + S_start ; S_site = max(S_run مع الاحتياطي , S_step)', substitution: runningKva.toFixed(2) + ' + ' + motorStartKva.toFixed(2), result: stepLoadKva.toFixed(2) + ' kVA -> ' + requiredSiteKva.toFixed(2) + ' kVA' },
-        { step: 'معامل Derating', formula: 'DF = 1 - (ارتفاع + حرارة)%', substitution: altM + ' m: -' + altDeratePct.toFixed(1) + '% ; ' + tempC + '°C: -' + tempDeratePct.toFixed(1) + '%', result: deratingFactor.toFixed(3) },
-        { step: 'السعة القياسية المطلوبة (ISO)', formula: 'S_iso = S_site / DF -> أول مقاس قياسي >=', substitution: requiredSiteKva.toFixed(2) + ' / ' + deratingFactor.toFixed(3), result: requiredIsoKva.toFixed(2) + ' kVA -> ' + stdKva + ' kVA' },
-        { step: 'هبوط الجهد التقريبي (Voltage Dip)', formula: 'Dip% ≈ (S_start × Xd") / (S_site_std + S_start × Xd"/100)', substitution: '(' + motorStartKva.toFixed(1) + ' × ' + CONSTANTS.xdSubtransientPct.value + ') / (' + stdSiteKva.toFixed(1) + ' + ' + motorStartKva.toFixed(1) + ' × ' + (CONSTANTS.xdSubtransientPct.value / 100) + ')', result: voltageDipPct.toFixed(2) + '%' }
+        { step: 'Loads المستمرة الظاهرية', formula: 'S_run = kW / PF', substitution: contKw + ' / ' + pf + ' ; مع الاحتياطي ' + sparePct + '%', result: runningKva.toFixed(2) + ' kVA (مع الاحتياطي ' + runningWithSpareKva.toFixed(2) + ' kVA)' },
+        { step: 'Power بدء أكبر موتور', formula: 'S_start = (kW / η) × مضاعف البدء', substitution: '(' + motorKw + ' / ' + CONSTANTS.motorEfficiency.value + ') × ' + mult + ' (' + startMethod + ')', result: motorStartKva.toFixed(2) + ' kVA' },
+        { step: 'Load الذروة والمطلوب بالموقع', formula: 'S_step = S_run + S_start ; S_site = max(S_run مع الاحتياطي , S_step)', substitution: runningKva.toFixed(2) + ' + ' + motorStartKva.toFixed(2), result: stepLoadKva.toFixed(2) + ' kVA -> ' + requiredSiteKva.toFixed(2) + ' kVA' },
+        { step: 'معامل Derating', formula: 'DF = 1 - (ارتفاع + Temperature)%', substitution: altM + ' m: -' + altDeratePct.toFixed(1) + '% ; ' + tempC + '°C: -' + tempDeratePct.toFixed(1) + '%', result: deratingFactor.toFixed(3) },
+        { step: 'Standard Rating المطلوبة (ISO)', formula: 'S_iso = S_site / DF -> أول مقاس قياسي >=', substitution: requiredSiteKva.toFixed(2) + ' / ' + deratingFactor.toFixed(3), result: requiredIsoKva.toFixed(2) + ' kVA -> ' + stdKva + ' kVA' },
+        { step: 'Voltage Drop التقريبي (Voltage Dip)', formula: 'Dip% ≈ (S_start × Xd") / (S_site_std + S_start × Xd"/100)', substitution: '(' + motorStartKva.toFixed(1) + ' × ' + CONSTANTS.xdSubtransientPct.value + ') / (' + stdSiteKva.toFixed(1) + ' + ' + motorStartKva.toFixed(1) + ' × ' + (CONSTANTS.xdSubtransientPct.value / 100) + ')', result: voltageDipPct.toFixed(2) + '%' }
       ],
       extra: [
-        { k: 'الأحمال المستمرة (kVA)', v: runningKva.toFixed(1) + ' kVA' },
-        { k: 'قدرة بدء أكبر موتور (' + startMethod + ')', v: motorStartKva.toFixed(1) + ' kVA' },
-        { k: 'معامل تصحيح الارتفاع والحرارة', v: deratingFactor.toFixed(3) + ' (تخفيض ' + totalDeratePct.toFixed(1) + '%)' },
-        { k: 'السعة المطلوبة (ISO)', v: requiredIsoKva.toFixed(1) + ' kVA' },
-        { k: 'المقاس القياسي للمولد', v: stdKva + ' kVA' },
-        { k: 'نسبة هبوط الجهد التقريبية (Voltage Dip)', v: voltageDipPct.toFixed(2) + '%' }
+        { k: 'Loads المستمرة (kVA)', v: runningKva.toFixed(1) + ' kVA' },
+        { k: 'Power بدء أكبر موتور (' + startMethod + ')', v: motorStartKva.toFixed(1) + ' kVA' },
+        { k: 'Altitude and Temperature Correction Factor', v: deratingFactor.toFixed(3) + ' (تخفيض ' + totalDeratePct.toFixed(1) + '%)' },
+        { k: 'Required Capacity (ISO)', v: requiredIsoKva.toFixed(1) + ' kVA' },
+        { k: 'المقاس القياسي لـ Generator', v: stdKva + ' kVA' },
+        { k: 'نسبة Voltage Drop التقريبية (Voltage Dip)', v: voltageDipPct.toFixed(2) + '%' }
       ],
       used: [
         'continuousKw=' + contKw + 'kW, PF=' + pf + ', largestMotor=' + motorKw + 'kW (' + startMethod + ')',
@@ -137,7 +137,7 @@
         grid.appendChild(h.createField('gn-tmp', 'Ambient Temperature (°C)', 'number', '45'));
         grid.appendChild(h.createField('gn-spr', 'Spare Margin (%)', 'number', '15'));
         panel.appendChild(grid);
-        var btn = h.el('button', 'ec-btn', 'حساب حجم المولد');
+        var btn = h.el('button', 'ec-btn', 'حساب حجم Generator');
         btn.type = 'button';
         panel.appendChild(btn);
         var out = h.el('div', 'ec-out');
