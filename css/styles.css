@@ -415,3 +415,4 @@ body .ec-modal .ec-tab.ec-active,body .ec-tab.ec-active{background:#4f46e5!impor
 .ec-summary,.ec-warn,.ec-ok,.ec-err{unicode-bidi:plaintext}
 button:focus-visible,a:focus-visible,[role=button]:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){.spin{animation-duration:2.4s}*{scroll-behavior:auto!important}}
+body[data-theme="light"] p.hint[style]{color:#8a5a00!important}
