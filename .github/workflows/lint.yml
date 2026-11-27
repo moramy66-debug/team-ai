@@ -50,6 +50,7 @@ jobs:
           node tools/eng-generator-test.js
           node tools/eng-ups-test.js
           node tools/eng-guard-test.js
+          node tools/source-info-test.js
           node tools/code-library-test.js
       - name: Required functions are defined
         run: |
