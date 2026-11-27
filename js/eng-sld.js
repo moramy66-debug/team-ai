@@ -46,7 +46,7 @@
   }
 
   function toSVG(d) {
-    var o = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + d.w + ' ' + d.h + '" width="100%" role="img" aria-label="Single line diagram" style="max-width:' + d.w + 'px;background:#fff;border-radius:8px">'];
+    var o = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + d.w + ' ' + d.h + '" width="100%" role="img" aria-label="Single line diagram" direction="ltr" style="direction:ltr;unicode-bidi:isolate;max-width:' + d.w + 'px;background:#fff;border-radius:8px">'];
     d.prims.forEach(function (p) {
       if (p.t === 'line') o.push('<line x1="' + p.x1 + '" y1="' + p.y1 + '" x2="' + p.x2 + '" y2="' + p.y2 + '" stroke="#0f172a" stroke-width="' + (p.w || 3) + '"/>');
       else if (p.t === 'rect') o.push('<rect x="' + p.x + '" y="' + p.y + '" width="' + p.w + '" height="' + p.h + '" fill="' + (p.fill || 'none') + '" stroke="' + (p.stroke || 'none') + '" stroke-width="2.5" rx="3"/>');
