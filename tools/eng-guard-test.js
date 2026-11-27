@@ -33,5 +33,18 @@ eq('Transformer Z blank uses default', window.EngTransformer.calculate({ demandK
 eq('DF 0.5 kept', ls.rows[3].df, 0.5);
 var cp = window.EngPfcCpc.cpc({ currentA: 1000, timeS: 6, conductor: 'Cu', insulation: 'PVC', kind: 'insulated', phaseMm2: 30 });
 eq('CPC t>5 s warns that adiabatic is not valid', (cp.warnings || []).some(function (w) { return String(w).indexOf('5 ثواني') >= 0; }), true);
+require('../js/eng-cabletray.js');
+eq('Transformer target loading 0 is an error', window.EngTransformer.calculate({ demandKva: 500, targetLoadPct: 0 }).ok, false);
+eq('Transformer secondary voltage 0 is an error', window.EngTransformer.calculate({ demandKva: 500, vSecondary: 0 }).ok, false);
+eq('Transformer blank target loading uses default', window.EngTransformer.calculate({ demandKva: 500, targetLoadPct: '' }).ok, true);
+eq('Cable tray fill limit 0 is an error', window.EngCableTray.calculate({ cableCount: 6, outerDiaMm: 32, fillLimitPct: 0 }).ok, false);
+eq('Cable tray blank depth uses default', window.EngCableTray.calculate({ cableCount: 6, outerDiaMm: 32, trayDepthMm: '' }).ok, true);
+var pm = ''; try { window.EngPfcCpc.pfc({ pKW: 100, pfExisting: 0.8, pfTarget: 0 }); } catch (e) { pm = e.message; }
+eq('PFC target PF 0 is an error', pm.length > 0, true);
+pm = ''; try { window.EngPfcCpc.pfc({ pKW: 100, pfExisting: 0.8, voltageV: 0 }); } catch (e) { pm = e.message; }
+eq('PFC voltage 0 is an error', pm.indexOf('Voltage') >= 0, true);
+eq('PFC blank voltage and target use defaults', typeof window.EngPfcCpc.pfc({ pKW: 100, pfExisting: 0.8, voltageV: '', pfTarget: '' }), 'object');
+eq('Generator unknown start method is an error', window.EngGenerator.calculate({ continuousKw: 100, pf: 0.8, startMethod: 'XYZ' }).ok, false);
+eq('Generator ambient 0 C is accepted', window.EngGenerator.calculate({ continuousKw: 100, pf: 0.8, ambientTempC: 0 }).ok, true);
 if (fails) { console.log(fails + ' FAILED'); process.exit(1); }
 console.log('ALL ENG-GUARD TESTS PASSED');
