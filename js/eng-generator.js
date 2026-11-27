@@ -21,7 +21,7 @@
 
   function calculate(inp) {
     var contKw = Number(inp.continuousKw);
-    var pf = Number(inp.pf || 0.8);
+    var pf = (inp.pf === undefined || inp.pf === null || inp.pf === '') ? 0.8 : Number(inp.pf);
     var motorKw = Number(inp.largestMotorKw || 0);
     var startMethod = inp.startMethod || 'DOL';
     var altM = Number(inp.altitudeM || 0);
