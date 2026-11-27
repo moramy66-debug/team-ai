@@ -13,8 +13,9 @@
   function calculate(inp) {
     var count = Number(inp.cableCount);
     var d = Number(inp.outerDiaMm);
-    var depth = Number(inp.trayDepthMm || CONSTANTS.defaultTrayDepthMm.value);
-    var fillLimitPct = Number(inp.fillLimitPct || CONSTANTS.defaultFillLimitPct.value);
+    function given(x) { return !(x === undefined || x === null || x === ''); }
+    var depth = given(inp.trayDepthMm) ? Number(inp.trayDepthMm) : CONSTANTS.defaultTrayDepthMm.value;
+    var fillLimitPct = given(inp.fillLimitPct) ? Number(inp.fillLimitPct) : CONSTANTS.defaultFillLimitPct.value;
     var arrangement = inp.arrangement || 'multicore';
     var sparePct = Number(inp.sparePct || 0);
 
