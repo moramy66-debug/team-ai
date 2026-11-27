@@ -108,7 +108,7 @@
         grid.appendChild(h.createField('lt-uf', 'Utilization Factor (UF)', 'number', String(CONSTANTS.defaultUF.value)));
         grid.appendChild(h.createField('lt-mf', 'Maintenance Factor (MF)', 'number', String(CONSTANTS.defaultMF.value)));
       body.appendChild(grid);
-        var btn = h.el('button', 'ec-btn', 'حساب Lighting (Lumen Method)');
+        var btn = h.el('button', 'ec-btn', 'Calculate Lighting (Lumen Method)');
         btn.type = 'button';
       body.appendChild(btn);
         var out = h.el('div', 'ec-out');
