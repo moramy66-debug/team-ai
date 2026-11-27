@@ -296,7 +296,7 @@
         return SI ? { id: '[' + (i + 1) + '] ' + t.id, status: t.status, source: SI.text(t).replace(/^.*?\|\s*/, '') } : t;
       }) });
     }
-    if ((res.warnings || []).length) blocks.push({ type: 'warnings', items: res.warnings });
+    if ((res.warnings || []).length) blocks.push({ type: 'warnings', items: res.warnings.filter(function (w, i, a) { return a.indexOf(w) === i; }) });
     blocks.push({ type: 'table', heading: 'الحسابات خطوة بخطوة / Calculation steps', columns: ['الخطوة', 'المعادلة', 'التعويض', 'النتيجة'], rows: steps, widths: [0.2, 0.27, 0.31, 0.22], rtl: true, fontSize: 21 });
     return { title: title, subtitle: 'Deterministic calculation with table sources and status flags', blocks: blocks, signature: true, fileBase: title };
   }
