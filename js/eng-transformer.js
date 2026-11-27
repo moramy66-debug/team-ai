@@ -127,6 +127,7 @@
             vSecondary: h.numVal('tr-vs'),
             impedancePct: h.numVal('tr-z')
           });
+          out.innerHTML = '';
           h.showResult(out, res, 'Transformer Sizing');
           if (res.ok) h.renderResultActions(out, 'needs_review', pdfFn('Transformer Sizing', res));
         });
