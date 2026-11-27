@@ -18,7 +18,7 @@
     /* source bus */
     P.push({ t: 'rect', x: 60, y: 30, w: 340, h: 12, fill: '#0f172a', stroke: '#0f172a' });
     text(60, 12, src, 17, true);
-    if (vTxt) text(400, 40, vTxt, 14, false, 'end');
+    if (vTxt) text(400, 48, vTxt, 14, false, 'end');
     if (has(s.iscKA)) text(60, 58, 'Isc = ' + f1(s.iscKA) + ' kA', 14, false);
     /* breaker */
     line(cx, 42, cx, 100);
