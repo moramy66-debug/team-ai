@@ -20,6 +20,14 @@ eq('DF 1.5 gives a clear error', dfmsg.indexOf('Demand factor غير صالح') 
 dfmsg = ''; try { window.EngLoadSchedule.schedule({ loads: [{ kw: 10, df: -0.5 }] }); } catch (e) { dfmsg = e.message; }
 eq('DF negative gives a clear error', dfmsg.indexOf('Demand factor غير صالح') >= 0, true);
 var trz = window.EngTransformer.calculate({ demandKva: 500, impedancePct: 0 });
+var pfm = ''; try { window.EngLoadSchedule.schedule({ loads: [{ kw: 10, pf: 1.5 }] }); } catch (e) { pfm = e.message; }
+eq('Load PF 1.5 gives a clear error', pfm.indexOf('Power Factor غير صالح') >= 0, true);
+pfm = ''; try { window.EngLoadSchedule.schedule({ loads: [{ kw: 10, pf: 0 }] }); } catch (e) { pfm = e.message; }
+eq('Load PF 0 gives a clear error', pfm.indexOf('Power Factor غير صالح') >= 0, true);
+eq('Load PF blank defaults to 0.85', window.EngLoadSchedule.schedule({ loads: [{ kw: 10, pf: '' }] }).rows[0].pf, 0.85);
+var vm = ''; try { window.EngLoadSchedule.schedule({ loads: [{ kw: 10 }], voltageV: 0 }); } catch (e) { vm = e.message; }
+eq('Load schedule voltage 0 gives a clear error', vm.indexOf('Voltage غير صالح') >= 0, true);
+eq('Load schedule voltage blank uses 400', window.EngLoadSchedule.schedule({ loads: [{ kw: 10 }] }).ok !== false, true);
 eq('Transformer Z 0 gives a clear error', trz.ok === false && String(trz.error).indexOf('Impedance') >= 0, true);
 eq('Transformer Z blank uses default', window.EngTransformer.calculate({ demandKva: 500 }).ok, true);
 eq('DF 0.5 kept', ls.rows[3].df, 0.5);
