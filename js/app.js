@@ -61,7 +61,7 @@ $('setClose').onclick=()=>{$('settings').hidden=true};
 $('setBtn').addEventListener('click',()=>document.body.classList.remove('menu-open'));
 $('newBtn').onclick=()=>{if(abort)return;current=null;xlCtx=null;files=[];renderChips();clearTmpl();$('task').value='';$('run').hidden=true;$('steps').innerHTML='';$('finalCard').hidden=true;$('xlOut').hidden=true;$('pdfOut').hidden=true;document.body.classList.remove('menu-open');scrollTo(0,0);$('task').focus()};
 loadCfg();showWho();renderHist();if(!agents().length)$('settings').hidden=false;
-if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js');
+if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(function(e){console.warn('SW registration failed',e)});
 
 (function(){var d=document,b=d.body;function t(v){b.classList.toggle('log-open',v)}d.getElementById('logBtn').onclick=function(){t(!b.classList.contains('log-open'))};d.getElementById('logClose').onclick=function(){t(false)};d.getElementById('logScrim').onclick=function(){t(false)};d.addEventListener('keydown',function(e){if(e.key==='Escape')t(false)})})();
 
@@ -110,7 +110,7 @@ function render(){var L=get(),box=$('cdList');box.innerHTML='';if(!L.length){box
 function loadPdfJs(){return window.pdfjsLib?Promise.resolve():new Promise(function(res,rej){var sc=document.createElement('script');sc.src='https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js';sc.onload=function(){pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';res()};sc.onerror=function(){rej(new Error('تعذر تحميل قارئ الـ PDF'))};document.head.appendChild(sc)})}
 async function pdfText(file){await loadPdfJs();var doc=await pdfjsLib.getDocument({data:new Uint8Array(await file.arrayBuffer())}).promise,out=[];
  for(var i=1;i<=doc.numPages;i++){msg('بقرا صفحة '+i+' من '+doc.numPages+'...');var p=await doc.getPage(i),tc=await p.getTextContent();out.push(tc.items.map(function(x){return x.str}).join(' '))}return out.join('\n\n')}
-$('cdFile').onchange=async function(){var f=this.files[0];if(!f)return;if(!$('cdName').value.trim())$('cdName').value=f.name.replace(/\.[^.]+$/,'');
+$('cdFile').onchange=async function(){var f=this.files[0];if(!f)return;if(f.size>30*1024*1024){msg('الملف أكبر من 30 ميجا.');this.value='';return}if(!$('cdName').value.trim())$('cdName').value=f.name.replace(/\.[^.]+$/,'');
  try{var t=/pdf$/i.test(f.name)||/pdf/i.test(f.type)?await pdfText(f):await f.text();t=t.replace(/[ \t]+/g,' ').trim();
   if(t.length<50){msg('الملف ده شكله مصوّر (سكان) ومفيهوش نص. الصق النص يدوي.');return}
   $('cdText').value=t.slice(0,250000);msg('اتقرا '+Math.round(t.length/1000)+'K حرف'+(t.length>250000?' (اتقص عند 250K)':'')+'. اضغط إضافة للمكتبة.')}
