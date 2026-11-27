@@ -1,8 +1,9 @@
-const CACHE_NAME = 'teamai-v126';
+const CACHE_NAME = 'teamai-v128';
 const CORE_ASSETS = [
   './',
   './index.html',
   './manifest.webmanifest',
+  './js/key-session.js',
   './js/storage-idb.js',
   './js/sanitize.js',
   './css/styles.css',
@@ -36,14 +37,14 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   if (request.method !== 'GET') return;
   const url = new URL(request.url);
-  const TRUSTED_CDN_HOSTS = new Set(['cdn.jsdelivr.net', 'cdnjs.cloudflare.com', 'fonts.googleapis.com', 'fonts.gstatic.com']); if (TRUSTED_CDN_HOSTS.has(url.hostname)) { event.respondWith(caches.open(CACHE_NAME).then(async (cache) => { const cached = await cache.match(request); const net = fetch(request).then((res) => { if (res && (res.ok || res.type === 'opaque')) cache.put(request, res.clone()); return res; }).catch(() => cached); return cached || net; })); return; } if (url.origin !== self.location.origin) return;
+  const TRUSTED_CDN_HOSTS = new Set(['cdn.jsdelivr.net', 'cdnjs.cloudflare.com', 'fonts.googleapis.com', 'fonts.gstatic.com']); if (TRUSTED_CDN_HOSTS.has(url.hostname)) { event.respondWith(caches.open(CACHE_NAME).then(async (cache) => { const cached = await cache.match(request); const net = fetch(request).then((res) => { if (res && (res.ok || res.type === 'opaque')) event.waitUntil(cache.put(request, res.clone()).catch(() => {})); return res; }).catch(() => cached); return cached || net; })); return; } if (url.origin !== self.location.origin) return;
 
   event.respondWith(
     fetch(request)
       .then((networkResponse) => {
         if (networkResponse && networkResponse.ok) {
           const copy = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
+          event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.put(request, copy)).catch(() => {}));
         }
         return networkResponse;
       })
