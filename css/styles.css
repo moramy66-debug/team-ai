@@ -469,3 +469,18 @@ body[data-theme="light"] .chip{background:#fff;color:var(--tx)}
 body[data-theme="light"]{background:var(--bg)}
 body[data-theme="light"] .topbar{background:rgba(244,246,251,.92)}
 .sidefoot #ec-side-btn{flex:1 1 100%}
+/* UI pass 2: mobile home polish */
+#go{background:linear-gradient(180deg,#7280ff,#5565f0)!important;color:#fff!important;border:1px solid #a3adff!important;box-shadow:0 2px 10px rgba(98,114,245,.45)!important}
+#go:disabled{opacity:.6}
+#stop:disabled{opacity:.7;color:var(--mut)}
+.ec-note,.ec-summary{unicode-bidi:plaintext}
+.ec-note{padding:10px 12px;border-radius:8px;border:1px solid #d97706;background:rgba(217,119,6,.10);font-size:13px;line-height:1.7;margin-bottom:12px}
+@media (max-width:600px){
+  #tmpls{flex-wrap:wrap!important;overflow:visible!important}
+  #tmpls button{flex:0 1 auto;white-space:normal;min-height:44px}
+  #utTmplFilters#utTmplFilters{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 22px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 22px),transparent 100%);padding-inline:10px}
+  .row:has(>#go){gap:6px}
+  .row:has(>#go)>#stop,.row:has(>#go)>#logBtn{min-width:44px;width:44px;padding:0;font-size:0;gap:0;justify-content:center}
+  .row:has(>#go)>#stop::before,.row:has(>#go)>#logBtn::before{margin:0}
+  .row:has(>#go)>#effort{width:92px!important}
+}
