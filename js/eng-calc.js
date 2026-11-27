@@ -60,7 +60,9 @@
   /* ---------- design current ---------- */
   function designCurrent(o, steps, extra) {
     var phases = Number(o.phases) === 1 ? 1 : 3;
-    var V = pos(o.voltageV) ? o.voltageV : (phases === 1 ? 230 : 400);
+    var vGiven = !(o.voltageV === undefined || o.voltageV === null || o.voltageV === '');
+    if (vGiven && !pos(Number(o.voltageV))) throw new Error('Voltage غير صالح (' + o.voltageV + '): لازم يكون أكبر من صفر. سيبه فاضي لو عايز القيمة الافتراضية (' + (phases === 1 ? 230 : 400) + ' V).');
+    var V = vGiven ? Number(o.voltageV) : (phases === 1 ? 230 : 400);
     var given = function (x) { return x !== undefined && x !== null && x !== '' && !(typeof x === 'number' && isNaN(x)); };
     if (given(o.powerFactor) && !(pos(o.powerFactor) && o.powerFactor <= 1)) throw new Error('Power Factor غير صالح (' + o.powerFactor + '): لازم يكون أكبر من 0 وأقل من أو يساوي 1.');
     var pf = pos(o.powerFactor) && o.powerFactor <= 1 ? o.powerFactor : 0.85;
@@ -157,7 +159,9 @@
     var o = input || {}, a = api(tablesApi), used = [], steps = [], extra = [];
     var size = Number(o.size_mm2), I = Number(o.currentA), L = Number(o.lengthM);
     var phases = Number(o.phases) === 1 ? 1 : 3;
-    var V = pos(o.voltageV) ? o.voltageV : (phases === 1 ? 230 : 400);
+    var vGiven = !(o.voltageV === undefined || o.voltageV === null || o.voltageV === '');
+    if (vGiven && !pos(Number(o.voltageV))) throw new Error('Voltage غير صالح (' + o.voltageV + '): لازم يكون أكبر من صفر. سيبه فاضي لو عايز القيمة الافتراضية (' + (phases === 1 ? 230 : 400) + ' V).');
+    var V = vGiven ? Number(o.voltageV) : (phases === 1 ? 230 : 400);
     var cond = String(o.conductor || 'Cu'), ins = String(o.insulation || 'XLPE').toUpperCase();
     if (o.powerFactor !== undefined && o.powerFactor !== null && o.powerFactor !== '' && !(typeof o.powerFactor === 'number' && isNaN(o.powerFactor)) && !(pos(o.powerFactor) && o.powerFactor <= 1)) throw new Error('Power Factor غير صالح (' + o.powerFactor + '): لازم يكون أكبر من 0 وأقل من أو يساوي 1.');
     var pf = pos(o.powerFactor) && o.powerFactor <= 1 ? o.powerFactor : 0.85;
