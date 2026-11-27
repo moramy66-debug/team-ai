@@ -28,5 +28,11 @@ ok('instructions: recompute, no invented clauses, severity', /Recompute every st
 ok('no emoji', !/[\u{1F300}-\u{1FAFF}]/u.test(t));
 var e = window.ReviewPrompt.build({ title: 'X', res: {}, inputs: [] });
 ok('empty result still builds', /No steps were returned/.test(e) && /Inputs were not captured/.test(e));
+var c = window.ReviewPrompt.buildChat({ task: 'Size a cable for 60 A', answer: 'Use 25 mm2 Cu.' });
+ok('chat prompt: task and answer included', /Size a cable for 60 A/.test(c) && /Use 25 mm2 Cu\./.test(c));
+ok('chat prompt: says answer is not calculator output', /NOT computed by a deterministic calculator/.test(c));
+ok('chat prompt: no invented clauses rule and verdict', /Do not invent clause numbers/.test(c) && /Accept, Accept with comments, or Reject/.test(c));
+ok('chat prompt: empty input still builds', /task text not captured/.test(window.ReviewPrompt.buildChat({})) );
+ok('chat prompt: no emoji', !/[\u{1F300}-\u{1FAFF}]/u.test(c));
 if (fails) { console.log(fails + ' FAILED'); process.exit(1); }
 console.log('ALL REVIEW-PROMPT TESTS PASSED');
