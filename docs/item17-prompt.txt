@@ -1,0 +1,56 @@
+===== ابدأ الـ prompt من هنا =====
+
+انت مهندس JavaScript. المطلوب: إضافة 4 حاسبات هندسية كهربائية جديدة لتطبيق ويب جاهز اسمه Team AI، كل حاسبة في ملف جديد خاص بيها وتاب جديد في Eng Calc: (1) إضاءة بطريقة lumen method، (2) حجم Cable tray، (3) حجم المحول Transformer sizing، (4) حجم المولد Generator sizing. اقرا كل الوصف قبل ما تكتب سطر.
+
+## 1) التطبيق والـ repo
+- PWA static على GitHub Pages: https://moramy66-debug.github.io/team-ai/ والـ repo: github.com/moramy66-debug/team-ai (branch main). مفيش build ولا npm. الأزرار English، والشرح والنتايج بالعربي المصري، والمصطلحات الهندسية بالإنجليزي.
+- المستخدم مهندس استشاري كهرباء في السعودية. الشغل بتاعه code-based: كل نتيجة لازم تكون خطوات بمعادلة وتعويض ونتيجة بوحدات، بدون تردد في النتيجة النهائية.
+- الـ scripts بتتحمل بـ plain <script defer> وكلها بتشارك نفس الـ global scope. فيه فاحص تكرار (tools/dupcheck.js وcheck.html).
+- فيه شغل تاني شغال على نفس الـ repo في نفس الوقت. قبل أي تعديل اعمل fetch لآخر نسخة من الملف من main. متعملش revert لتعديلات حد تاني.
+
+## 2) النمط اللي لازم تمشي عليه (اقراه من الكود الحقيقي)
+- افتح js/eng-loadschedule.js وtools/eng-loadschedule-test.js من main. دول النموذج: منطق نقي على window.EngXxx، وتاب UI بيتسجل بـ:
+  window.EngUI.registerTab(id, label, renderFn)
+  والـ helpers المتاحة على window.EngUI.helpers: el, createField, val, numVal, showResult, ensureTables, renderResultActions (بتضيف زرار PDF وCopy).
+- شكل النتيجة: steps = [{step, formula, substitution, result}] + warnings[] + ملخص. استخدم نفس الشكل عشان تصدير الـ PDF (window.EngPDF) يشتغل من غير تعديل.
+- متمسكش الـ hook ده ولا أي ملف eng-* موجود. كل ملف جديد بيسجل نفسه بس.
+- ملفات جديدة (كل واحد IIFE: (function(){'use strict'; ... })(); ومفيش تعريف top-level):
+  js/eng-lighting.js (window.EngLighting)، js/eng-cabletray.js (window.EngCableTray)، js/eng-transformer.js (window.EngTransformer)، js/eng-generator.js (window.EngGenerator).
+- ملف اختبار لكل حاسبة: tools/eng-lighting-test.js، tools/eng-cabletray-test.js، tools/eng-transformer-test.js، tools/eng-generator-test.js، على نفس طريقة tools/eng-loadschedule-test.js (node من غير مكتبات، global.window = {}، fails counter، exit code 1 عند الفشل). كل اختبار فيه على الأقل حالتين محسوبتين باليد وبالتفصيل في تعليق، وحالات حدية (مدخل صفر أو سالب، قيم كبيرة).
+- لو الحاسبة محتاجة تتعامل مع نتايج حاسبة تانية (EngCalc مثلًا) استخدم الدوال الموجودة قراءة بس.
+
+## 3) محتوى الحاسبات
+1) Lighting (lumen method): مدخلات: أبعاد الغرفة، ارتفاع التركيب والـ work plane، reflectances، luminaire lumens وعدد اللمبات في الوحدة، lux المطلوب، maintenance factor، utilization factor. المعادلة: N = (E x A) / (F x UF x MF). Room Index K = (L x W) / (Hm x (L + W)). نتيجة: عدد الوحدات (لفوق لأقرب عدد صحيح) وترتيب شبكي مقترح (صفوف x أعمدة) وlux فعلي وW/m2.
+2) Cable tray: مدخلات: قايمة كابلات (عدد، قطر خارجي mm)، عرض ومقاس tray قياسي، نسبة الملء المسموحة. نتيجة: مساحة مقاطع الكابلات المجمعة، عرض tray المطلوب، نسبة الملء الفعلية، وتحذير لو الكابلات كبيرة (أكبر من 50 mm مثلًا) وبتتحط في طبقة واحدة. فرّق بين multicore وsingle-core (trefoil) حسب المدخل.
+3) Transformer sizing: مدخلات: حمل الطلب kVA، نسبة النمو المستقبلي، نسبة الاحتياطي، معامل تحميل مستهدف، جهد ابتدائي/ثانوي، impedance %. نتيجة: kVA المطلوب، أقرب مقاس قياسي لفوق، تيار full-load للجانبين، تيار الـ short-circuit عند الثانوي (Isc = In / Z%) كقيمة تقريبية بشرط تكتب إنها تقريب (infinite bus).
+4) Generator sizing: مدخلات: الأحمال المستمرة kW وPF، أكبر موتور (kW، الـ starting method: DOL / Star-Delta / VFD / Soft starter) ومعامل التيار، الارتفاع عن سطح البحر ودرجة الحرارة (derating)، نسبة الاحتياطي. نتيجة: kVA للتحميل المستمر، kVA عند بدء أكبر موتور، المقاس القياسي، ونسبة dip تقريبية بشرط تكتب إنها تقريب.
+
+## 4) قواعد الأرقام والمصادر (أهم قسم)
+- كل ثابت (قيمة جدول، معامل، مقاس قياسي، حد) لازم يتحط في object داخل الملف على الشكل: {value, unit, status, source_url, source_note}. status = verified_mirror لو أخدته من صفحة عامة فتحتها فعلًا وقريتها، verified_secondary لو مصدر ثانوي، needs_review لو من الذاكرة أو ما اتأكدتش.
+- أي رقم بدون مصدر عام اتفتح فعلًا يبقى needs_review، والـ UI يعرض الحالة والمصدر جنب النتيجة، وأي نتيجة معتمدة على ثابت needs_review تتحط معاها warning واضح بالعربي.
+- ممنوع تخترع رقم بند كود أو اقتباس. IEC وNFPA وBS مدفوعة: متقولش إنها مفتوحة.
+- مقاسات المحولات القياسية، utilization factors، وlux المطلوبة حسب نوع الفراغ، ونسب ملء tray، وderating المولدات: كلها غالبًا needs_review إلا لو لقيت مصدر عام مفتوح فعلًا. اكتب في التقرير لكل ثابت الرابط اللي فتحته.
+- ما تعدلش data/eng-tables.json ولا تحاول "تصلح" قيم فيه. الثوابت الجديدة بتاعتك في ملفاتك.
+- ممنوع تحط معادلات أو قيم في الـ UI من غير ما تظهر في الخطوات.
+
+## 5) قواعد الأمان (إلزامية)
+- ممنوع تمسح ملف وتعمل create بدله. ممنوع ترفع index.html كامل من نسخة قديمة.
+- الملفات المسموح تلمسها بالظبط: الـ 4 ملفات js/eng-lighting.js، js/eng-cabletray.js، js/eng-transformer.js، js/eng-generator.js، وملفات الاختبار الـ 4 الجديدة في tools/، وindex.html (4 سطور script بس، بعد سطر js/ui-tidy.js)، وsw.js، وCHANGELOG.md (مدخل جديد فوق عن شغلك بس).
+- ممنوع تلمس: أي ملف eng-* موجود (eng-calc, eng-ui, eng-tables, eng-pdf, eng-submittal, eng-loadschedule, eng-crosscheck, eng-shortcircuit-ui)، data/*، codes-data.json، js/pro-tools.js، js/app.js، js/ui-tidy.js، css/*، .github/workflows/* (أنا هضيف اختباراتك في lint.yml بعد المراجعة)، وأي ملف مش في القايمة.
+- ترتيب الرفع لكل حاسبة: ملف الحاسبة وملف الاختبار الأول، وبعدين سطر الـ script في index.html، وبعدين sw.js. السطر متتحطش قبل وجود الملف (ده كسر lint قبل كده).
+- sw.js: اعمل fetch له قبل الـ commit مباشرة، وارفع CACHE_NAME بمقدار واحد على آخر قيمة في main، وضيف الملفات الجديدة في CORE_ASSETS. ممكن تعمل commit واحد لـ sw.js في الآخر لكل الحاسبات.
+- مفيش emoji (SVG بس). textContent مش innerHTML. مفيش مفاتيح أو أسرار. عرض 390px بدون horizontal overflow، وكل عنصر قابل للضغط 44px.
+- شغّل كل ملفات الاختبار بـ node بنفسك قبل الـ commit، وشغّل node tools/dupcheck.js ./tools/dup-allowlist.json.
+
+## 6) Definition of Done
+- [ ] كل حاسبة بتظهر تاب جديد في Eng Calc، والتابات الموجودة سليمة.
+- [ ] الاختبارات الأربعة بتعدي محليًا (node tools/eng-X-test.js) والحالات المحسوبة باليد مكتوبة بالتفصيل.
+- [ ] كل ثابت له status وsource، وكل نتيجة معتمدة على needs_review فيها warning.
+- [ ] check.html ALL GOOD بعد الـ deploy. 390px بدون overflow. مفيش أخطاء console.
+- [ ] زرار PDF بيشتغل لكل حاسبة (بيستخدم renderResultActions).
+- [ ] sw.js اترفع بمقدار واحد والملفات في الـ repo هي نفسها live. الـ lint أخضر (اللي موجود حاليًا).
+
+## 7) التسليم
+اعمل commit على main وبلّغ بـ: الـ commit SHAs فقط، الملفات اللي لمستها، جدول بكل ثابت (الاسم، القيمة، status، الرابط اللي فتحته فعلًا)، والحالات المحسوبة باليد. أنا هراجع الـ commits على الموقع live وهاضيف الاختبارات لـ lint قبل أي إعلان للمستخدم، فمتعتبرش الشغل منشور.
+
+===== انتهى الـ prompt =====
