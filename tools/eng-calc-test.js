@@ -111,9 +111,16 @@ eq('missing current/power throws', threw, true);
 
 // Input validation warnings and unsupported methods (v126)
 var wbase = { phases: 3, voltageV: 400, powerKW: 30, conductor: 'Cu', insulation: 'PVC', method: 'air' };
-var wpf = C.cableSizing(Object.assign({}, wbase, { powerFactor: 1.2 }));
-has('PF 1.2 warns and falls back to 0.85', wpf.warnings, 'غير صالح');
-has('PF 1.2 default shown 0.85', wpf.warnings, '0.85');
+function pfErr(v) { var m = ''; try { C.cableSizing(Object.assign({}, wbase, { powerFactor: v })); } catch (e) { m = e.message; } return m; }
+has('PF 1.2 is a clear error (no fallback)', [pfErr(1.2)], 'غير صالح');
+has('PF 0 is a clear error', [pfErr(0)], 'غير صالح');
+has('PF -0.5 is a clear error', [pfErr(-0.5)], 'غير صالح');
+var vdm = ''; try { C.voltageDrop({ size_mm2: 50, currentA: 100, lengthM: 50, powerFactor: 1.5 }); } catch (e) { vdm = e.message; }
+has('voltageDrop PF 1.5 is a clear error', [vdm], 'غير صالح');
+var nolen = C.cableSizing(Object.assign({}, wbase, { powerFactor: 0.9 }));
+has('missing length gives a prominent warning', nolen.warnings, 'تنبيه مهم');
+eq('missing length warning comes first', String(nolen.warnings[0]).indexOf('تنبيه مهم') === 0, true);
+has('missing length summary says not checked', [nolen.summary], 'غير مفحوص');
 has('PF missing warns about default', C.cableSizing(wbase).warnings, 'مش مدخل');
 has('voltage 0 warns', C.cableSizing(Object.assign({}, wbase, { voltageV: 0, powerFactor: 0.9 })).warnings, 'Voltage المدخل');
 var okpf = C.cableSizing(Object.assign({}, wbase, { powerFactor: 0.9 }));
