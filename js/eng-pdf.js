@@ -174,6 +174,28 @@
     return [C.warn, C.warnbg];
   }
 
+  /* single-line diagram: neutral primitives from EngSLD.build, drawn scaled to the page width */
+  function drawSld(pg, b) {
+    var d = b.sld; if (!d || !d.prims) return;
+    if (b.heading) heading(pg, b.heading);
+    var sc = Math.min(1.9, (W - 2 * M) / d.w), hh = Math.round(d.h * sc);
+    pg.space(hh + 30);
+    var c = pg.ctx, ox = M + Math.round(((W - 2 * M) - d.w * sc) / 2), oy = pg.y;
+    c.fillStyle = '#ffffff'; c.fillRect(M, oy - 6, W - 2 * M, hh + 12);
+    c.strokeStyle = C.line; c.lineWidth = 1.5; c.strokeRect(M, oy - 6, W - 2 * M, hh + 12);
+    d.prims.forEach(function (p) {
+      if (p.t === 'line') { c.strokeStyle = '#0f172a'; c.lineWidth = (p.w || 3) * sc; c.beginPath(); c.moveTo(ox + p.x1 * sc, oy + p.y1 * sc); c.lineTo(ox + p.x2 * sc, oy + p.y2 * sc); c.stroke(); }
+      else if (p.t === 'rect') { if (p.fill) { c.fillStyle = p.fill; c.fillRect(ox + p.x * sc, oy + p.y * sc, p.w * sc, p.h * sc); } if (p.stroke) { c.strokeStyle = p.stroke; c.lineWidth = 2.5 * sc; c.strokeRect(ox + p.x * sc, oy + p.y * sc, p.w * sc, p.h * sc); } }
+      else if (p.t === 'poly') { c.fillStyle = p.fill || '#0f172a'; c.beginPath(); p.pts.forEach(function (q, i) { if (i) c.lineTo(ox + q[0] * sc, oy + q[1] * sc); else c.moveTo(ox + q[0] * sc, oy + q[1] * sc); }); c.closePath(); c.fill(); }
+      else if (p.t === 'text') {
+        setFont(c, Math.round(p.size * sc), p.bold); c.fillStyle = '#0f172a'; c.textBaseline = 'top'; c.direction = 'ltr';
+        c.textAlign = p.anchor === 'middle' ? 'center' : (p.anchor === 'end' ? 'right' : 'left');
+        c.fillText(p.s, ox + p.x * sc, oy + p.y * sc); c.textAlign = 'left';
+      }
+    });
+    pg.y += hh + 24;
+  }
+
   /* ---------- public: render + pack ---------- */
   function render(doc) {
     var d = new Date(), pg = new Pager();
@@ -187,6 +209,7 @@
       else if (b.type === 'warnings') { heading(pg, b.heading || 'تنبيهات / Warnings'); b.items.forEach(function (w) { box(pg, w, C.warn, C.warnbg, 22, false); }); }
       else if (b.type === 'kv') { heading(pg, b.heading || ''); table(pg, { columns: ['Item', 'Value'], rows: b.rows, widths: [0.38, 0.62], fontSize: 22 }); }
       else if (b.type === 'text') { if (b.heading) heading(pg, b.heading); var h = measure(pg.ctx, b.text, W - 2 * M, 24, false); pg.space(Math.min(h, 200) + 10); var left = h, txt = String(b.text); drawParagraphs(pg, txt); }
+      else if (b.type === 'sld') { drawSld(pg, b); }
       else if (b.type === 'table') { table(pg, b); }
     });
     if (doc.signature !== false) signature(pg);
