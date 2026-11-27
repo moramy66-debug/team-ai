@@ -65,25 +65,25 @@
     var P = pos(o.powerKW) ? o.powerKW : (pos(o.powerKw) ? o.powerKw : null);
     var given = function (x) { return x !== undefined && x !== null && x !== '' && !(typeof x === 'number' && isNaN(x)); };
     if (extra && !pos(o.currentA) && P) {
-      if (given(o.powerFactor) && !(pos(o.powerFactor) && o.powerFactor <= 1)) extra.push('معامل القدرة المدخل (' + o.powerFactor + ') غير صالح (لازم > 0 و <= 1)، استخدمت القيمة الافتراضية 0.85. صحح القيمة وأعد الحساب.');
-      else if (!given(o.powerFactor)) extra.push('معامل القدرة مش مدخل، استخدمت القيمة الافتراضية 0.85.');
-      if (given(o.voltageV) && !pos(o.voltageV)) extra.push('الجهد المدخل (' + o.voltageV + ') غير صالح (لازم > 0)، استخدمت القيمة الافتراضية ' + V + ' V. صحح القيمة وأعد الحساب.');
-      else if (!given(o.voltageV)) extra.push('الجهد مش مدخل، استخدمت القيمة الافتراضية ' + V + ' V.');
+      if (given(o.powerFactor) && !(pos(o.powerFactor) && o.powerFactor <= 1)) extra.push('Power Factor المدخل (' + o.powerFactor + ') غير صالح (لازم > 0 و <= 1)، استخدمت القيمة الافتراضية 0.85. صحح القيمة وأعد الحساب.');
+      else if (!given(o.powerFactor)) extra.push('Power Factor مش مدخل، استخدمت القيمة الافتراضية 0.85.');
+      if (given(o.voltageV) && !pos(o.voltageV)) extra.push('Voltage المدخل (' + o.voltageV + ') غير صالح (لازم > 0)، استخدمت القيمة الافتراضية ' + V + ' V. صحح القيمة وأعد الحساب.');
+      else if (!given(o.voltageV)) extra.push('Voltage مش مدخل، استخدمت القيمة الافتراضية ' + V + ' V.');
     }
     var Ib;
     if (pos(o.currentA)) {
       Ib = o.currentA;
-      steps.push({ step: 'تيار التصميم Ib', formula: 'Ib = I (مدخل)', substitution: 'I = ' + f(Ib) + ' A', result: f(Ib) + ' A', value: Ib, unit: 'A' });
+      steps.push({ step: 'Design Current Ib', formula: 'Ib = I (مدخل)', substitution: 'I = ' + f(Ib) + ' A', result: f(Ib) + ' A', value: Ib, unit: 'A' });
     } else if (P) {
       Ib = phases === 1 ? (P * 1000) / (V * pf) : (P * 1000) / (Math.sqrt(3) * V * pf);
       steps.push({
-        step: 'تيار التصميم Ib',
+        step: 'Design Current Ib',
         formula: phases === 1 ? 'Ib = P x 1000 / (V x PF)' : 'Ib = P x 1000 / (sqrt(3) x V x PF)',
         substitution: phases === 1 ? f(P) + ' x 1000 / (' + V + ' x ' + pf + ')' : f(P) + ' x 1000 / (1.732 x ' + V + ' x ' + pf + ')',
         result: f(Ib) + ' A', value: Ib, unit: 'A'
       });
     } else {
-      throw new Error('ادخل التيار (A) أو القدرة (kW).');
+      throw new Error('ادخل Current (A) أو Power (kW).');
     }
     return { Ib: Ib, phases: phases, V: V, pf: pf };
   }
@@ -114,30 +114,30 @@
   function breakerSelection(input, tablesApi) {
     var o = input || {}, a = api(tablesApi), used = [], steps = [];
     var Ib = Number(o.designCurrentA || o.currentA || o.ib);
-    if (!pos(Ib)) throw new Error('ادخل تيار التصميم Ib (رقم موجب).');
+    if (!pos(Ib)) throw new Error('ادخل Design Current Ib (رقم موجب).');
     var sf = pos(o.safetyFactor) ? o.safetyFactor : 1;
     var need_In = Ib * sf;
-    steps.push({ step: 'التيار المطلوب للقاطع', formula: 'In_min = Ib x SF', substitution: f(Ib) + ' x ' + sf, result: f(need_In) + ' A', value: need_In, unit: 'A' });
+    steps.push({ step: 'Current المطلوب لـ Breaker', formula: 'In_min = Ib x SF', substitution: f(Ib) + ' x ' + sf, result: f(need_In) + ' A', value: need_In, unit: 'A' });
     var sel = pickBreaker(a, o.type, need_In, used);
-    if (!sel) throw new Error('مفيش قاطع في الجداول أكبر من ' + f(need_In) + ' A.');
-    steps.push({ step: 'اختيار القاطع القياسي', formula: 'أقرب In قياسي >= In_min', substitution: sel.type + ': In >= ' + f(need_In) + ' A', result: 'In = ' + sel.rating + ' A (' + sel.type + ')', value: sel.rating, unit: 'A' });
+    if (!sel) throw new Error('مفيش Breaker في الجداول أكبر من ' + f(need_In) + ' A.');
+    steps.push({ step: 'اختيار Breaker القياسي', formula: 'أقرب In قياسي >= In_min', substitution: sel.type + ': In >= ' + f(need_In) + ' A', result: 'In = ' + sel.rating + ' A (' + sel.type + ')', value: sel.rating, unit: 'A' });
     var Iz = pos(o.cableAmpacityA) ? o.cableAmpacityA : (pos(o.iz) ? o.iz : null);
     var coordinated = sel.rating >= Ib && (Iz === null || sel.rating <= Iz);
     if (Iz !== null) {
-      steps.push({ step: 'تنسيق القاطع مع الكابل', formula: 'Ib <= In <= Iz', substitution: f(Ib) + ' <= ' + sel.rating + ' <= ' + f(Iz), result: coordinated ? 'متحقق' : 'غير متحقق', value: coordinated, unit: '' });
-      if (!coordinated) steps.push({ step: 'ملاحظة', formula: 'In > Iz', substitution: sel.rating + ' > ' + f(Iz), result: 'كبّر مقطع الكابل أو اختار قاطع أصغر', value: null, unit: '' });
+      steps.push({ step: 'تنسيق Breaker مع Cable', formula: 'Ib <= In <= Iz', substitution: f(Ib) + ' <= ' + sel.rating + ' <= ' + f(Iz), result: coordinated ? 'متحقق' : 'غير متحقق', value: coordinated, unit: '' });
+      if (!coordinated) steps.push({ step: 'ملاحظة', formula: 'In > Iz', substitution: sel.rating + ' > ' + f(Iz), result: 'كبّر Cable Cross-section أو اختار Breaker أصغر', value: null, unit: '' });
     }
     var warnings = [];
     if (pos(o.iscKA) && pos(o.icuKA)) {
       var ok = o.icuKA >= o.iscKA;
-      steps.push({ step: 'قدرة القطع', formula: 'Icu >= Isc', substitution: f(o.icuKA) + ' >= ' + f(o.iscKA) + ' kA', result: ok ? 'متحقق' : 'غير متحقق', value: ok, unit: 'kA' });
+      steps.push({ step: 'Breaking Capacity', formula: 'Icu >= Isc', substitution: f(o.icuKA) + ' >= ' + f(o.iscKA) + ' kA', result: ok ? 'متحقق' : 'غير متحقق', value: ok, unit: 'kA' });
     }
-    warnings.push('تنسيق الحماية (I2 <= 1.45 Iz) محتاج مراجعة مع بيانات المصنع وقاعدة IEC 60364-4-43.');
+    warnings.push('تنسيق Protection (I2 <= 1.45 Iz) محتاج مراجعة مع بيانات المصنع وقاعدة IEC 60364-4-43.');
     var table = a.meta(sel.type === 'MCB' ? 'mcb_iec60898_rated_currents' : 'mccb_iec60947_2_typical_ratings');
     return {
       rating_a: sel.rating, type: sel.type, designCurrentA: r2(Ib), cableAmpacityA: Iz, coordinated: coordinated,
       table: table, steps: steps, tablesUsed: used, warnings: buildWarnings(used, warnings),
-      summary: 'القاطع: ' + sel.rating + ' A (' + sel.type + ') | Ib = ' + f(Ib) + ' A'
+      summary: 'Breaker: ' + sel.rating + ' A (' + sel.type + ') | Ib = ' + f(Ib) + ' A'
     };
   }
 
@@ -147,7 +147,7 @@
     useTable(used, a, 'iec_60228_conductor_resistance_20c');
     var rows = String(conductor).toLowerCase() === 'al' ? t.rows_Al : t.rows_Cu;
     var hit = (rows || []).filter(function (r) { return r[0] === size; })[0];
-    if (!hit) throw new Error('مقاومة ' + conductor + ' ' + size + ' mm2 غير موجودة في الجدول.');
+    if (!hit) throw new Error('Resistance ' + conductor + ' ' + size + ' mm2 غير موجودة في الجدول.');
     var alpha = t.temp_coefficient_per_c && t.temp_coefficient_per_c[String(conductor).toLowerCase() === 'al' ? 'Al' : 'Cu'];
     return { r20: hit[1], alpha: alpha, x: t.reactance_ohm_per_km_typical };
   }
@@ -159,7 +159,7 @@
     var V = pos(o.voltageV) ? o.voltageV : (phases === 1 ? 230 : 400);
     var cond = String(o.conductor || 'Cu'), ins = String(o.insulation || 'XLPE').toUpperCase();
     var pf = pos(o.powerFactor) && o.powerFactor <= 1 ? o.powerFactor : 0.85;
-    if (!pos(size) || !pos(I) || !pos(L)) throw new Error('ادخل المقطع والتيار والطول (أرقام موجبة).');
+    if (!pos(size) || !pos(I) || !pos(L)) throw new Error('ادخل Cross-section و Current والطول (أرقام موجبة).');
     var dv, rOp = null, x = null, theta = null, methodUsed;
     var use4d1b = (o.method === '4d1b' || !o.method || o.method === 'auto') && cond.toLowerCase() === 'cu' && ins === 'PVC' && size <= 16;
     if (use4d1b) {
@@ -172,7 +172,7 @@
         dv = mv * I * L / 1000;
         methodUsed = 'bs7671_4d1b';
         steps.push({ step: 'قيمة mV/A/m من الجدول', formula: 'mV/A/m (BS 7671 4D1B, ' + (phases === 1 ? '1-phase' : '3-phase') + ')', substitution: size + ' mm2 Cu PVC 70C', result: mv + ' mV/A/m', value: mv, unit: 'mV/A/m' });
-        steps.push({ step: 'هبوط الجهد', formula: 'dV = mV/A/m x I x L / 1000', substitution: mv + ' x ' + f(I) + ' x ' + f(L) + ' / 1000', result: f(dv, 3) + ' V', value: dv, unit: 'V' });
+        steps.push({ step: 'Voltage Drop', formula: 'dV = mV/A/m x I x L / 1000', substitution: mv + ' x ' + f(I) + ' x ' + f(L) + ' / 1000', result: f(dv, 3) + ' V', value: dv, unit: 'V' });
       }
     }
     if (!use4d1b) {
@@ -183,10 +183,10 @@
       var sin = Math.sqrt(Math.max(0, 1 - pf * pf)), k = phases === 1 ? 2 : Math.sqrt(3);
       dv = k * I * (L / 1000) * (rOp * pf + x * sin);
       methodUsed = 'computed_r_x';
-      steps.push({ step: 'مقاومة الموصل عند درجة التشغيل', formula: 'R = R20 x (1 + a x (theta - 20))', substitution: f(res.r20, 4) + ' x (1 + ' + res.alpha + ' x (' + theta + ' - 20))', result: f(rOp, 4) + ' ohm/km', value: rOp, unit: 'ohm/km' });
-      steps.push({ step: 'هبوط الجهد', formula: phases === 1 ? 'dV = 2 x I x L/1000 x (R cos(phi) + X sin(phi))' : 'dV = sqrt(3) x I x L/1000 x (R cos(phi) + X sin(phi))', substitution: (phases === 1 ? '2' : '1.732') + ' x ' + f(I) + ' x ' + f(L / 1000, 3) + ' x (' + f(rOp, 4) + ' x ' + pf + ' + ' + x + ' x ' + f(sin, 3) + ')', result: f(dv, 3) + ' V', value: dv, unit: 'V' });
-      extra.push('المفاعلة X = ' + x + ' ohm/km قيمة نموذجية مش متأكد منها من معيار (الحالة needs_review): داتاشيتات الكابلات بتدي 0.081 لـ 0.094، راجعها مع داتاشيت الكابل.');
-      extra.push('هبوط الجهد هنا محسوب من المقاومة والمفاعلة (مش من جدول BS 7671 4D1B)' + (size > 16 ? ': جدول 4D1B للمقاطع 25 mm2 فأكتر مش متاح في البيانات.' : ': الجدول متاح لنحاس PVC لحد 16 mm2 بس.') + ' المقاومة والمفاعلة من الذاكرة وتحتاج مراجعة.');
+      steps.push({ step: 'Conductor Resistance عند درجة التشغيل', formula: 'R = R20 x (1 + a x (theta - 20))', substitution: f(res.r20, 4) + ' x (1 + ' + res.alpha + ' x (' + theta + ' - 20))', result: f(rOp, 4) + ' ohm/km', value: rOp, unit: 'ohm/km' });
+      steps.push({ step: 'Voltage Drop', formula: phases === 1 ? 'dV = 2 x I x L/1000 x (R cos(phi) + X sin(phi))' : 'dV = sqrt(3) x I x L/1000 x (R cos(phi) + X sin(phi))', substitution: (phases === 1 ? '2' : '1.732') + ' x ' + f(I) + ' x ' + f(L / 1000, 3) + ' x (' + f(rOp, 4) + ' x ' + pf + ' + ' + x + ' x ' + f(sin, 3) + ')', result: f(dv, 3) + ' V', value: dv, unit: 'V' });
+      extra.push('Reactance X = ' + x + ' ohm/km قيمة نموذجية مش متأكد منها من معيار (الحالة needs_review): داتاشيتات Cables بتدي 0.081 لـ 0.094، راجعها مع داتاشيت Cable.');
+      extra.push('Voltage Drop هنا محسوب من Resistance و Reactance (مش من جدول BS 7671 4D1B)' + (size > 16 ? ': جدول 4D1B لـ Cross-sections 25 mm2 فأكتر مش متاح في البيانات.' : ': الجدول متاح لـ Copper PVC لحد 16 mm2 بس.') + ' Resistance و Reactance من الذاكرة وتحتاج مراجعة.');
     }
     var pct = dv / V * 100;
     steps.push({ step: 'نسبة الهبوط', formula: 'dV% = dV / V x 100', substitution: f(dv, 3) + ' / ' + V + ' x 100', result: f(pct, 3) + ' %', value: pct, unit: '%' });
@@ -195,7 +195,7 @@
       operatingTempC: theta, rOpOhmKm: rOp === null ? null : r3(rOp), xOhmKm: x, methodUsed: methodUsed,
       table: a.meta(use4d1b ? 'bs7671_4d1b_voltage_drop_cu_70c_upto16mm2' : 'iec_60228_conductor_resistance_20c'),
       steps: steps, tablesUsed: used, warnings: buildWarnings(used, extra),
-      summary: 'هبوط الجهد: ' + f(dv, 2) + ' V (' + f(pct, 2) + ' %) | ' + size + ' mm2 ' + cond
+      summary: 'Voltage Drop: ' + f(dv, 2) + ' V (' + f(pct, 2) + ' %) | ' + size + ' mm2 ' + cond
     };
   }
 
@@ -205,7 +205,7 @@
 
   function ampTable(ins, cond, loaded) {
     var n = AMP_TABLE[ins + loaded];
-    if (!n) throw new Error('نوع عزل غير مدعوم: ' + ins);
+    if (!n) throw new Error('Insulation Type غير مدعوم: ' + ins);
     return 'iec_b52_' + n + '_' + ins.toLowerCase() + '_' + cond.toLowerCase() + '_' + loaded + 'loaded';
   }
 
@@ -217,8 +217,8 @@
     var c = col(t, ins === 'PVC' ? 'PVC' : 'XLPE_EPR');
     var T = isNum(amb) ? amb : base, hit = null, i;
     for (i = 0; i < t.rows.length; i++) { if (t.rows[i][0] >= T && isNum(t.rows[i][c])) { hit = t.rows[i]; break; } }
-    if (!hit) throw new Error('درجة الحرارة ' + T + ' C خارج جدول التصحيح للعزل ' + ins + '.');
-    steps.push({ step: 'معامل الحرارة Ca', formula: 'Ca من ' + (ground ? 'B.52.15' : 'B.52.14') + ' (أول صف >= الحرارة)', substitution: 'T = ' + T + ' C -> صف ' + hit[0] + ' C', result: f(hit[c], 2), value: hit[c], unit: '' });
+    if (!hit) throw new Error('Temperature ' + T + ' C خارج جدول التصحيح للعزل ' + ins + '.');
+    steps.push({ step: 'Temperature Factor Ca', formula: 'Ca من ' + (ground ? 'B.52.15' : 'B.52.14') + ' (أول صف >= Temperature)', substitution: 'T = ' + T + ' C -> صف ' + hit[0] + ' C', result: f(hit[c], 2), value: hit[c], unit: '' });
     return hit[c];
   }
 
@@ -234,11 +234,11 @@
       id = String(o.ductCable) === 'single' ? 'iec_b52_19_grouping_ducts_d1_singlecore' : 'iec_b52_19_grouping_ducts_d1_multicore';
       cname = SPACING_D1[sp];
     }
-    if (!cname) throw new Error('المسافة "' + sp + '" غير متاحة في جدول ' + (method === 'D2' ? 'B.52.18 (كابلات مدفونة مباشرة)' : 'B.52.19 (مواسير مدفونة)') + '.');
+    if (!cname) throw new Error('المسافة "' + sp + '" غير متاحة في جدول ' + (method === 'D2' ? 'B.52.18 (Cables Buried مباشرة)' : 'B.52.19 (Conduits Buried)') + '.');
     var t = need(a, id); useTable(used, a, id);
     var ci = col(t, cname), rows = t.rows.slice().sort(function (p, q) { return p[0] - q[0]; }), hit = null, i;
     if (n <= 1) {
-      steps.push({ step: 'معامل التجميع Cg', formula: 'دايرة واحدة: مفيش تخفيض', substitution: 'n = 1', result: '1.00', value: 1, unit: '' });
+      steps.push({ step: 'Grouping Factor Cg', formula: 'دايرة واحدة: مفيش تخفيض', substitution: 'n = 1', result: '1.00', value: 1, unit: '' });
       return 1;
     }
     for (i = 0; i < rows.length; i++) { if (rows[i][0] >= n) { hit = rows[i]; break; } }
@@ -247,7 +247,7 @@
     (t.suspect_cells || []).forEach(function (sc) {
       if (sc.n_circuits === hit[0] && sc.column === cname) extra.push('القيمة المستخدمة من الجدول ' + id + ' (' + sc.n_circuits + ' دوائر، ' + sc.column + ') ظاهرة في النسخة المنشورة بشكل غير متسق (' + sc.reason + '). راجع الجدول الرسمي.');
     });
-    steps.push({ step: 'معامل التجميع Cg', formula: 'Cg من ' + (method === 'D2' ? 'B.52.18' : 'B.52.19') + ' (أول عدد >= عدد الدوائر، المسافة ' + sp + ')', substitution: n + ' دايرة -> صف ' + hit[0] + ' | عمود ' + cname, result: f(cg, 2), value: cg, unit: '' });
+    steps.push({ step: 'Grouping Factor Cg', formula: 'Cg من ' + (method === 'D2' ? 'B.52.18' : 'B.52.19') + ' (أول عدد >= عدد الدوائر، المسافة ' + sp + ')', substitution: n + ' دايرة -> صف ' + hit[0] + ' | عمود ' + cname, result: f(cg, 2), value: cg, unit: '' });
     return cg;
   }
 
@@ -261,7 +261,7 @@
     for (i = 0; i < t.n_circuits.length; i++) { if (t.n_circuits[i] >= n) { idx = i; break; } }
     if (idx < 0) { idx = t.n_circuits.length - 1; extra.push('عدد الدوائر أكبر من 20: استخدمت معامل 20 دايرة.'); }
     var cg = item[idx];
-    steps.push({ step: 'معامل التجميع Cg', formula: 'Cg من B.52.17 بند 1 (مجمعة، أول عدد >= عدد الدوائر)', substitution: n + ' دايرة -> ' + t.n_circuits[idx], result: f(cg, 2), value: cg, unit: '' });
+    steps.push({ step: 'Grouping Factor Cg', formula: 'Cg من B.52.17 بند 1 (Grouped، أول عدد >= عدد الدوائر)', substitution: n + ' دايرة -> ' + t.n_circuits[idx], result: f(cg, 2), value: cg, unit: '' });
     return cg;
   }
 
@@ -281,10 +281,10 @@
     steps.push({ step: 'المعامل الكلي', formula: 'Ct = Ca x Cg', substitution: f(ca, 2) + ' x ' + f(cg, 2), result: f(ct, 3), value: ct, unit: '' });
     var minIn = d.Ib * (pos(o.safetyFactor) ? o.safetyFactor : 1);
     var br = pos(o.inA) ? { type: String(o.breakerType || 'MCB').toUpperCase(), rating: o.inA } : pickBreaker(a, o.breakerType || 'any', minIn, used);
-    if (!br) throw new Error('مفيش قاطع قياسي مناسب للتيار ' + f(d.Ib) + ' A.');
-    steps.push({ step: 'القاطع المختار In', formula: 'Ib <= In (أقرب قيمة قياسية)', substitution: f(d.Ib) + ' A -> ' + br.type, result: 'In = ' + br.rating + ' A', value: br.rating, unit: 'A' });
+    if (!br) throw new Error('مفيش Breaker قياسي مناسب لـ Current ' + f(d.Ib) + ' A.');
+    steps.push({ step: 'Breaker المختار In', formula: 'Ib <= In (أقرب قيمة قياسية)', substitution: f(d.Ib) + ' A -> ' + br.type, result: 'In = ' + br.rating + ' A', value: br.rating, unit: 'A' });
     var izReq = br.rating / ct;
-    steps.push({ step: 'السعة المطلوبة من الجدول', formula: 'Iz_tab >= In / Ct', substitution: br.rating + ' / ' + f(ct, 3), result: f(izReq) + ' A', value: izReq, unit: 'A' });
+    steps.push({ step: 'Required Capacity من الجدول', formula: 'Iz_tab >= In / Ct', substitution: br.rating + ' / ' + f(ct, 3), result: f(izReq) + ' A', value: izReq, unit: 'A' });
     var rows = t.rows.slice().sort(function (p, q) { return p[0] - q[0]; });
     var useVd = pos(o.lengthM) && pos(o.maxVdropPct);
     var chosen = null, vd = null, upsized = false, i, firstOk = null;
@@ -304,21 +304,21 @@
         compliant: false, size_mm2: null, baseAmpacityA: null, deratedAmpacityA: null,
         designCurrentA: r2(d.Ib), requiredBaseAmpacityA: r2(izReq), factors: { ca: ca, cg: cg, combined: r3(ct) },
         table: a.meta(tid), vdrop: vd, breaker: { rating_a: br.rating, type: br.type },
-        steps: steps, tablesUsed: used, warnings: buildWarnings(used, extra.concat(['مفيش مقطع في الجدول يحقق الشروط (السعة أو هبوط الجهد). قسّم على كابلين أو غيّر الشروط.'])),
-        summary: 'مفيش مقطع مناسب في الجدول'
+        steps: steps, tablesUsed: used, warnings: buildWarnings(used, extra.concat(['مفيش Cross-section في الجدول يحقق الشروط (Capacity أو Voltage Drop). قسّم على كابلين أو غيّر الشروط.'])),
+        summary: 'مفيش Cross-section مناسب في الجدول'
       };
     }
     upsized = firstOk && chosen[0] !== firstOk[0];
     var base = chosen[mc], iz = base * ct;
-    steps.push({ step: 'اختيار المقطع', formula: 'Iz_tab >= In / Ct', substitution: tid + ' [' + mkey + '] : ' + base + ' A >= ' + f(izReq) + ' A', result: chosen[0] + ' mm2' + (upsized ? ' (اترفع من ' + firstOk[0] + ' mm2 بسبب هبوط الجهد)' : ''), value: chosen[0], unit: 'mm2' });
-    steps.push({ step: 'تحقق الحماية', formula: 'Ib <= In <= Iz', substitution: f(d.Ib) + ' <= ' + br.rating + ' <= ' + f(iz) + ' (Iz = ' + base + ' x ' + f(ct, 3) + ')', result: (d.Ib <= br.rating && br.rating <= iz) ? 'متحقق' : 'غير متحقق', value: br.rating <= iz, unit: '' });
+    steps.push({ step: 'اختيار Cross-section', formula: 'Iz_tab >= In / Ct', substitution: tid + ' [' + mkey + '] : ' + base + ' A >= ' + f(izReq) + ' A', result: chosen[0] + ' mm2' + (upsized ? ' (اترفع من ' + firstOk[0] + ' mm2 بسبب Voltage Drop)' : ''), value: chosen[0], unit: 'mm2' });
+    steps.push({ step: 'تحقق Protection', formula: 'Ib <= In <= Iz', substitution: f(d.Ib) + ' <= ' + br.rating + ' <= ' + f(iz) + ' (Iz = ' + base + ' x ' + f(ct, 3) + ')', result: (d.Ib <= br.rating && br.rating <= iz) ? 'متحقق' : 'غير متحقق', value: br.rating <= iz, unit: '' });
     if (useVd && vd) {
-      steps.push({ step: 'تحقق هبوط الجهد', formula: 'dV% <= الحد', substitution: f(vd.vdropPct, 2) + ' % <= ' + o.maxVdropPct + ' %', result: vd.vdropPct <= o.maxVdropPct ? 'متحقق' : 'غير متحقق', value: vd.vdropPct, unit: '%' });
-      vd.steps.forEach(function (s) { steps.push({ step: 'هبوط الجهد: ' + s.step, formula: s.formula, substitution: s.substitution, result: s.result, value: s.value, unit: s.unit }); });
+      steps.push({ step: 'تحقق Voltage Drop', formula: 'dV% <= الحد', substitution: f(vd.vdropPct, 2) + ' % <= ' + o.maxVdropPct + ' %', result: vd.vdropPct <= o.maxVdropPct ? 'متحقق' : 'غير متحقق', value: vd.vdropPct, unit: '%' });
+      vd.steps.forEach(function (s) { steps.push({ step: 'Voltage Drop: ' + s.step, formula: s.formula, substitution: s.substitution, result: s.result, value: s.value, unit: s.unit }); });
       vd.warnings.forEach(function (w) { if (extra.indexOf(w) < 0 && w.indexOf('نسخة منشورة') < 0) extra.push(w); });
       vd.tablesUsed.forEach(function (u) { if (!used.some(function (x) { return x.id === u.id; })) used.push(u); });
     } else if (!useVd) {
-      extra.push('هبوط الجهد لم يتحقق منه (الطول أو الحد غير مدخل).');
+      extra.push('Voltage Drop لم يتحقق منه (الطول أو الحد غير مدخل).');
     }
     extra.push('لم تُحسب شروط short-circuit (I2t) ولا طريقة التركيب بالتفصيل. راجع.');
     return {
@@ -326,7 +326,7 @@
       designCurrentA: r2(d.Ib), requiredBaseAmpacityA: r2(izReq), factors: { ca: ca, cg: cg, combined: r3(ct) },
       table: a.meta(tid), vdrop: vd, breaker: { rating_a: br.rating, type: br.type },
       steps: steps, tablesUsed: used, warnings: buildWarnings(used, extra),
-      summary: 'المقطع: ' + chosen[0] + ' mm2 | القاطع: ' + br.rating + ' A | Iz = ' + f(iz, 1) + ' A | Ib = ' + f(d.Ib, 1) + ' A' + (vd ? ' | dV = ' + f(vd.vdropPct, 2) + ' %' : '')
+      summary: 'Cross-section: ' + chosen[0] + ' mm2 | Breaker: ' + br.rating + ' A | Iz = ' + f(iz, 1) + ' A | Ib = ' + f(d.Ib, 1) + ' A' + (vd ? ' | dV = ' + f(vd.vdropPct, 2) + ' %' : '')
     };
   }
 
@@ -334,42 +334,42 @@
   function shortCircuit(input, tablesApi) {
     var o = input || {}, a = api(tablesApi), used = [], steps = [], extra = [];
     var S = Number(o.size_mm2), Isc = Number(o.iscKA) * 1000;
-    if (!pos(S) || !pos(Isc)) throw new Error('ادخل المقطع (mm2) وتيار القصر Isc (kA).');
+    if (!pos(S) || !pos(Isc)) throw new Error('ادخل Cross-section (mm2) و Short-circuit Current Isc (kA).');
     var ins = String(o.insulation || 'XLPE').toUpperCase(), cond = String(o.conductor || 'Cu').toLowerCase() === 'al' ? 'al' : 'cu';
     var kt = need(a, 'iec_60364_4_43_k_factors'); useTable(used, a, 'iec_60364_4_43_k_factors');
     var key = ins === 'PVC' ? (S > 300 ? 'PVC_over_300mm2' : 'PVC_up_to_300mm2') : 'XLPE_EPR';
     var krow = kt.rows.filter(function (r) { return r[0] === key; })[0];
     var k = krow[cond === 'al' ? 2 : 1];
-    steps.push({ step: 'ثابت k', formula: 'k من IEC 60364-4-43 Table 43A (' + key + ', ' + (cond === 'al' ? 'Al' : 'Cu') + ', ' + krow[3] + ' إلى ' + krow[4] + ' C)', substitution: key + ' / ' + cond.toUpperCase(), result: k + ' A.s^0.5/mm2', value: k, unit: 'A.s^0.5/mm2' });
+    steps.push({ step: 'Constant k', formula: 'k من IEC 60364-4-43 Table 43A (' + key + ', ' + (cond === 'al' ? 'Al' : 'Cu') + ', ' + krow[3] + ' إلى ' + krow[4] + ' C)', substitution: key + ' / ' + cond.toUpperCase(), result: k + ' A.s^0.5/mm2', value: k, unit: 'A.s^0.5/mm2' });
     var withstand = k * k * S * S;
-    steps.push({ step: 'تحمل الكابل', formula: 'I2t_cable = k^2 x S^2', substitution: k + '^2 x ' + S + '^2', result: f(withstand / 1e6, 4) + ' x 10^6 A2s', value: withstand, unit: 'A2s' });
+    steps.push({ step: 'تحمل Cable', formula: 'I2t_cable = k^2 x S^2', substitution: k + '^2 x ' + S + '^2', result: f(withstand / 1e6, 4) + ' x 10^6 A2s', value: withstand, unit: 'A2s' });
     var letThrough, basis, t = null;
     if (pos(o.letThroughKA2s)) {
       letThrough = o.letThroughKA2s * 1e6;
       basis = 'datasheet';
-      steps.push({ step: 'طاقة القاطع I2t (من بيانات المصنع)', formula: 'I2t_device = القيمة المدخلة', substitution: f(o.letThroughKA2s, 4) + ' kA2s x 10^6', result: f(letThrough / 1e6, 4) + ' x 10^6 A2s', value: letThrough, unit: 'A2s' });
+      steps.push({ step: 'طاقة Breaker I2t (من بيانات المصنع)', formula: 'I2t_device = القيمة المدخلة', substitution: f(o.letThroughKA2s, 4) + ' kA2s x 10^6', result: f(letThrough / 1e6, 4) + ' x 10^6 A2s', value: letThrough, unit: 'A2s' });
     } else if (pos(o.clearingTimeS)) {
       t = o.clearingTimeS;
       letThrough = Isc * Isc * t;
       basis = 'time';
-      steps.push({ step: 'طاقة القصر المتوقعة', formula: 'I2t = Isc^2 x t', substitution: f(Isc / 1000, 2) + ' kA ^2 x ' + t + ' s', result: f(letThrough / 1e6, 4) + ' x 10^6 A2s', value: letThrough, unit: 'A2s' });
-      if (t > 5) extra.push('زمن القطع أكبر من 5 ثواني: المعادلة الأديباتيكية غير صالحة، استخدم منحنى التحمل الحراري للكابل.');
-      if (t < 0.1) extra.push('زمن القطع أقل من 0.1 ثانية: لازم تستخدم قيمة I2t الفعلية للقاطع من بيانات المصنع (الطاقة المحدودة) بدل Isc^2 x t.');
+      steps.push({ step: 'Short-circuit Energy المتوقعة', formula: 'I2t = Isc^2 x t', substitution: f(Isc / 1000, 2) + ' kA ^2 x ' + t + ' s', result: f(letThrough / 1e6, 4) + ' x 10^6 A2s', value: letThrough, unit: 'A2s' });
+      if (t > 5) extra.push('زمن القطع أكبر من 5 ثواني: المعادلة الأديباتيكية غير صالحة، استخدم منحنى التحمل الحراري لـ Cable.');
+      if (t < 0.1) extra.push('زمن القطع أقل من 0.1 ثانية: لازم تستخدم قيمة I2t الفعلية لـ Breaker من بيانات المصنع (الطاقة المحدودة) بدل Isc^2 x t.');
     } else {
-      throw new Error('ادخل طاقة القاطع I2t (kA2s) من بيانات المصنع أو زمن القطع (s).');
+      throw new Error('ادخل طاقة Breaker I2t (kA2s) من بيانات المصنع أو زمن القطع (s).');
     }
     var ok = letThrough <= withstand;
-    steps.push({ step: 'التحقق', formula: 'I2t_device <= k^2 x S^2', substitution: f(letThrough / 1e6, 4) + ' x 10^6 <= ' + f(withstand / 1e6, 4) + ' x 10^6', result: ok ? 'الكابل يتحمل (متحقق)' : 'الكابل لا يتحمل (غير متحقق)', value: ok, unit: '' });
+    steps.push({ step: 'التحقق', formula: 'I2t_device <= k^2 x S^2', substitution: f(letThrough / 1e6, 4) + ' x 10^6 <= ' + f(withstand / 1e6, 4) + ' x 10^6', result: ok ? 'Cable يتحمل (متحقق)' : 'Cable لا يتحمل (غير متحقق)', value: ok, unit: '' });
     var Smin = Math.sqrt(letThrough) / k;
-    steps.push({ step: 'أقل مقطع مطلوب', formula: 'S_min = sqrt(I2t) / k', substitution: 'sqrt(' + f(letThrough / 1e6, 4) + ' x 10^6) / ' + k, result: f(Smin, 2) + ' mm2', value: Smin, unit: 'mm2' });
+    steps.push({ step: 'أقل Cross-section مطلوب', formula: 'S_min = sqrt(I2t) / k', substitution: 'sqrt(' + f(letThrough / 1e6, 4) + ' x 10^6) / ' + k, result: f(Smin, 2) + ' mm2', value: Smin, unit: 'mm2' });
     var tmax = withstand / (Isc * Isc);
     steps.push({ step: 'أقصى زمن قطع مسموح عند Isc', formula: 't_max = k^2 S^2 / Isc^2', substitution: f(withstand / 1e6, 4) + ' x 10^6 / (' + f(Isc / 1000, 2) + ' kA)^2', result: f(tmax, 3) + ' s', value: tmax, unit: 's' });
-    if (basis === 'time') extra.push('طاقة القاطع محسوبة من زمن القطع المدخل (تقدير). للاعتماد استخدم I2t الفعلي من بيانات المصنع عند Isc.');
-    extra.push('جدول طاقة القاطع (let-through) غير موجود في البيانات: القيمة المدخلة من المستخدم أو من بيانات المصنع.');
+    if (basis === 'time') extra.push('طاقة Breaker محسوبة من زمن القطع المدخل (تقدير). للاعتماد استخدم I2t الفعلي من بيانات المصنع عند Isc.');
+    extra.push('جدول طاقة Breaker (let-through) غير موجود في البيانات: القيمة المدخلة من المستخدم أو من بيانات المصنع.');
     return {
       ok: ok, size_mm2: S, k: k, withstandA2s: withstand, letThroughA2s: letThrough, minSizeMm2: r2(Smin), maxTimeS: r3(tmax), basis: basis,
       table: a.meta('iec_60364_4_43_k_factors'), steps: steps, tablesUsed: used, warnings: buildWarnings(used, extra),
-      summary: (ok ? 'الكابل يتحمل: ' : 'الكابل لا يتحمل: ') + S + ' mm2 | k^2S^2 = ' + f(withstand / 1e6, 4) + 'e6 A2s | I2t القاطع = ' + f(letThrough / 1e6, 4) + 'e6 A2s | أقل مقطع ' + f(Smin, 2) + ' mm2'
+      summary: (ok ? 'Cable يتحمل: ' : 'Cable لا يتحمل: ') + S + ' mm2 | k^2S^2 = ' + f(withstand / 1e6, 4) + 'e6 A2s | I2t Breaker = ' + f(letThrough / 1e6, 4) + 'e6 A2s | أقل Cross-section ' + f(Smin, 2) + ' mm2'
     };
   }
 
