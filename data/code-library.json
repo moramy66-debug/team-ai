@@ -68,22 +68,22 @@
   {
     "id": "sec-pv-mv-voltages",
     "code": "sec_dc",
-    "topic": "الجهود الاسمية لشبكة التوزيع المتوسطة (MV Nominal Voltages) والتردد المستمر",
-    "text": "تعتمد شبكة التوزيع للجهد المتوسط في المملكة الجهود الاسمية 13.8 kV و33 kV و69 kV، ويكون نطاق التشغيل المستمر للتردد في أنظمة الربط الكبيرة بين 58.8–60.0 Hz و60.0–60.5 Hz وفق المعايير الفنية المنشورة للشركة السعودية للكهرباء.",
+    "topic": "[نطاق: محطات Solar PV أكبر من 2 MW] الجهود الاسمية MV ونطاق التردد المستمر",
+    "text": "وفق معايير الربط الفني للشركة السعودية للكهرباء لمحطات الطاقة الشمسية (Solar PV) الأكبر من 2 MW: الجهود الاسمية للجهد المتوسط في المملكة هي 13.8 kV و33 kV و69 kV، ونطاق التشغيل المستمر للتردد لمحطة PV هو 58.8–60.0 Hz و60.0–60.5 Hz (البند 6.5، Table 1). هذا النطاق خاص بمحطات PV الكبيرة وليس رقماً عاماً للشبكة.",
     "clause": "6.5",
     "source_url": "https://www.se.com.sa/-/media/sec/Sustainability/Renewable-Energy/ProcAndGuides/LargeScale/PV-Large-Scale-Technical-Connection-Standards.ashx",
-    "source_note": "معايير الربط الفني لأنظمة الطاقة الشمسية الكبيرة — الشركة السعودية للكهرباء (SEC)",
+    "source_note": "SEC — PV Large Scale Technical Connection Standards (Solar PV > 2 MW). موثق لهذا النطاق فقط، وليس Distribution Code عاماً",
     "status": "verified_mirror",
     "checked_on": "2026-11-27"
   },
   {
     "id": "sec-dc-fault-isolation",
     "code": "sec_dc",
-    "topic": "عزل الأعطال الداخلية قبل نقطة الربط (Fault Clearance at Exit Point)",
-    "text": "يجب تصميم أنظمة الحماية في منشأة المستهلك بحيث يتم اكتشاف وفصل أي أعطال داخلية أو أعطال تسرب أرضي قبل نقطة الخروج/الربط (Exit Point) قبل أن تعمل أجهزة حماية شبكة التوزيع التابعة للشركة السعودية للكهرباء.",
+    "topic": "[نطاق: محطات Solar PV أكبر من 2 MW] عزل الأعطال الداخلية قبل نقطة الخروج (Exit Point)",
+    "text": "وفق معايير الربط الفني للشركة السعودية للكهرباء لمحطات الطاقة الشمسية (Solar PV) الأكبر من 2 MW (البند 6.2): الأعطال داخل منشأة المستهلك، بما فيها أعطال التسرب الأرضي، يجب فصلها عند نقطة الخروج (Exit Point) أو قبلها، قبل أن تعمل أجهزة حماية شبكة SEC. التطبيق على غير محطات PV الكبيرة يحتاج مراجعة Distribution Code (غير موثق هنا).",
     "clause": "6.2",
     "source_url": "https://www.se.com.sa/-/media/sec/Sustainability/Renewable-Energy/ProcAndGuides/LargeScale/PV-Large-Scale-Technical-Connection-Standards.ashx",
-    "source_note": "معايير الربط الفني للشركة السعودية للكهرباء (SEC) — الإحالة إلى Distribution Code",
+    "source_note": "SEC — PV Large Scale Technical Connection Standards (Solar PV > 2 MW). موثق لهذا النطاق فقط",
     "status": "verified_mirror",
     "checked_on": "2026-11-27"
   },
