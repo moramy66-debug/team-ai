@@ -28,7 +28,7 @@ const PROVIDERS = {
 
 function getCorsHeaders(request, env) {
   const origin = request.headers.get('Origin') || '*';
-  const allowedOrigin = env.ALLOWED_ORIGIN || '*';
+  const allowedOrigin = env.ALLOWED_ORIGIN || 'https://moramy66-debug.github.io';
   const allowOrigin = allowedOrigin === '*' ? origin : (origin === allowedOrigin ? origin : allowedOrigin);
   return {
     'Access-Control-Allow-Origin': allowOrigin,
