@@ -52,9 +52,16 @@
     var Sfinal = std ? Math.sqrt(P * P + Math.pow(Q1 - std, 2)) : S1, pfFinal = P / Sfinal;
     if (std) steps.push({ step: 'PF الفعلي بعد تركيب الخطوة القياسية', formula: 'PF = P / sqrt(P^2 + (Q1 - Qstd)^2)', substitution: 'Q1 - Qstd = ' + r1(Q1 - std) + ' kVAR', result: r3(pfFinal), value: pfFinal });
     if (std && Q1 - std < 0) extra.push('الخطوة القياسية أكبر من Reactance الحالية: ممكن يحصل over-compensation (PF leading) عند Load الخفيف. استخدم بنك automatic بخطوات.');
+    var capK = num(o.capKVAR), capI = null;
+    if (o.capKVAR !== undefined && o.capKVAR !== null && o.capKVAR !== '' && !pos(capK)) throw new Error('Capacitor kVAR غير صالح (' + o.capKVAR + '): لازم يكون أكبر من صفر. سيبه فاضي لو مش محتاج Current البنك.');
+    if (pos(capK)) {
+      capI = capK * 1000 / (Math.sqrt(3) * V);
+      steps.push({ step: 'Current البنك (اختياري)', formula: 'Ic = kVAR x 1000 / (sqrt(3) x V)', substitution: capK + ' x 1000 / (sqrt(3) x ' + V + ')', result: r2(capI) + ' A (3-phase, needs_review)', value: capI, unit: 'A' });
+      extra.push('Current البنك المدخل: ' + r2(capI) + ' A عند ' + V + ' V (3-phase). حساب مساعد، needs_review.');
+    }
     extra.push('التعريفة: SERA بتحدد PF (0.95) أو أعلى بدون رسوم، وأقل من 0.95 بتتحاسب رسوم إضافية (5 هللة لكل ك.فار.س إضافي حسب صفحة التعريفة). تأكد من التعريفة السارية وقت التصميم.');
     extra.push('لو فيه harmonics (VFD، UPS، LED): استخدم بنك detuned reactor (مثلا 5.67 %) ومتركبش Capacitors عادية بدون قياس THD.');
-    return { ok: Qc >= 0, Qc: r1(Qc), qcKVAR: r1(Qc), standardKVAR: std, currentBeforeA: r1(I1), currentAfterA: r1(I2), pfFinal: r3(pfFinal), steps: steps, tablesUsed: used, warnings: warnFor(used, extra),
+    return { ok: Qc >= 0, Qc: r1(Qc), qcKVAR: r1(Qc), standardKVAR: std, currentBeforeA: r1(I1), currentAfterA: r1(I2), capacitorCurrentA: capI === null ? null : r2(capI), pfFinal: r3(pfFinal), steps: steps, tablesUsed: used, warnings: warnFor(used, extra),
       summary: 'تعويض PF من ' + pf1 + ' إلى ' + pf2 + ': Qc = ' + r1(Qc) + ' kVAR' + (std ? ' (بنك ' + std + ' kVAR)' : '') + ' | I من ' + r1(I1) + ' إلى ' + r1(I2) + ' A' };
   }
 
@@ -118,13 +125,14 @@
       g.appendChild(h.createField('pfc-pf1', 'Existing PF', 'number', 0.8));
       g.appendChild(h.createField('pfc-pf2', 'Target PF', 'number', 0.95));
       g.appendChild(h.createField('pfc-v', 'Voltage (V)', 'number', 400));
+      g.appendChild(h.createField('pfc-cap', 'Capacitor bank (kVAR) - optional, for current', 'number', ''));
       body.appendChild(g);
       var row = el('div', 'ec-actions'), btn = el('button', 'ec-btn', 'Calculate PFC kVAR'); btn.type = 'button'; row.appendChild(btn); body.appendChild(row);
       var out = el('div', null), status = el('div', 'ec-status'); body.appendChild(out); body.appendChild(status);
       btn.addEventListener('click', function () {
         out.innerHTML = ''; status.textContent = '';
         try {
-          var res = pfc({ pKW: h.numVal('pfc-p'), pfExisting: h.numVal('pfc-pf1'), pfTarget: h.numVal('pfc-pf2'), voltageV: h.numVal('pfc-v') });
+          var res = pfc({ pKW: h.numVal('pfc-p'), pfExisting: h.numVal('pfc-pf1'), pfTarget: h.numVal('pfc-pf2'), voltageV: h.numVal('pfc-v'), capKVAR: h.numVal('pfc-cap') });
           h.showResult(out, res, 'PFC kVAR');
           h.renderResultActions(out, status, pdfFn('PFC kVAR', res));
         } catch (e) { status.textContent = 'تعذر الحساب: ' + (e && e.message ? e.message : e); }
