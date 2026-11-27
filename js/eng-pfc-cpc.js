@@ -10,9 +10,9 @@
 
   var SRC = {
     sera: { id: 'sera_power_factor_tariff', status: 'verified_secondary', source: 'https://www.sera.gov.sa/ar/consumer/electric-tariff/electric-tariff-categories/power-factor-tariff' },
-    k54: { id: 'iec_60364_5_54_annex_a_k_pe', status: 'verified_secondary', source: 'https://www.electrical-installation.org/enwiki/Sizing_of_protective_earthing_conductor (Fig G60, from IEC 60364-5-54 Annex A; the standard itself is paywalled)' },
-    s542: { id: 'iec_60364_5_54_min_pe_simplified', status: 'verified_secondary', source: 'https://www.electrical-installation.org/enwiki/Sizing_of_protective_earthing_conductor (Fig G59, from IEC 60364-5-54 Table 54.2)' },
-    std: { id: 'iec_60228_standard_sizes', status: 'from_memory_needs_review', source: 'IEC 60228 preferred conductor sizes, listed from memory: confirm against the cable catalogue' },
+    k54: { id: 'iec_60364_5_54_annex_a_k_pe', status: 'verified_secondary', source: 'https://www.electrical-installation.org/enwiki/Sizing_of_protective_earthing_conductor (Fig G60, from the applicable standard; source not recorded)' },
+    s542: { id: 'iec_60364_5_54_min_pe_simplified', status: 'verified_secondary', source: 'https://www.electrical-installation.org/enwiki/Sizing_of_protective_earthing_conductor (Fig G59, from the applicable standard; source not recorded)' },
+    std: { id: 'iec_60228_standard_sizes', status: 'from_memory_needs_review', source: 'Preferred conductor sizes of the applicable standard, listed from memory: confirm against the cable catalogue' },
     bank: { id: 'capacitor_bank_steps', status: 'from_memory_needs_review', source: 'Common capacitor bank step sizes, from memory: confirm with the manufacturer catalogue' }
   };
   /* k for protective conductors: [insulated/bare in contact, multicore core] x [PVC, XLPE/EPR] */
@@ -78,7 +78,7 @@
     }
     var k = K[cond][kind][ins];
     steps.push({ step: 'طاقة العطل', formula: basis === 'datasheet' ? 'I2t = القيمة المدخلة من بيانات Breaker' : 'I2t = I^2 x t', substitution: basis === 'datasheet' ? r3(lt) + ' kA2s x 10^6' : r1(I) + '^2 x ' + t, result: r2(i2t / 1e6) + ' x 10^6 A2s', value: i2t, unit: 'A2s' });
-    steps.push({ step: 'Constant k لـ Earthing Conductor', formula: 'k من IEC 60364-5-54 Annex A (' + cond + ', ' + ins + ', ' + (kind === 'insulated' ? 'Conductor معزول منفصل / عاري' : 'جزء من Cable multicore') + ')', substitution: cond + ' / ' + ins + ' / ' + kind, result: 'k = ' + k, value: k });
+    steps.push({ step: 'Constant k لـ Earthing Conductor', formula: 'k من المعيار المطبق (' + cond + ', ' + ins + ', ' + (kind === 'insulated' ? 'Conductor معزول منفصل / عاري' : 'جزء من Cable multicore') + ')', substitution: cond + ' / ' + ins + ' / ' + kind, result: 'k = ' + k, value: k });
     var Sad = Math.sqrt(i2t) / k;
     steps.push({ step: 'أقل Cross-section بالمعادلة الأديباتيكية', formula: 'S = sqrt(I^2 t) / k', substitution: 'sqrt(' + r2(i2t / 1e6) + ' x 10^6) / ' + k, result: r2(Sad) + ' mm2', value: Sad, unit: 'mm2' });
     var minMech = o.separated === 'unprotected' ? 4 : (o.separated === 'protected' ? 2.5 : 0);
