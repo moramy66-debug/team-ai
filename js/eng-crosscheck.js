@@ -70,16 +70,16 @@
 
     if (cs && cs.compliant && m.sizes.length) {
       var ok = m.sizes.indexOf(cs.size_mm2) >= 0;
-      items.push({ label: 'مقطع الكابل', model: m.sizes.join(' / ') + ' mm2', calc: cs.size_mm2 + ' mm2', ok: ok });
+      items.push({ label: 'Cable Cross-section', model: m.sizes.join(' / ') + ' mm2', calc: cs.size_mm2 + ' mm2', ok: ok });
     }
     if (br && m.breakers.length) {
       var okb = m.breakers.indexOf(br.rating_a) >= 0;
-      items.push({ label: 'قاطع الحماية', model: m.breakers.join(' / ') + ' A', calc: br.rating_a + ' A (' + br.type + ')', ok: okb });
+      items.push({ label: 'Breaker Protection', model: m.breakers.join(' / ') + ' A', calc: br.rating_a + ' A (' + br.type + ')', ok: okb });
     }
     var vdRes = vd || (cs && cs.vdrop);
     if (vdRes && m.vdPct.length) {
       var mp = m.vdPct[0], cp = vdRes.vdropPct, okv = Math.abs(mp - cp) <= Math.max(0.3, 0.15 * cp);
-      items.push({ label: 'هبوط الجهد', model: mp + ' %', calc: cp.toFixed(2) + ' %', ok: okv });
+      items.push({ label: 'Voltage Drop', model: mp + ' %', calc: cp.toFixed(2) + ' %', ok: okv });
     }
     if (!items.length) return null;
     var bad = items.filter(function (i) { return !i.ok; });
