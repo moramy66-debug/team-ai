@@ -61,9 +61,10 @@
   function designCurrent(o, steps, extra) {
     var phases = Number(o.phases) === 1 ? 1 : 3;
     var V = pos(o.voltageV) ? o.voltageV : (phases === 1 ? 230 : 400);
+    var given = function (x) { return x !== undefined && x !== null && x !== '' && !(typeof x === 'number' && isNaN(x)); };
+    if (given(o.powerFactor) && !(pos(o.powerFactor) && o.powerFactor <= 1)) throw new Error('Power Factor غير صالح (' + o.powerFactor + '): لازم يكون أكبر من 0 وأقل من أو يساوي 1.');
     var pf = pos(o.powerFactor) && o.powerFactor <= 1 ? o.powerFactor : 0.85;
     var P = pos(o.powerKW) ? o.powerKW : (pos(o.powerKw) ? o.powerKw : null);
-    var given = function (x) { return x !== undefined && x !== null && x !== '' && !(typeof x === 'number' && isNaN(x)); };
     if (extra && !pos(o.currentA) && P) {
       if (given(o.powerFactor) && !(pos(o.powerFactor) && o.powerFactor <= 1)) extra.push('Power Factor المدخل (' + o.powerFactor + ') غير صالح (لازم > 0 و <= 1)، استخدمت القيمة الافتراضية 0.85. صحح القيمة وأعد الحساب.');
       else if (!given(o.powerFactor)) extra.push('Power Factor مش مدخل، استخدمت القيمة الافتراضية 0.85.');
@@ -132,7 +133,7 @@
       var ok = o.icuKA >= o.iscKA;
       steps.push({ step: 'Breaking Capacity', formula: 'Icu >= Isc', substitution: f(o.icuKA) + ' >= ' + f(o.iscKA) + ' kA', result: ok ? 'متحقق' : 'غير متحقق', value: ok, unit: 'kA' });
     }
-    warnings.push('تنسيق Protection (I2 <= 1.45 Iz) محتاج مراجعة مع بيانات المصنع وقاعدة IEC 60364-4-43.');
+    warnings.push('تنسيق Protection (I2 <= 1.45 Iz) محتاج مراجعة مع بيانات المصنع.');
     var table = a.meta(sel.type === 'MCB' ? 'mcb_iec60898_rated_currents' : 'mccb_iec60947_2_typical_ratings');
     return {
       rating_a: sel.rating, type: sel.type, designCurrentA: r2(Ib), cableAmpacityA: Iz, coordinated: coordinated,
@@ -158,6 +159,7 @@
     var phases = Number(o.phases) === 1 ? 1 : 3;
     var V = pos(o.voltageV) ? o.voltageV : (phases === 1 ? 230 : 400);
     var cond = String(o.conductor || 'Cu'), ins = String(o.insulation || 'XLPE').toUpperCase();
+    if (o.powerFactor !== undefined && o.powerFactor !== null && o.powerFactor !== '' && !(typeof o.powerFactor === 'number' && isNaN(o.powerFactor)) && !(pos(o.powerFactor) && o.powerFactor <= 1)) throw new Error('Power Factor غير صالح (' + o.powerFactor + '): لازم يكون أكبر من 0 وأقل من أو يساوي 1.');
     var pf = pos(o.powerFactor) && o.powerFactor <= 1 ? o.powerFactor : 0.85;
     if (!pos(size) || !pos(I) || !pos(L)) throw new Error('ادخل Cross-section و Current والطول (أرقام موجبة).');
     var dv, rOp = null, x = null, theta = null, methodUsed;
@@ -318,7 +320,7 @@
       vd.warnings.forEach(function (w) { if (extra.indexOf(w) < 0 && w.indexOf('نسخة منشورة') < 0) extra.push(w); });
       vd.tablesUsed.forEach(function (u) { if (!used.some(function (x) { return x.id === u.id; })) used.push(u); });
     } else if (!useVd) {
-      extra.push('Voltage Drop لم يتحقق منه (الطول أو الحد غير مدخل).');
+      extra.unshift('تنبيه مهم: Voltage Drop لم يتحقق منه (الطول أو الحد الأقصى غير مدخل أو صفر). الاختيار على أساس Ampacity فقط.');
     }
     extra.push('لم تُحسب شروط short-circuit (I2t) ولا طريقة التركيب بالتفصيل. راجع.');
     return {
@@ -326,7 +328,7 @@
       designCurrentA: r2(d.Ib), requiredBaseAmpacityA: r2(izReq), factors: { ca: ca, cg: cg, combined: r3(ct) },
       table: a.meta(tid), vdrop: vd, breaker: { rating_a: br.rating, type: br.type },
       steps: steps, tablesUsed: used, warnings: buildWarnings(used, extra),
-      summary: 'Cross-section: ' + chosen[0] + ' mm2 | Breaker: ' + br.rating + ' A | Iz = ' + f(iz, 1) + ' A | Ib = ' + f(d.Ib, 1) + ' A' + (vd ? ' | dV = ' + f(vd.vdropPct, 2) + ' %' : '')
+      summary: 'Cross-section: ' + chosen[0] + ' mm2 | Breaker: ' + br.rating + ' A | Iz = ' + f(iz, 1) + ' A | Ib = ' + f(d.Ib, 1) + ' A' + (vd ? ' | dV = ' + f(vd.vdropPct, 2) + ' %' : ' | Voltage Drop غير مفحوص')
     };
   }
 
