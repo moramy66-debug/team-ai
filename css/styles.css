@@ -433,3 +433,16 @@ body .cl-item{flex:0 0 auto}
 body .cl-item-head{flex-shrink:0}
 /* iOS: Eng Calc fields must be 16px to avoid focus zoom */
 @media (max-width:600px){body .ec-field input,body .ec-field select,body .ec-field textarea{font-size:16px}}
+
+/* Eng Calc steps: stacked cards on phones instead of a sideways-scrolling table */
+@media (max-width:600px){
+.ec-steps{display:block;width:100%;border:0}
+.ec-steps thead{display:none}
+.ec-steps tbody{display:block}
+.ec-steps tr{display:block;border:1px solid var(--line);border-radius:12px;padding:8px 12px;margin:0 0 10px;background:var(--card2,var(--card))}
+.ec-steps td{display:flex;gap:10px;align-items:baseline;border:0;padding:4px 0;min-width:0;overflow-wrap:anywhere}
+.ec-steps td::before{content:attr(data-label);flex:0 0 64px;color:var(--mut);font-size:12px}
+.ec-steps td:first-child{font-weight:700;padding-bottom:6px;border-bottom:1px solid var(--line);margin-bottom:4px}
+.ec-steps td:last-child{font-weight:600}
+#settings .row>input.grow{flex:1 1 100%;min-width:0}
+}
