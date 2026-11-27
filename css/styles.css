@@ -431,3 +431,5 @@ body[data-theme="light"] .cl-badge-review{background:#fef3c7;color:#92400e}
 body[data-theme="light"] .cl-source-link{color:#1d4ed8}
 body .cl-item{flex:0 0 auto}
 body .cl-item-head{flex-shrink:0}
+/* iOS: Eng Calc fields must be 16px to avoid focus zoom */
+@media (max-width:600px){body .ec-field input,body .ec-field select,body .ec-field textarea{font-size:16px}}
