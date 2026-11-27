@@ -62,12 +62,12 @@
       warnings: warnings,
       constants: CONSTANTS,
       steps: [
-        'الحمل التصميمي بعد النمو والاحتياطي = ' + demandKva + ' × (1 + ' + growthPct + '/100) × (1 + ' + sparePct + '/100) = ' + designKva.toFixed(2) + ' kVA',
-        'السعة المطلوبة عند تحميل مستهدف ' + targetLoadPct + '% = ' + designKva.toFixed(2) + ' / ' + (targetLoadPct / 100).toFixed(2) + ' = ' + requiredRatingKva.toFixed(2) + ' kVA',
-        'المقاس القياسي المختار = ' + stdKva + ' kVA (نسبة التحميل الفعلية = ' + actualLoadPct.toFixed(1) + '%)',
-        'تيار الحمل الكامل الابتدائي Ip = (' + stdKva + ' × 1000) / (√3 × ' + vPrimary + ') = ' + iPrimary.toFixed(2) + ' A',
-        'تيار الحمل الكامل الثانوي Is = (' + stdKva + ' × 1000) / (√3 × ' + vSecondary + ') = ' + iSecondary.toFixed(2) + ' A',
-        'تيار القصر التقريبي (تقريب Infinite Bus): Isc = Is / Z% = ' + iSecondary.toFixed(1) + ' / ' + (impedancePct / 100).toFixed(4) + ' = ' + iscApproxKa.toFixed(2) + ' kA'
+        { step: 'الحمل التصميمي بعد النمو والاحتياطي', formula: 'S = D × (1 + g/100) × (1 + s/100)', substitution: demandKva + ' × (1 + ' + growthPct + '/100) × (1 + ' + sparePct + '/100)', result: designKva.toFixed(2) + ' kVA' },
+        { step: 'السعة المطلوبة عند التحميل المستهدف', formula: 'S_req = S / (load% / 100)', substitution: designKva.toFixed(2) + ' / ' + (targetLoadPct / 100).toFixed(2), result: requiredRatingKva.toFixed(2) + ' kVA' },
+        { step: 'المقاس القياسي', formula: 'أول مقاس قياسي >= S_req ; Load% = S / S_std', substitution: 'S_std = ' + stdKva + ' kVA', result: stdKva + ' kVA (تحميل فعلي ' + actualLoadPct.toFixed(1) + '%)' },
+        { step: 'التيار الابتدائي', formula: 'Ip = S_std × 1000 / (√3 × Vp)', substitution: stdKva + ' × 1000 / (√3 × ' + vPrimary + ')', result: iPrimary.toFixed(2) + ' A' },
+        { step: 'التيار الثانوي', formula: 'Is = S_std × 1000 / (√3 × Vs)', substitution: stdKva + ' × 1000 / (√3 × ' + vSecondary + ')', result: iSecondary.toFixed(2) + ' A' },
+        { step: 'تيار القصر التقريبي (Infinite Bus)', formula: 'Isc = Is / (Z% / 100)', substitution: iSecondary.toFixed(1) + ' A / ' + (impedancePct / 100).toFixed(4) + ' = ' + (iscApproxKa * 1000).toFixed(0) + ' A', result: iscApproxKa.toFixed(2) + ' kA' }
       ],
       extra: [
         { k: 'الحمل التصميمي (kVA)', v: designKva.toFixed(1) + ' kVA' },
