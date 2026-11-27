@@ -112,7 +112,7 @@
 
   function renderStepsTable(container, steps, used) {
     var wrap = el('div', 'ec-table-wrap');
-    var table = el('table', 'ec-table');
+    var table = el('table', 'ec-table ec-steps');
     var thead = document.createElement('thead');
     var hr = document.createElement('tr');
     ['الخطوة', 'المعادلة', 'التعويض', 'النتيجة'].forEach(function (h) {
@@ -124,10 +124,11 @@
     var tbody = document.createElement('tbody');
     steps.forEach(function (s) {
       var tr = document.createElement('tr');
-      tr.appendChild(el('td', null, s.step));
-      tr.appendChild(el('td', null, s.formula));
-      tr.appendChild(el('td', null, s.substitution));
-      var tdr = el('td', null, s.result);
+      function cell(t, label) { var c = el('td', null, t); c.setAttribute('data-label', label); return c; }
+      tr.appendChild(cell(s.step, 'الخطوة'));
+      tr.appendChild(cell(s.formula, 'المعادلة'));
+      tr.appendChild(cell(s.substitution, 'التعويض'));
+      var tdr = cell(s.result, 'النتيجة');
       if (window.SourceInfo && used && used.length) tdr.appendChild(window.SourceInfo.marker(used, -1, 'مصادر القيم في الخطوة'));
       tr.appendChild(tdr);
       tbody.appendChild(tr);
