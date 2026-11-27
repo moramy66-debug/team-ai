@@ -19,9 +19,12 @@ near(a.vdropV, 97.327, 0.01);
 a = C({ method: 'vdmv', currentA: 250, lengthM: 80, voltageV: 400, phases: 3, mvAm: 0.44 });
 near(a.vdropV, 8.8, 1e-6); near(a.vdropPct, 2.2, 1e-6);
 near(C({ method: 'cont', contA: 40, nonContA: 20, mult: 1.25 }).requiredA, 70, 1e-9);
+near(C({ method: 'dip', startKva: 352.94, genKva: 625, xdPu: 0.15 }).dipPct, 7.809, 0.002);
+a = C({ method: 'trayfill', groups: [{ count: 4, odMm: 25 }, { count: 3, odMm: 40 }, { count: '', odMm: '' }], widthMm: 450, depthMm: 100 });
+near(a.totalAreaMm2, 5733.407, 0.002); near(a.fillPct, 12.741, 0.002);
 // Every result is needs_review and has object steps
-['ib', 'it', 'vdrx', 'vdmv', 'cont'].forEach(function (m) {
-  var r = C({ method: m, kw: 10, voltageV: 400, pf: 0.9, inA: 100, ca: 1, cg: 1, currentA: 10, lengthM: 10, rOhmKm: 1, mvAm: 1, contA: 10, mult: 1.25 });
+['ib', 'it', 'vdrx', 'vdmv', 'cont', 'dip', 'trayfill'].forEach(function (m) {
+  var r = C({ method: m, kw: 10, voltageV: 400, pf: 0.9, inA: 100, ca: 1, cg: 1, currentA: 10, lengthM: 10, rOhmKm: 1, mvAm: 1, contA: 10, mult: 1.25, startKva: 100, genKva: 500, xdPu: 0.15, groups: [{ count: 2, odMm: 20 }], widthMm: 300, depthMm: 100 });
   assert(r.ok, m); assert(/needs_review/.test(r.warnings.join(' ')), m + ' warning');
   r.steps.forEach(function (s) { assert(s.step && s.formula && s.substitution && s.result, m + ' step shape'); });
 });
@@ -31,7 +34,8 @@ near(C({ method: 'cont', contA: 40, nonContA: 20, mult: 1.25 }).requiredA, 70, 1
  { method: 'it', inA: 100, ca: 0, cg: 1 }, { method: 'it', inA: 100, ca: 1 }, { method: 'vdrx', currentA: 10, lengthM: 0, voltageV: 400, pf: 0.9, rOhmKm: 1 },
  { method: 'vdrx', currentA: 10, lengthM: 10, voltageV: 400, pf: 0, rOhmKm: 1 }, { method: 'vdrx', currentA: 10, lengthM: 10, voltageV: 400, pf: 0.9 },
  { method: 'vdrx', currentA: 10, lengthM: 10, voltageV: 400, pf: 0.9, rOhmKm: 1, xOhmKm: -1 }, { method: 'vdmv', currentA: 10, lengthM: 10, voltageV: 400, mvAm: 0 },
- { method: 'cont', contA: 10, mult: 0.9 }, { method: 'cont', contA: 10 }, { method: 'cont', contA: 0, mult: 1.25 }, { method: 'zzz' }].forEach(function (o, i) {
+ { method: 'cont', contA: 10, mult: 0.9 }, { method: 'cont', contA: 10 }, { method: 'cont', contA: 0, mult: 1.25 }, { method: 'dip', startKva: 100, genKva: 500, xdPu: 0 }, { method: 'dip', startKva: 100, genKva: 500 }, { method: 'dip', startKva: 100, genKva: 0, xdPu: 0.15 },
+ { method: 'trayfill', groups: [], widthMm: 300, depthMm: 100 }, { method: 'trayfill', groups: [{ count: 2.5, odMm: 20 }], widthMm: 300, depthMm: 100 }, { method: 'trayfill', groups: [{ count: 2, odMm: 0 }], widthMm: 300, depthMm: 100 }, { method: 'trayfill', groups: [{ count: 2, odMm: 20 }], widthMm: 0, depthMm: 100 }, { method: 'zzz' }].forEach(function (o, i) {
   var r = C(o); assert.strictEqual(r.ok, false, 'case ' + i + ' must be an error'); assert(r.error);
 });
 assert(!/IEC|BS |SBC|NEC|clause|Table/i.test(require('fs').readFileSync(__dirname + '/../js/eng-cablecalc.js', 'utf8').replace(/\/\*[\s\S]*?\*\//, '')), 'no standard numbers in text');
