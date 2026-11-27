@@ -1,14 +1,27 @@
 # سجل التغييرات (Changelog)
 
 جميع التغييرات الجوهرية في مشروع **Team AI** موثقة في هذا الملف.
+## [v106 - v120] - 2026-11-27
+### إصلاحات وتحسينات
+- **steps كـ objects:** إصلاح معالجة `RCK.steps` (v110/v111) بعد كسر في التنفيذ.
+- **iOS و390px:** خطوط 16px للحقول ومساحات لمس 44px بدون overflow أفقي (v112).
+- **Contrast وRTL وfocus:** تحسين التباين والاتجاه RTL وحلقات التركيز (4dbe50c, 2113b4f).
+- **إصلاح عاجل لـ `sw.js`:** إصلاح خطأ syntax (علامة اقتباس ناقصة) من commit 268c3c5، في b23bc38 (v117).
+- **جدول I2t:** إضافة جدول I2t إلى `data/eng-tables.json` (إجمالي 23 جدولاً).
+- **dupcheck STRICT:** تحويل فحص التكرار إلى وضع STRICT.
+- **CSS لـ Code Ref:** اللوحة كانت تستخدم متغيرات غير معرفة فتظهر داكنة؛ أصبحت تتبع الثيم الفاتح/الداكن (b64eaa5).
+- **اختبارات:** إضافة `tools/code-library-test.js` (حقول، حالات، تكرار، `source_url`، ولا أرقام بوحدات في `needs_review`) وربطه في `lint.yml`.
+- **نطاق SEC:** مدخلا SEC الموثقان (`sec-pv-mv-voltages`, `sec-dc-fault-isolation`) أُعيدت صياغتهما ليخصا Solar PV أكبر من 2 MW فقط.
+
 ## [المهمة 2] - 2026-11-27
 ### إضافات
-- إضافة مرجع الأكواد `Code Ref` لـ SBC 401 وSEC في `data/code-library.json` و`js/code-library.js`، وتفعيله في `index.html` و`sw.js`.
-  
+- **Code Ref:** مرجع أكواد SBC 401 وSEC في `data/code-library.json` و`js/code-library.js` (10 مدخلات: 3 `verified_mirror` و7 `needs_review`)، وتفعيله في `index.html` و`sw.js`.
+- المصادر: صفحة SBC 401 على sbc.gov.sa ووثيقة SEC PV Large Scale Technical Connection Standards (نطاقها Solar PV أكبر من 2 MW).
+
 ## [المهمة 1] - 2026-11-27
 
 ### الإضافات
-- إضافة حاسبات الإضاءة (Lumen Method - `js/eng-lighting.js`)، والـ Cable Tray (`js/eng-cabletray.js`)، والمحول (`js/eng-transformer.js`)، والمولد (`js/eng-generator.js`) وملفات اختبارها، وربطها في `index.html` و`sw.js`.
+- إضافة حاسبات الإضاءة (Lumen Method - `js/eng-lighting.js`)، والـ Cable Tray (`js/eng-cabletray.js`)، والمحول (`js/eng-transformer.js`)، والمولد (`js/eng-generator.js`) وملفات اختبارها (`tools/*-test.js`، تعمل في lint)، وبقية تبويبات Eng Calc (PFC وCPC وSLD وLoad Schedule وSubmittal)، وربطها في `index.html` و`sw.js`.
 
 ## [v88 - v89] - 2026-11-26
 
