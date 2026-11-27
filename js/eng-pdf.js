@@ -177,8 +177,9 @@
   /* single-line diagram: neutral primitives from EngSLD.build, drawn scaled to the page width */
   function drawSld(pg, b) {
     var d = b.sld; if (!d || !d.prims) return;
-    if (b.heading) heading(pg, b.heading);
     var sc = Math.min(1.9, (W - 2 * M) / d.w), hh = Math.round(d.h * sc);
+    pg.space(hh + 130);
+    if (b.heading) heading(pg, b.heading);
     pg.space(hh + 30);
     var c = pg.ctx, ox = M + Math.round(((W - 2 * M) - d.w * sc) / 2), oy = pg.y;
     c.fillStyle = '#ffffff'; c.fillRect(M, oy - 6, W - 2 * M, hh + 12);
