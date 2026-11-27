@@ -40,6 +40,8 @@
     var actualLux = (N_grid * F * UF * MF) / A;
     var totalWatts = N_grid * P;
     var wPerM2 = totalWatts / A;
+    var actualLuxN = (N * F * UF * MF) / A;
+    var wPerM2N = (N * P) / A;
 
     var warnings = [AR_WARNING];
     if (shr > CONSTANTS.maxSHR.value) {
@@ -48,24 +50,28 @@
 
     return {
       ok: true,
-      summary: 'العدد المطلوب ' + N + ' وحدة | التوزيع الشبكي ' + cols + ' x ' + rows + ' (' + N_grid + ' وحدة) | Actual Illuminance ' + actualLux.toFixed(0) + ' lux | ' + wPerM2.toFixed(2) + ' W/m²',
+      summary: 'العدد المطلوب ' + N + ' وحدة | التوزيع الشبكي ' + cols + ' x ' + rows + ' (' + N_grid + ' وحدة) | Actual Illuminance عند N=' + N + ': ' + actualLuxN.toFixed(0) + ' lux (' + wPerM2N.toFixed(2) + ' W/m²) | عند الشبكة ' + N_grid + ': ' + actualLux.toFixed(0) + ' lux (' + wPerM2.toFixed(2) + ' W/m²)',
       A: A, K: K, N_exact: N_exact, N: N, N_grid: N_grid, rows: rows, cols: cols,
-      spacingX: spacingX, spacingY: spacingY, shr: shr, actualLux: actualLux,
+      spacingX: spacingX, spacingY: spacingY, shr: shr, actualLux: actualLux, actualLuxN: actualLuxN, wPerM2N: wPerM2N,
       totalWatts: totalWatts, wPerM2: wPerM2, warnings: warnings, constants: CONSTANTS,
       steps: [
         { step: 'مساحة الغرفة', formula: 'A = L × W', substitution: L + ' × ' + W, result: A.toFixed(2) + ' m²' },
         { step: 'معامل الغرفة', formula: 'K = (L × W) / (Hm × (L + W))', substitution: '(' + L + ' × ' + W + ') / (' + Hm + ' × (' + L + ' + ' + W + '))', result: K.toFixed(2) },
         { step: 'عدد الكشافات النظري', formula: 'N = (E × A) / (F × UF × MF)', substitution: '(' + E + ' × ' + A.toFixed(2) + ') / (' + F + ' × ' + UF + ' × ' + MF + ')', result: N_exact.toFixed(2) + ' -> ' + N + ' وحدة' },
         { step: 'التوزيع الشبكي', formula: 'cols × rows >= N ; التباعد = L / cols , W / rows', substitution: cols + ' × ' + rows + ' ; ' + spacingX.toFixed(2) + ' m × ' + spacingY.toFixed(2) + ' m', result: N_grid + ' وحدة (SHR = ' + shr.toFixed(2) + ')' },
-        { step: 'Actual Illuminance', formula: 'E_actual = (N × F × UF × MF) / A', substitution: '(' + N_grid + ' × ' + F + ' × ' + UF + ' × ' + MF + ') / ' + A.toFixed(2), result: actualLux.toFixed(1) + ' lux' },
-        { step: 'Power Density', formula: 'W/m² = (N × P) / A', substitution: totalWatts.toFixed(0) + ' W / ' + A.toFixed(2) + ' m²', result: wPerM2.toFixed(2) + ' W/m²' }
+        { step: 'Actual Illuminance عند العدد المحسوب (N)', formula: 'E_N = (N × F × UF × MF) / A', substitution: '(' + N + ' × ' + F + ' × ' + UF + ' × ' + MF + ') / ' + A.toFixed(2), result: actualLuxN.toFixed(1) + ' lux' },
+        { step: 'Actual Illuminance عند التوزيع الشبكي', formula: 'E_grid = (N_grid × F × UF × MF) / A', substitution: '(' + N_grid + ' × ' + F + ' × ' + UF + ' × ' + MF + ') / ' + A.toFixed(2), result: actualLux.toFixed(1) + ' lux' },
+        { step: 'Power Density عند N', formula: 'W/m² = (N × P) / A', substitution: (N * P).toFixed(0) + ' W / ' + A.toFixed(2) + ' m²', result: wPerM2N.toFixed(2) + ' W/m²' },
+        { step: 'Power Density عند الشبكة', formula: 'W/m² = (N_grid × P) / A', substitution: totalWatts.toFixed(0) + ' W / ' + A.toFixed(2) + ' m²', result: wPerM2.toFixed(2) + ' W/m²' }
       ],
       extra: [
         { k: 'معامل الغرفة (K)', v: K.toFixed(2) },
         { k: 'عدد الوحدات المحسوب (N)', v: String(N) },
         { k: 'التوزيع الشبكي (أعمدة × صفوف)', v: cols + ' × ' + rows + ' (' + N_grid + ' وحدة)' },
-        { k: 'Actual Illuminance (lux)', v: actualLux.toFixed(1) + ' lux' },
-        { k: 'Power Density (W/m²)', v: wPerM2.toFixed(2) + ' W/m²' },
+        { k: 'Actual Illuminance عند N (lux)', v: actualLuxN.toFixed(1) + ' lux' },
+        { k: 'Power Density عند N (W/m²)', v: wPerM2N.toFixed(2) + ' W/m²' },
+        { k: 'Actual Illuminance عند الشبكة (lux)', v: actualLux.toFixed(1) + ' lux' },
+        { k: 'Power Density عند الشبكة (W/m²)', v: wPerM2.toFixed(2) + ' W/m²' },
         { k: 'نسبة التباعد للارتفاع (SHR)', v: shr.toFixed(2) }
       ],
       used: [
