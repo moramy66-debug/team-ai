@@ -395,3 +395,9 @@ body[data-theme="light"] .rephead .ok{background:#dcfce7;color:#166534;border-co
   #finalView{overflow-wrap:anywhere}
   #finalView img,#finalView pre{max-width:100%;overflow-x:auto}
 }
+
+/* item18 ui polish (mobile ergonomics): 16px inputs stop iOS zoom, 44px checkbox rows */
+@media (max-width:600px){
+  textarea,input,select{font-size:16px}
+  label:has(>input[type=checkbox]){min-height:44px;display:flex;align-items:center;gap:8px}
+}
