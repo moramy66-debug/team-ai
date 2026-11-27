@@ -99,6 +99,14 @@
   window.EngPfcCpc = { pfc: pfc, cpc: cpc, constants: { K: K, SIZES: SIZES, BANK: BANK, sources: SRC } };
 
   /* ---------------- UI ---------------- */
+  /* Eng Calc rebuilds a tab when you switch to it, so remember what was typed in the Short-circuit tab. */
+  var scMemo = {};
+  if (typeof document !== 'undefined') {
+    var remember = function (e) { var t = e && e.target; if (t && t.id && t.id.indexOf('ec-sc-') === 0) scMemo[t.id] = t.value; };
+    document.addEventListener('input', remember, true);
+    document.addEventListener('change', remember, true);
+  }
+
   function register() {
     if (typeof document === 'undefined' || !window.EngUI || typeof window.EngUI.registerTab !== 'function') return false;
     var h = window.EngUI.helpers, el = h.el;
@@ -139,8 +147,8 @@
       var out = el('div', null), status = el('div', 'ec-status'); body.appendChild(out); body.appendChild(status);
       function setv(id, v) { var n = document.getElementById(id); if (n && v !== undefined && v !== '') n.value = v; }
       pull.addEventListener('click', function () {
-        var g2 = function (id) { var n = document.getElementById(id); return n ? n.value : ''; };
-        if (!document.getElementById('ec-sc-isc')) { status.textContent = 'افتح تاب Short-circuit الأول وادخل القيم.'; return; }
+        var g2 = function (id) { var n = document.getElementById(id); return n ? n.value : scMemo[id]; };
+        if (g2('ec-sc-isc') === undefined && g2('ec-sc-size') === undefined) { status.textContent = 'ادخل القيم في تاب Short-circuit الأول.'; return; }
         setv('cpc-i', g2('ec-sc-isc')); setv('cpc-t', g2('ec-sc-t')); setv('cpc-lt', g2('ec-sc-lt')); setv('cpc-cond', g2('ec-sc-cond')); setv('cpc-ins', g2('ec-sc-ins')); setv('cpc-sph', g2('ec-sc-size'));
         status.textContent = 'تم سحب القيم من تاب Short-circuit. راجع زمن القطع: لازم يكون زمن قطع عطل الأرض.';
       });
