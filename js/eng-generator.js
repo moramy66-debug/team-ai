@@ -159,6 +159,7 @@
             ambientTempC: h.numVal('gn-tmp'),
             sparePct: h.numVal('gn-spr')
           });
+          out.innerHTML = '';
           h.showResult(out, res, 'Generator Sizing');
           if (res.ok) h.renderResultActions(out, 'needs_review', pdfFn('Generator Sizing', res));
         });
