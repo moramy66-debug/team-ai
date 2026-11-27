@@ -462,3 +462,9 @@ body[data-theme="light"] #tmpls button:hover{background:#eef2ff;color:var(--tx);
 body[data-theme="light"] #tmpls button.on{background:#e0e7ff;color:#3730a3;border-color:#6272f5}
 body[data-theme="light"] .chip{background:#fff;color:var(--tx)}
 @media(max-width:600px){.topbar button,.topbar .btn{padding:8px 9px}}
+/* batch 9: compact category row, flat, calmer light background */
+#utTmplFilters#utTmplFilters{flex-wrap:nowrap;overflow-x:auto;gap:6px;scrollbar-width:none;padding-bottom:2px}
+#utTmplFilters#utTmplFilters::-webkit-scrollbar{display:none}
+#utTmplFilters#utTmplFilters .ut-filter-btn{flex:0 0 auto;white-space:nowrap;box-shadow:none;background-image:none;min-height:44px;padding:6px 14px}
+body[data-theme="light"]{background:var(--bg)}
+body[data-theme="light"] .topbar{background:rgba(244,246,251,.92)}
