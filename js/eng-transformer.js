@@ -18,7 +18,9 @@
     var targetLoadPct = Number(inp.targetLoadPct || CONSTANTS.defaultTargetLoadPct.value);
     var vPrimary = Number(inp.vPrimary || CONSTANTS.defaultVPrimary.value);
     var vSecondary = Number(inp.vSecondary || CONSTANTS.defaultVSecondary.value);
-    var impedancePct = Number(inp.impedancePct || CONSTANTS.defaultImpedancePct.value);
+    var zGiven = !(inp.impedancePct === undefined || inp.impedancePct === null || inp.impedancePct === '');
+    var impedancePct = zGiven ? Number(inp.impedancePct) : CONSTANTS.defaultImpedancePct.value;
+    if (zGiven && !(impedancePct > 0)) return { ok: false, error: 'Impedance (Z%) لازم تكون أكبر من صفر (القيمة المدخلة: ' + inp.impedancePct + '). سيبها فاضية لو عايز القيمة الافتراضية ' + CONSTANTS.defaultImpedancePct.value + '%.' };
 
     if (!(demandKva > 0 && targetLoadPct > 0 && targetLoadPct <= 100 && vPrimary > 0 && vSecondary > 0 && impedancePct > 0) || growthPct < 0 || sparePct < 0) {
       return { ok: false, error: 'أدخل قيماً موجبة صحيحة لـ Load المطلوب ونسبة التحميل والجهود ونسبة المعاوقة Z%.' };
