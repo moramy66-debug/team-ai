@@ -88,5 +88,11 @@ eq('motor PF explicit start kVA', Math.round(rm2.motorStartKva * 100) / 100, 122
 eq('motor PF 0 gives error', G.calculate({ continuousKw: 200, largestMotorKw: 45, motorPf: 0 }).ok, false);
 eq('motor PF 1.2 gives error', G.calculate({ continuousKw: 200, largestMotorKw: 45, motorPf: 1.2 }).ok, false);
 
+// Manual derating factor override (v153): 200 kW, PF 0.85, spare 15 %, DF 0.9 -> 235.29 kVA running, 235.294 x 1.15 / 0.9 = 300.65 kVA
+var rd = G.calculate({ continuousKw: 200, pf: 0.85, sparePct: 15, deratingFactor: 0.9 });
+eq('manual DF required ISO kVA', Math.round(rd.requiredIsoKva * 100) / 100, 300.65);
+eq('manual DF 1.5 gives error', G.calculate({ continuousKw: 200, deratingFactor: 1.5 }).ok, false);
+eq('manual DF blank keeps the automatic factor', G.calculate({ continuousKw: 200, altitudeM: 600, ambientTempC: 45 }).deratingFactor, 0.975);
+
 if (fails) { console.log(fails + ' FAILED'); process.exit(1); }
 console.log('ALL ENG-GENERATOR TESTS PASSED');
