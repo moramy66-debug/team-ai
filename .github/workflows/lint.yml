@@ -46,6 +46,7 @@ jobs:
           node tools/eng-sld-test.js
           node tools/eng-lighting-test.js
           node tools/eng-cabletray-test.js
+          node tools/eng-isc-test.js
           node tools/eng-transformer-test.js
           node tools/eng-generator-test.js
           node tools/eng-ups-test.js
