@@ -2274,8 +2274,8 @@
   },
   "iec_60228_conductor_resistance_20c": {
    "title": "Conductor DC resistance at 20 C, ohm/km (IEC 60228 class 2 maximum values)",
-   "source": "FROM MEMORY of IEC 60228 values, not fetched from any source in this research. NEEDS REVIEW against IEC 60228 or a cable datasheet.",
-   "status": "from_memory_needs_review",
+   "source": "https://globalgrid2050.com/conductor_resistances/ (IEC 60228 class 2 max DC resistance at 20 C, reproduction); spot-checked against https://www.belcom.co.uk/technicals/stranding-and-resistance-chart-to-bs6360-iec-60228-vde-0295 , https://www.temkakablo.com.tr/pdfupload/2.pdf and https://apeccables.com.au/products/Electrical%20Data%20Resistance%20Values%20&%20Bending%20Radius.pdf . Official IEC 60228 text not opened (paywalled).",
+   "status": "verified_secondary",
    "unit": "ohm/km",
    "temp_coefficient_per_c": {
     "Cu": 0.00393,
@@ -2349,6 +2349,26 @@
     [
      300,
      0.0601
+    ],
+    [
+     400,
+     0.047
+    ],
+    [
+     500,
+     0.0366
+    ],
+    [
+     630,
+     0.0283
+    ],
+    [
+     800,
+     0.0221
+    ],
+    [
+     1000,
+     0.0176
     ]
    ],
    "rows_Al": [
@@ -2395,10 +2415,45 @@
     [
      300,
      0.1
+    ],
+    [
+     400,
+     0.0778
+    ],
+    [
+     500,
+     0.0605
+    ],
+    [
+     630,
+     0.0469
+    ],
+    [
+     800,
+     0.0367
+    ],
+    [
+     1000,
+     0.0291
     ]
    ],
    "reactance_ohm_per_km_typical": 0.08,
-   "reactance_note": "typical LV multicore value, from memory, NEEDS REVIEW"
+   "reactance_note": "typical LV multicore value 0.08 ohm/km: NOT verified as a standard value (datasheets show 0.081 to 0.094); stays needs_review",
+   "rows_Cu_small_not_used_by_sizing": [
+    [
+     0.5,
+     36.0
+    ],
+    [
+     0.75,
+     24.5
+    ],
+    [
+     1,
+     18.1
+    ]
+   ],
+   "reactance_status": "needs_review"
   },
   "mcb_iec60898_rated_currents": {
    "title": "Preferred rated currents of MCBs (IEC 60898-1 Renard series)",
@@ -2407,6 +2462,7 @@
    "unit": "A",
    "values": [
     6,
+    8,
     10,
     13,
     16,
@@ -2419,7 +2475,8 @@
     80,
     100,
     125
-   ]
+   ],
+   "note": "8 A added 2026-11-27: Siemens MCB catalogue (assets.new.siemens.com catalogo-minidisjuntores-102023-pt.pdf) lists the NBR NM 60898 (IEC-based) preferred In as 6, 8, 10, 13, 16, 20, 25, 32, 40, 50, 63, 80, 100, 125 A, and an external review cites IEC 60898-1 clause 5.3.2 with the same list. The IEC clause text itself was not opened by us. 13 A is in the list, so it is not UK-only."
   },
   "mccb_iec60947_2_typical_ratings": {
    "title": "Typical MCCB rated currents (IEC 60947-2 does not fix a list; manufacturers choose frames)",
