@@ -58,11 +58,18 @@
   }
 
   /* ---------- design current ---------- */
-  function designCurrent(o, steps) {
+  function designCurrent(o, steps, extra) {
     var phases = Number(o.phases) === 1 ? 1 : 3;
     var V = pos(o.voltageV) ? o.voltageV : (phases === 1 ? 230 : 400);
     var pf = pos(o.powerFactor) && o.powerFactor <= 1 ? o.powerFactor : 0.85;
     var P = pos(o.powerKW) ? o.powerKW : (pos(o.powerKw) ? o.powerKw : null);
+    var given = function (x) { return x !== undefined && x !== null && x !== '' && !(typeof x === 'number' && isNaN(x)); };
+    if (extra && !pos(o.currentA) && P) {
+      if (given(o.powerFactor) && !(pos(o.powerFactor) && o.powerFactor <= 1)) extra.push('معامل القدرة المدخل (' + o.powerFactor + ') غير صالح (لازم > 0 و <= 1)، استخدمت القيمة الافتراضية 0.85. صحح القيمة وأعد الحساب.');
+      else if (!given(o.powerFactor)) extra.push('معامل القدرة مش مدخل، استخدمت القيمة الافتراضية 0.85.');
+      if (given(o.voltageV) && !pos(o.voltageV)) extra.push('الجهد المدخل (' + o.voltageV + ') غير صالح (لازم > 0)، استخدمت القيمة الافتراضية ' + V + ' V. صحح القيمة وأعد الحساب.');
+      else if (!given(o.voltageV)) extra.push('الجهد مش مدخل، استخدمت القيمة الافتراضية ' + V + ' V.');
+    }
     var Ib;
     if (pos(o.currentA)) {
       Ib = o.currentA;
@@ -260,12 +267,13 @@
 
   function cableSizing(input, tablesApi) {
     var o = input || {}, a = api(tablesApi), used = [], steps = [], extra = [];
-    var d = designCurrent(o, steps);
+    var d = designCurrent(o, steps, extra);
     var ins = String(o.insulation || 'XLPE').toUpperCase(), cond = String(o.conductor || 'Cu');
     var loaded = d.phases === 1 ? 2 : 3;
     var mkey = METHODS[String(o.method || 'air').toLowerCase()] || String(o.method).toUpperCase();
     var tid = ampTable(ins, cond, loaded);
     var t = need(a, tid); useTable(used, a, tid);
+    if ((t.columns || []).indexOf(mkey) < 0) throw new Error('طريقة التركيب "' + (o.method || mkey) + '" غير مدعومة في الجدول (' + tid + '). المدعوم حاليا: air (C) و ground (D2) و duct (D1). طرق E و F و B مش مدعومة بعد.');
     var mc = col(t, mkey);
     var ca = ambientFactor(a, used, mkey, ins, o.ambientC, steps);
     var cg = groupingFactor(a, used, mkey, o, steps, extra);
