@@ -91,7 +91,7 @@
     }
     if (basis === 'time' && pos(t) && t > 5) extra.push('زمن القطع أكبر من 5 ثواني: المعادلة الأديباتيكية غير صالحة.');
     if (basis === 'time' && pos(t) && t < 0.1) extra.push('زمن القطع أقل من 0.1 ثانية: استخدم I2t الفعلي لـ Breaker من بيانات المصنع.');
-    extra.push('Current العطل للأرض ممكن يكون أقل من Isc ثلاثي الفاز: استخدم Current earth-fault الفعلي لو متاح، وإلا النتيجة محافظة.');
+    extra.push('Earth-fault Current ممكن يكون أقل من Isc ثلاثي الفاز: استخدم Current earth-fault الفعلي لو متاح، وإلا النتيجة محافظة.');
     return { ok: true, adiabaticMm2: r2(Sad), simplifiedMm2: Ssimple === null ? null : r2(Ssimple), selectedMm2: sel, k: k, i2t: i2t, basis: basis, steps: steps, tablesUsed: used, warnings: warnFor(used, extra),
       summary: 'Earthing Conductor: S = sqrt(I2t)/k = ' + r2(Sad) + ' mm2 (k = ' + k + ') | Cross-section القياسي ' + (sel === null ? 'خارج القايمة' : sel + ' mm2') + (Ssimple === null ? '' : ' | المبسطة ' + r2(Ssimple) + ' mm2') };
   }
@@ -131,7 +131,7 @@
       });
     });
     window.EngUI.registerTab('cpc', 'CPC', function (body) {
-      body.appendChild(el('div', 'ec-summary', 'Cross-section Earthing Conductor: S = sqrt(I2t) / k. ممكن تسحب القيم من تاب Short-circuit.'));
+      body.appendChild(el('div', 'ec-summary', 'Earthing Conductor Cross-section: S = sqrt(I2t) / k. ممكن تسحب القيم من تاب Short-circuit.'));
       var g = el('div', 'ec-grid');
       g.appendChild(h.createField('cpc-i', 'Fault current (kA)', 'number', ''));
       g.appendChild(h.createField('cpc-t', 'Clearing time (s)', 'number', ''));
