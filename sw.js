@@ -1,10 +1,11 @@
-const CACHE_NAME = 'teamai-v131';
+const CACHE_NAME = 'teamai-v132';
 const CORE_ASSETS = [
   './',
   './index.html',
   './manifest.webmanifest',
   './js/key-session.js',
   './js/source-info.js',
+  './js/review-prompt.js',
   './js/storage-idb.js',
   './js/sanitize.js',
   './css/styles.css',
