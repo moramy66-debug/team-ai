@@ -1,6 +1,6 @@
-/* Eng Calc "Cable Formulas" tab: direct hand formulas for cable work when the user already has the factors.
+/* Eng Calc "Direct Formulas" tab: direct hand formulas when the user already has the factors.
    Methods: design current from kW, required tabulated ampacity from In / (Ca x Cg), voltage drop from given R and X,
-   voltage drop from given mV/A/m, and the continuous-load multiplier. Every result is needs_review.
+   voltage drop from given mV/A/m, the continuous-load multiplier, generator voltage dip from given kVA and Xd, and cable tray fill for mixed cables. Every result is needs_review.
    No tables are read and no standard or clause numbers are quoted. */
 (function () {
   'use strict';
@@ -88,6 +88,39 @@
       extra.push({ k: 'I_req', v: r(req, 2) + ' A' });
       res.requiredA = req;
       res.summary = 'I_req = ' + r(req, 2) + ' A (needs_review)';
+    } else if (method === 'dip') {
+      var Ss = num(o.startKva), Gk = num(o.genKva), xd = num(o.xdPu);
+      if (!pos(Ss)) return fail('Motor start (kVA) لازم يكون رقم أكبر من صفر.');
+      if (!pos(Gk)) return fail('Generator (kVA) لازم يكون رقم أكبر من صفر.');
+      if (!(xd > 0 && xd <= 1)) return fail('Xd (pu) لازم يكون أكبر من 0 وأقل من أو يساوي 1 (مثلا 0.15). ادخله بنفسك.');
+      var sx = Ss * xd, dip = sx / (Gk + sx) * 100;
+      steps.push({ step: 'Voltage Dip', formula: 'Dip% = (S_start x Xd) / (S_gen + S_start x Xd) x 100', substitution: '(' + Ss + ' x ' + xd + ') / (' + Gk + ' + ' + Ss + ' x ' + xd + ') x 100', result: r(dip, 3) + ' %', value: dip, unit: '%' });
+      warnings.push('معادلة Voltage Dip تقريبية وغير مربوطة بمعيار في التطبيق، وقيمة Xd من عندك (needs_review). راجع بيانات المصنع.');
+      extra.push({ k: 'Dip', v: r(dip, 2) + ' %' });
+      res.dipPct = dip;
+      res.summary = 'Dip = ' + r(dip, 2) + ' % (needs_review)';
+    } else if (method === 'trayfill') {
+      var groups = o.groups || [], tot = 0, W = num(o.widthMm), D = num(o.depthMm), parts = [], used = 0;
+      for (var gi = 0; gi < groups.length; gi++) {
+        var g = groups[gi] || {};
+        if (!given(g.count) && !given(g.odMm)) continue;
+        var n = num(g.count), od = num(g.odMm);
+        if (!pos(n) || Math.floor(n) !== n) return fail('Cable group ' + (gi + 1) + ': العدد لازم يكون رقم صحيح أكبر من صفر.');
+        if (!pos(od)) return fail('Cable group ' + (gi + 1) + ': القطر الخارجي (mm) لازم يكون أكبر من صفر.');
+        var area = n * Math.PI * od * od / 4;
+        tot += area; used++;
+        steps.push({ step: 'Cable group ' + (gi + 1), formula: 'A = n x pi x OD^2 / 4', substitution: n + ' x pi x ' + od + '^2 / 4', result: r(area, 3) + ' mm2', value: area, unit: 'mm2' });
+      }
+      if (!used) return fail('ادخل Cable group واحد على الأقل (العدد والقطر).');
+      if (!pos(W)) return fail('Tray width (mm) لازم يكون رقم أكبر من صفر.');
+      if (!pos(D)) return fail('Tray depth (mm) لازم يكون رقم أكبر من صفر.');
+      var fill = tot / (W * D) * 100;
+      steps.push({ step: 'Total Cable Area', formula: 'A_total = sum of groups', substitution: 'sum of ' + used + ' group(s)', result: r(tot, 3) + ' mm2', value: tot, unit: 'mm2' });
+      steps.push({ step: 'Fill %', formula: 'Fill% = A_total / (W x D) x 100', substitution: r(tot, 3) + ' / (' + W + ' x ' + D + ') x 100', result: r(fill, 3) + ' %', value: fill, unit: '%' });
+      warnings.push('النتيجة مساحة مقاطع الكابلات على مساحة الحامل بس، من غير مسافات أو ترتيب. مفيش حد Fill مسجل هنا (needs_review).');
+      extra.push({ k: 'Total area', v: r(tot, 1) + ' mm2' }, { k: 'Fill', v: r(fill, 2) + ' %' });
+      res.totalAreaMm2 = tot; res.fillPct = fill;
+      res.summary = 'Area = ' + r(tot, 1) + ' mm2 | Fill = ' + r(fill, 2) + ' % (needs_review)';
     } else {
       return fail('Method غير معروف.');
     }
@@ -99,7 +132,7 @@
   function register() {
     if (typeof document === 'undefined' || !window.EngUI || typeof window.EngUI.registerTab !== 'function' || !window.EngUI.helpers) return false;
     var h = window.EngUI.helpers;
-    window.EngUI.registerTab('cablecalc', 'Cable Formulas', function (body) {
+    window.EngUI.registerTab('cablecalc', 'Direct Formulas', function (body) {
       body.appendChild(h.el('div', 'ec-note', WARN));
       var grid = h.el('div', 'ec-grid');
       grid.appendChild(h.createField('cf-m', 'Method', 'select', [
@@ -107,7 +140,9 @@
         { value: 'it', label: 'Required It = In / (Ca x Cg)' },
         { value: 'vdrx', label: 'Voltage Drop from given R, X' },
         { value: 'vdmv', label: 'Voltage Drop from given mV/A/m' },
-        { value: 'cont', label: 'Continuous load multiplier' }
+        { value: 'cont', label: 'Continuous load multiplier' },
+        { value: 'dip', label: 'Generator Voltage Dip (given kVA, Xd)' },
+        { value: 'trayfill', label: 'Cable Tray fill, mixed cables' }
       ]));
       grid.appendChild(h.createField('cf-kw', 'Ib: Power (kW)', 'number', ''));
       grid.appendChild(h.createField('cf-eff', 'Ib: Efficiency (0-1) - blank = not used', 'number', ''));
@@ -122,11 +157,22 @@
       grid.appendChild(h.createField('cf-ic', 'Continuous load (A)', 'number', ''));
       grid.appendChild(h.createField('cf-inc', 'Non-continuous load (A) - optional', 'number', ''));
       grid.appendChild(h.createField('cf-mult', 'Continuous multiplier (assumption, needs_review)', 'number', '1.25'));
+      grid.appendChild(h.createField('cf-sk', 'Dip: Motor start (kVA)', 'number', ''));
+      grid.appendChild(h.createField('cf-gk', 'Dip: Generator (kVA)', 'number', ''));
+      grid.appendChild(h.createField('cf-xd', 'Dip: Xd (pu, e.g. 0.15)', 'number', ''));
+      grid.appendChild(h.createField('cf-n1', 'Tray: Group 1 count', 'number', ''));
+      grid.appendChild(h.createField('cf-d1', 'Tray: Group 1 OD (mm)', 'number', ''));
+      grid.appendChild(h.createField('cf-n2', 'Tray: Group 2 count - optional', 'number', ''));
+      grid.appendChild(h.createField('cf-d2', 'Tray: Group 2 OD (mm)', 'number', ''));
+      grid.appendChild(h.createField('cf-n3', 'Tray: Group 3 count - optional', 'number', ''));
+      grid.appendChild(h.createField('cf-d3', 'Tray: Group 3 OD (mm)', 'number', ''));
+      grid.appendChild(h.createField('cf-tw', 'Tray: Width (mm)', 'number', ''));
+      grid.appendChild(h.createField('cf-td', 'Tray: Depth (mm)', 'number', ''));
       grid.appendChild(h.createField('cf-v', 'Voltage V (V)', 'number', '400'));
       grid.appendChild(h.createField('cf-ph', 'Phases (1 or 3)', 'number', '3'));
       grid.appendChild(h.createField('cf-pf', 'Power Factor (0-1)', 'number', '0.85'));
       body.appendChild(grid);
-      var btn = h.el('button', 'ec-btn', 'Calculate Cable Formula');
+      var btn = h.el('button', 'ec-btn', 'Calculate Formula');
       btn.type = 'button';
       body.appendChild(btn);
       var out = h.el('div', 'ec-out');
@@ -137,9 +183,11 @@
           method: h.val('cf-m'), kw: h.numVal('cf-kw'), eff: h.numVal('cf-eff'), inA: h.numVal('cf-in'), ca: h.numVal('cf-ca'), cg: h.numVal('cf-cg'),
           currentA: h.numVal('cf-i'), lengthM: h.numVal('cf-len'), rOhmKm: h.numVal('cf-r'), xOhmKm: h.numVal('cf-x'), mvAm: h.numVal('cf-mv'),
           contA: h.numVal('cf-ic'), nonContA: h.numVal('cf-inc'), mult: h.numVal('cf-mult'),
+          startKva: h.numVal('cf-sk'), genKva: h.numVal('cf-gk'), xdPu: h.numVal('cf-xd'), widthMm: h.numVal('cf-tw'), depthMm: h.numVal('cf-td'),
+          groups: [{ count: h.numVal('cf-n1'), odMm: h.numVal('cf-d1') }, { count: h.numVal('cf-n2'), odMm: h.numVal('cf-d2') }, { count: h.numVal('cf-n3'), odMm: h.numVal('cf-d3') }],
           voltageV: h.numVal('cf-v'), phases: h.numVal('cf-ph'), pf: h.numVal('cf-pf')
         });
-        h.showResult(out, res, 'Cable Formulas');
+        h.showResult(out, res, 'Direct Formulas');
         if (res.ok) { var st = h.el('div', null); h.renderResultActions(out, st); out.appendChild(st); }
       });
     });
