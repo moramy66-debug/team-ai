@@ -45,7 +45,7 @@ eq('vdrop table status passes', v1.table.status, 'verified_secondary');
 var v2 = C.voltageDrop({ size_mm2: 35, currentA: 100, lengthM: 100, phases: 3, voltageV: 400, conductor: 'Cu', insulation: 'XLPE', powerFactor: 0.85 });
 eq('vdrop 35mm2 computed method', v2.methodUsed, 'computed_r_x');
 eq('vdrop 35mm2 value ~10.567 V', v2.vdropV, 10.567, 0.01);
-has('25mm2+ computed note', v2.warnings, 'مش من جدول BS 7671 4D1B');
+has('25mm2+ computed note', v2.warnings, 'مش من جدول مرجعي');
 has('reactance needs_review warning', v2.warnings, 'needs_review');
 // Case 4: cable sizing. 3ph XLPE Cu, Ib=60 A, 35 C air, 1 circuit, method C.
 // Ca(XLPE,35C)=0.96, Cg=1 -> Ct=0.96. In: MCB >= 60 -> 63. Iz_req=63/0.96=65.625 A.
