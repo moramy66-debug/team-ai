@@ -546,6 +546,6 @@ body[data-theme="light"] .rz-toast.warn{background:#fff7ed;color:#7c2d12;border-
 body :focus-visible{outline:2px solid #8a96ff!important;outline-offset:2px}
 body input:focus-visible,body select:focus-visible,body textarea:focus-visible{outline:2px solid #8a96ff!important;outline-offset:1px}
 @media(max-width:760px){
-  #effort#effort,#ec-sb-spec,#ec-sb-offer{font-size:16px}
+  .row:has(>#go)>#effort#effort#effort,#effort#effort#effort,#ec-sb-spec#ec-sb-spec#ec-sb-spec,#ec-sb-offer#ec-sb-offer#ec-sb-offer{font-size:16px}
   #settings a{display:inline-flex;align-items:center;min-height:44px}
 }
