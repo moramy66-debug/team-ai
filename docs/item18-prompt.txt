@@ -1,0 +1,168 @@
+===== ابدأ الـ prompt من هنا =====
+
+# Prompt واحد، 3 مهام بالترتيب (item18)
+
+انت مهندس JavaScript و front-end. عندك 3 مهام على نفس الـ repo (تطبيق Team AI على github.com/moramy66-debug/team-ai). هتنفذهم بالترتيب ده بس، واحدة واحدة، وبعد كل واحدة بتقف وتستنى كلمة من المستخدم. اقرا القسم ده كله الأول، وبعدين المهمة 1 بس. متبدأش اقرا تنفيذ المهمة 2 و3 قبل ما تتفتح.
+
+## بروتوكول المراحل (إلزامي)
+- الترتيب: المهمة 1 (حاسبات جديدة)، بعدها المهمة 2 (مكتبة الأكواد)، بعدها المهمة 3 (تحسين الواجهة).
+- كل مهمة ليها قايمة ملفات مسموحة ومحظورة خاصة بيها (مكتوبة جوه المهمة). قايمة المهمة دي هي الوحيدة السارية وقت تنفيذها. أي ملف مش في قايمة المهمة الحالية ممنوع تلمسه حتى لو كان مسموح في مهمة تانية.
+- تعديلات sw.js وindex.html متسلسلة: اعمل fetch لآخر نسخة قبل كل commit فيهم مباشرة، وارفع CACHE_NAME بمقدار واحد على آخر قيمة في main. متعملش commit في الملفين دول لمهمتين في نفس الوقت.
+- لما تخلص مهمة: (1) تأكد من الـ lint والـ DoD بتاع المهمة، (2) اعمل commit لكل حاجة على main، (3) ابعت إيميل للمستخدم على moramy66@gmail.com بالـ subject بالظبط: [team-ai] TASK N DONE (N هو رقم المهمة) والجسم فيه: الـ commit SHAs، قايمة الملفات اللي لمستها، وملخص قصير وأي حاجة مش ممكنة أو needs_review. (4) وقّف تمامًا.
+- بعد ما تبعت إيميل الـ checkpoint ممنوع تعدل أي ملف أو تعمل commit، ولا تبدأ المهمة اللي بعدها. الاستمرار بيحصل بس لما المستخدم يبعتلك بالنص بالظبط: ابدأ التاسك N+1 (يعني "ابدأ التاسك 2" بعد المهمة 1، و"ابدأ التاسك 3" بعد المهمة 2). أي رسالة تانية، أو رد من مراجع، أو طلب من أي حد غير المستخدم مش إذن بالبدء.
+- لو مقدرتش تبعت إيميل، متتخطاش الخطوة: اكتب في تقريرك إن الإيميل ما اتبعتش وليه، وقف عند نفس النقطة.
+- المراجع بيراجع الـ commits بعد كل checkpoint. لو طلب تصحيح، المستخدم هو اللي بيبلغك، ومتصلحش حاجة من نفسك بعد الـ checkpoint من غير تعليمة صريحة منه.
+- مفيش مفاتيح API أو أسرار في أي commit أو إيميل.
+- قسم "التسليم" جوه كل مهمة بيتنفذ عن طريق إيميل الـ checkpoint (SHAs والملفات والجداول المطلوبة في جسم الإيميل).
+
+
+
+########## المهمة 1: حاسبات جديدة ##########
+(الإيميل بتاعها: [team-ai] TASK 1 DONE. بعدها وقّف لحد ما المستخدم يكتب: ابدأ التاسك 2)
+
+انت مهندس JavaScript. المطلوب: إضافة 4 حاسبات هندسية كهربائية جديدة لتطبيق ويب جاهز اسمه Team AI، كل حاسبة في ملف جديد خاص بيها وتاب جديد في Eng Calc: (1) إضاءة بطريقة lumen method، (2) حجم Cable tray، (3) حجم المحول Transformer sizing، (4) حجم المولد Generator sizing. اقرا كل الوصف قبل ما تكتب سطر.
+
+## 1) التطبيق والـ repo
+- PWA static على GitHub Pages: https://moramy66-debug.github.io/team-ai/ والـ repo: github.com/moramy66-debug/team-ai (branch main). مفيش build ولا npm. الأزرار English، والشرح والنتايج بالعربي المصري، والمصطلحات الهندسية بالإنجليزي.
+- المستخدم مهندس استشاري كهرباء في السعودية. الشغل بتاعه code-based: كل نتيجة لازم تكون خطوات بمعادلة وتعويض ونتيجة بوحدات، بدون تردد في النتيجة النهائية.
+- الـ scripts بتتحمل بـ plain <script defer> وكلها بتشارك نفس الـ global scope. فيه فاحص تكرار (tools/dupcheck.js وcheck.html).
+- فيه شغل تاني شغال على نفس الـ repo في نفس الوقت. قبل أي تعديل اعمل fetch لآخر نسخة من الملف من main. متعملش revert لتعديلات حد تاني.
+
+## 2) النمط اللي لازم تمشي عليه (اقراه من الكود الحقيقي)
+- افتح js/eng-loadschedule.js وtools/eng-loadschedule-test.js من main. دول النموذج: منطق نقي على window.EngXxx، وتاب UI بيتسجل بـ:
+  window.EngUI.registerTab(id, label, renderFn)
+  والـ helpers المتاحة على window.EngUI.helpers: el, createField, val, numVal, showResult, ensureTables, renderResultActions (بتضيف زرار PDF وCopy).
+- شكل النتيجة: steps = [{step, formula, substitution, result}] + warnings[] + ملخص. استخدم نفس الشكل عشان تصدير الـ PDF (window.EngPDF) يشتغل من غير تعديل.
+- متمسكش الـ hook ده ولا أي ملف eng-* موجود. كل ملف جديد بيسجل نفسه بس.
+- ملفات جديدة (كل واحد IIFE: (function(){'use strict'; ... })(); ومفيش تعريف top-level):
+  js/eng-lighting.js (window.EngLighting)، js/eng-cabletray.js (window.EngCableTray)، js/eng-transformer.js (window.EngTransformer)، js/eng-generator.js (window.EngGenerator).
+- ملف اختبار لكل حاسبة: tools/eng-lighting-test.js، tools/eng-cabletray-test.js، tools/eng-transformer-test.js، tools/eng-generator-test.js، على نفس طريقة tools/eng-loadschedule-test.js (node من غير مكتبات، global.window = {}، fails counter، exit code 1 عند الفشل). كل اختبار فيه على الأقل حالتين محسوبتين باليد وبالتفصيل في تعليق، وحالات حدية (مدخل صفر أو سالب، قيم كبيرة).
+- لو الحاسبة محتاجة تتعامل مع نتايج حاسبة تانية (EngCalc مثلًا) استخدم الدوال الموجودة قراءة بس.
+
+## 3) محتوى الحاسبات
+1) Lighting (lumen method): مدخلات: أبعاد الغرفة، ارتفاع التركيب والـ work plane، reflectances، luminaire lumens وعدد اللمبات في الوحدة، lux المطلوب، maintenance factor، utilization factor. المعادلة: N = (E x A) / (F x UF x MF). Room Index K = (L x W) / (Hm x (L + W)). نتيجة: عدد الوحدات (لفوق لأقرب عدد صحيح) وترتيب شبكي مقترح (صفوف x أعمدة) وlux فعلي وW/m2.
+2) Cable tray: مدخلات: قايمة كابلات (عدد، قطر خارجي mm)، عرض ومقاس tray قياسي، نسبة الملء المسموحة. نتيجة: مساحة مقاطع الكابلات المجمعة، عرض tray المطلوب، نسبة الملء الفعلية، وتحذير لو الكابلات كبيرة (أكبر من 50 mm مثلًا) وبتتحط في طبقة واحدة. فرّق بين multicore وsingle-core (trefoil) حسب المدخل.
+3) Transformer sizing: مدخلات: حمل الطلب kVA، نسبة النمو المستقبلي، نسبة الاحتياطي، معامل تحميل مستهدف، جهد ابتدائي/ثانوي، impedance %. نتيجة: kVA المطلوب، أقرب مقاس قياسي لفوق، تيار full-load للجانبين، تيار الـ short-circuit عند الثانوي (Isc = In / Z%) كقيمة تقريبية بشرط تكتب إنها تقريب (infinite bus).
+4) Generator sizing: مدخلات: الأحمال المستمرة kW وPF، أكبر موتور (kW، الـ starting method: DOL / Star-Delta / VFD / Soft starter) ومعامل التيار، الارتفاع عن سطح البحر ودرجة الحرارة (derating)، نسبة الاحتياطي. نتيجة: kVA للتحميل المستمر، kVA عند بدء أكبر موتور، المقاس القياسي، ونسبة dip تقريبية بشرط تكتب إنها تقريب.
+
+## 4) قواعد الأرقام والمصادر (أهم قسم)
+- كل ثابت (قيمة جدول، معامل، مقاس قياسي، حد) لازم يتحط في object داخل الملف على الشكل: {value, unit, status, source_url, source_note}. status = verified_mirror لو أخدته من صفحة عامة فتحتها فعلًا وقريتها، verified_secondary لو مصدر ثانوي، needs_review لو من الذاكرة أو ما اتأكدتش.
+- أي رقم بدون مصدر عام اتفتح فعلًا يبقى needs_review، والـ UI يعرض الحالة والمصدر جنب النتيجة، وأي نتيجة معتمدة على ثابت needs_review تتحط معاها warning واضح بالعربي.
+- ممنوع تخترع رقم بند كود أو اقتباس. IEC وNFPA وBS مدفوعة: متقولش إنها مفتوحة.
+- مقاسات المحولات القياسية، utilization factors، وlux المطلوبة حسب نوع الفراغ، ونسب ملء tray، وderating المولدات: كلها غالبًا needs_review إلا لو لقيت مصدر عام مفتوح فعلًا. اكتب في التقرير لكل ثابت الرابط اللي فتحته.
+- ما تعدلش data/eng-tables.json ولا تحاول "تصلح" قيم فيه. الثوابت الجديدة بتاعتك في ملفاتك.
+- ممنوع تحط معادلات أو قيم في الـ UI من غير ما تظهر في الخطوات.
+
+## 5) قواعد الأمان (إلزامية)
+- ممنوع تمسح ملف وتعمل create بدله. ممنوع ترفع index.html كامل من نسخة قديمة.
+- الملفات المسموح تلمسها بالظبط: الـ 4 ملفات js/eng-lighting.js، js/eng-cabletray.js، js/eng-transformer.js، js/eng-generator.js، وملفات الاختبار الـ 4 الجديدة في tools/، وindex.html (4 سطور script بس، بعد سطر js/ui-tidy.js)، وsw.js، وCHANGELOG.md (مدخل جديد فوق عن شغلك بس).
+- ممنوع تلمس: أي ملف eng-* موجود (eng-calc, eng-ui, eng-tables, eng-pdf, eng-submittal, eng-loadschedule, eng-crosscheck, eng-shortcircuit-ui)، data/*، codes-data.json، js/pro-tools.js، js/app.js، js/ui-tidy.js، css/*، .github/workflows/* (أنا هضيف اختباراتك في lint.yml بعد المراجعة)، وأي ملف مش في القايمة.
+- ترتيب الرفع لكل حاسبة: ملف الحاسبة وملف الاختبار الأول، وبعدين سطر الـ script في index.html، وبعدين sw.js. السطر متتحطش قبل وجود الملف (ده كسر lint قبل كده).
+- sw.js: اعمل fetch له قبل الـ commit مباشرة، وارفع CACHE_NAME بمقدار واحد على آخر قيمة في main، وضيف الملفات الجديدة في CORE_ASSETS. ممكن تعمل commit واحد لـ sw.js في الآخر لكل الحاسبات.
+- مفيش emoji (SVG بس). textContent مش innerHTML. مفيش مفاتيح أو أسرار. عرض 390px بدون horizontal overflow، وكل عنصر قابل للضغط 44px.
+- شغّل كل ملفات الاختبار بـ node بنفسك قبل الـ commit، وشغّل node tools/dupcheck.js ./tools/dup-allowlist.json.
+
+## 6) Definition of Done
+- [ ] كل حاسبة بتظهر تاب جديد في Eng Calc، والتابات الموجودة سليمة.
+- [ ] الاختبارات الأربعة بتعدي محليًا (node tools/eng-X-test.js) والحالات المحسوبة باليد مكتوبة بالتفصيل.
+- [ ] كل ثابت له status وsource، وكل نتيجة معتمدة على needs_review فيها warning.
+- [ ] check.html ALL GOOD بعد الـ deploy. 390px بدون overflow. مفيش أخطاء console.
+- [ ] زرار PDF بيشتغل لكل حاسبة (بيستخدم renderResultActions).
+- [ ] sw.js اترفع بمقدار واحد والملفات في الـ repo هي نفسها live. الـ lint أخضر (اللي موجود حاليًا).
+
+## 7) التسليم
+اعمل commit على main وبلّغ بـ: الـ commit SHAs فقط، الملفات اللي لمستها، جدول بكل ثابت (الاسم، القيمة، status، الرابط اللي فتحته فعلًا)، والحالات المحسوبة باليد. أنا هراجع الـ commits على الموقع live وهاضيف الاختبارات لـ lint قبل أي إعلان للمستخدم، فمتعتبرش الشغل منشور.
+
+
+########## المهمة 2: مكتبة الأكواد ##########
+(الإيميل بتاعها: [team-ai] TASK 2 DONE. بعدها وقّف لحد ما المستخدم يكتب: ابدأ التاسك 3)
+
+انت مهندس front-end ومحتوى تقني. المطلوب: توسيع مكتبة الأكواد في تطبيق ويب جاهز اسمه Team AI بنص مرجعي مقروء جوه التطبيق لمتطلبات SBC 401 وSEC، بمصادر وحالة لكل بند. اقرا كل الوصف قبل ما تكتب سطر.
+
+## 1) التطبيق والـ repo
+- PWA static على GitHub Pages: https://moramy66-debug.github.io/team-ai/ والـ repo: github.com/moramy66-debug/team-ai (branch main). مفيش build ولا npm. الأزرار English والمحتوى عربي مصري.
+- الـ scripts بتتحمل بـ plain <script defer> بالترتيب في index.html وكلها بتشارك نفس الـ global scope. فيه فاحص تكرار (tools/dupcheck.js وcheck.html) بيكشف أي اسم top-level متكرر.
+- المستخدم مهندس استشاري كهرباء في السعودية وبيستخدم التطبيق من الموبايل (390px) أغلب الوقت.
+- فيه شغل تاني شغال على نفس الـ repo. قبل أي تعديل اعمل fetch لآخر نسخة من الملف من main واشتغل عليها بس. متعملش revert لتعديلات حد تاني.
+- الوضع الحالي: المكتبة عبارة عن codes-data.json (14 كود، كل واحد {sid, name, ver, text}) بتتحمل في js/codes-and-templates.js. ما تعدلش الملف ده ولا الـ 14 كود. شوف الأول إزاي بتتعرض عشان تفهم الشكل الحالي.
+
+## 2) المطلوب
+أ) ملف بيانات جديد: data/code-library.json. مصفوفة بنود، كل بند فيه الحقول دي بالظبط:
+   id، code (sbc401 أو sec_dps أو sec_dc ... إلخ)، topic (عنوان قصير بالعربي)، text (شرح مقروء بالعربي المصري المهني، مصطلحات الهندسة بالإنجليزي)، clause (رقم البند أو null)، source_url (رابط عام تم فتحه فعلًا أو null)، source_note (وصف المصدر)، status، checked_on (تاريخ المراجعة).
+   قيم status: verified_mirror (مأخوذ من صفحة عامة مفتوحة وقريتها) / verified_secondary (مصدر ثانوي) / needs_review (من الذاكرة أو غير مؤكد).
+ب) المحتوى المطلوب (قدر المستطاع من مصادر عامة): متطلبات عملية في SBC 401 (voltage drop، حماية، تأريض، كابلات، لوحات) ومتطلبات SEC المنشورة علنًا (Distribution Code وDPS وأي مواصفات منشورة على موقع SEC). المستخدم عنده بالفعل ملاحظات في الـ 14 كود الحالية، فاقراها وتجنب التكرار وأي تعارض معاها. لو لقيت تعارض اكتبه في التقرير ومتصلحوش بنفسك.
+ج) واجهة جديدة في ملف جديد js/code-library.js: لازم يتلف كله بـ IIFE: (function(){'use strict'; ... })(); ومفيش أي تعريف top-level. لما التطبيق يفتح بتضيف زرار "Code Ref" مكان مناسب (ما تلمسش زراير topbar الأساسية، استخدم قايمة More اللي موجودة في js/ui-tidy.js أو بانل مكتبة الأكواد) بيفتح عرض فيه: بحث نصي (ضيف normalization عربي بسيط)، فلتر بالكود، قايمة بنود قابلة للفتح، وبادج لحالة كل بند بألوان واضحة، ورابط المصدر لو موجود. الأزرار والعناصر 44px على الأقل، مفيش horizontal overflow عند 390px، مفيش emoji (SVG بس)، ومحتوى النص بيتعرض بـ textContent مش innerHTML.
+
+## 3) قواعد المحتوى (أهم قسم)
+- ممنوع تخترع أرقام بنود أو اقتباسات. لو مفيش رقم بند مؤكد من مصدر مفتوح اكتب clause: null. لو مفيش مصدر اكتب status: needs_review وsource_url: null.
+- ممنوع تحط نص اقتباس حرفي من كود مدفوع أو محمي. الصياغة بتاعتك، ملخص بالعربي مع ذكر المصدر.
+- أي رقم (نسبة، جهد، حد) بدون مصدر عام اتفتح فعلًا يبقى needs_review. متعتمدش على "معلومات عامة" كمصدر.
+- ممنوع تقول إن حاجة verified لو ما فتحتش الصفحة. اكتب في التقرير لكل بند اتحقق منه الرابط اللي فتحته.
+- المصادر الرسمية المدفوعة (IEC وBS وNFPA) متتعاملش كمصدر مفتوح.
+
+## 4) قواعد الأمان (إلزامية)
+- أي JS جديد في ملف جديد وبـ IIFE. لو اضطريت تعدل ملف موجود، عدّل في المكان نفسه (in-place Edit) بأصغر تغيير.
+- ممنوع تمسح ملف وتعمل create بدله. ممنوع ترفع index.html كامل من نسخة قديمة.
+- الملفات المسموح تلمسها بالظبط: js/code-library.js (جديد)، data/code-library.json (جديد)، index.html (سطر script واحد لـ js/code-library.js بعد js/ui-tidy.js)، css/styles.css (لو لازم، إضافة بس)، js/ui-tidy.js (فقط لإضافة عنصر في قايمة More لو احتجت)، sw.js، README.md، CHANGELOG.md (مدخل جديد فوق عن شغلك بس).
+- ممنوع تلمس: كل ملفات js/eng-*.js، data/eng-tables.json، codes-data.json، js/codes-and-templates.js، js/code-search.js، tools/*، .github/workflows/*، وأي ملف مش في القايمة المسموحة.
+- ارفع رقم CACHE_NAME في sw.js بمقدار واحد على آخر قيمة في main وقت الـ commit (اعمل fetch الأول). ضيف js/code-library.js وdata/code-library.json في CORE_ASSETS.
+- ارفع الملفات بالترتيب: data/code-library.json وjs/code-library.js الأول، وبعدين سطر الـ script في index.html، وبعدين sw.js. السطر متتحطش قبل الملف (ده كسر lint قبل كده).
+- مفيش مفاتيح API أو أسرار في أي ملف.
+- شغّل الـ lint (node tools/dupcheck.js ./tools/dup-allowlist.json وكل خطوات .github/workflows/lint.yml) قبل أي commit. تأكد إن data/code-library.json JSON صالح.
+
+## 5) Definition of Done
+- [ ] check.html بيطلع ALL GOOD بعد الـ deploy.
+- [ ] عرض 390px: مفيش horizontal overflow وكل عنصر 44px على الأقل.
+- [ ] مفيش أخطاء في الـ console عند فتح التطبيق وفتح Code Ref والبحث والفلاتر.
+- [ ] الـ 14 كود الحالية ومكتبة الأكواد القديمة شغالة زي ما هي، وEng Calc شغال.
+- [ ] كل بند في data/code-library.json فيه كل الحقول، وكل بند بدون مصدر مفتوح حالته needs_review وclause فيه null.
+- [ ] sw.js اترفع بمقدار واحد والملفات في الـ repo هي نفسها live.
+- [ ] الـ lint أخضر على GitHub Actions.
+
+## 6) التسليم
+اعمل commit لشغلك على main واكتب تقرير فيه: الـ commit SHAs فقط، قايمة الملفات اللي لمستها، جدول بكل بند (id، code، status، الرابط اللي فتحته فعلًا)، وأي تعارض لقيته مع الـ 14 كود الحالية. المراجع هيراجع الـ commits قبل أي نشر أو إعلان للمستخدم، فمتعتبرش الشغل منشور.
+
+
+########## المهمة 3: تحسين الواجهة ##########
+(الإيميل بتاعها: [team-ai] TASK 3 DONE. بعدها وقّف لحد ما المستخدم يكتب: ابدأ التاسك 4)
+
+انت مهندس front-end و UI designer. المطلوب: تحسين الشكل وتجربة الاستخدام لتطبيق ويب جاهز اسمه Team AI، بدون أي تغيير في السلوك أو المنطق أو الحسابات. اقرا كل الوصف قبل ما تكتب سطر.
+
+## 1) التطبيق والـ repo
+- PWA static على GitHub Pages: https://moramy66-debug.github.io/team-ai/ والـ repo: github.com/moramy66-debug/team-ai (branch main). مفيش build ولا npm. الأزرار English والمحتوى عربي مصري (RTL).
+- الـ scripts بتتحمل بـ plain <script defer> وكلها بتشارك نفس الـ global scope. فيه فاحص تكرار (tools/dupcheck.js وcheck.html).
+- المستخدم مهندس استشاري كهرباء في السعودية وبيستخدم التطبيق من الموبايل (390px) أغلب الوقت، وبيراجع الشغل بصور شاشة.
+- فيه شغل تاني شغال على نفس الـ repo في نفس الوقت (ملفات eng-* وprompts تانية). قبل أي تعديل اعمل fetch لآخر نسخة من الملف من main واشتغل عليها بس. متعملش revert لتعديلات حد تاني.
+- اللي اتعمل قبل كده: js/ui-tidy.js فيه قايمة More وفلاتر القوالب. فيها قاعدة تعلمتها بالغالي: الـ topbar فيه backdrop-filter وoverflow، فأي عنصر مفتوح منه (dropdown) لازم يتحط تحت body بـ position:fixed وإلا يتقص.
+
+## 2) المطلوب
+أ) تحسين بصري: spacing متناسق (سلم واحد)، typography وحجم خطوط مقروء، تباين ألوان كافي (WCAG AA على الأقل للنص)، شكل موحد للكروت والأزرار والـ inputs والـ modals.
+ب) الثيم: الوضعين dark وlight لازم يبقوا سليمين. اتأكد إن كل مكون (Eng Calc بتاباته كلها، نتائج الحسابات، جداول الـ Tables، Backup، Help، القايمة، الفلاتر) مقروء في الاتنين.
+ج) RTL: اتجاه النص والأيقونات والـ padding والـ margin صح في العربي. الأرقام والوحدات والمعادلات (LTR) متتكسرش وسط نص عربي (استخدم unicode-bidi أو dir=ltr للقيم الهندسية بس بـ CSS).
+د) حالات الواجهة: loading (skeleton أو spinner بسيط) وempty وerror واضحة وموحدة الشكل. لو الحالة بتتولد من JS في ملف ممنوع تلمسه، ظبطها بـ CSS على الـ classes الموجودة فقط، وأي حاجة مش ممكنة بالـ CSS اكتبها في التقرير.
+هـ) ergonomics للموبايل 390px: كل عنصر قابل للضغط 44px على الأقل، مفيش horizontal overflow في أي شاشة، الـ modals بتتمرر جواها (scroll) والزرار الأساسي ظاهر، الـ inputs مش بتعمل zoom في iOS (font-size 16px على الأقل)، safe-area للـ notch.
+و) الجداول الواسعة (نتايج الحسابات، الـ Tables) تتمرر أفقيًا جوه حاويتها هي بس، مش الصفحة كلها.
+ز) ممنوع: تغيير أي نص أو label أو ترتيب عناصر أو سلوك أو handler. مفيش ميزة جديدة. مفيش emoji (استخدم SVG). مفيش مكتبات خارجية أو خطوط من CDN.
+
+## 3) قواعد الأمان (إلزامية)
+- أي JS جديد لازم يتحط جوه js/ui-tidy.js الموجود (in-place Edit بأصغر تغيير) وجوه الـ IIFE الموجود بتاعه. مفيش تعريف top-level.
+- الأفضل تحط الشغل كله في CSS. أضف في css/styles.css في آخر الملف بس (append)، تحت تعليق واضح /* item16 ui polish */، ومتعدلش القواعد الموجودة غير لو ضروري جدًا واكتب كل حالة في التقرير.
+- ممنوع تمسح ملف وتعمل create بدله. ممنوع ترفع index.html كامل من نسخة قديمة.
+- الملفات المسموح تلمسها بالظبط: css/styles.css، js/ui-tidy.js، index.html (تعديلات بسيطة في الـ markup/ الـ meta للـ viewport والـ theme-color فقط، ومفيش حذف لأي id أو class بيستخدمه JS)، sw.js، README.md، CHANGELOG.md (مدخل جديد فوق).
+- ممنوع تلمس: كل js/eng-*.js، js/pro-tools.js، js/app.js، js/codes-and-templates.js، data/*، codes-data.json، tools/*، .github/workflows/*، وأي ملف مش في القايمة المسموحة.
+- ارفع CACHE_NAME في sw.js بمقدار واحد على آخر قيمة في main وقت الـ commit (اعمل fetch لـ sw.js قبل الـ commit مباشرة، لأن prompts تانية بترفعه).
+- مفيش مفاتيح API أو أسرار في أي ملف.
+- شغّل الـ lint (node tools/dupcheck.js ./tools/dup-allowlist.json وكل خطوات .github/workflows/lint.yml) قبل أي commit.
+
+## 4) Definition of Done
+- [ ] check.html بيطلع ALL GOOD بعد الـ deploy.
+- [ ] 390px: مفيش horizontal overflow في: الشاشة الرئيسية، قايمة More، فلاتر القوالب، Eng Calc (كل التابات: Cable sizing, Voltage drop, Breaker, Tables, Short-circuit, Submittal, Load Schedule)، Backup، Help.
+- [ ] الـ dark والـ light سليمين في نفس الشاشات دي (خد screenshot لكل واحدة في الاتنين وسجّل الأماكن اللي صلحتها).
+- [ ] مفيش أخطاء console. كل الوظائف شغالة زي ما كانت: Backup وLetterhead وHelp وفلاتر القوالب وEng Calc وتصدير PDF.
+- [ ] مفيش نص أو label اتغير.
+- [ ] sw.js اترفع بمقدار واحد والملفات في الـ repo هي نفسها live. الـ lint أخضر.
+
+## 5) التسليم
+اعمل commit على main وبلّغ بـ: الـ commit SHAs فقط، الملفات اللي لمستها، وقايمة بالتغييرات الأساسية، وأي حاجة مش ممكنة بدون لمس ملف ممنوع. المراجع هيراجع الـ commits على الموقع live قبل أي إعلان للمستخدم، فمتعتبرش الشغل منشور.
+
+===== انتهى الـ prompt =====
