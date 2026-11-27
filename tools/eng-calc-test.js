@@ -79,7 +79,7 @@ var thr = false; try { cgOf({ method: 'duct', circuits: 3, spacing: 'one_diamete
 eq('D1 with spacing one_diameter throws (not in B.52.19)', thr, true);
 var sus = C.cableSizing({ phases: 3, currentA: 30, conductor: 'Cu', insulation: 'XLPE', method: 'ground', ambientC: 20, circuits: 16, spacing: '0.5' });
 eq('D2 16 circuits 0.5 m = 0.68 (corrected from ti-soft typo 0.38 per Eupen 4.4.8)', cgOf({ method: 'ground', circuits: 16, spacing: '0.5' }), 0.68);
-eq('buried sizing uses table B.52.5 col D2 (not estimate)', sus.steps.filter(function (x) { return x.step === 'معامل التجميع Cg'; })[0].formula.indexOf('B.52.18') >= 0, true);
+eq('buried sizing uses table B.52.5 col D2 (not estimate)', sus.steps.filter(function (x) { return x.step === 'Grouping Factor Cg'; })[0].formula.indexOf('B.52.18') >= 0, true);
 
 // ---- Short circuit: I2t <= k2 S2 ----
 // 4 mm2 XLPE Cu: k=143 -> 143^2*16 = 20449*16 = 327,184 A2s (Schneider G53: 0.3272e6)
@@ -115,9 +115,9 @@ var wpf = C.cableSizing(Object.assign({}, wbase, { powerFactor: 1.2 }));
 has('PF 1.2 warns and falls back to 0.85', wpf.warnings, 'غير صالح');
 has('PF 1.2 default shown 0.85', wpf.warnings, '0.85');
 has('PF missing warns about default', C.cableSizing(wbase).warnings, 'مش مدخل');
-has('voltage 0 warns', C.cableSizing(Object.assign({}, wbase, { voltageV: 0, powerFactor: 0.9 })).warnings, 'الجهد المدخل');
+has('voltage 0 warns', C.cableSizing(Object.assign({}, wbase, { voltageV: 0, powerFactor: 0.9 })).warnings, 'Voltage المدخل');
 var okpf = C.cableSizing(Object.assign({}, wbase, { powerFactor: 0.9 }));
-eq('valid PF gives no PF warning', okpf.warnings.some(function (x) { return String(x).indexOf('معامل القدرة') >= 0; }), false);
+eq('valid PF gives no PF warning', okpf.warnings.some(function (x) { return String(x).indexOf('Power Factor') >= 0; }), false);
 var msg = ''; try { C.cableSizing(Object.assign({}, wbase, { method: 'E', powerFactor: 0.9 })); } catch (e) { msg = e.message; }
 has('method E gives clear unsupported message', [msg], 'غير مدعومة');
 if (fails) { console.log(fails + ' FAILED'); process.exit(1); }
