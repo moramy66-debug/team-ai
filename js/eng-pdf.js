@@ -290,7 +290,12 @@
   function docFromResult(title, res) {
     var steps = (res.steps || []).map(function (s) { return [s.step, s.formula, s.substitution, s.result]; });
     var blocks = [{ type: 'summary', text: res.summary || '', ok: res.ok === false || res.compliant === false ? false : (res.ok === true ? true : undefined) }];
-    if ((res.tablesUsed || []).length) blocks.push({ type: 'status', tables: res.tablesUsed });
+    if ((res.tablesUsed || []).length) {
+      var SI = window.SourceInfo;
+      blocks.push({ type: 'status', heading: 'المصادر وحالتها / Sources', tables: res.tablesUsed.map(function (t, i) {
+        return SI ? { id: '[' + (i + 1) + '] ' + t.id, status: t.status, source: SI.text(t).replace(/^.*?\|\s*/, '') } : t;
+      }) });
+    }
     if ((res.warnings || []).length) blocks.push({ type: 'warnings', items: res.warnings });
     blocks.push({ type: 'table', heading: 'الحسابات خطوة بخطوة / Calculation steps', columns: ['الخطوة', 'المعادلة', 'التعويض', 'النتيجة'], rows: steps, widths: [0.2, 0.27, 0.31, 0.22], rtl: true, fontSize: 21 });
     return { title: title, subtitle: 'Deterministic calculation with table sources and status flags', blocks: blocks, signature: true, fileBase: title };
