@@ -235,6 +235,14 @@
       } catch (e) { statusNode.textContent = 'تعذر إنشاء PDF: ' + (e && e.message ? e.message : e); }
     });
     row.appendChild(pdfBtn);
+    var rvBtn = el('button', 'ec-btn ec-btn-sec', 'Copy Review Prompt');
+    rvBtn.type = 'button';
+    rvBtn.addEventListener('click', function () {
+      if (!window.ReviewPrompt || !snap) { statusNode.textContent = 'مفيش نتيجة لعمل Review Prompt.'; return; }
+      var txt = window.ReviewPrompt.build({ title: snap.title, res: snap.res, inputs: window.ReviewPrompt.collectInputs(container) });
+      window.ReviewPrompt.copy(txt);
+    });
+    row.appendChild(rvBtn);
     container.appendChild(row);
   }
 
