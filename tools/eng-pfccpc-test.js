@@ -37,4 +37,9 @@ var g = L.cpc({ letThroughKA2s: 20, conductor: 'Cu', insulation: 'PVC', kind: 'm
 eq('datasheet I2t', g.adiabaticMm2, 38.89, 0.01);
 eq('datasheet standard 50', g.selectedMm2, 50);
 thr('missing time throws', function () { L.cpc({ iscKA: 10 }); });
+/* capacitor bank current (v153): 100 kVAR, 400 V, 3-phase: 100000 / (sqrt(3) x 400) = 144.34 A */
+var cap = L.pfc({ pKW: 100, pfExisting: 0.8, pfTarget: 0.95, voltageV: 400, capKVAR: 100 });
+eq('capacitor current 144.34 A', cap.capacitorCurrentA, 144.34, 0.01);
+eq('capacitor current absent when blank', L.pfc({ pKW: 100, pfExisting: 0.8, pfTarget: 0.95 }).capacitorCurrentA, null);
+thr('capacitor kVAR 0 throws', function () { L.pfc({ pKW: 100, pfExisting: 0.8, pfTarget: 0.95, capKVAR: 0 }); });
 if (fails) { console.log(fails + ' FAILED'); process.exit(1); } else console.log('ALL OK');
