@@ -65,7 +65,7 @@
     return {
       ok: true,
       summary: 'مساحة الكابلات ' + totalCableArea.toFixed(0) + ' mm² | العرض المطلوب ' + requiredWidthMm.toFixed(1) + ' mm | المقاس القياسي ' + stdWidthMm + ' mm | نسبة الملء الفعلية ' + actualFillPct.toFixed(1) + '%',
-      totalCableArea: totalCableArea,
+      totalCableArea: totalCableArea, singleCableArea: singleCableArea,
       effectiveArea: effectiveArea,
       reqWidthByArea: reqWidthByArea,
       layoutWidthMm: layoutWidthMm,
@@ -112,11 +112,7 @@
   function register() {
     if (!window.EngUI || !window.EngUI.registerTab || !window.EngUI.helpers) return false;
     var h = window.EngUI.helpers;
-    window.EngUI.registerTab({
-      id: 'cabletray',
-      title: 'Cable Tray Sizing',
-      order: 63,
-      render: function (panel) {
+    window.EngUI.registerTab('cabletray', 'Cable Tray', function (body) { var panel = body;
         panel.appendChild(h.el('div', 'ec-note', AR_WARNING));
         var grid = h.el('div', 'ec-grid');
         grid.appendChild(h.createField('ct-arr', 'Cable Arrangement', 'select', [
@@ -146,7 +142,7 @@
           h.showResult(out, res, 'Cable Tray Sizing');
           if (res.ok) h.renderResultActions(out, 'needs_review', pdfFn('Cable Tray Sizing', res));
         });
-      }
+  
     });
     return true;
   }
