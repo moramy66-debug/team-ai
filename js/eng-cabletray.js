@@ -125,7 +125,7 @@
         grid.appendChild(h.createField('ct-fill', 'Max Fill Limit (%)', 'number', String(CONSTANTS.defaultFillLimitPct.value)));
         grid.appendChild(h.createField('ct-spare', 'Future Spare (%)', 'number', '20'));
         panel.appendChild(grid);
-        var btn = h.el('button', 'ec-btn', 'حساب مقاس الـ Cable Tray');
+        var btn = h.el('button', 'ec-btn', 'Calculate Cable Tray Size');
         btn.type = 'button';
         panel.appendChild(btn);
         var out = h.el('div', 'ec-out');
