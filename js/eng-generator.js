@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var AR_WARNING = 'تحذير: حسابات حجم Generator وتخفيض Power (Derating) ونسبة Voltage Drop التقريبية (Voltage Dip) تعتمد على معاملات إرشادية (needs_review). يجب التحقق من منحنيات الشركة المصنعة لـ Generator (ISO 8528) وخصائص بدء المحرك الفعلية قبل الاعتماد.';
+  var AR_WARNING = 'تحذير: حسابات حجم Generator وتخفيض Power (Derating) ونسبة Voltage Drop التقريبية (Voltage Dip) تعتمد على معاملات إرشادية (needs_review). يجب التحقق من منحنيات الشركة المصنعة لـ Generator وخصائص بدء المحرك الفعلية قبل الاعتماد.';
 
   var CONSTANTS = {
     standardRatingsKva: { value: [20, 30, 45, 60, 80, 100, 125, 150, 200, 250, 300, 350, 400, 500, 625, 750, 800, 1000, 1250, 1500, 2000, 2500], unit: 'kVA', status: 'needs_review', source_url: null, source_note: 'السعات القياسية الشائعة لمجموعات التوليد؛ تُراجع مع كتالوج الشركة المصنعة' },
