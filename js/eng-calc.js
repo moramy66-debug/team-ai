@@ -52,7 +52,7 @@
       }
     });
     if (used.some(function (u) { return u.status === 'verified_mirror' || u.status === 'verified_secondary'; })) {
-      w.push('الأرقام من نسخة منشورة للجداول (مش من الكود الرسمي المدفوع). راجعها مع IEC 60364-5-52 / BS 7671 قبل الاعتماد في تصميم مختوم.');
+      w.push('الأرقام من نسخة منشورة للجداول (مش من الكود الرسمي المدفوع). راجعها مع المعيار المطبق قبل الاعتماد في تصميم مختوم.');
     }
     return w.filter(function (x, i) { return w.indexOf(x) === i; });
   }
@@ -177,7 +177,7 @@
         var mv = row[col(t, phases === 1 ? '1ph_AB' : '3ph_AB')];
         dv = mv * I * L / 1000;
         methodUsed = 'bs7671_4d1b';
-        steps.push({ step: 'قيمة mV/A/m من الجدول', formula: 'mV/A/m (BS 7671 4D1B, ' + (phases === 1 ? '1-phase' : '3-phase') + ')', substitution: size + ' mm2 Cu PVC 70C', result: mv + ' mV/A/m', value: mv, unit: 'mV/A/m' });
+        steps.push({ step: 'قيمة mV/A/m من الجدول', formula: 'mV/A/m (reference table, source not recorded, ' + (phases === 1 ? '1-phase' : '3-phase') + ')', substitution: size + ' mm2 Cu PVC 70C', result: mv + ' mV/A/m', value: mv, unit: 'mV/A/m' });
         steps.push({ step: 'Voltage Drop', formula: 'dV = mV/A/m x I x L / 1000', substitution: mv + ' x ' + f(I) + ' x ' + f(L) + ' / 1000', result: f(dv, 3) + ' V', value: dv, unit: 'V' });
       }
     }
@@ -192,7 +192,7 @@
       steps.push({ step: 'Conductor Resistance عند درجة التشغيل', formula: 'R = R20 x (1 + a x (theta - 20))', substitution: f(res.r20, 4) + ' x (1 + ' + res.alpha + ' x (' + theta + ' - 20))', result: f(rOp, 4) + ' ohm/km', value: rOp, unit: 'ohm/km' });
       steps.push({ step: 'Voltage Drop', formula: phases === 1 ? 'dV = 2 x I x L/1000 x (R cos(phi) + X sin(phi))' : 'dV = sqrt(3) x I x L/1000 x (R cos(phi) + X sin(phi))', substitution: (phases === 1 ? '2' : '1.732') + ' x ' + f(I) + ' x ' + f(L / 1000, 3) + ' x (' + f(rOp, 4) + ' x ' + pf + ' + ' + x + ' x ' + f(sin, 3) + ')', result: f(dv, 3) + ' V', value: dv, unit: 'V' });
       extra.push('Reactance X = ' + x + ' ohm/km قيمة نموذجية مش متأكد منها من معيار (الحالة needs_review): داتاشيتات Cables بتدي 0.081 لـ 0.094، راجعها مع داتاشيت Cable.');
-      extra.push('Voltage Drop هنا محسوب من Resistance و Reactance (مش من جدول BS 7671 4D1B)' + (size > 16 ? ': جدول 4D1B لـ Cross-sections 25 mm2 فأكتر مش متاح في البيانات.' : ': الجدول متاح لـ Copper PVC لحد 16 mm2 بس.') + ' Resistance و Reactance من الذاكرة وتحتاج مراجعة.');
+      extra.push('Voltage Drop هنا محسوب من Resistance و Reactance (مش من جدول مرجعي)' + (size > 16 ? ': الجدول المرجعي لـ Cross-sections 25 mm2 فأكتر مش متاح في البيانات.' : ': الجدول متاح لـ Copper PVC لحد 16 mm2 بس.') + ' Resistance و Reactance من الذاكرة وتحتاج مراجعة.');
     }
     var pct = dv / V * 100;
     steps.push({ step: 'نسبة الهبوط', formula: 'dV% = dV / V x 100', substitution: f(dv, 3) + ' / ' + V + ' x 100', result: f(pct, 3) + ' %', value: pct, unit: '%' });
