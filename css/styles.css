@@ -455,3 +455,10 @@ td button.srcx-mk.srcx-mk span{width:28px;height:28px;font-size:14px;border:1px 
 td button.srcx-mk.srcx-mk{display:inline-flex;align-items:center;justify-content:center}
 td button.srcx-mk.srcx-mk span{display:inline-flex;align-items:center;justify-content:center;border-radius:50%;font-style:italic;font-family:Georgia,serif;line-height:1}
 .ec-steps .ec-ltr.ec-mixed{direction:rtl;text-align:right;unicode-bidi:isolate}
+/* batch 8: calmer template chips, light-theme chips, tighter top bar */
+#tmpls button{box-shadow:none}
+body[data-theme="light"] #tmpls button{background:#fff;color:var(--tx);border-color:var(--line)}
+body[data-theme="light"] #tmpls button:hover{background:#eef2ff;color:var(--tx);border-color:var(--ac)}
+body[data-theme="light"] #tmpls button.on{background:#e0e7ff;color:#3730a3;border-color:#6272f5}
+body[data-theme="light"] .chip{background:#fff;color:var(--tx)}
+@media(max-width:600px){.topbar button,.topbar .btn{padding:8px 9px}}
