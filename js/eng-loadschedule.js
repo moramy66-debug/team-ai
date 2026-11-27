@@ -17,7 +17,9 @@
     var steps = [], warnings = [], rows = [], ph = { R: { kva: 0, kw: 0, ckva: 0 }, Y: { kva: 0, kw: 0, ckva: 0 }, B: { kva: 0, kw: 0, ckva: 0 } };
 
     loads.forEach(function (l, i) {
-      var qty = num(l.qty) > 0 ? num(l.qty) : 1, pf = num(l.pf) > 0 && num(l.pf) <= 1 ? num(l.pf) : 0.85, df = (l.df !== null && l.df !== undefined && l.df !== '' && isFinite(num(l.df)) && num(l.df) >= 0 && num(l.df) <= 1) ? num(l.df) : 1;
+      var qty = num(l.qty) > 0 ? num(l.qty) : 1, pf = num(l.pf) > 0 && num(l.pf) <= 1 ? num(l.pf) : 0.85, dfGiven = !(l.df === null || l.df === undefined || l.df === '');
+      if (dfGiven && !(isFinite(num(l.df)) && num(l.df) >= 0 && num(l.df) <= 1)) throw new Error('Demand factor غير صالح في Load رقم ' + (i + 1) + ' (' + l.df + '): لازم يكون بين 0 و 1. سيبه فاضي لو عايز 1.');
+      var df = dfGiven ? num(l.df) : 1;
       var kw = qty * num(l.kw), kva = kw / pf;
       rows.push({ no: i + 1, name: l.name || ('Load ' + (i + 1)), qty: qty, kwEach: num(l.kw), pf: pf, df: df, phase: String(l.phase || '3P').toUpperCase(), kw: kw, kva: kva, dkw: kw * df, dkva: kva * df, assigned: null });
     });
