@@ -139,6 +139,7 @@
             fillLimitPct: h.numVal('ct-fill'),
             sparePct: h.numVal('ct-spare')
           });
+          out.innerHTML = '';
           h.showResult(out, res, 'Cable Tray Sizing');
           if (res.ok) h.renderResultActions(out, 'needs_review', pdfFn('Cable Tray Sizing', res));
         });
