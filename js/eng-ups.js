@@ -303,6 +303,20 @@
 
   register();
 
+    /* reject overflow: any non-finite number in a successful result becomes an error */
+  function hasNonFinite(x, depth) {
+    if (typeof x === 'number') return !isFinite(x);
+    if (!x || typeof x !== 'object' || (depth || 0) > 6) return false;
+    for (var k in x) { if (hasNonFinite(x[k], (depth || 0) + 1)) return true; }
+    return false;
+  }
+  var calculateRaw = calculate;
+  calculate = function (inp) {
+    var r = calculateRaw(inp);
+    if (r && r.ok && hasNonFinite(r)) return { ok: false, error: 'القيمة المدخلة كبيرة جدا وطلعت نتيجة غير منتهية (overflow). صحح المدخلات.' };
+    return r;
+  };
+
   window.EngUps = {
     CONSTANTS: CONSTANTS,
     calculate: calculate,
