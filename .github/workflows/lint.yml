@@ -43,6 +43,7 @@ jobs:
           node tools/eng-submittal-test.js
           node tools/eng-loadschedule-test.js
           node tools/eng-pfccpc-test.js
+          node tools/eng-sld-test.js
       - name: Required functions are defined
         run: |
           for fn in sendMail mailPayload wordReport pdfReport fmtPass showResume renderFinal keepAwake askFiles; do
