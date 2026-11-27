@@ -44,6 +44,10 @@ jobs:
           node tools/eng-loadschedule-test.js
           node tools/eng-pfccpc-test.js
           node tools/eng-sld-test.js
+          node tools/eng-lighting-test.js
+          node tools/eng-cabletray-test.js
+          node tools/eng-transformer-test.js
+          node tools/eng-generator-test.js
       - name: Required functions are defined
         run: |
           for fn in sendMail mailPayload wordReport pdfReport fmtPass showResume renderFinal keepAwake askFiles; do
