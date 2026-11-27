@@ -263,7 +263,7 @@ h2[class*="i-"]::before{width:15px;height:15px;opacity:.7}
 #finalCard>.row:first-child>span.row{flex-wrap:wrap;max-width:100%}
 #finalCard>.row:first-child>span.row button{padding:8px 12px}
 .i-mail::before{--ic:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%222%22%20y%3D%224%22%20width%3D%2220%22%20height%3D%2216%22%20rx%3D%222%22/%3E%3Cpath%20d%3D%22M22%207l-10%207L2%207%22/%3E%3C/svg%3E")}
-.mailauto{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:13.5px;color:#c9d2f5;cursor:pointer;direction:ltr;justify-content:flex-end}.mailauto input{width:18px;height:18px;accent-color:#6b7cff}
+.mailauto{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:13.5px;color:#c9d2f5;cursor:pointer;direction:ltr;justify-content:flex-start}.mailauto input{width:18px;height:18px;accent-color:#6b7cff}
 .rephead{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding:12px 14px;margin:10px 0 4px;background:linear-gradient(90deg,#1b2a4a,#18213a);border:1px solid #2c3d66;border-radius:12px}
 .rephead .rt{font-weight:700;font-size:16px;color:#fff;unicode-bidi:plaintext}.rephead .rm{display:flex;gap:10px;align-items:center;font-size:12.5px;color:#9fb0e8}.rephead .ok{background:#12351f;color:#7fd9a0;border:1px solid #1f6b3c;padding:2px 10px;border-radius:999px}
 #finalView{padding:6px 4px;direction:rtl}
