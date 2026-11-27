@@ -446,3 +446,9 @@ body .cl-item-head{flex-shrink:0}
 .ec-steps td:last-child{font-weight:600}
 #settings .row>input.grow{flex:1 1 100%;min-width:0}
 }
+
+/* batch 4: LTR formula/substitution isolation, calm source marker */
+.ec-steps .ec-ltr{direction:ltr;unicode-bidi:isolate;text-align:left;display:block;flex:1;min-width:0}
+td button.srcx-mk.srcx-mk{background:transparent;box-shadow:none;filter:none;border:0;color:var(--mut);margin:-8px -6px;min-width:44px;min-height:44px}
+td button.srcx-mk.srcx-mk:hover:not(:disabled){filter:none;color:var(--ac)}
+td button.srcx-mk.srcx-mk span{width:28px;height:28px;font-size:14px;border:1px solid var(--line)}
