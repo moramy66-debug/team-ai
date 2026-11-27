@@ -58,7 +58,7 @@ eq('sizing In = 63', cs.breaker.rating_a, 63);
 eq('sizing Iz_req', cs.requiredBaseAmpacityA, 65.63, 0.01);
 eq('sizing size matches hand lookup', cs.size_mm2, want);
 eq('sizing table is B.52.5', cs.table.key, 'iec_b52_5_xlpe_cu_3loaded');
-eq('sizing table status shown', cs.table.status, 'verified_mirror');
+eq('sizing table status shown', cs.table.status, 'verified_secondary');
 // Case 5: grouping, 3 circuits bunched = 0.70
 var cg = C.cableSizing({ phases: 3, currentA: 20, conductor: 'Cu', insulation: 'PVC', method: 'air', ambientC: 30, circuits: 3 });
 eq('grouping 3 circuits = 0.7', cg.factors.cg, 0.7);
