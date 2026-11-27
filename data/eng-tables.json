@@ -1846,8 +1846,8 @@
   },
   "bs7671_4d1a_pvc_cu_singlecore": {
    "title": "BS 7671 Table 4D1A: 70 C thermoplastic single-core cables, copper, 30 C ambient (UK table)",
-   "source": "https://www.elandcables.com/media/vyrp3kxq/table-4d1a-and-4d1b.pdf (reproduced from BS 7671:2018 by a cable manufacturer)",
-   "status": "verified_mirror",
+   "source": "https://www.elandcables.com/media/vyrp3kxq/table-4d1a-and-4d1b.pdf ; https://ukcables.co.uk/wp-content/uploads/2021/09/6491X.pdf ; https://sghcable.com/pdf/cable_usage/App-2E%20V2.pdf ; https://www.ti-soft.com/en/support/help/electricaldesign/standards/bs7671/current-carrying-capacity/table_4d1a (public mirrors, no primary BS 7671 text opened)",
+   "status": "verified_secondary",
    "unit": "A",
    "columns": [
     "size_mm2",
@@ -1863,7 +1863,7 @@
     "F_spaced_2c_horiz",
     "F_spaced_2c_vert"
    ],
-   "note": "Columns follow printed columns 2 to 12. Small sizes only have A/B/C. Extracted by script from a PDF text layer, so verify against the printed book.",
+   "note": "16 mm2 A_3c_3ph = 56 A agrees in 4 independent mirrors; the 59 seen in a CSE copy is the 10 mm2 last-column value and is treated as a transcription error. Still a mirror, not the primary text. Columns follow printed columns 2 to 12. Small sizes only have A/B/C. Extracted by script from a PDF text layer, so verify against the printed book.",
    "rows": [
     [
      1.0,
@@ -2177,8 +2177,8 @@
   },
   "bs7671_4d1b_voltage_drop_cu_70c_upto16mm2": {
    "title": "BS 7671 Table 4D1B (sizes up to 16 mm2): voltage drop mV/A/m, copper, 70 C",
-   "source": "https://www.elandcables.com/media/vyrp3kxq/table-4d1a-and-4d1b.pdf ; cross-check https://www.18theditionprep.co.uk/quick-reference/voltage-drop/",
-   "status": "verified_mirror",
+   "source": "https://www.elandcables.com/media/vyrp3kxq/table-4d1a-and-4d1b.pdf ; https://ukcables.co.uk/wp-content/uploads/2021/09/6491X.pdf ; https://sghcable.com/pdf/cable_usage/App-2E%20V2.pdf ; https://www.ti-soft.com/en/support/help/electricaldesign/standards/bs7671/current-carrying-capacity/table_4d1a (public mirrors, no primary BS 7671 text opened)",
+   "status": "verified_secondary",
    "unit": "mV/A/m",
    "columns": [
     "size_mm2",
@@ -2191,7 +2191,7 @@
     "3ph_flat_touching",
     "3ph_flat_spaced"
    ],
-   "note": "For 25 mm2 and above the source gives r, x, z columns whose layout did not extract reliably. Use r and x from the formula table, or type 4D1B in by hand.",
+   "note": "16 mm2 = 2.8 (dc and 1ph) and 2.4 (3ph) agrees in the Eland, UK Cables and SGH mirrors. This is not Table 4D5 (flat twin and earth). For 25 mm2 and above the source gives r, x, z columns whose layout did not extract reliably. Use r and x from the formula table, or type 4D1B in by hand.",
    "rows": [
     [
      1.0,
@@ -2599,6 +2599,15 @@
     "I2 = 1.45 x In for MCB (IEC 60898-1); 1.30 x In for MCCB (IEC 60947-2) (from memory)",
     "Iz = I_tabulated x k1 (ambient) x k2 (grouping)"
    ]
+  },
+  "iec_60364_5_52_voltage_drop_limits_informative": {
+    "title": "IEC 60364-5-52 informative voltage-drop limits (NOT SBC 401 text)",
+    "source": "https://whitearch.sa/blogs/voltage-drop-calculation (contractor page that quotes IEC 60364-5-52; no SBC 401 clause opened)",
+    "status": "from_memory_needs_review",
+    "unit": "percent",
+    "note": "Informative values recommended by IEC 60364-5-52, not mandatory and not confirmed as SBC 401 requirements. SBC 401 clause number not found. Type A = public LV supply, Type B = private LV supply (own transformer).",
+    "columns": ["supply_type", "lighting_pct", "other_uses_pct"],
+    "rows": [["Type A", 3, 5], ["Type B", 6, 8]]
   },
   "sec_voltage_drop_allocation_dps": {
    "title": "SEC Distribution Planning Standard (DPS, March 2004): LV voltage drop allocation and standard voltages",
