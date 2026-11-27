@@ -126,18 +126,30 @@
       var tr = document.createElement('tr');
       function cell(t, label) { var c = el('td', null, t); c.setAttribute('data-label', label); return c; }
       tr.appendChild(cell(s.step, 'الخطوة'));
-      function ltrCell(t, label) {
-        var c = cell('', label); var sp = el('span', 'ec-ltr', ''); sp.setAttribute('dir', 'ltr');
-        String(t == null ? '' : t).replace(/<=/g, '\u2264').replace(/>=/g, '\u2265').replace(/->/g, '\u2192')
-          .split(/([\u0600-\u06FF][\u0600-\u06FF\u060C\s]*[\u0600-\u06FF]|[\u0600-\u06FF])/).forEach(function (seg) {
-            if (!seg) return;
-            if (/[\u0600-\u06FF]/.test(seg)) { var b = document.createElement('bdi'); b.setAttribute('dir', 'rtl'); b.textContent = seg; sp.appendChild(b); }
-            else sp.appendChild(document.createTextNode(seg));
-          });
+      function mixedCell(t, label) {
+        var c = cell('', label);
+        var txt = String(t == null ? '' : t).replace(/<=/g, '\u2264').replace(/>=/g, '\u2265').replace(/->/g, '\u2192');
+        var hasAr = /[\u0600-\u06FF]/.test(txt);
+        var sp = el('span', 'ec-ltr', '');
+        sp.setAttribute('dir', hasAr ? 'rtl' : 'ltr');
+        if (hasAr) {
+          sp.className = 'ec-ltr ec-mixed';
+          var re = /[A-Za-z0-9\u2264\u2265\u2192=<>+*\/\u00d7\u00f7%\u00b0][A-Za-z0-9.,%\u00b0\u00b2\u00b3\u00b7\u2264\u2265\u2192=<>+\-*\/\u00d7\u00f7^_:;()\[\]\s]*/g;
+          var last = 0, m;
+          while ((m = re.exec(txt))) {
+            var run = m[0], tail = run.match(/[\s().,;:\])]*$/)[0];
+            if (tail) run = run.slice(0, run.length - tail.length);
+            if (m.index > last) sp.appendChild(document.createTextNode(txt.slice(last, m.index)));
+            var bd = document.createElement('bdi'); bd.setAttribute('dir', 'ltr'); bd.textContent = run; sp.appendChild(bd);
+            last = m.index + run.length;
+            re.lastIndex = last;
+          }
+          if (last < txt.length) sp.appendChild(document.createTextNode(txt.slice(last)));
+        } else sp.textContent = txt;
         c.appendChild(sp); return c;
       }
-      tr.appendChild(ltrCell(s.formula, 'المعادلة'));
-      tr.appendChild(ltrCell(s.substitution, 'التعويض'));
+      tr.appendChild(mixedCell(s.formula, 'المعادلة'));
+      tr.appendChild(mixedCell(s.substitution, 'التعويض'));
       var tdr = cell(s.result, 'النتيجة');
       if (window.SourceInfo && used && used.length) tdr.appendChild(window.SourceInfo.marker(used, -1, 'مصادر القيم في الخطوة'));
       tr.appendChild(tdr);
