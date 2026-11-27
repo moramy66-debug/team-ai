@@ -342,7 +342,7 @@
     var key = ins === 'PVC' ? (S > 300 ? 'PVC_over_300mm2' : 'PVC_up_to_300mm2') : 'XLPE_EPR';
     var krow = kt.rows.filter(function (r) { return r[0] === key; })[0];
     var k = krow[cond === 'al' ? 2 : 1];
-    steps.push({ step: 'Constant k', formula: 'k من IEC 60364-4-43 Table 43A (' + key + ', ' + (cond === 'al' ? 'Al' : 'Cu') + ', ' + krow[3] + ' إلى ' + krow[4] + ' C)', substitution: key + ' / ' + cond.toUpperCase(), result: k + ' A.s^0.5/mm2', value: k, unit: 'A.s^0.5/mm2' });
+    steps.push({ step: 'Constant k', formula: 'k من جدول k المسجل (' + key + ', ' + (cond === 'al' ? 'Al' : 'Cu') + ', ' + krow[3] + ' إلى ' + krow[4] + ' C)', substitution: key + ' / ' + cond.toUpperCase(), result: k + ' A.s^0.5/mm2', value: k, unit: 'A.s^0.5/mm2' });
     var withstand = k * k * S * S;
     steps.push({ step: 'تحمل Cable', formula: 'I2t_cable = k^2 x S^2', substitution: k + '^2 x ' + S + '^2', result: f(withstand / 1e6, 4) + ' x 10^6 A2s', value: withstand, unit: 'A2s' });
     var letThrough, basis, t = null;
