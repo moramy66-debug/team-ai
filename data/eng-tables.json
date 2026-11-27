@@ -2478,6 +2478,88 @@
    ],
    "note": "8 A added 2026-11-27: Siemens MCB catalogue (assets.new.siemens.com catalogo-minidisjuntores-102023-pt.pdf) lists the NBR NM 60898 (IEC-based) preferred In as 6, 8, 10, 13, 16, 20, 25, 32, 40, 50, 63, 80, 100, 125 A, and an external review cites IEC 60898-1 clause 5.3.2 with the same list. The IEC clause text itself was not opened by us. 13 A is in the list, so it is not UK-only."
   },
+  "mcb_en60898_1_let_through_i2t_class3_max": {
+   "title": "MCB maximum permitted let-through I2t, energy limiting Class 3 (BS EN 60898-1:2019 Annex ZA, Tables ZA.1 and ZA.2), Type B and C up to and including 63 A",
+   "source": "https://www.oldlang.cn/uploadfile/download/BSEN60898-1-2019.pdf (Annex ZA, Tables ZA.1 and ZA.2, opened and read 2026-11-27); same values also read in the BSI preview and quoted by an external review. Secondary copy of the standard, not the paywalled official text.",
+   "status": "verified_secondary",
+   "unit": "A2s",
+   "kind": "maximum_permitted_limit",
+   "columns": [
+    "type",
+    "icn_a",
+    "le_16A",
+    "20_25_32A",
+    "40A",
+    "50_63A"
+   ],
+   "rows": [
+    [
+     "B",
+     3000,
+     15000,
+     18000,
+     21600,
+     28000
+    ],
+    [
+     "B",
+     4500,
+     25000,
+     32000,
+     38400,
+     48000
+    ],
+    [
+     "B",
+     6000,
+     35000,
+     45000,
+     54000,
+     65000
+    ],
+    [
+     "B",
+     10000,
+     70000,
+     90000,
+     108000,
+     135000
+    ],
+    [
+     "C",
+     3000,
+     17000,
+     20000,
+     24000,
+     30000
+    ],
+    [
+     "C",
+     4500,
+     28000,
+     37000,
+     45000,
+     55000
+    ],
+    [
+     "C",
+     6000,
+     40000,
+     52000,
+     63000,
+     75000
+    ],
+    [
+     "C",
+     10000,
+     80000,
+     100000,
+     120000,
+     145000
+    ]
+   ],
+   "note": "These are the MAXIMUM values a Class 3 breaker is allowed to let through, not the let-through of a real product (real products are usually lower: use the manufacturer curve or datasheet). Class 1 has no limits specified (Type B at 3000 A) or is not tabulated here. The classification applies only to Type B and C up to 63 A, not to Type D and not above 63 A. No general table exists for MCCBs: use the manufacturer data."
+  },
   "mccb_iec60947_2_typical_ratings": {
    "title": "Typical MCCB rated currents (IEC 60947-2 does not fix a list; manufacturers choose frames)",
    "source": "Manufacturer catalogues e.g. https://www.chintglobal.com/content/dam/chint/global/product-center/low-voltage/iec/secondary-power-distribution/mccb/nm8n/catalog/NM8N-MCCB-Catalog.pdf and https://viox.com/standard-breaker-sizes/ ; the exact list below is FROM MEMORY (R10/R20 style).",
