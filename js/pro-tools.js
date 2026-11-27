@@ -409,6 +409,7 @@ el.innerHTML = '<div class="pt-modal" role="dialog" aria-modal="true" aria-label
 '<li><strong>Eng Calc:</strong> افتح حاسبة الهندسة (Eng Calc) من شريط الأدوات للحسابات الكهربائية وتصدير PDF.</li>' +
 '<li><strong>النسخ الاحتياطي:</strong> صدّر واستورد القواعد والأكواد والسجل والترويسة كملف JSON للحفظ والاستعادة.</li>' +
 '</ol>' +
+'<p style="margin:12px 0 0"><a href="./guide.html" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;min-height:44px;color:#8fb0f0">الدليل الكامل بالعربي</a></p>' +
 '</div></div>';
 document.body.appendChild(el);
 el.addEventListener('click', function (e) { if (e.target === el) { el.classList.remove('open'); el.style.display = 'none'; } });
