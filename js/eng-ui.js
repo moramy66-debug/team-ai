@@ -596,9 +596,23 @@
     topbar.appendChild(btn);
   }
 
+  function addSidebarButton() {
+    if (document.getElementById('ec-side-btn')) return;
+    var foot = document.querySelector('.sidefoot');
+    if (!foot) return;
+    var b = document.createElement('button');
+    b.id = 'ec-side-btn';
+    b.type = 'button';
+    b.className = 'sec';
+    b.textContent = 'Eng Calc';
+    b.addEventListener('click', open);
+    foot.insertBefore(b, foot.firstChild);
+  }
+
   function init() {
     injectStyles();
     addTopbarButton();
+    addSidebarButton();
   }
 
   if (document.readyState === 'loading') {
