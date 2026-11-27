@@ -108,5 +108,17 @@ eq('no let-through and no time throws', thr2, true);
 // Error cases
 var threw = false; try { C.cableSizing({ conductor: 'Cu' }); } catch (e) { threw = true; }
 eq('missing current/power throws', threw, true);
+
+// Input validation warnings and unsupported methods (v126)
+var wbase = { phases: 3, voltageV: 400, powerKW: 30, conductor: 'Cu', insulation: 'PVC', method: 'air' };
+var wpf = C.cableSizing(Object.assign({}, wbase, { powerFactor: 1.2 }));
+has('PF 1.2 warns and falls back to 0.85', wpf.warnings, 'غير صالح');
+has('PF 1.2 default shown 0.85', wpf.warnings, '0.85');
+has('PF missing warns about default', C.cableSizing(wbase).warnings, 'مش مدخل');
+has('voltage 0 warns', C.cableSizing(Object.assign({}, wbase, { voltageV: 0, powerFactor: 0.9 })).warnings, 'الجهد المدخل');
+var okpf = C.cableSizing(Object.assign({}, wbase, { powerFactor: 0.9 }));
+eq('valid PF gives no PF warning', okpf.warnings.some(function (x) { return String(x).indexOf('معامل القدرة') >= 0; }), false);
+var msg = ''; try { C.cableSizing(Object.assign({}, wbase, { method: 'E', powerFactor: 0.9 })); } catch (e) { msg = e.message; }
+has('method E gives clear unsupported message', [msg], 'غير مدعومة');
 if (fails) { console.log(fails + ' FAILED'); process.exit(1); }
 console.log('ALL ENG-CALC TESTS PASSED');
