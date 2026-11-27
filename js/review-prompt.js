@@ -14,7 +14,7 @@
   function build(o) {
     o = o || {};
     var res = o.res || {}, L = [];
-    var steps = res.steps || [], used = res.tablesUsed || [], warns = res.warnings || [];
+    var steps = res.steps || [], used = res.tablesUsed || [], warns = (res.warnings || []).filter(function (w, i, a) { return a.indexOf(w) === i; });
     L.push('# Engineering calculation review request');
     L.push('');
     L.push('Calculation type: ' + clean(o.title || 'Calculation'));
