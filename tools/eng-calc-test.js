@@ -78,7 +78,7 @@ eq('D1 single-core 3 ducts touching = 0.70', cgOf({ method: 'duct', circuits: 3,
 var thr = false; try { cgOf({ method: 'duct', circuits: 3, spacing: 'one_diameter' }); } catch (e) { thr = true; }
 eq('D1 with spacing one_diameter throws (not in B.52.19)', thr, true);
 var sus = C.cableSizing({ phases: 3, currentA: 30, conductor: 'Cu', insulation: 'XLPE', method: 'ground', ambientC: 20, circuits: 16, spacing: '0.5' });
-has('suspect mirror cell is flagged', sus.warnings, 'غير متسق');
+eq('D2 16 circuits 0.5 m = 0.68 (corrected from ti-soft typo 0.38 per Eupen 4.4.8)', cgOf({ method: 'ground', circuits: 16, spacing: '0.5' }), 0.68);
 eq('buried sizing uses table B.52.5 col D2 (not estimate)', sus.steps.filter(function (x) { return x.step === 'معامل التجميع Cg'; })[0].formula.indexOf('B.52.18') >= 0, true);
 
 // ---- Short circuit: I2t <= k2 S2 ----
