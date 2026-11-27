@@ -11,6 +11,7 @@
 <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAAD8UlEQVR4nO3SwY0VQQxFUTJALIgQifyJABZfGiGGxWjc3c92ndINwKp3vnz99l36dF/iF2h0AKkUQCoFkEoBpFIAqRRAKgWQSgGkUgCpFEAqBZBKAaRSAKkUQCoFkEoBpFIAqRRAKgWQSgGkUgCpFEAqBZBKAfT9x89fleL3ZzsOUJELUv90CqAH3JwpaTOgCJrTMO0EFOdyDqNVgOI+DpS0BFAcxLGMxgOKIzic0WBA8eExmgooPjZGgwHFN2ZoKqD4tBgNBhRflKGpgOJDYjQYUHy/DsVXmAoovlyf4lsMAxQfrGfxXWYAiu/Uufg63QHFF+pffKO+gOLbTCm+VEdA8VVmFd+rF6D4HhOLr9YFUHyJucW3ywOKbzC9owHFf39HhwKK//umABJA9JxnKAMo/tdbOwJQ/Jd3B5AAoucYQ48Civ/sOQEkgOg5wNBDgOK/eWYACSB6VhsCaHnjAcV/UADpVEDxv9MrgFRqJKD4r1X6/b8Xv6qhIYA+RGcBI4Ba6JlraBig+H/dp4chgKp6hhoaAyj+UwA9ZgigT+oZaggggADqF0CNAMX/CKAnDQEEEEAArQEU/x2AHjYE0OcNxW8GqFEAAfSoofi1AHXsBD0AJRnFb7ukpoDi/3JtK+m8BdBHhw/O3+eS9wH00cEi4/W5BKDLNntsuT6XAHTxZg8s1+cSgG7Z7Nbl+lwC0MjZ+lwC0I2b3bRcn0sAGjlbn0sAGjlbn0sAGjlbn0sAGjlbn0sAGjlbn0sAGjlbn0sAun259ZcANHK2PpcAdONyh1wC0C3LHXUJQBcvd+AlAF0z3uGXvA8gleoIiKEpXbg4QCcGkEoBpFIAqRRAKtUXEEP9u3ZugI4LIJXqDoihzl2+NUBnBZBKAaRSMwAx1LM7hgbooCYBYqhbN60M0CkBpFLzADHUp/smBuiIpgJiqEO37gvQ/mYDYmixHoD2twEQQ1v1ALS8PYAYWqnnUUAM7dMD0Np2AmJomZ4AIIY26QFoYfsBMbRGTwwQQzv0JAExtEAPQHs6ERBD0/XkATE0Wk8LQAzN1dMFEEND9TQCxNBEPb0AMTROTztADM3S0xEQQ4P0NAXE0BQ9fQFh1J/OAEAMNdczABBD8f8fD+hYRvE/XwXoNEPx314I6BBG8R9eDmi3ofjfHgFoJaP4fx4HaA2j+B8eDejrZEbxf6u3BNCrOIij6LxaBeituI/1bt7aCehVnMtuOq82A/o7aG7qFEBvcXNtxwF6Hy6VAFIpgFQKIJUCSKUAUimAVAoglQJIpQBSKYBUCiCVAkilAFIpgFQKIJUCSKUAUimAVAoglQJIpQBSKYBUCiCVAkil/gBsCT9RH0h6dAAAAABJRU5ErkJggg==">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Team AI</title><script src="https://cdn.jsdelivr.net/npm/dompurify@3.5.0/dist/purify.min.js" integrity="sha384-DOUwTXbuiiQxlONuue5N42674XXDfjIJ/LTPtJMZ2ZV1Ir4NRQ3OnM/yM505YQAc" crossorigin="anonymous" defer></script>
+ <script src="./js/key-session.js" defer></script>
  <script src="./js/storage-idb.js" defer></script>
  <script src="./js/sanitize.js" defer></script>
 <link rel="stylesheet" href="./css/styles.css">
@@ -65,6 +66,7 @@
 <label class="hint" for="mailTo">Your email (for task results)</label>
 <input id="mailTo" type="email" dir="ltr" autocomplete="email" placeholder="name@example.com" style="width:100%">
 <details style="margin-top:8px"><summary class="hint">Professional HTML email (EmailJS, optional)</summary><p class="hint" style="line-height:1.7">اختياري لو عايز الإيميل نفسه يوصل منسق HTML مباشرة في جسم الرسالة: اعمل حساب مجاني على emailjs.com، اربط Gmail كـ Service، واعمل Template فيه To = {{to_email}} وSubject = {{subject}} والمحتوى {{{html}}} (3 أقواس) بوضع HTML، وانسخ هنا Service ID وTemplate ID وPublic Key. من غيره، الإيميل بيوصل بنص منظم ومعاه التقرير المنسق كملف HTML مرفق.</p><input id="ejsS" dir="ltr" placeholder="Service ID" style="width:100%;margin-bottom:6px"><input id="ejsT" dir="ltr" placeholder="Template ID" style="width:100%;margin-bottom:6px"><input id="ejsK" dir="ltr" placeholder="Public Key" style="width:100%"></details>
+<label class="row" style="margin-top:10px;min-height:44px;align-items:center;gap:8px"><input type="checkbox" id="keysSession" aria-label="Session-only keys"><span class="hint" style="margin:0">Session only: متحفظش المفاتيح على الجهاز، بتتمسح لما تقفل التاب (اضغط حفظ بعد التفعيل)</span></label>
 <div class="row" style="margin-top:12px"><button id="saveBtn">حفظ</button><button id="testBtn" class="sec">اختبار المفاتيح</button><span id="testOut" class="hint"></span></div>
 </section>
 <section class="card compose">
@@ -79,6 +81,7 @@
 <input type="file" id="file" multiple accept="image/*,application/pdf,.txt,.md,.xlsx,.xls,.xlsm,.csv" hidden>
 </div>
 <div id="chips" class="row" style="margin-top:6px"></div>
+<p class="hint" id="aiDisclosure" style="margin:8px 0 0">نص المهمة والملفات المرفقة بتتبعت لمزوّد الـ AI اللي اخترته (Gemini / Groq / OpenRouter وغيرهم) علشان يرد. متحطش بيانات سرية أو بيانات عميل مش مسموح تشاركها.</p>
 <div class="row" style="margin-top:10px">
 <label style="margin:0">Effort Level</label>
 <select id="effort" style="width:120px" aria-label="Effort Level"><option value="1">Simple</option><option value="2" selected>Medium</option><option value="3">Advanced</option></select>
