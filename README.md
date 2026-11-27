@@ -1,6 +1,6 @@
 # Team AI — منصة العمل الهندسية متعددة الوكلاء (Multi-Agent AI Workspace)
 
-[<kbd>Live Demo</kbd>](https://moramy66-debug.github.io/team-ai/) [<kbd>Check Page</kbd>](https://moramy66-debug.github.io/team-ai/check.html) [<kbd>Version: v120</kbd>](./CHANGELOG.md) [<kbd>License: MIT</kbd>](./LICENSE) <kbd>PWA Offline Ready</kbd> <kbd>Zero-Build Vanilla JS</kbd>
+[<kbd>Live Demo</kbd>](https://moramy66-debug.github.io/team-ai/) [<kbd>Check Page</kbd>](https://moramy66-debug.github.io/team-ai/check.html) [<kbd>Version: v122</kbd>](./CHANGELOG.md) [<kbd>License: MIT</kbd>](./LICENSE) <kbd>PWA Offline Ready</kbd> <kbd>Zero-Build Vanilla JS</kbd>
 
 تطبيق ويب تقدمي (**PWA**) يعمل بالكامل من المتصفح بواجهة عربية (**RTL**) مبنية بتقنيات **Zero-Build Vanilla HTML/CSS/JS** لتنسيق فرق الوكلاء الذكيين ومراجعة المشاريع الهندسية بدقة واحترافية.
 
@@ -30,13 +30,13 @@ team-ai/
 ├── preview.html            # صفحة المعاينة
 ├── codes-data.json         # قاعدة بيانات الأكواد الهندسية المدمجة
 ├── manifest.webmanifest    # ملف تعريف تطبيق الويب التقدمي (PWA)
-├── sw.js                   # Service Worker للتخزين المؤقت (teamai-v120)
+├── sw.js                   # Service Worker للتخزين المؤقت (teamai-v122)
 ├── CHANGELOG.md            # سجل التغييرات والإصدارات
 ├── LICENSE                 # رخصة MIT
 ├── css/
 │   └── styles.css          # التنسيقات، الوضع الفاتح/الداكن، الطباعة، وتنسيق Code Ref
 ├── data/
-│   ├── eng-tables.json     # 23 جدولاً هندسياً (status وsource لكل جدول)
+│   ├── eng-tables.json     # 24 جدولاً هندسياً (status وsource لكل جدول)
 │   └── code-library.json   # مرجع SBC 401 / SEC (10 مدخلات)
 ├── js/
 │   ├── app.js              # نواة التطبيق وإدارة الواجهة
@@ -56,9 +56,9 @@ team-ai/
 └── worker/                 # ملفات العامل السحابي
 ```
 
-## حالة التطبيق في الإصدار v120
+## حالة التطبيق في الإصدار v122
 
-- **`data/eng-tables.json`**: 23 جدولاً هندسياً (آخرها جدول I2t)، لكل منها `status` و`source` من مرايا عامة. الحالة القصوى `verified_secondary`، وما لا يمكن توثيقه يبقى `needs_review`.
+- **`data/eng-tables.json`**: 24 جدولاً هندسياً (آخرها جدول I2t)، لكل منها `status` و`source` من مرايا عامة. الحالة القصوى `verified_secondary`، وما لا يمكن توثيقه يبقى `needs_review`.
 - **`data/code-library.json`**: 10 مدخلات (3 `verified_mirror` و7 `needs_review` بدون أرقام بوحدات). مدخلا SEC الموثقان يخصان Solar PV أكبر من 2 MW فقط.
 - **Eng Calc**: Lighting وCable Tray وTransformer وGenerator وPFC وCPC وSLD وLoad Schedule وSubmittal، مع `cross-check` وتصدير PDF بصيغة صور A4.
 - **الاختبارات**: ملفات `tools/*-test.js` وفحص `dupcheck` (بوضع STRICT) وفحص syntax لـ `sw.js`، كلها في `lint.yml`.
