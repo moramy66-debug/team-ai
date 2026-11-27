@@ -125,5 +125,52 @@
     return Promise.resolve();
   }
 
-  g.ReviewPrompt = { build: build, collectInputs: collectInputs, copy: copy };
+
+  /* chat/AI result: no structured steps, so build from the task text and the final answer */
+  function buildChat(o) {
+    o = o || {};
+    var L = [];
+    L.push('# Review request for an AI-generated answer');
+    L.push('');
+    L.push('The answer below was produced by an AI model inside Team AI. It was NOT computed by a deterministic calculator, so every number and every reference in it is unverified.');
+    L.push('');
+    L.push('## 1. The task that was given');
+    L.push(String(o.task == null ? '' : o.task).trim() || '(task text not captured, ask the user for it)');
+    L.push('');
+    L.push('## 2. The answer to review');
+    L.push(String(o.answer == null ? '' : o.answer).trim() || '(empty)');
+    L.push('');
+    L.push('## 3. Your task (reviewing model)');
+    L.push('You are a senior engineer reviewing the answer above. Follow these rules:');
+    L.push('1. Check the answer against the task. Say what it missed or got wrong.');
+    L.push('2. Recompute every number and unit conversion yourself. Do not trust the figures given.');
+    L.push('3. Flag any formula, standard, clause, table, page or edition that you cannot confirm. Write "not verified" instead of guessing.');
+    L.push('4. Do not invent clause numbers, table numbers, page numbers or editions.');
+    L.push('5. Answer as a prioritized list. For each finding give: severity (Critical, Major, Minor or Info), where in the answer, what is wrong or doubtful, and the suggested correction.');
+    L.push('6. End with a short verdict: Accept, Accept with comments, or Reject, and the reason.');
+    L.push('Write the answer in Arabic with English technical terms (Power Factor, Voltage Drop, Breaker and so on).');
+    return L.join('\n');
+  }
+
+  function mountChatButton() {
+    var host = document.getElementById('copy');
+    if (!host || document.getElementById('chatRevBtn')) return;
+    var b = document.createElement('button');
+    b.id = 'chatRevBtn'; b.type = 'button'; b.className = 'sec i-copy'; b.textContent = 'Review Prompt';
+    b.title = 'Copy a prompt that asks another AI to review this answer';
+    b.addEventListener('click', function () {
+      var fin = document.getElementById('final'), task = document.getElementById('task');
+      var answer = fin ? fin.textContent : '';
+      var first = document.querySelector('#thread .msg');
+      var t = (task && task.value) || (first ? first.textContent : '');
+      if (!String(answer).trim()) { toast('مفيش نتيجة تتراجع لسه.'); return; }
+      copy(buildChat({ task: t, answer: answer }));
+    });
+    host.parentNode.insertBefore(b, host);
+  }
+  if (typeof document !== 'undefined' && document.getElementById && document.addEventListener) {
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mountChatButton); else mountChatButton();
+  }
+
+  g.ReviewPrompt = { buildChat: buildChat, build: build, collectInputs: collectInputs, copy: copy };
 })(window);
