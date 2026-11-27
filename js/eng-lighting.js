@@ -90,12 +90,8 @@
   function register() {
     if (!window.EngUI || !window.EngUI.registerTab || !window.EngUI.helpers) return false;
     var h = window.EngUI.helpers;
-    window.EngUI.registerTab({
-      id: 'lighting',
-      title: 'Lighting (Lumen)',
-      order: 62,
-      render: function (panel) {
-        panel.appendChild(h.el('div', 'ec-note', AR_WARNING));
+    window.EngUI.registerTab('lighting', 'Lighting', function (body) {
+      body.appendChild(h.el('div', 'ec-note', AR_WARNING));
         var grid = h.el('div', 'ec-grid');
         grid.appendChild(h.createField('lt-l', 'Room Length L (m)', 'number', '10'));
         grid.appendChild(h.createField('lt-w', 'Room Width W (m)', 'number', '8'));
@@ -105,12 +101,12 @@
         grid.appendChild(h.createField('lt-watt', 'Watts per Fixture (W)', 'number', '36'));
         grid.appendChild(h.createField('lt-uf', 'Utilization Factor (UF)', 'number', String(CONSTANTS.defaultUF.value)));
         grid.appendChild(h.createField('lt-mf', 'Maintenance Factor (MF)', 'number', String(CONSTANTS.defaultMF.value)));
-        panel.appendChild(grid);
+      body.appendChild(grid);
         var btn = h.el('button', 'ec-btn', 'حساب الإضاءة (Lumen Method)');
         btn.type = 'button';
-        panel.appendChild(btn);
+      body.appendChild(btn);
         var out = h.el('div', 'ec-out');
-        panel.appendChild(out);
+      body.appendChild(out);
         btn.addEventListener('click', function () {
           var res = calculate({
             lengthM: h.numVal('lt-l'),
@@ -125,7 +121,6 @@
           h.showResult(out, res, 'Lighting — Lumen Method');
           if (res.ok) h.renderResultActions(out, 'needs_review', pdfFn('Lighting — Lumen Method', res));
         });
-      }
     });
     return true;
   }
