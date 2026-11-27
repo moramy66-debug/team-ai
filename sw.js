@@ -1,4 +1,4 @@
-const CACHE_NAME = 'teamai-v168';
+const CACHE_NAME = 'teamai-v169';
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -9,6 +9,7 @@ const CORE_ASSETS = [
   './js/projects.js',
   './js/storage-idb.js',
   './js/sanitize.js',
+  './js/robust.js',
   './css/styles.css',
   './js/codes-and-templates.js',
   './js/files-and-export.js',
@@ -42,20 +43,31 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(request.url);
   const TRUSTED_CDN_HOSTS = new Set(['cdn.jsdelivr.net', 'cdnjs.cloudflare.com', 'fonts.googleapis.com', 'fonts.gstatic.com']); if (TRUSTED_CDN_HOSTS.has(url.hostname)) { event.respondWith(caches.open(CACHE_NAME).then(async (cache) => { const cached = await cache.match(request); const net = fetch(request).then((res) => { if (res && (res.ok || res.type === 'opaque')) event.waitUntil(cache.put(request, res.clone()).catch(() => {})); return res; }).catch(() => cached); return cached || net; })); return; } if (url.origin !== self.location.origin) return;
 
-  event.respondWith(
-    fetch(request)
-      .then((networkResponse) => {
-        if (networkResponse && networkResponse.ok) {
-          const copy = networkResponse.clone();
-          event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.put(request, copy)).catch(() => {}));
-        }
-        return networkResponse;
-      })
-      .catch(async () => {
-        const cached = await caches.match(request);
-        if (cached) return cached;
-        if (request.mode === 'navigate') return caches.match('./index.html');
-        return new Response('Offline', { status: 503, statusText: 'Service Unavailable' });
-      })
-  );
+  event.respondWith((async () => {
+    const fromCache = () => caches.match(request, { ignoreSearch: true });
+    const net = fetch(request).then((networkResponse) => {
+      if (networkResponse && networkResponse.ok) {
+        const copy = networkResponse.clone();
+        const put = caches.open(CACHE_NAME).then((cache) => cache.put(request, copy)).catch(() => {});
+        try { event.waitUntil(put); } catch (_) {}
+      }
+      return networkResponse;
+    });
+    // On a slow connection, serve the cached copy after 4s (the network fetch keeps going and refreshes the cache).
+    const slow = new Promise((resolve) => setTimeout(async () => {
+      const cached = await fromCache();
+      if (cached) resolve(cached);
+    }, 4000));
+    try {
+      return await Promise.race([net, slow]);
+    } catch (_) {
+      const cached = await fromCache();
+      if (cached) return cached;
+      if (request.mode === 'navigate') {
+        const shell = await caches.match('./index.html');
+        if (shell) return shell;
+      }
+      return new Response('Offline', { status: 503, statusText: 'Service Unavailable' });
+    }
+  })());
 });
