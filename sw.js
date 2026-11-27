@@ -1,4 +1,4 @@
-const CACHE_NAME = 'teamai-v169';
+const CACHE_NAME = 'teamai-v170';
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -10,6 +10,7 @@ const CORE_ASSETS = [
   './js/storage-idb.js',
   './js/sanitize.js',
   './js/robust.js',
+  './guide.html',
   './css/styles.css',
   './js/codes-and-templates.js',
   './js/files-and-export.js',
