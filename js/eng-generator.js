@@ -150,7 +150,7 @@
         grid.appendChild(h.createField('gn-spr', 'Spare Margin (%)', 'number', '15'));
         grid.appendChild(h.createField('gn-df', 'Derating factor - optional manual override (0-1)', 'number', ''));
         panel.appendChild(grid);
-        var btn = h.el('button', 'ec-btn', 'حساب حجم Generator');
+        var btn = h.el('button', 'ec-btn', 'Calculate Generator Size');
         btn.type = 'button';
         panel.appendChild(btn);
         var out = h.el('div', 'ec-out');
