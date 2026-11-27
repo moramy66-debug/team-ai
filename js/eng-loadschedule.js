@@ -63,7 +63,7 @@
         (cs.warnings || []).forEach(function (w) { res.warnings.push(w); });
         res.mainBreakerA = cs.breaker && cs.breaker.rating_a; res.incomerSizeMm2 = cs.size_mm2;
       } catch (e) {
-        res.warnings.push('تعذر اختيار Breaker و Cable من الجداول: ' + (e && e.message ? e.message : e) + ' (قد يحتاج Load Cables على التوازي أو تصميم يدوي).');
+        res.warnings.push('تعذر اختيار Breaker و Cable من الجداول: ' + (e && e.message ? e.message : e) + ' (قد يحتاج الـ Load إلى Cables على التوازي أو تصميم يدوي).');
       }
     }
     res.summary = 'Connected Load ' + r1(tot.kva) + ' kVA | الطلب ' + r1(tot.dkva) + ' kVA | التصميم ' + r1(des) + ' kVA | Ib = ' + r1(Ib) + ' A | Unbalance ' + r1(unb) + ' %' +
