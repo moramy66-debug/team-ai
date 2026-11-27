@@ -34,7 +34,7 @@
             iscKA: h.numVal('ec-sc-isc'), letThroughKA2s: h.numVal('ec-sc-lt'), clearingTimeS: h.numVal('ec-sc-t')
           });
           h.showResult(out, res, 'Short-circuit Withstand Result');
-          out.insertBefore(h.el('div', res.ok ? 'ec-cx ec-cx-ok' : 'ec-cx ec-cx-warn', res.ok ? 'النتيجة: متحقق. الكابل يتحمل طاقة القصر.' : 'النتيجة: غير متحقق. كبّر المقطع لـ ' + res.minSizeMm2 + ' mm2 على الأقل أو استخدم قاطع بطاقة let-through أقل.'), out.firstChild);
+          out.insertBefore(h.el('div', res.ok ? 'ec-cx ec-cx-ok' : 'ec-cx ec-cx-warn', res.ok ? 'النتيجة: متحقق. Cable يتحمل Short-circuit Energy.' : 'النتيجة: غير متحقق. كبّر Cross-section لـ ' + res.minSizeMm2 + ' mm2 على الأقل أو استخدم Breaker بطاقة let-through أقل.'), out.firstChild);
           var st = h.el('div', null);
           h.renderResultActions(out, st);
           out.appendChild(st);
