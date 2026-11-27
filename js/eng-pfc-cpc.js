@@ -30,10 +30,11 @@
 
   /* input: {pKW, pfExisting, pfTarget (0.95), voltageV (400)} */
   function pfc(input) {
-    var o = input || {}, P = num(o.pKW), pf1 = num(o.pfExisting), pf2 = pos(num(o.pfTarget)) ? num(o.pfTarget) : TARIFF_PF, V = pos(num(o.voltageV)) ? num(o.voltageV) : 400;
+    var o = input || {}, P = num(o.pKW), pf1 = num(o.pfExisting), pf2 = (o.pfTarget === undefined || o.pfTarget === null || o.pfTarget === '') ? TARIFF_PF : num(o.pfTarget), V = (o.voltageV === undefined || o.voltageV === null || o.voltageV === '') ? 400 : num(o.voltageV);
     if (!pos(P)) throw new Error('ادخل Load الفعال P (kW) أكبر من صفر.');
     if (!(pf1 > 0 && pf1 <= 1)) throw new Error('ادخل PF الحالي بين 0 و 1.');
     if (!(pf2 > 0 && pf2 <= 1)) throw new Error('ادخل PF المستهدف بين 0 و 1.');
+    if (!pos(V)) throw new Error('Voltage غير صالح: لازم يكون أكبر من صفر. سيبه فاضي لو عايز القيمة الافتراضية 400 V.');
     var steps = [], extra = [], used = [SRC.sera, SRC.bank];
     var t1 = Math.tan(Math.acos(pf1)), t2 = Math.tan(Math.acos(pf2));
     var S1 = P / pf1, S2 = P / pf2, Q1 = P * t1, Q2 = P * t2;
