@@ -25,7 +25,7 @@ eq('Ib = 71.7 A', res.designCurrentA, 71.71, 0.01);
 eq('main breaker 80 A (first standard In >= 71.7)', res.mainBreakerA, 80);
 eq('incomer size chosen from tables', typeof res.incomerSizeMm2, 'number');
 eq('table sources reported', res.tablesUsed.length > 0, true);
-eq('unbalance warning present', res.warnings.some(function (w) { return w.indexOf('عدم الاتزان') >= 0; }), true);
+eq('unbalance warning present', res.warnings.some(function (w) { return w.indexOf('Unbalance') >= 0; }), true);
 var bal = L.schedule({ voltageV: 400, sizeIncomer: false, loads: [{ kw: 9, phase: '3P', pf: 1 }] });
 eq('pure 3P load: unbalance 0', bal.unbalancePct, 0);
 eq('3P 9 kW pf1: each phase 3 kVA', bal.phases.R.kva, 3);
