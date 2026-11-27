@@ -1,6 +1,60 @@
 # سجل التغييرات (Changelog)
 
 جميع التغييرات الجوهرية في مشروع **Team AI** موثقة في هذا الملف.
+
+## [v126 - v162] - 2026-11-27
+
+الاسم الجديد للتطبيق: **Ramz (رمز)**. اسم الـ repo ومفاتيح التخزين وبادئة `CACHE_NAME` (`teamai-v...`) فضلت زي ما هي.
+
+### حاسبات ووحدات اتضافت
+- **Isc Network (`js/eng-isc.js`, `tools/eng-isc-test.js`) - v161:** تبويب جديد في Eng Calc بـ 4 طرق: MVA (Grid + Transformer)، Fault Level معطى، Ohmic (R, X مع Cable و c factor اختياريين)، وPeak من Isc معطى. كل النتايج `needs_review`. فيه حماية للقيم الصفرية والسالبة. الاختبارات بقيم محسوبة يدويا (مثلا 500 MVA و1000 kVA و5 % و400 V بتدّي 27.757 kA). اتضاف في `index.html` و`sw.js` و`lint.yml`.
+- **PFC (`js/eng-pfc-cpc.js`) - v153:** حساب تيار الـ Capacitor من kVAR.
+- **Generator (`js/eng-generator.js`) - v153:** Derating Factor يدوي. v150: حقل جديد "Motor Power Factor (PF)" بقيمة افتراضية 0.85 قابلة للتعديل، وبيتقال في النتيجة لما القيمة الافتراضية تُستخدم (`needs_review`).
+- **Projects MVP (`js/projects.js`, `tools/projects-test.js`) - v142:** مشاريع بملاحظات، وربط المحادثات بمشروع من غير ما المحادثات القديمة تتغير. الاختبارات 28 حالة.
+- **Copy Review Prompt (`js/review-prompt.js`, `tools/review-prompt-test.js`) - v132:** زر على كل نتيجة في Eng Calc بيبني Prompt مراجعة فيه المدخلات والافتراضات والخطوات والمصادر. بيتنسخ بس ومبيتبعتش لأي مكان. v141: زر "Review Prompt" لنتايج الـ AI في المحادثة. v144 و v145: تعديل صياغة (Method يظهر "In Air (Method C)" وملاحظة إن شرط الحماية I2 <= 1.45 Iz ما اتحسبش لوحده وتنبيه الـ ambient).
+- **Source popup (`js/source-info.js`, `tools/source-info-test.js`) - v129 و v130:** علامة مرقمة لكل مصدر وعلامة "i" في كل خطوة، بتفتح ورقة فيها الجدول والحالة والمصدر والصفحة والبند والإصدار. أي حقل ناقص بيظهر "غير مسجل" والمصدر الناقص "المصدر غير مسجل". الـ PDF بقى فيه قسم "المصادر وحالتها".
+- **زر Eng Calc في الـ sidebar على الديسكتوب - v146.**
+- **Code Ref:** badge جديد "Verified Secondary" (v152).
+
+### تصحيحات الحسابات والتحقق من المدخلات
+- **v150:** Voltage = 0 وDemand Factor سالب وTransformer Z = 0 بقوا رسايل خطأ واضحة بدل قيم افتراضية بصمت. الحقول الفاضية لسه بتاخد الافتراضي.
+- **v150:** Generator وLighting وTransformer وUPS وCable Tray كانت بتعرض صندوق نتيجة فاضي لما التحقق يفشل. دلوقتي الرسالة بتظهر بالأحمر، والضغطات المتكررة بتستبدل النتيجة بدل ما تتراكم.
+- **v150:** Lighting بيعرض Lux وW/m2 عند N المحسوب وعند الـ Grid.
+- **v151:** Load Schedule: PF خارج (0, 1] لأي حِمل بيدّي خطأ فيه رقم الحِمل والقيمة، وجهد اللوحة صفر أو أقل بيدّي خطأ. الحقل الفاضي لسه 0.85 و400 V.
+- **v147:** أي Power Factor مدخل خارج (0, 1] بيدّي خطأ في Cable Sizing وVoltage Drop وGenerator. لو طول الكابل ناقص مع Limit بيظهر تنبيه "Voltage Drop لم يتحقق منه" وبتتضاف عبارة "Voltage Drop غير مفحوص" للملخص. تحذير في UPS إن الـ kVA هو Output Rating. اتشال "IEC 60364-4-43" من تحذير الحماية.
+- **v148:** نص خطوة Constant k بقى "k من جدول k المسجل (XLPE_EPR, Cu, 90 إلى 250 C)" من غير رقم معيار.
+- **v143:** حذف التحذيرات المكررة في العرض والـ Review Prompt والـ PDF (عرض بس).
+- **v154:** تسميات Transformer بإنجليزي بسيط، والأزرار بقت "Calculate X Size".
+- **اختبارات:** `tools/eng-guard-test.js` اتضاف (v128) وبعدين اتحدثت، واتضافت اختبارات لـ PF وطول الكابل وPF الموتور وLoad Schedule.
+- **Harness (100 حالة، أداة محلية مش مشحونة):** بعد v150: 56 PASS + 18 PASS (memory)، FAIL 2 (#31 بالتصميم، و #64 step_load بسبب تناقض في الـ vector)، KNOWN 2 (#71 و #75). بعد Isc Network (v161): 66 PASS و10 UNMAPPED، والتغيير الوحيد كان الحالات #55 لحد #62 (من UNMAPPED لـ PASS) ومفيش رقم موجود اتغير.
+
+### تخفيض الحالة في الجداول وCode Library
+- **v128 (`data/eng-tables.json`):** 14 جدول `verified_mirror` وجدول واحد `verified_mirror_old_edition` بقوا `verified_secondary`. النتيجة 21 `verified_secondary` و3 `from_memory_needs_review`. مفيش حاجة اترفعت. السياسة (الحد الأقصى `verified_secondary`) اتكتبت في `_readme` للملف. مصدر SERA في `eng-pfc-cpc.js` اتخفض بنفس الطريقة.
+- **v152 (`data/code-library.json`):** الـ 3 entries اللي كانت `verified_mirror` (`sbc401-scope-systems` و`sec-pv-mv-voltages` و`sec-dc-fault-isolation`) بقوا `verified_secondary`. مفيش أرقام بنود اتضافت. الـ 7 التانيين لسه `needs_review`.
+
+### تعديلات الأمان والخصوصية (v128)
+- **Session-only keys:** خيار جديد في Settings (`js/key-session.js`) بيخلي المفاتيح في `sessionStorage` بس ويشيلها من `localStorage`. بيتطبق بعد ضغطة Save.
+- **Worker:** `ALLOWED_ORIGIN` في `worker/wrangler.toml` بقى `https://moramy66-debug.github.io` والافتراضي في `worker/api-proxy.js` بقى نفس الـ origin بدل `*`.
+- **تنويه:** سطر فوق Effort Level بيقول إن نص المهمة والملفات بتروح لمزود الـ AI المختار.
+- **a11y:** `js/a11y-polish.js` اتضاف.
+
+### الواجهة والموبايل (390px)
+- **v133 لـ v138:** خطوات الحساب على الموبايل بقت Cards بدل جدول مقصوص. إصلاح اتجاه RTL/LTR (Bidi) في خانات المعادلة والتعويض (عرض بس، النسخ والـ PDF زي ما هم). زر المصدر "i" بقى مسطح بمساحة لمس 44px. حقول موديل Settings بعرض كامل.
+- **v139 و v140:** الوضع الفاتح: شرائح القوالب بيضا ومسطحة، شريط الفئات بقى صف واحد قابل للتمرير، اتشال الشريط الرمادي، وزر الثيم بقى SVG بدل emoji وتسميته "Dark" أو "Light".
+- **v155 و v156:** تحسين الصفحة الرئيسية للموبايل: وضوح زر Start، زري Stop وTeam Log بأيقونة بس، شرائح بتلف، وتلاشي على حافة صف الفلاتر. كلمة "القائمة" بقت "Menu". خانة "Email me the result" اتنقلت لليسار. وسم `needs_review` في التحذيرات بيظهر "needs review".
+- **v162:** إصلاح الوضع الفاتح: كروت الخطوات في Eng Calc على الموبايل كانت بخلفية داكنة ونص داكن فمش باين. السبب إن `--card2` مش معرّف في الثيم الفاتح. اتضافت قيمته (`#eef2f8`). الثيم الداكن ماتأثرش.
+- فحص 15 تبويب في Eng Calc في الثيم الداكن على 390px من غير Overflow أفقي (من غير تغيير كود).
+
+### إزالة أرقام المعايير من نصوص الواجهة (v157)
+- بناء على قرار المستخدم، كل أرقام المعايير اتشالت من نصوص الواجهة. تسميات المصدر بقت "the applicable standard; source not recorded". الملفات: `eng-calc.js` و`eng-cabletray.js` و`eng-generator.js` و`eng-pfc-cpc.js` و`eng-ups.js` و`eng-calc-test.js` و`index.html`. معرفات الجداول الداخلية في البيانات (مفاتيح) فضلت زي ما هي.
+
+### Ramz والشعار
+- **v158:** الاسم Ramz (رمز) في الواجهة. الشعار B (حرف R مع موجة) كـ SVG مدمج، وأيقونة المتصفح وأيقونة Apple وأيقونات PWA (192 و512 و512 maskable) جوه `manifest.webmanifest`. اتعدلت ملفات `index.html` و`css/styles.css` و`js/eng-pdf.js` و`js/files-and-export.js` و`js/review-prompt.js` و`js/team-extras.js`.
+- **v159 و v160:** كارت البراند في المنتصف في الـ sidebar والـ drawer، وزيادة padding علوي للـ drawer (76px على 760px وأقل).
+
+### Service Worker (`sw.js`)
+- `CACHE_NAME` اتحدّث من `teamai-v126` لـ `teamai-v162`. أضيف `./js/eng-isc.js` لـ `CORE_ASSETS` وأضيفت اختبارات `eng-isc-test.js` في `lint.yml`.
+
 ## [المهمة 24] - 2026-11-27
 ### الميزات الجديدة
 - **حاسبة UPS + Battery Sizing (`js/eng-ups.js`):** إضافة وحدة حسابية جديدة (IIFE بدون تعريفات top-level) لتقدير سعة جهاز الـ UPS المطلوبة والمقاس القياسي (kVA)، وقدرة البطارية (kW) وتيار الـ DC عند نهاية التفريغ (EOD)، وسعة وطاقة البطارية (Ah/kWh) مع معاملات التقادم والحرارة وهامش التصميم، بالإضافة إلى التحقق العكسي لمدة التشغيل عند إدخال سعة البطارية (Ah)، مع توثيق الثوابت بحالة `from_memory_needs_review` و`source: null`.
