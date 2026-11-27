@@ -2,7 +2,11 @@
   'use strict';
 
   var LH_KEY = 'teamai.letterhead';
-  var BACKUP_KEYS = ['teamai.rules', 'mem', 'teamai.codes', 'teamai.hist', LH_KEY];
+  var BACKUP_KEYS = ['teamai.rules', 'teamai.memory', 'mem', 'teamai.codes', 'teamai.hist', LH_KEY, 'teamai.projects', 'teamai.project', 'teamai.sig', 'teamai.email', 'teamai.mailAuto'];
+  var PLAIN_KEYS = ['teamai.rules', 'teamai.memory', 'mem', 'teamai.projects', 'teamai.project', 'teamai.sig', 'teamai.email', 'teamai.mailAuto'];
+  var STRING_KEYS = ['teamai.rules', 'teamai.memory', 'mem', 'teamai.sig', 'teamai.email'];
+  var MAX_BACKUP_BYTES = 25 * 1024 * 1024;
+  function isQuota(e) { return !!e && (e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED' || e.code === 22 || e.code === 1014); }
 
   function esc(s) {
     return String(s == null ? '' : s)
@@ -118,6 +122,11 @@
       data['teamai.rules'] = safeParse(localStorage.getItem('teamai.rules'), null);
       data['mem'] = safeParse(localStorage.getItem('mem'), null);
       data[LH_KEY] = getLetterhead();
+      PLAIN_KEYS.forEach(function (k) {
+        if (k === 'mem') return;
+        var v = safeParse(localStorage.getItem(k), null);
+        if (v != null) data[k] = v;
+      });
 
       if (window.TeamAIStorage && typeof window.TeamAIStorage.getCodes === 'function') {
         data['teamai.codes'] = await window.TeamAIStorage.getCodes();
@@ -154,37 +163,55 @@
   async function importBackup(file) {
     var msg = document.getElementById('ptBkMsg');
     if (!file) return;
+    function say(t, bad) { if (msg) { msg.textContent = t; msg.style.color = bad ? '#f87171' : ''; } }
+    var snapshot = {};
+    var touched = [];
     try {
+      if (file.size > MAX_BACKUP_BYTES) throw new Error('الملف كبير جدا (أكتر من 25 ميجا). ده مش ملف نسخة احتياطية من Ramz.');
       var text = await file.text();
-      var parsed = JSON.parse(text);
+      var parsed;
+      try { parsed = JSON.parse(text); } catch (_) { throw new Error('الملف مش JSON صالح. اختار ملف teamai-backup.json اللي اتصدّر من التطبيق.'); }
       var src = (parsed && parsed.data && typeof parsed.data === 'object') ? parsed.data : parsed;
-      if (!src || typeof src !== 'object') throw new Error('صيغة JSON غير صالحة');
+      if (!src || typeof src !== 'object' || Array.isArray(src)) throw new Error('صيغة النسخة الاحتياطية غير صالحة');
+      var known = BACKUP_KEYS.filter(function (k) { return k in src && src[k] != null; });
+      if (!known.length) throw new Error('الملف مفيهوش أي بيانات يعرفها التطبيق. تأكد إنه نسخة Ramz الاحتياطية.');
 
-      for (var idx = 0; idx < BACKUP_KEYS.length; idx++) {
-        var key = BACKUP_KEYS[idx];
-        if (/^k_/i.test(key) || !(key in src) || src[key] == null) continue;
+      BACKUP_KEYS.forEach(function (k) { try { snapshot[k] = localStorage.getItem(k); } catch (_) { snapshot[k] = null; } });
+      var skipped = [];
+
+      for (var idx = 0; idx < known.length; idx++) {
+        var key = known[idx];
+        if (/^k_/i.test(key)) continue;
         var val = src[key];
 
-        if (key === 'teamai.codes') {
-          if (window.TeamAIStorage && typeof window.TeamAIStorage.saveCodes === 'function' && Array.isArray(val)) {
-            await window.TeamAIStorage.saveCodes(val);
-          }
-          localStorage.setItem(key, typeof val === 'string' ? val : JSON.stringify(val));
-        } else if (key === 'teamai.hist') {
-          if (window.TeamAIStorage && typeof window.TeamAIStorage.saveHistory === 'function' && Array.isArray(val)) {
-            await window.TeamAIStorage.saveHistory(val);
-          }
-          localStorage.setItem(key, typeof val === 'string' ? val : JSON.stringify(val));
+        if (key === 'teamai.codes' || key === 'teamai.hist') {
+          if (!Array.isArray(val)) { skipped.push(key); continue; }
+          if (key === 'teamai.codes' && window.TeamAIStorage && typeof window.TeamAIStorage.saveCodes === 'function') await window.TeamAIStorage.saveCodes(val);
+          if (key === 'teamai.hist' && window.TeamAIStorage && typeof window.TeamAIStorage.saveHistory === 'function') await window.TeamAIStorage.saveHistory(val);
+          touched.push(key);
+          localStorage.setItem(key, JSON.stringify(val));
         } else if (key === LH_KEY) {
-          saveLetterhead(typeof val === 'object' ? val : {});
+          if (typeof val !== 'object' || Array.isArray(val)) { skipped.push(key); continue; }
+          touched.push(key);
+          saveLetterhead(val);
         } else {
-          localStorage.setItem(key, typeof val === 'string' ? val : JSON.stringify(val));
+          if (STRING_KEYS.indexOf(key) >= 0 && typeof val !== 'string') { skipped.push(key); continue; }
+          touched.push(key);
+          localStorage.setItem(key, JSON.stringify(val));
         }
       }
       syncLetterheadForm();
-      if (msg) msg.textContent = 'تمت استعادة النسخة الاحتياطية بأمان. يُنصح بتحديث الصفحة لتطبيق كافة التغييرات.';
+      say('تمت استعادة النسخة الاحتياطية (' + (touched.length) + ' عنصر).' + (skipped.length ? ' اتجاهل ' + skipped.length + ' عنصر شكله غير صالح.' : '') + ' يُنصح بتحديث الصفحة لتطبيق كافة التغييرات.', false);
     } catch (err) {
-      if (msg) msg.textContent = 'فشل الاستيراد: ' + (err && err.message ? err.message : err);
+      var rolled = false;
+      if (touched.length) {
+        touched.forEach(function (k) {
+          try { if (snapshot[k] == null) localStorage.removeItem(k); else localStorage.setItem(k, snapshot[k]); } catch (_) { }
+        });
+        rolled = true;
+      }
+      var m = isQuota(err) ? 'مساحة التخزين في المتصفح ممتلئة. امسح السجل القديم أو ملفات كبيرة وجرب تاني.' : (err && err.message ? err.message : String(err));
+      say('فشل الاستيراد: ' + m + (rolled ? ' (رجّعت البيانات الحالية زي ما كانت)' : ''), true);
     }
   }
 
@@ -298,7 +325,16 @@
     document.getElementById('ptLhLogoInput').addEventListener('change', function (e) {
       var f = e.target.files && e.target.files[0];
       if (!f) return;
+      if (f.size > 1024 * 1024 || !/^image\//i.test(f.type || '')) {
+        var lm = document.getElementById('ptLhMsg') || document.getElementById('ptBkMsg');
+        if (lm) { lm.textContent = 'الشعار لازم يكون صورة أقل من 1 ميجا.'; lm.style.color = '#f87171'; }
+        return;
+      }
       var reader = new FileReader();
+      reader.onerror = function () {
+        var lm = document.getElementById('ptLhMsg') || document.getElementById('ptBkMsg');
+        if (lm) { lm.textContent = 'مقدرتش أقرا الصورة.'; lm.style.color = '#f87171'; }
+      };
       reader.onload = function () {
         pendingLogo = typeof reader.result === 'string' ? reader.result : '';
         var prev = document.getElementById('ptLhPrev');
@@ -320,13 +356,17 @@
     });
 
     document.getElementById('ptLhSaveBtn').addEventListener('click', function () {
-      saveLetterhead({
-        name: document.getElementById('ptLhName').value,
-        desc: document.getElementById('ptLhDesc').value,
-        logo: pendingLogo
-      });
       var m = document.getElementById('ptLhMsg');
-      if (m) m.textContent = 'تم حفظ ترويسة وشعار المكتب.';
+      try {
+        saveLetterhead({
+          name: document.getElementById('ptLhName').value,
+          desc: document.getElementById('ptLhDesc').value,
+          logo: pendingLogo
+        });
+        if (m) { m.textContent = 'تم حفظ ترويسة وشعار المكتب.'; m.style.color = ''; }
+      } catch (err) {
+        if (m) { m.textContent = isQuota(err) ? 'مساحة التخزين ممتلئة، الترويسة ما اتحفظتش. جرب شعار أصغر أو امسح السجل القديم.' : 'تعذر الحفظ: ' + (err && err.message ? err.message : err); m.style.color = '#f87171'; }
+      }
     });
 
 
