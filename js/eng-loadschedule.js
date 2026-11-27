@@ -76,6 +76,8 @@
     var t = res.totals, ph = res.phases;
     var blocks = [{ type: 'summary', text: res.summary, ok: res.mainBreakerA ? undefined : false }];
     if (res.tablesUsed && res.tablesUsed.length) blocks.push({ type: 'status', tables: res.tablesUsed });
+    var sldSpec = window.EngSLD && window.EngSLD.fromLoadSchedule(res, res.sldExtra);
+    if (sldSpec) blocks.push({ type: 'sld', heading: 'Single-line diagram', sld: window.EngSLD.build(sldSpec) });
     if (res.warnings.length) blocks.push({ type: 'warnings', items: res.warnings });
     blocks.push({ type: 'table', heading: 'جدول الأحمال / Load schedule', columns: ['#', 'Load', 'Qty', 'kW', 'PF', 'DF', 'Phase', 'kVA', 'kVA dem.'], rows: loadRows.concat([['', 'Total', '', r1(t.kw), '', '', '', r1(t.kva), r1(t.dkva)].map(String)]), widths: [0.06, 0.28, 0.07, 0.09, 0.08, 0.08, 0.1, 0.1, 0.14], fontSize: 20 });
     blocks.push({ type: 'table', heading: 'توزيع الفازات / Phase balance', columns: ['Phase', 'kVA (demand)', 'kW (demand)', 'Current (A)'], rows: ['R', 'Y', 'B'].map(function (p) { return [p, String(r1(ph[p].kva)), String(r1(ph[p].kw)), String(ph.currents[p])]; }).concat([['Unbalance', '', '', res.unbalancePct + ' %']]), widths: [0.25, 0.25, 0.25, 0.25], fontSize: 22 });
@@ -130,6 +132,15 @@
         h.ensureTables().then(function () {
           var res = schedule({ loads: loads, voltageV: h.numVal('ls-v'), diversity: h.numVal('ls-div'), sparePct: h.numVal('ls-spare'), lengthM: h.numVal('ls-len'), conductor: h.val('ls-cond'), insulation: h.val('ls-ins'), method: h.val('ls-meth'), ambientC: h.numVal('ls-amb') });
           h.showResult(out, res, 'Load Schedule');
+          res.sldExtra = { lengthM: h.numVal('ls-len'), conductor: h.val('ls-cond'), insulation: h.val('ls-ins'), loadName: 'Panel load' };
+          if (window.EngSLD && res.mainBreakerA) {
+            var spec = window.EngSLD.fromLoadSchedule(res, res.sldExtra);
+            if (spec) {
+              window.EngSLD.remember(spec);
+              var sumNode = out.querySelector('.ec-summary'), sbox = el('div', 'ec-sld'); sbox.style.margin = '10px 0'; sbox.innerHTML = window.EngSLD.toSVG(window.EngSLD.build(spec));
+              if (sumNode && sumNode.nextSibling) out.insertBefore(sbox, sumNode.nextSibling); else out.appendChild(sbox);
+            }
+          }
           h.renderResultActions(out, status, function () { return pdfDoc(res, 'Load Schedule'); });
         }).catch(function (e) { status.textContent = 'تعذر الحساب: ' + (e && e.message ? e.message : e); });
       });
