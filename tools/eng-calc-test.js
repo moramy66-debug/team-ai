@@ -46,7 +46,7 @@ var v2 = C.voltageDrop({ size_mm2: 35, currentA: 100, lengthM: 100, phases: 3, v
 eq('vdrop 35mm2 computed method', v2.methodUsed, 'computed_r_x');
 eq('vdrop 35mm2 value ~10.567 V', v2.vdropV, 10.567, 0.01);
 has('25mm2+ computed note', v2.warnings, 'مش من جدول BS 7671 4D1B');
-has('from_memory status warning', v2.warnings, 'from_memory_needs_review');
+has('reactance needs_review warning', v2.warnings, 'needs_review');
 // Case 4: cable sizing. 3ph XLPE Cu, Ib=60 A, 35 C air, 1 circuit, method C.
 // Ca(XLPE,35C)=0.96, Cg=1 -> Ct=0.96. In: MCB >= 60 -> 63. Iz_req=63/0.96=65.625 A.
 // B.52.5 col C: 6mm2=? read below; first size with value >= 65.625.
