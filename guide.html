@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f1115">
+<title>دليل استخدام Ramz</title>
+<style>
+:root{--bg:#0f1115;--card:#171b24;--tx:#e8ecf6;--mut:#9aa6bd;--ln:#2b3345;--ac:#8a96ff;--warn:#d97706}
+@media(prefers-color-scheme:light){:root{--bg:#f4f6fb;--card:#fff;--tx:#0f172a;--mut:#475569;--ln:#cbd5e1;--ac:#3b4bd8}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.85 system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;padding:0 0 40px}
+header{padding:20px 16px 8px;max-width:760px;margin:0 auto}
+h1{font-size:24px;margin:0 0 6px}
+header p{margin:0;color:var(--mut)}
+main{max-width:760px;margin:0 auto;padding:0 16px}
+section{background:var(--card);border:1px solid var(--ln);border-radius:14px;padding:14px 16px;margin:14px 0}
+h2{font-size:18px;margin:0 0 8px;color:var(--ac)}
+ul,ol{margin:6px 0;padding-inline-start:22px}
+li{margin:4px 0}
+code,.en{unicode-bidi:isolate;direction:ltr;display:inline-block;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14px;background:rgba(138,150,255,.12);border-radius:6px;padding:0 6px}
+.note{border:1px solid var(--warn);background:rgba(217,119,6,.10);border-radius:10px;padding:10px 12px;margin:10px 0}
+a{color:var(--ac)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border-radius:12px;border:1px solid var(--ac);text-decoration:none;font-weight:600}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border:1px solid var(--ln);border-radius:10px;text-decoration:none;background:var(--card)}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+</style>
+</head>
+<body>
+<header>
+<h1>دليل استخدام Ramz</h1>
+<p>خطوات قصيرة تمشي بيها من أول مرة. التطبيق مجاني ومفيهوش سيرفر وسيط، والمفاتيح بتفضل على جهازك.</p>
+<nav aria-label="فهرس">
+<a href="#start">البداية</a><a href="#task">مهمة جديدة</a><a href="#calc">Eng Calc</a><a href="#proj">المشاريع والأكواد</a><a href="#backup">النسخ الاحتياطي</a><a href="#install">التثبيت والأوفلاين</a><a href="#fix">لو حصلت مشكلة</a>
+</nav>
+<a class="btn" href="./">فتح التطبيق</a>
+</header>
+<main>
+
+<section id="start">
+<h2>1) البداية: مفاتيح الـ API</h2>
+<p>التطبيق بيكلم نماذج ذكاء اصطناعي مجانية. محتاج مفتاح واحد على الأقل:</p>
+<ul>
+<li><b>Gemini:</b> من <span class="en">aistudio.google.com/apikey</span> اعمل <span class="en">Create API key</span> والصقه. اشتراك Gemini العادي مش هو المفتاح.</li>
+<li><b>Groq:</b> من <span class="en">console.groq.com/keys</span>. نفس المفتاح بيشغّل موديلات Groq.</li>
+<li><b>OpenRouter:</b> من <span class="en">openrouter.ai/keys</span>. استخدم موديلات الـ <span class="en">:free</span> بس. الحد حوالي 50 طلب في اليوم.</li>
+</ul>
+<p>افتح <b>Settings</b> من القايمة، الصق المفتاح، واضغط <b>حفظ</b> ثم <b>اختبار المفاتيح</b>.</p>
+<div class="note">المفاتيح بتتخزن في المتصفح ده بس وبتتبعت مباشرة للمزوّد. لو الجهاز مش بتاعك فعّل <b>Session only</b> وهتتمسح لما تقفل التاب. المفاتيح مش بتدخل في النسخة الاحتياطية.</div>
+</section>
+
+<section id="task">
+<h2>2) مهمة جديدة</h2>
+<ol>
+<li>من <b>New Task</b> اكتب المهمة، أو اختار قالب من <b>Templates</b>. القوالب متقسمة بتبويبات فوقها.</li>
+<li>لو محتاج ملفات اضغط <b>Attach</b>. بيقبل Excel وPDF وصور وملفات نصية، وكل ملف لحد 12 ميجا.</li>
+<li>اختار <b>Effort Level</b>: <b>Simple</b> أسرع، <b>Advanced</b> أعمق وأبطأ.</li>
+<li>اضغط <b>Start</b>. تقدر توقف بـ <b>Stop</b> وتتابع الشغل من <b>Team Log</b>.</li>
+<li>لو الشغل اتقطع هيظهر <b>Resume</b> أو <b>Discard</b>.</li>
+</ol>
+<p>في النتيجة: <b>Copy</b>، <b>Insert into task</b>، و<b>PDF</b>. ولو رفعت ملف Excel فيه زرار تنزيل الملف مع شيت فيه النتيجة.</p>
+<p>تقدر تشغّل خيار <b>Email me the result when done</b> بعد ما تكتب إيميلك في الإعدادات.</p>
+<div class="note">نص المهمة والملفات بتتبعت للمزوّد اللي اخترته. متحطش بيانات سرية أو بيانات عميل مش مسموح تشاركها.</div>
+</section>
+
+<section id="calc">
+<h2>3) Eng Calc: الحاسبات الهندسية</h2>
+<p>افتحها من زرار <b>Eng Calc</b> في الشريط العلوي. كل حاسبة بتعرض المعادلة، التعويض بالقيم اللي دخلتها، والنتيجة بالوحدة.</p>
+<p>التبويبات:</p>
+<ul>
+<li><span class="en">Cable sizing</span> و<span class="en">Voltage drop</span> و<span class="en">Breaker</span> و<span class="en">Tables</span></li>
+<li><span class="en">Short-circuit</span> و<span class="en">Isc Network</span> و<span class="en">PFC</span> و<span class="en">CPC</span></li>
+<li><span class="en">Transformer</span> و<span class="en">Generator</span> و<span class="en">UPS</span> و<span class="en">Lighting</span> و<span class="en">Cable Tray</span></li>
+<li><span class="en">Load Schedule</span> و<span class="en">SLD</span> و<span class="en">Submittal</span> و<span class="en">Direct Formulas</span></li>
+</ul>
+<div class="note"><b>مهم:</b> الأرقام مساعدة للحساب والمراجعة وليست اعتماد. أي نتيجة عليها <span class="en">needs_review</span> لازم تتراجع على الكود المعتمد والـ <span class="en">Datasheet</span> قبل ما تستخدمها. لو مصدر قيمة مش متسجل التطبيق بيكتب "غير مسجل" ومبيخمّنش.</div>
+</section>
+
+<section id="proj">
+<h2>4) المشاريع ومكتبة الأكواد</h2>
+<ul>
+<li><b>Projects:</b> كل مشروع ليه ملاحظات مثبتة قصيرة بتتضاف على تعليمات أي شات جديد جوه المشروع.</li>
+<li><b>Codes Library:</b> ارفع نص أو PDF لأي مرجع عندك، وشغّل أو اقفل كل واحد حسب المهمة. الملفات الممسوحة ضوئيا (صور) مفيهاش نص، فالصق النص يدوي.</li>
+<li><b>Settings:</b> فيها <b>تعليمات ثابتة</b> بتتطبق على كل مهمة، و<b>ذاكرة مستوردة</b>، وصورة <b>التوقيع</b> اللي بتظهر آخر الخطابات الرسمية.</li>
+</ul>
+</section>
+
+<section id="backup">
+<h2>5) النسخ الاحتياطي</h2>
+<p>من <b>More</b> اختار <b>نسخ احتياطي</b>.</p>
+<ul>
+<li><b>تصدير:</b> بينزّل ملف <span class="en">teamai-backup.json</span> فيه التعليمات الثابتة، الذاكرة، المشاريع، الأكواد، السجل، الترويسة، التوقيع، وإيميلك.</li>
+<li><b>استيراد:</b> اختار نفس الملف. لو الملف غلط أو التخزين مليان، التطبيق بيرجّع بياناتك زي ما كانت ويقولك السبب.</li>
+</ul>
+<p>خُد نسخة كل فترة، خصوصا قبل ما تمسح بيانات المتصفح أو تغيّر الجهاز.</p>
+</section>
+
+<section id="install">
+<h2>6) التثبيت والأوفلاين</h2>
+<ul>
+<li>اضغط <b>تثبيت التطبيق</b> في القايمة، أو من المتصفح: <span class="en">Add to Home Screen</span>.</li>
+<li>بعد أول فتح بالإنترنت التطبيق والحاسبات بيشتغلوا بدون إنترنت. تشغيل النماذج بس محتاج إنترنت، وهيظهر لك تنبيه لو أنت أوفلاين.</li>
+<li>لما تنزل نسخة جديدة هيظهر تنبيه <b>تحديث</b>. اضغطه لما تخلص اللي في إيدك.</li>
+</ul>
+</section>
+
+<section id="fix">
+<h2>7) لو حصلت مشكلة</h2>
+<ul>
+<li><b>الموديل مش بيرد:</b> جرب <b>اختبار المفاتيح</b> في Settings. المجاني ليه حد يومي، فجرّب موديل تاني.</li>
+<li><b>الشكل قديم بعد تحديث:</b> اقفل التطبيق وافتحه تاني أو حدّث الصفحة.</li>
+<li><b>ظهر تنبيه إن التخزين مليان:</b> صدّر نسخة احتياطية، وامسح السجل القديم من القايمة.</li>
+<li><b>ملف مرفوع مش بيتقرا:</b> تأكد إنه أقل من 12 ميجا وإنه مش محمي بباسورد.</li>
+</ul>
+</section>
+
+</main>
+</body>
+</html>
