@@ -1,0 +1,48 @@
+===== ابدأ الـ prompt من هنا =====
+
+انت مهندس front-end ومحتوى تقني. المطلوب: توسيع مكتبة الأكواد في تطبيق ويب جاهز اسمه Team AI بنص مرجعي مقروء جوه التطبيق لمتطلبات SBC 401 وSEC، بمصادر وحالة لكل بند. اقرا كل الوصف قبل ما تكتب سطر.
+
+## 1) التطبيق والـ repo
+- PWA static على GitHub Pages: https://moramy66-debug.github.io/team-ai/ والـ repo: github.com/moramy66-debug/team-ai (branch main). مفيش build ولا npm. الأزرار English والمحتوى عربي مصري.
+- الـ scripts بتتحمل بـ plain <script defer> بالترتيب في index.html وكلها بتشارك نفس الـ global scope. فيه فاحص تكرار (tools/dupcheck.js وcheck.html) بيكشف أي اسم top-level متكرر.
+- المستخدم مهندس استشاري كهرباء في السعودية وبيستخدم التطبيق من الموبايل (390px) أغلب الوقت.
+- فيه شغل تاني شغال على نفس الـ repo. قبل أي تعديل اعمل fetch لآخر نسخة من الملف من main واشتغل عليها بس. متعملش revert لتعديلات حد تاني.
+- الوضع الحالي: المكتبة عبارة عن codes-data.json (14 كود، كل واحد {sid, name, ver, text}) بتتحمل في js/codes-and-templates.js. ما تعدلش الملف ده ولا الـ 14 كود. شوف الأول إزاي بتتعرض عشان تفهم الشكل الحالي.
+
+## 2) المطلوب
+أ) ملف بيانات جديد: data/code-library.json. مصفوفة بنود، كل بند فيه الحقول دي بالظبط:
+   id، code (sbc401 أو sec_dps أو sec_dc ... إلخ)، topic (عنوان قصير بالعربي)، text (شرح مقروء بالعربي المصري المهني، مصطلحات الهندسة بالإنجليزي)، clause (رقم البند أو null)، source_url (رابط عام تم فتحه فعلًا أو null)، source_note (وصف المصدر)، status، checked_on (تاريخ المراجعة).
+   قيم status: verified_mirror (مأخوذ من صفحة عامة مفتوحة وقريتها) / verified_secondary (مصدر ثانوي) / needs_review (من الذاكرة أو غير مؤكد).
+ب) المحتوى المطلوب (قدر المستطاع من مصادر عامة): متطلبات عملية في SBC 401 (voltage drop، حماية، تأريض، كابلات، لوحات) ومتطلبات SEC المنشورة علنًا (Distribution Code وDPS وأي مواصفات منشورة على موقع SEC). المستخدم عنده بالفعل ملاحظات في الـ 14 كود الحالية، فاقراها وتجنب التكرار وأي تعارض معاها. لو لقيت تعارض اكتبه في التقرير ومتصلحوش بنفسك.
+ج) واجهة جديدة في ملف جديد js/code-library.js: لازم يتلف كله بـ IIFE: (function(){'use strict'; ... })(); ومفيش أي تعريف top-level. لما التطبيق يفتح بتضيف زرار "Code Ref" مكان مناسب (ما تلمسش زراير topbar الأساسية، استخدم قايمة More اللي موجودة في js/ui-tidy.js أو بانل مكتبة الأكواد) بيفتح عرض فيه: بحث نصي (ضيف normalization عربي بسيط)، فلتر بالكود، قايمة بنود قابلة للفتح، وبادج لحالة كل بند بألوان واضحة، ورابط المصدر لو موجود. الأزرار والعناصر 44px على الأقل، مفيش horizontal overflow عند 390px، مفيش emoji (SVG بس)، ومحتوى النص بيتعرض بـ textContent مش innerHTML.
+
+## 3) قواعد المحتوى (أهم قسم)
+- ممنوع تخترع أرقام بنود أو اقتباسات. لو مفيش رقم بند مؤكد من مصدر مفتوح اكتب clause: null. لو مفيش مصدر اكتب status: needs_review وsource_url: null.
+- ممنوع تحط نص اقتباس حرفي من كود مدفوع أو محمي. الصياغة بتاعتك، ملخص بالعربي مع ذكر المصدر.
+- أي رقم (نسبة، جهد، حد) بدون مصدر عام اتفتح فعلًا يبقى needs_review. متعتمدش على "معلومات عامة" كمصدر.
+- ممنوع تقول إن حاجة verified لو ما فتحتش الصفحة. اكتب في التقرير لكل بند اتحقق منه الرابط اللي فتحته.
+- المصادر الرسمية المدفوعة (IEC وBS وNFPA) متتعاملش كمصدر مفتوح.
+
+## 4) قواعد الأمان (إلزامية)
+- أي JS جديد في ملف جديد وبـ IIFE. لو اضطريت تعدل ملف موجود، عدّل في المكان نفسه (in-place Edit) بأصغر تغيير.
+- ممنوع تمسح ملف وتعمل create بدله. ممنوع ترفع index.html كامل من نسخة قديمة.
+- الملفات المسموح تلمسها بالظبط: js/code-library.js (جديد)، data/code-library.json (جديد)، index.html (سطر script واحد لـ js/code-library.js بعد js/ui-tidy.js)، css/styles.css (لو لازم، إضافة بس)، js/ui-tidy.js (فقط لإضافة عنصر في قايمة More لو احتجت)، sw.js، README.md، CHANGELOG.md (مدخل جديد فوق عن شغلك بس).
+- ممنوع تلمس: كل ملفات js/eng-*.js، data/eng-tables.json، codes-data.json، js/codes-and-templates.js، js/code-search.js، tools/*، .github/workflows/*، وأي ملف مش في القايمة المسموحة.
+- ارفع رقم CACHE_NAME في sw.js بمقدار واحد على آخر قيمة في main وقت الـ commit (اعمل fetch الأول). ضيف js/code-library.js وdata/code-library.json في CORE_ASSETS.
+- ارفع الملفات بالترتيب: data/code-library.json وjs/code-library.js الأول، وبعدين سطر الـ script في index.html، وبعدين sw.js. السطر متتحطش قبل الملف (ده كسر lint قبل كده).
+- مفيش مفاتيح API أو أسرار في أي ملف.
+- شغّل الـ lint (node tools/dupcheck.js ./tools/dup-allowlist.json وكل خطوات .github/workflows/lint.yml) قبل أي commit. تأكد إن data/code-library.json JSON صالح.
+
+## 5) Definition of Done
+- [ ] check.html بيطلع ALL GOOD بعد الـ deploy.
+- [ ] عرض 390px: مفيش horizontal overflow وكل عنصر 44px على الأقل.
+- [ ] مفيش أخطاء في الـ console عند فتح التطبيق وفتح Code Ref والبحث والفلاتر.
+- [ ] الـ 14 كود الحالية ومكتبة الأكواد القديمة شغالة زي ما هي، وEng Calc شغال.
+- [ ] كل بند في data/code-library.json فيه كل الحقول، وكل بند بدون مصدر مفتوح حالته needs_review وclause فيه null.
+- [ ] sw.js اترفع بمقدار واحد والملفات في الـ repo هي نفسها live.
+- [ ] الـ lint أخضر على GitHub Actions.
+
+## 6) التسليم
+اعمل commit لشغلك على main واكتب تقرير فيه: الـ commit SHAs فقط، قايمة الملفات اللي لمستها، جدول بكل بند (id، code، status، الرابط اللي فتحته فعلًا)، وأي تعارض لقيته مع الـ 14 كود الحالية. المراجع هيراجع الـ commits قبل أي نشر أو إعلان للمستخدم، فمتعتبرش الشغل منشور.
+
+===== انتهى الـ prompt =====
