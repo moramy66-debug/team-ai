@@ -1,0 +1,42 @@
+===== ابدأ الـ prompt من هنا =====
+
+انت مهندس front-end و UI designer. المطلوب: تحسين الشكل وتجربة الاستخدام لتطبيق ويب جاهز اسمه Team AI، بدون أي تغيير في السلوك أو المنطق أو الحسابات. اقرا كل الوصف قبل ما تكتب سطر.
+
+## 1) التطبيق والـ repo
+- PWA static على GitHub Pages: https://moramy66-debug.github.io/team-ai/ والـ repo: github.com/moramy66-debug/team-ai (branch main). مفيش build ولا npm. الأزرار English والمحتوى عربي مصري (RTL).
+- الـ scripts بتتحمل بـ plain <script defer> وكلها بتشارك نفس الـ global scope. فيه فاحص تكرار (tools/dupcheck.js وcheck.html).
+- المستخدم مهندس استشاري كهرباء في السعودية وبيستخدم التطبيق من الموبايل (390px) أغلب الوقت، وبيراجع الشغل بصور شاشة.
+- فيه شغل تاني شغال على نفس الـ repo في نفس الوقت (ملفات eng-* وprompts تانية). قبل أي تعديل اعمل fetch لآخر نسخة من الملف من main واشتغل عليها بس. متعملش revert لتعديلات حد تاني.
+- اللي اتعمل قبل كده: js/ui-tidy.js فيه قايمة More وفلاتر القوالب. فيها قاعدة تعلمتها بالغالي: الـ topbar فيه backdrop-filter وoverflow، فأي عنصر مفتوح منه (dropdown) لازم يتحط تحت body بـ position:fixed وإلا يتقص.
+
+## 2) المطلوب
+أ) تحسين بصري: spacing متناسق (سلم واحد)، typography وحجم خطوط مقروء، تباين ألوان كافي (WCAG AA على الأقل للنص)، شكل موحد للكروت والأزرار والـ inputs والـ modals.
+ب) الثيم: الوضعين dark وlight لازم يبقوا سليمين. اتأكد إن كل مكون (Eng Calc بتاباته كلها، نتائج الحسابات، جداول الـ Tables، Backup، Help، القايمة، الفلاتر) مقروء في الاتنين.
+ج) RTL: اتجاه النص والأيقونات والـ padding والـ margin صح في العربي. الأرقام والوحدات والمعادلات (LTR) متتكسرش وسط نص عربي (استخدم unicode-bidi أو dir=ltr للقيم الهندسية بس بـ CSS).
+د) حالات الواجهة: loading (skeleton أو spinner بسيط) وempty وerror واضحة وموحدة الشكل. لو الحالة بتتولد من JS في ملف ممنوع تلمسه، ظبطها بـ CSS على الـ classes الموجودة فقط، وأي حاجة مش ممكنة بالـ CSS اكتبها في التقرير.
+هـ) ergonomics للموبايل 390px: كل عنصر قابل للضغط 44px على الأقل، مفيش horizontal overflow في أي شاشة، الـ modals بتتمرر جواها (scroll) والزرار الأساسي ظاهر، الـ inputs مش بتعمل zoom في iOS (font-size 16px على الأقل)، safe-area للـ notch.
+و) الجداول الواسعة (نتايج الحسابات، الـ Tables) تتمرر أفقيًا جوه حاويتها هي بس، مش الصفحة كلها.
+ز) ممنوع: تغيير أي نص أو label أو ترتيب عناصر أو سلوك أو handler. مفيش ميزة جديدة. مفيش emoji (استخدم SVG). مفيش مكتبات خارجية أو خطوط من CDN.
+
+## 3) قواعد الأمان (إلزامية)
+- أي JS جديد لازم يتحط جوه js/ui-tidy.js الموجود (in-place Edit بأصغر تغيير) وجوه الـ IIFE الموجود بتاعه. مفيش تعريف top-level.
+- الأفضل تحط الشغل كله في CSS. أضف في css/styles.css في آخر الملف بس (append)، تحت تعليق واضح /* item16 ui polish */، ومتعدلش القواعد الموجودة غير لو ضروري جدًا واكتب كل حالة في التقرير.
+- ممنوع تمسح ملف وتعمل create بدله. ممنوع ترفع index.html كامل من نسخة قديمة.
+- الملفات المسموح تلمسها بالظبط: css/styles.css، js/ui-tidy.js، index.html (تعديلات بسيطة في الـ markup/ الـ meta للـ viewport والـ theme-color فقط، ومفيش حذف لأي id أو class بيستخدمه JS)، sw.js، README.md، CHANGELOG.md (مدخل جديد فوق).
+- ممنوع تلمس: كل js/eng-*.js، js/pro-tools.js، js/app.js، js/codes-and-templates.js، data/*، codes-data.json، tools/*، .github/workflows/*، وأي ملف مش في القايمة المسموحة.
+- ارفع CACHE_NAME في sw.js بمقدار واحد على آخر قيمة في main وقت الـ commit (اعمل fetch لـ sw.js قبل الـ commit مباشرة، لأن prompts تانية بترفعه).
+- مفيش مفاتيح API أو أسرار في أي ملف.
+- شغّل الـ lint (node tools/dupcheck.js ./tools/dup-allowlist.json وكل خطوات .github/workflows/lint.yml) قبل أي commit.
+
+## 4) Definition of Done
+- [ ] check.html بيطلع ALL GOOD بعد الـ deploy.
+- [ ] 390px: مفيش horizontal overflow في: الشاشة الرئيسية، قايمة More، فلاتر القوالب، Eng Calc (كل التابات: Cable sizing, Voltage drop, Breaker, Tables, Short-circuit, Submittal, Load Schedule)، Backup، Help.
+- [ ] الـ dark والـ light سليمين في نفس الشاشات دي (خد screenshot لكل واحدة في الاتنين وسجّل الأماكن اللي صلحتها).
+- [ ] مفيش أخطاء console. كل الوظائف شغالة زي ما كانت: Backup وLetterhead وHelp وفلاتر القوالب وEng Calc وتصدير PDF.
+- [ ] مفيش نص أو label اتغير.
+- [ ] sw.js اترفع بمقدار واحد والملفات في الـ repo هي نفسها live. الـ lint أخضر.
+
+## 5) التسليم
+اعمل commit على main وبلّغ بـ: الـ commit SHAs فقط، الملفات اللي لمستها، وقايمة بالتغييرات الأساسية، وأي حاجة مش ممكنة بدون لمس ملف ممنوع. المراجع هيراجع الـ commits على الموقع live قبل أي إعلان للمستخدم، فمتعتبرش الشغل منشور.
+
+===== انتهى الـ prompt =====
