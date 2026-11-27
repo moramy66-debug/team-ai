@@ -12,12 +12,16 @@
   function schedule(input, tables) {
     var o = input || {}, loads = (o.loads || []).filter(function (l) { return l && (num(l.kw) > 0); });
     if (!loads.length) throw new Error('ضيف Load واحد على الأقل (kW أكبر من صفر).');
-    var V = num(o.voltageV) > 0 ? num(o.voltageV) : 400, vph = V / Math.sqrt(3);
+    var vGiven = !(o.voltageV === undefined || o.voltageV === null || o.voltageV === '');
+    if (vGiven && !(num(o.voltageV) > 0)) throw new Error('Voltage غير صالح (' + o.voltageV + '): لازم يكون أكبر من صفر. سيبه فاضي لو عايز القيمة الافتراضية (400 V).');
+    var V = vGiven ? num(o.voltageV) : 400, vph = V / Math.sqrt(3);
     var div = num(o.diversity) > 0 ? num(o.diversity) : 1, spare = num(o.sparePct) >= 0 ? num(o.sparePct) : 0;
     var steps = [], warnings = [], rows = [], ph = { R: { kva: 0, kw: 0, ckva: 0 }, Y: { kva: 0, kw: 0, ckva: 0 }, B: { kva: 0, kw: 0, ckva: 0 } };
 
     loads.forEach(function (l, i) {
-      var qty = num(l.qty) > 0 ? num(l.qty) : 1, pf = num(l.pf) > 0 && num(l.pf) <= 1 ? num(l.pf) : 0.85, dfGiven = !(l.df === null || l.df === undefined || l.df === '');
+      var qty = num(l.qty) > 0 ? num(l.qty) : 1, pfGiven = !(l.pf === null || l.pf === undefined || l.pf === ''), dfGiven = !(l.df === null || l.df === undefined || l.df === '');
+      if (pfGiven && !(num(l.pf) > 0 && num(l.pf) <= 1)) throw new Error('Power Factor غير صالح في Load رقم ' + (i + 1) + ' (' + l.pf + '): لازم يكون أكبر من 0 وأقل من أو يساوي 1. سيبه فاضي لو عايز 0.85.');
+      var pf = pfGiven ? num(l.pf) : 0.85;
       if (dfGiven && !(isFinite(num(l.df)) && num(l.df) >= 0 && num(l.df) <= 1)) throw new Error('Demand factor غير صالح في Load رقم ' + (i + 1) + ' (' + l.df + '): لازم يكون بين 0 و 1. سيبه فاضي لو عايز 1.');
       var df = dfGiven ? num(l.df) : 1;
       var kw = qty * num(l.kw), kva = kw / pf;
