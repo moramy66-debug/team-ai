@@ -105,6 +105,9 @@
     var tempFactor = input.tempFactor !== undefined ? Number(input.tempFactor) : CONSTANTS.DEFAULT_TEMP_FACTOR.value;
     var designMargin = input.designMargin !== undefined ? Number(input.designMargin) : CONSTANTS.DEFAULT_DESIGN_MARGIN.value;
 
+    var hasUpsEff = input.upsEff !== undefined && input.upsEff !== null && input.upsEff !== '' && !(typeof input.upsEff === 'number' && isNaN(input.upsEff));
+    var upsEff = hasUpsEff ? Number(input.upsEff) : null;
+
     var hasInstalledAh = input.installedAh !== undefined && input.installedAh !== null && input.installedAh !== '';
     var installedAh = hasInstalledAh ? Number(input.installedAh) : null;
 
@@ -117,6 +120,7 @@
     if (!isFinitePos(runtimeMin)) return { ok: false, error: 'Backup runtime (min) must be a positive finite number.' };
     if (!isFinitePos(dcVoltageV)) return { ok: false, error: 'DC bus voltage (V) must be a positive finite number.' };
     if (!isFinitePos(inverterEff) || inverterEff > 1) return { ok: false, error: 'Inverter efficiency must be > 0 and <= 1.' };
+    if (hasUpsEff && (!isFinitePos(upsEff) || upsEff > 1)) return { ok: false, error: 'UPS efficiency must be > 0 and <= 1.' };
     if (!isFinitePos(eodRatio) || eodRatio > 1) return { ok: false, error: 'End-of-discharge ratio must be > 0 and <= 1.' };
     if (typeof ageingFactor !== 'number' || !isFinite(ageingFactor) || ageingFactor < 1) {
       return { ok: false, error: 'Ageing factor must be >= 1.' };
@@ -134,7 +138,8 @@
     var requiredKw = loadKw * growthMult;
     var requiredKvaByLoad = loadKva * growthMult;
     var requiredKvaByUpsPf = requiredKw / upsRatedPf;
-    var requiredUpsKva = Math.max(requiredKvaByLoad, requiredKvaByUpsPf);
+    var requiredUpsKvaBase = Math.max(requiredKvaByLoad, requiredKvaByUpsPf);
+    var requiredUpsKva = hasUpsEff ? requiredUpsKvaBase / upsEff : requiredUpsKvaBase;
     var standardUpsKva = pickStandard(requiredUpsKva, CONSTANTS.STANDARD_UPS_KVA.value);
     var upsLoadingPct = standardUpsKva ? (requiredUpsKva / standardUpsKva) * 100 : null;
 
@@ -163,7 +168,12 @@
       };
     }
 
-    var warnings = [AR_WARN, 'Note: the UPS kVA above is the output rating for the load. UPS efficiency affects input power and heat, not the output kVA rating.'];
+    var warnings = [AR_WARN];
+    if (hasUpsEff) {
+      warnings.push('UPS efficiency was entered, so the required UPS kVA is divided by it (more conservative). This is an optional assumption with no source recorded (needs_review).');
+    } else {
+      warnings.push('Note: the UPS kVA above is the output rating for the load. UPS efficiency affects input power and heat, not the output kVA rating.');
+    }
     if (standardUpsKva === null) {
       warnings.push('Required UPS kVA (' + round2(requiredUpsKva) + ' kVA) exceeds max standard table size (1000 kVA). Consider parallel UPS modules.');
     }
@@ -197,6 +207,9 @@
     var steps = [];
     steps.push({ step: 'Load Power مع النمو', formula: 'P = Pload x (1 + spare/100) ; S = (Pload / PF) x (1 + spare/100)', substitution: 'P = ' + loadKw + ' x ' + round2(growthMult) + ' ; S = (' + loadKw + ' / ' + loadPf + ') x ' + round2(growthMult), result: 'P = ' + round2(requiredKw) + ' kW | S = ' + round2(requiredKvaByLoad) + ' kVA', value: requiredKvaByLoad, unit: 'kVA' });
     steps.push({ step: 'حجم الـ UPS المطلوب', formula: 'S_ups = max(S ; P / PF_ups)', substitution: 'max(' + round2(requiredKvaByLoad) + ' ; ' + round2(requiredKw) + ' / ' + upsRatedPf + ')', result: round2(requiredUpsKva) + ' kVA | أقرب حجم قياسي ' + (standardUpsKva !== null ? standardUpsKva + ' kVA (تحميل ' + round1(upsLoadingPct) + '%)' : 'خارج القايمة') + ' (القايمة needs_review)', value: requiredUpsKva, unit: 'kVA' });
+    if (hasUpsEff) {
+      steps.push({ step: 'UPS Efficiency (اختياري، needs_review)', formula: 'S_ups_eff = S_ups / eff_ups', substitution: round2(requiredUpsKvaBase) + ' / ' + upsEff, result: round2(requiredUpsKva) + ' kVA', value: requiredUpsKva, unit: 'kVA' });
+    }
     steps.push({ step: 'Battery Power و DC Current', formula: 'Pdc = P / eff_inv ; Veod = Vdc x ratio ; Idc = Pdc x 1000 / Veod', substitution: 'Pdc = ' + round2(requiredKw) + ' / ' + inverterEff + ' ; Veod = ' + dcVoltageV + ' x ' + eodRatio + ' ; Idc = ' + round2(batteryPowerKw) + ' x 1000 / ' + round2(eodVoltageV), result: 'Pdc = ' + round2(batteryPowerKw) + ' kW | Veod = ' + round2(eodVoltageV) + ' V | Idc = ' + round2(dcCurrentEodA) + ' A', value: dcCurrentEodA, unit: 'A' });
     steps.push({ step: 'Capacity Battery', formula: 'Ah = Idc x (t/60) x ageing x temp x margin', substitution: round2(dcCurrentEodA) + ' x (' + runtimeMin + ' / 60) x ' + ageingFactor + ' x ' + tempFactor + ' x ' + designMargin, result: 'خام ' + round2(rawAh) + ' Ah | مصحح ' + round2(requiredAh) + ' Ah | قياسي ' + (standardAh !== null ? standardAh + ' Ah' : 'خارج القايمة') + ' | طاقة مصححة ' + round2(correctedEnergyKwh) + ' kWh (القايمة needs_review)', value: requiredAh, unit: 'Ah' });
     if (reverseCheck) {
@@ -266,6 +279,7 @@
       grid.appendChild(h.createField('ups-ageing', 'Ageing Factor (>=1)', 'number', CONSTANTS.DEFAULT_AGEING_FACTOR.value));
       grid.appendChild(h.createField('ups-temp', 'Temperature Factor (>0)', 'number', CONSTANTS.DEFAULT_TEMP_FACTOR.value));
       grid.appendChild(h.createField('ups-margin', 'Design Margin (>=1)', 'number', CONSTANTS.DEFAULT_DESIGN_MARGIN.value));
+      grid.appendChild(h.createField('ups-eff', 'UPS Efficiency (0-1, optional, divides UPS kVA)', 'number', ''));
       grid.appendChild(h.createField('ups-installed-ah', 'Installed Battery Ah (optional reverse check)', 'number', ''));
       body.appendChild(grid);
 
@@ -290,6 +304,7 @@
           ageingFactor: h.numVal('ups-ageing'),
           tempFactor: h.numVal('ups-temp'),
           designMargin: h.numVal('ups-margin'),
+          upsEff: h.val('ups-eff') !== '' ? Number(h.val('ups-eff')) : null,
           installedAh: installedRaw !== '' ? Number(installedRaw) : null
         });
         out.innerHTML = '';
