@@ -1,4 +1,4 @@
-/* Team AI extras (separate file so the core files stay untouched).
+/* Ramz extras (separate file so the core files stay untouched).
    1) Live streaming of the final answer into the result card.
    2) Automatic independent verification of the calculations in the final report. */
 (function(){
