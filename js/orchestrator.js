@@ -159,7 +159,7 @@ async function startRun(task,followUp,res){
   ckSave();$('resumeBox').hidden=true}
  if(followUp)$('finalCard').hidden=true;
  if($('mailAuto').checked){keepAwake(true);if(!mailOk()){$('settings').hidden=false}}
- window.codesTask=task;abort=new AbortController();$('go').disabled=true;$('stop').disabled=false;$('sendF').disabled=true;procStart();
+ window.codesTask=task;abort=new AbortController();$('go').disabled=true;$('stop').disabled=false;$('sendF').disabled=true;procStart();document.getElementById('taskErr')?.remove();
  try{let f0;if(RCK&&RCK.steps.__final!=null)f0=RCK.steps.__final;else{f0=await runTask(task,0);if(RCK){RCK.steps.__final=f0;ckSave()}}const f=await fmtPass(f0,followUp);$('final').textContent=deLatex(f);$('finalCard').hidden=false;
   try{renderFinal();showSig();showPdf()}catch(e3){console.error(e3)}
   try{if(xlCtx){xlCtx.count=0;xlCtx.summary='';try{await makeXl(f)}catch(e2){if(e2.name==='AbortError')throw e2}xlShow()}}catch(e4){if(e4.name==='AbortError')throw e4;console.error(e4)}
@@ -167,6 +167,7 @@ async function startRun(task,followUp,res){
   try{$('finalCard').scrollIntoView({behavior:'smooth'})}catch(e6){}
   if($('mailAuto').checked){try{await sendMail(true)}catch(e7){mailMsg('الإرسال التلقائي معملش. دوس Email Result.','bad')}}
   if(!followUp)ckClear()}
- catch(e){if(e.name==='AbortError'){}}
+ catch(e){if(e.name==='AbortError'){}else{try{console.error(e);let b=document.getElementById('taskErr');if(!b){b=document.createElement('div');b.id='taskErr';b.setAttribute('role','alert');b.style.cssText='margin:10px 0;padding:12px;border:1px solid #c0392b;border-radius:10px;font-size:14px;line-height:1.7';const pr=document.getElementById('proc');pr&&pr.parentNode?pr.parentNode.insertBefore(b,pr):document.body.appendChild(b)}
+b.textContent='';const m=document.createElement('div');m.textContent='المهمة فشلت: '+(e&&e.message?e.message:String(e));b.appendChild(m);const rb=document.createElement('button');rb.type='button';rb.className='sec';rb.textContent='Retry';rb.onclick=function(){b.remove();$('go').click()};b.appendChild(rb);b.hidden=false}catch(_){}}}
  finally{showResume();keepAwake(false);$('go').disabled=false;$('stop').disabled=true;$('sendF').disabled=false;abort=null;procStop()}
-  }
+}
