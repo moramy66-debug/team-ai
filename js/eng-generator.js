@@ -49,6 +49,12 @@
     var tempDeratePct = tempC > CONSTANTS.tempBaseC.value ? (tempC - CONSTANTS.tempBaseC.value) * 0.5 : 0;
     var totalDeratePct = Math.min(50, altDeratePct + tempDeratePct);
     var deratingFactor = 1 - totalDeratePct / 100;
+    var dfGiven = !(inp.deratingFactor === undefined || inp.deratingFactor === null || inp.deratingFactor === '');
+    if (dfGiven) {
+      var dfIn = Number(inp.deratingFactor);
+      if (!(dfIn > 0 && dfIn <= 1)) return { ok: false, error: 'Derating factor غير صالح (' + inp.deratingFactor + '): لازم يكون أكبر من 0 وأقل من أو يساوي 1. سيبه فاضي لو عايز الحساب التلقائي من الارتفاع والحرارة.' };
+      deratingFactor = dfIn; totalDeratePct = (1 - dfIn) * 100;
+    }
 
     var requiredIsoKva = requiredSiteKva / deratingFactor;
 
@@ -99,7 +105,7 @@
         { k: 'Loads المستمرة (kVA)', v: runningKva.toFixed(1) + ' kVA' },
         { k: 'Starting Power لأكبر موتور (' + startMethod + ')', v: motorStartKva.toFixed(1) + ' kVA' },
         { k: 'Motor Power Factor المستخدم', v: motorPf + (mpfGiven ? '' : ' (افتراض 0.85، غيّره من خانة Motor PF)') },
-        { k: 'Altitude and Temperature Correction Factor', v: deratingFactor.toFixed(3) + ' (تخفيض ' + totalDeratePct.toFixed(1) + '%)' },
+        { k: 'Altitude and Temperature Correction Factor', v: deratingFactor.toFixed(3) + ' (تخفيض ' + totalDeratePct.toFixed(1) + '%)' + (dfGiven ? ' - مُدخل يدويًا (manual, needs_review)' : '') },
         { k: 'Required Capacity (ISO)', v: requiredIsoKva.toFixed(1) + ' kVA' },
         { k: 'المقاس القياسي لـ Generator', v: stdKva + ' kVA' },
         { k: 'نسبة Voltage Drop التقريبية (Voltage Dip)', v: voltageDipPct.toFixed(2) + '%' }
@@ -142,6 +148,7 @@
         grid.appendChild(h.createField('gn-alt', 'Site Altitude (m)', 'number', '600'));
         grid.appendChild(h.createField('gn-tmp', 'Ambient Temperature (°C)', 'number', '45'));
         grid.appendChild(h.createField('gn-spr', 'Spare Margin (%)', 'number', '15'));
+        grid.appendChild(h.createField('gn-df', 'Derating factor - optional manual override (0-1)', 'number', ''));
         panel.appendChild(grid);
         var btn = h.el('button', 'ec-btn', 'حساب حجم Generator');
         btn.type = 'button';
@@ -157,7 +164,8 @@
             startMethod: h.val('gn-sm'),
             altitudeM: h.numVal('gn-alt'),
             ambientTempC: h.numVal('gn-tmp'),
-            sparePct: h.numVal('gn-spr')
+            sparePct: h.numVal('gn-spr'),
+            deratingFactor: h.numVal('gn-df')
           });
           out.innerHTML = '';
           h.showResult(out, res, 'Generator Sizing');
