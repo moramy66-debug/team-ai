@@ -194,8 +194,22 @@
       });
     }
 
+    var steps = [];
+    steps.push({ step: 'قدرة الحمل مع النمو', formula: 'P = Pload x (1 + spare/100) ; S = (Pload / PF) x (1 + spare/100)', substitution: 'P = ' + loadKw + ' x ' + round2(growthMult) + ' ; S = (' + loadKw + ' / ' + loadPf + ') x ' + round2(growthMult), result: 'P = ' + round2(requiredKw) + ' kW | S = ' + round2(requiredKvaByLoad) + ' kVA', value: requiredKvaByLoad, unit: 'kVA' });
+    steps.push({ step: 'حجم الـ UPS المطلوب', formula: 'S_ups = max(S ; P / PF_ups)', substitution: 'max(' + round2(requiredKvaByLoad) + ' ; ' + round2(requiredKw) + ' / ' + upsRatedPf + ')', result: round2(requiredUpsKva) + ' kVA | أقرب حجم قياسي ' + (standardUpsKva !== null ? standardUpsKva + ' kVA (تحميل ' + round1(upsLoadingPct) + '%)' : 'خارج القايمة') + ' (القايمة needs_review)', value: requiredUpsKva, unit: 'kVA' });
+    steps.push({ step: 'قدرة البطارية وتيار DC', formula: 'Pdc = P / eff_inv ; Veod = Vdc x ratio ; Idc = Pdc x 1000 / Veod', substitution: 'Pdc = ' + round2(requiredKw) + ' / ' + inverterEff + ' ; Veod = ' + dcVoltageV + ' x ' + eodRatio + ' ; Idc = ' + round2(batteryPowerKw) + ' x 1000 / ' + round2(eodVoltageV), result: 'Pdc = ' + round2(batteryPowerKw) + ' kW | Veod = ' + round2(eodVoltageV) + ' V | Idc = ' + round2(dcCurrentEodA) + ' A', value: dcCurrentEodA, unit: 'A' });
+    steps.push({ step: 'سعة البطارية', formula: 'Ah = Idc x (t/60) x ageing x temp x margin', substitution: round2(dcCurrentEodA) + ' x (' + runtimeMin + ' / 60) x ' + ageingFactor + ' x ' + tempFactor + ' x ' + designMargin, result: 'خام ' + round2(rawAh) + ' Ah | مصحح ' + round2(requiredAh) + ' Ah | قياسي ' + (standardAh !== null ? standardAh + ' Ah' : 'خارج القايمة') + ' | طاقة مصححة ' + round2(correctedEnergyKwh) + ' kWh (القايمة needs_review)', value: requiredAh, unit: 'Ah' });
+    if (reverseCheck) {
+      steps.push({ step: 'فحص زمن التشغيل العكسي', formula: 't = (Ah_installed / (ageing x temp x margin)) / Idc x 60', substitution: '(' + installedAh + ' / ' + round2(combinedDerating) + ') / ' + round2(dcCurrentEodA) + ' x 60', result: round1(reverseCheck.estimatedRuntimeMin) + ' min (' + (reverseCheck.meetsRequiredRuntime ? 'PASS' : 'FAIL') + ' مقابل ' + runtimeMin + ' min)', value: reverseCheck.estimatedRuntimeMin, unit: 'min' });
+    }
+    var used = [{ id: 'eng_ups_defaults_and_standard_sizes', status: 'from_memory_needs_review', source: null }];
+    var summary = 'UPS ' + (standardUpsKva !== null ? standardUpsKva + ' kVA' : round2(requiredUpsKva) + ' kVA') + ' | بطارية ' + round2(requiredAh) + ' Ah عند ' + round2(eodVoltageV) + ' V | كل الثوابت needs_review';
+
     return {
       ok: true,
+      steps: steps,
+      summary: summary,
+      tablesUsed: used,
       loadKva: loadKva,
       requiredKw: requiredKw,
       requiredUpsKva: requiredUpsKva,
