@@ -38,7 +38,7 @@ var mv4 = t4d.rows.filter(function (r) { return r[0] === 4; })[0][t4d.columns.in
 var v1 = C.voltageDrop({ size_mm2: 4, currentA: 20, lengthM: 50, phases: 3, voltageV: 400, conductor: 'Cu', insulation: 'PVC', powerFactor: 0.85 });
 eq('vdrop 4mm2 PVC 3ph uses 4D1B', v1.methodUsed, 'bs7671_4d1b');
 eq('vdrop 4mm2 value', v1.vdropV, Math.round(mv4 * 20 * 50 / 1000 * 1000) / 1000, 1e-9);
-eq('vdrop table status passes', v1.table.status, 'verified_mirror');
+eq('vdrop table status passes', v1.table.status, 'verified_secondary');
 // Case 3: computed, 35 mm2 Cu XLPE 3ph, I=100, L=100 m, PF 0.85, theta 90.
 // R20=0.524; R90 = 0.524*(1+0.00393*70) = 0.524*1.2751 = 0.66815; X=0.08; sin=sqrt(1-0.7225)=0.52678
 // dV = 1.7320508*100*0.1*(0.66815*0.85+0.08*0.52678)=17.320508*(0.567928+0.042142)=17.320508*0.610070=10.5667
