@@ -65,7 +65,7 @@
 
     var warnings = [AR_WARNING];
     if (voltageDipPct > CONSTANTS.maxRecommendedDipPct.value) {
-      warnings.push('تحذير: نسبة Voltage Drop التقريبية (' + voltageDipPct.toFixed(1) + '%) تتجاوز الحد الإرشادي ' + CONSTANTS.maxRecommendedDipPct.value + '%؛ يُنصح بتغيير طريقة البدء أو زيادة Capacity Generator.');
+      warnings.push('تحذير: نسبة Voltage Drop التقريبية (' + voltageDipPct.toFixed(1) + '%) تتجاوز الحد الإرشادي ' + CONSTANTS.maxRecommendedDipPct.value + '%؛ يُنصح بتغيير طريقة البدء أو زيادة Generator Capacity.');
     }
     if (!fitsStandard) {
       warnings.push('تحذير: Required Capacity (' + requiredIsoKva.toFixed(1) + ' kVA) تتجاوز أكبر مقاس قياسي (' + stdKva + ' kVA)؛ يلزم تشغيل Generators على التوازي.');
@@ -85,7 +85,7 @@
       constants: CONSTANTS,
       steps: [
         { step: 'Loads المستمرة الظاهرية', formula: 'S_run = kW / PF', substitution: contKw + ' / ' + pf + ' ; مع الاحتياطي ' + sparePct + '%', result: runningKva.toFixed(2) + ' kVA (مع الاحتياطي ' + runningWithSpareKva.toFixed(2) + ' kVA)' },
-        { step: 'Power بدء أكبر موتور', formula: 'S_start = (kW / η) × مضاعف البدء', substitution: '(' + motorKw + ' / ' + CONSTANTS.motorEfficiency.value + ') × ' + mult + ' (' + startMethod + ')', result: motorStartKva.toFixed(2) + ' kVA' },
+        { step: 'Starting Power لأكبر موتور', formula: 'S_start = (kW / η) × مضاعف البدء', substitution: '(' + motorKw + ' / ' + CONSTANTS.motorEfficiency.value + ') × ' + mult + ' (' + startMethod + ')', result: motorStartKva.toFixed(2) + ' kVA' },
         { step: 'Load الذروة والمطلوب بالموقع', formula: 'S_step = S_run + S_start ; S_site = max(S_run مع الاحتياطي , S_step)', substitution: runningKva.toFixed(2) + ' + ' + motorStartKva.toFixed(2), result: stepLoadKva.toFixed(2) + ' kVA -> ' + requiredSiteKva.toFixed(2) + ' kVA' },
         { step: 'معامل Derating', formula: 'DF = 1 - (ارتفاع + Temperature)%', substitution: altM + ' m: -' + altDeratePct.toFixed(1) + '% ; ' + tempC + '°C: -' + tempDeratePct.toFixed(1) + '%', result: deratingFactor.toFixed(3) },
         { step: 'Standard Rating المطلوبة (ISO)', formula: 'S_iso = S_site / DF -> أول مقاس قياسي >=', substitution: requiredSiteKva.toFixed(2) + ' / ' + deratingFactor.toFixed(3), result: requiredIsoKva.toFixed(2) + ' kVA -> ' + stdKva + ' kVA' },
@@ -93,7 +93,7 @@
       ],
       extra: [
         { k: 'Loads المستمرة (kVA)', v: runningKva.toFixed(1) + ' kVA' },
-        { k: 'Power بدء أكبر موتور (' + startMethod + ')', v: motorStartKva.toFixed(1) + ' kVA' },
+        { k: 'Starting Power لأكبر موتور (' + startMethod + ')', v: motorStartKva.toFixed(1) + ' kVA' },
         { k: 'Altitude and Temperature Correction Factor', v: deratingFactor.toFixed(3) + ' (تخفيض ' + totalDeratePct.toFixed(1) + '%)' },
         { k: 'Required Capacity (ISO)', v: requiredIsoKva.toFixed(1) + ' kVA' },
         { k: 'المقاس القياسي لـ Generator', v: stdKva + ' kVA' },
