@@ -1,7 +1,7 @@
 'use strict';
 const fs = require('fs');
 const path = require('path');
-const STRICT = false;
+const STRICT = true;
 function scanTopLevel(text) {
   const decls = [];
   const n = text.length;
