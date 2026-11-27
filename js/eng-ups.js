@@ -292,6 +292,7 @@
           designMargin: h.numVal('ups-margin'),
           installedAh: installedRaw !== '' ? Number(installedRaw) : null
         });
+        out.innerHTML = '';
         h.showResult(out, res, 'UPS + Battery Sizing');
         if (res.ok) {
           h.renderResultActions(out, 'from_memory_needs_review', pdfDoc('UPS + Battery Sizing', res));
