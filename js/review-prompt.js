@@ -28,6 +28,9 @@
     L.push('## 2. Assumptions, defaults and warnings');
     if (warns.length) warns.forEach(function (w) { L.push('- ' + clean(w)); });
     else L.push('- None reported by the calculator.');
+    var fm = steps.map(function (s) { return String(s.formula || ''); }).join(' | ');
+    if (/Ib <= In <= Iz/.test(fm)) L.push('- Protection condition I2 <= 1.45 Iz (IEC 60364-4-43) was NOT calculated separately. Only Ib <= In <= Iz was checked. Confirm I2 from the manufacturer data.');
+    if (/Ca /.test(fm)) L.push('- Ambient temperature warning: the chosen ambient may be low for hot-climate sites. Ca changes with ambient, and a different Ca can change the selected cross-section. Re-run with the real site ambient and check the Ca source table.');
     L.push('');
     L.push('## 3. Calculation steps (formula, substitution, result)');
     if (steps.length) steps.forEach(function (s, i) {
