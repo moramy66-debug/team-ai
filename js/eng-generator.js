@@ -84,12 +84,12 @@
       warnings: warnings,
       constants: CONSTANTS,
       steps: [
-        'الأحمال المستمرة الظاهرية = ' + contKw + ' / ' + pf + ' = ' + runningKva.toFixed(2) + ' kVA (مع الاحتياطي ' + sparePct + '% = ' + runningWithSpareKva.toFixed(2) + ' kVA)',
-        'قدرة بدء أكبر موتور (' + motorKw + ' kW، طريقة ' + startMethod + ' × ' + mult + ') = ' + motorStartKva.toFixed(2) + ' kVA',
-        'حمل الذروة الخطوي (مستمر + بدء الموتور) = ' + stepLoadKva.toFixed(2) + ' kVA -> المطلوب بالموقع = ' + requiredSiteKva.toFixed(2) + ' kVA',
-        'تصحيح الارتفاع (' + altM + ' m: -' + altDeratePct.toFixed(1) + '%) والحرارة (' + tempC + '°C: -' + tempDeratePct.toFixed(1) + '%) -> معامل Derating = ' + deratingFactor.toFixed(3),
-        'السعة القياسية المطلوبة (ISO) = ' + requiredSiteKva.toFixed(2) + ' / ' + deratingFactor.toFixed(3) + ' = ' + requiredIsoKva.toFixed(2) + ' kVA -> المقاس القياسي = ' + stdKva + ' kVA',
-        'نسبة هبوط الجهد التقريبية Voltage Dip ≈ (kVA_start × Xd") / (kVA_site + kVA_start × Xd"/100) = ' + voltageDipPct.toFixed(2) + '%'
+        { step: 'الأحمال المستمرة الظاهرية', formula: 'S_run = kW / PF', substitution: contKw + ' / ' + pf + ' ; مع الاحتياطي ' + sparePct + '%', result: runningKva.toFixed(2) + ' kVA (مع الاحتياطي ' + runningWithSpareKva.toFixed(2) + ' kVA)' },
+        { step: 'قدرة بدء أكبر موتور', formula: 'S_start = (kW / η) × مضاعف البدء', substitution: '(' + motorKw + ' / ' + CONSTANTS.motorEfficiency.value + ') × ' + mult + ' (' + startMethod + ')', result: motorStartKva.toFixed(2) + ' kVA' },
+        { step: 'حمل الذروة والمطلوب بالموقع', formula: 'S_step = S_run + S_start ; S_site = max(S_run مع الاحتياطي , S_step)', substitution: runningKva.toFixed(2) + ' + ' + motorStartKva.toFixed(2), result: stepLoadKva.toFixed(2) + ' kVA -> ' + requiredSiteKva.toFixed(2) + ' kVA' },
+        { step: 'معامل Derating', formula: 'DF = 1 - (ارتفاع + حرارة)%', substitution: altM + ' m: -' + altDeratePct.toFixed(1) + '% ; ' + tempC + '°C: -' + tempDeratePct.toFixed(1) + '%', result: deratingFactor.toFixed(3) },
+        { step: 'السعة القياسية المطلوبة (ISO)', formula: 'S_iso = S_site / DF -> أول مقاس قياسي >=', substitution: requiredSiteKva.toFixed(2) + ' / ' + deratingFactor.toFixed(3), result: requiredIsoKva.toFixed(2) + ' kVA -> ' + stdKva + ' kVA' },
+        { step: 'هبوط الجهد التقريبي (Voltage Dip)', formula: 'Dip% ≈ (S_start × Xd") / (S_site_std + S_start × Xd"/100)', substitution: '(' + motorStartKva.toFixed(1) + ' × ' + CONSTANTS.xdSubtransientPct.value + ') / (' + stdSiteKva.toFixed(1) + ' + ' + motorStartKva.toFixed(1) + ' × ' + (CONSTANTS.xdSubtransientPct.value / 100) + ')', result: voltageDipPct.toFixed(2) + '%' }
       ],
       extra: [
         { k: 'الأحمال المستمرة (kVA)', v: runningKva.toFixed(1) + ' kVA' },
