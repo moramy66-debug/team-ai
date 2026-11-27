@@ -1,10 +1,10 @@
 (function () {
   'use strict';
 
-  var AR_WARNING = 'تحذير: حسابات حامل الكابلات (Cable Tray) تعتمد على معاملات ملء وتمديد إرشادية (needs_review). يجب مراجعة حدود الملء الفعلية ومعاملات تخفيض السعة الحرارية (Grouping/Derating) وفق الكود المعتمد (IEC 60364 / NEC 392 / SBC).';
+  var AR_WARNING = 'تحذير: حسابات حامل Cables (Cable Tray) تعتمد على معاملات ملء وتمديد إرشادية (needs_review). يجب مراجعة حدود الملء الفعلية و Thermal Capacity Derating Factors (Grouping/Derating) وفق الكود المعتمد (IEC 60364 / NEC 392 / SBC).';
 
   var CONSTANTS = {
-    standardWidthsMm: { value: [50, 75, 100, 150, 200, 300, 450, 600, 750, 900, 1000], unit: 'mm', status: 'needs_review', source_url: null, source_note: 'عروض حوامل الكابلات القياسية الشائعة؛ تُراجع مع المورد المعتمد' },
+    standardWidthsMm: { value: [50, 75, 100, 150, 200, 300, 450, 600, 750, 900, 1000], unit: 'mm', status: 'needs_review', source_url: null, source_note: 'عروض حوامل Cables القياسية الشائعة؛ تُراجع مع المورد المعتمد' },
     defaultFillLimitPct: { value: 40, unit: '%', status: 'needs_review', source_url: null, source_note: 'نسبة ملء إرشادية شائعة (40%) لترك احتياطي مستقبلي وتهوية' },
     defaultTrayDepthMm: { value: 100, unit: 'mm', status: 'needs_review', source_url: null, source_note: 'عمق حامل قياسي افتراضي 100 mm؛ يُراجع حسب نوع الحامل' },
     singleLayerDiaThresholdMm: { value: 50, unit: 'mm', status: 'needs_review', source_url: null, source_note: 'حد القطر الإرشادي (50 mm) الذي يستلزم التمديد في طبقة واحدة فقط' }
@@ -19,7 +19,7 @@
     var sparePct = Number(inp.sparePct || 0);
 
     if (!(count > 0 && d > 0 && depth > 0 && fillLimitPct > 0 && fillLimitPct <= 100) || sparePct < 0) {
-      return { ok: false, error: 'أدخل قيماً موجبة صحيحة لعدد الكابلات والقطر الخارجي وعمق الحامل ونسبة الملء.' };
+      return { ok: false, error: 'أدخل قيماً موجبة صحيحة لعدد Cables والقطر الخارجي وعمق الحامل ونسبة الملء.' };
     }
 
     var singleCableArea = Math.PI * Math.pow(d / 2, 2);
@@ -56,7 +56,7 @@
 
     var warnings = [AR_WARNING];
     if (d > CONSTANTS.singleLayerDiaThresholdMm.value) {
-      warnings.push('تحذير: قطر الكابل (' + d + ' mm) أكبر من ' + CONSTANTS.singleLayerDiaThresholdMm.value + ' mm؛ يجب تمديد الكابلات في طبقة واحدة (Single Layer) مع تثبيت مناسب ومنع التراكم الحراري.');
+      warnings.push('تحذير: قطر Cable (' + d + ' mm) أكبر من ' + CONSTANTS.singleLayerDiaThresholdMm.value + ' mm؛ يجب تمديد Cables في طبقة واحدة (Single Layer) مع تثبيت مناسب ومنع التراكم الحراري.');
     }
     if (!fitsStandard) {
       warnings.push('تحذير: العرض المطلوب (' + requiredWidthMm.toFixed(1) + ' mm) يتجاوز أكبر مقاس قياسي (' + stdWidthMm + ' mm)؛ يلزم تقسيم المسار على أكثر من حامل.');
@@ -64,7 +64,7 @@
 
     return {
       ok: true,
-      summary: 'مساحة الكابلات ' + totalCableArea.toFixed(0) + ' mm² | العرض المطلوب ' + requiredWidthMm.toFixed(1) + ' mm | المقاس القياسي ' + stdWidthMm + ' mm | نسبة الملء الفعلية ' + actualFillPct.toFixed(1) + '%',
+      summary: 'مساحة Cables ' + totalCableArea.toFixed(0) + ' mm² | العرض المطلوب ' + requiredWidthMm.toFixed(1) + ' mm | المقاس القياسي ' + stdWidthMm + ' mm | نسبة الملء الفعلية ' + actualFillPct.toFixed(1) + '%',
       totalCableArea: totalCableArea, singleCableArea: singleCableArea,
       effectiveArea: effectiveArea,
       reqWidthByArea: reqWidthByArea,
@@ -77,8 +77,8 @@
       constants: CONSTANTS,
       steps: [
         { step: 'الترتيب المختار', formula: '-', substitution: arrangementLabel, result: '-' },
-        { step: 'مساحة الكابل الواحد', formula: 'a = π × (D/2)²', substitution: 'π × (' + d + '/2)²', result: singleCableArea.toFixed(1) + ' mm²' },
-        { step: 'مساحة الكابلات المجمعة', formula: 'A_total = n × a ; مع الاحتياطي × (1 + spare/100)', substitution: count + ' × ' + singleCableArea.toFixed(1) + ' ; spare ' + sparePct + '%', result: totalCableArea.toFixed(1) + ' mm² (مع الاحتياطي ' + effectiveArea.toFixed(1) + ' mm²)' },
+        { step: 'مساحة Cable الواحد', formula: 'a = π × (D/2)²', substitution: 'π × (' + d + '/2)²', result: singleCableArea.toFixed(1) + ' mm²' },
+        { step: 'مساحة Cables Grouped', formula: 'A_total = n × a ; مع الاحتياطي × (1 + spare/100)', substitution: count + ' × ' + singleCableArea.toFixed(1) + ' ; spare ' + sparePct + '%', result: totalCableArea.toFixed(1) + ' mm² (مع الاحتياطي ' + effectiveArea.toFixed(1) + ' mm²)' },
         { step: 'العرض حسب مساحة الملء', formula: 'W = A_eff / (depth × fill%)', substitution: effectiveArea.toFixed(1) + ' / (' + depth + ' × ' + (fillLimitPct / 100).toFixed(2) + ')', result: reqWidthByArea.toFixed(1) + ' mm' },
         { step: 'العرض حسب الترتيب الهندسي', formula: 'Multicore: n × D ; Trefoil: ceil(n/3) × 2D ; × (1 + spare/100)', substitution: arrangementLabel, result: layoutWidthMm.toFixed(1) + ' mm' },
         { step: 'العرض الحاكم والقياسي', formula: 'max(بالمساحة , بالترتيب) -> أول مقاس قياسي >=', substitution: requiredWidthMm.toFixed(1) + ' mm', result: stdWidthMm + ' mm' },
@@ -86,7 +86,7 @@
       ],
       extra: [
         { k: 'نوع التمديد', v: arrangementLabel },
-        { k: 'مساحة الكابلات المجمعة', v: totalCableArea.toFixed(1) + ' mm²' },
+        { k: 'مساحة Cables Grouped', v: totalCableArea.toFixed(1) + ' mm²' },
         { k: 'العرض المطلوب (Tray Width)', v: requiredWidthMm.toFixed(1) + ' mm' },
         { k: 'العرض القياسي المختار', v: stdWidthMm + ' × ' + depth + ' mm' },
         { k: 'نسبة الملء الفعلية', v: actualFillPct.toFixed(2) + '%' }
@@ -116,7 +116,7 @@
         panel.appendChild(h.el('div', 'ec-note', AR_WARNING));
         var grid = h.el('div', 'ec-grid');
         grid.appendChild(h.createField('ct-arr', 'Cable Arrangement', 'select', [
-          { value: 'multicore', label: 'Multicore (كابلات متعددة القلوب)', selected: true },
+          { value: 'multicore', label: 'Multicore (Cables متعددة القلوب)', selected: true },
           { value: 'single_core', label: 'Single-Core Trefoil (أحادي القلب مثلثي)' }
         ]));
         grid.appendChild(h.createField('ct-cnt', 'Number of Cables', 'number', '6'));
