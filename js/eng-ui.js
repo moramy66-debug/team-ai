@@ -126,8 +126,9 @@
       var tr = document.createElement('tr');
       function cell(t, label) { var c = el('td', null, t); c.setAttribute('data-label', label); return c; }
       tr.appendChild(cell(s.step, 'الخطوة'));
-      tr.appendChild(cell(s.formula, 'المعادلة'));
-      tr.appendChild(cell(s.substitution, 'التعويض'));
+      function ltrCell(t, label) { var c = cell('', label); var sp = el('span', 'ec-ltr', t); sp.setAttribute('dir', 'ltr'); c.appendChild(sp); return c; }
+      tr.appendChild(ltrCell(s.formula, 'المعادلة'));
+      tr.appendChild(ltrCell(s.substitution, 'التعويض'));
       var tdr = cell(s.result, 'النتيجة');
       if (window.SourceInfo && used && used.length) tdr.appendChild(window.SourceInfo.marker(used, -1, 'مصادر القيم في الخطوة'));
       tr.appendChild(tdr);
