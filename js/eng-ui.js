@@ -110,7 +110,7 @@
     return isFinite(n) ? n : NaN;
   }
 
-  function renderStepsTable(container, steps) {
+  function renderStepsTable(container, steps, used) {
     var wrap = el('div', 'ec-table-wrap');
     var table = el('table', 'ec-table');
     var thead = document.createElement('thead');
@@ -127,7 +127,9 @@
       tr.appendChild(el('td', null, s.step));
       tr.appendChild(el('td', null, s.formula));
       tr.appendChild(el('td', null, s.substitution));
-      tr.appendChild(el('td', null, s.result));
+      var tdr = el('td', null, s.result);
+      if (window.SourceInfo && used && used.length) tdr.appendChild(window.SourceInfo.marker(used, -1, 'مصادر القيم في الخطوة'));
+      tr.appendChild(tdr);
       tbody.appendChild(tr);
     });
     table.appendChild(tbody);
@@ -165,12 +167,13 @@
     var used = res.tablesUsed || [];
     used.forEach(function (u) {
       var ok = isOkStatus(u.status);
-      var line = el('div', ok ? 'ec-ok' : 'ec-warn', 'الجدول: ' + u.id + ' | الحالة: ' + u.status + (u.source ? ' | المصدر: ' + u.source : ''));
+      var line = el('div', ok ? 'ec-ok' : 'ec-warn', 'الجدول: ' + u.id + ' | الحالة: ' + u.status + (u.source ? ' | المصدر: ' + u.source : ' | ' + (window.SourceInfo ? window.SourceInfo.NR : 'المصدر غير مسجل')));
+      if (window.SourceInfo) line.insertBefore(window.SourceInfo.marker(used, used.indexOf(u), 'تفاصيل مصدر الجدول ' + u.id), line.firstChild);
       out.appendChild(line);
     });
     (res.warnings || []).forEach(function (w) { out.appendChild(el('div', 'ec-warn', w)); });
     out.appendChild(el('div', 'ec-summary', res.summary || ''));
-    renderStepsTable(out, res.steps || []);
+    renderStepsTable(out, res.steps || [], used);
     var lines = [title];
     used.forEach(function (u) { lines.push('[الجدول ' + u.id + ' | الحالة: ' + u.status + ' | المصدر: ' + u.source + ']'); });
     (res.warnings || []).forEach(function (w) { lines.push('[تنبيه: ' + w + ']'); });
