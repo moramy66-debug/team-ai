@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded',function(){(function(){var c=$('mai
 function isLetter(t){return /خطاب|رسالة رسمية|formal letter/i.test(t||'')}
 function showSig(){const sg=LS.get('teamai.sig','');const on=!!sg&&current&&isLetter(current.task);$('sigOut').hidden=!on;if(on)$('sigImg').src=sg}
 function showSigPrev(){const sg=LS.get('teamai.sig','');$('sigPrev').hidden=!sg;if(sg)$('sigPrev').src=sg;$('sigDel').hidden=!sg}
-$('sigFile').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,500/im.width);const c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);LS.set('teamai.sig',c.toDataURL('image/jpeg',0.85));showSigPrev();showSig();$('testOut').textContent='التوقيع اتحفظ ✔'};im.src=r.result};r.readAsDataURL(f)};
+$('sigFile').onchange=e=>{const f=e.target.files[0];if(!f)return;if(!/^image\//i.test(f.type||'')||f.size>10*1024*1024){$('testOut').textContent='التوقيع لازم يكون صورة (PNG/JPG) أقل من 10 ميجا';e.target.value='';return}const r=new FileReader();r.onerror=()=>{$('testOut').textContent='مقدرتش أقرا صورة التوقيع'};r.onload=()=>{const im=new Image();im.onerror=()=>{$('testOut').textContent='الصورة دي مش مقروءة. جرب PNG أو JPG تاني'};im.onload=()=>{const k=Math.min(1,500/im.width);const c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);try{localStorage.setItem('teamai.sig',JSON.stringify(c.toDataURL('image/jpeg',0.85)))}catch(er){window.__lsQuota&&window.__lsQuota(er);$('testOut').textContent='مساحة التخزين ممتلئة، التوقيع ما اتحفظش';return}showSigPrev();showSig();$('testOut').textContent='التوقيع اتحفظ ✔'};im.src=r.result};r.readAsDataURL(f)};
 $('sigDel').onclick=()=>{localStorage.removeItem('teamai.sig');showSigPrev();showSig()};
 document.addEventListener('DOMContentLoaded',showSigPrev);
 let files=[],xlCtx=null;
@@ -183,7 +183,8 @@ $('file').onchange=async e=>{
     files.push({name:f.name,mime:'xl',xl:true,wb,text:sheetsText(wb),macro:/\.xlsm$/i.test(f.name)})}
    catch(err){alert('مقدرتش أقرا '+f.name+': '+err.message)}
    continue}
-  const b64=await new Promise(res=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.readAsDataURL(f)});
+  let b64;try{b64=await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result).split(',')[1]||'');r.onerror=()=>rej(r.error||new Error('read error'));r.onabort=()=>rej(new Error('read aborted'));r.readAsDataURL(f)})}catch(err){alert('مقدرتش أقرا '+f.name+': '+(err&&err.message||err));continue}
+  if(!b64){alert(f.name+' فاضي أو مش مقروء');continue}
   files.push({name:f.name,mime:f.type||'application/octet-stream',b64});
  }
  e.target.value='';renderChips();
