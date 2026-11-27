@@ -53,12 +53,12 @@
       spacingX: spacingX, spacingY: spacingY, shr: shr, actualLux: actualLux,
       totalWatts: totalWatts, wPerM2: wPerM2, warnings: warnings, constants: CONSTANTS,
       steps: [
-        'مساحة الغرفة A = L × W = ' + L + ' × ' + W + ' = ' + A.toFixed(2) + ' m²',
-        'معامل الغرفة K = (L × W) / (Hm × (L + W)) = ' + K.toFixed(2),
-        'العدد النظري N = (E × A) / (F × UF × MF) = (' + E + ' × ' + A.toFixed(2) + ') / (' + F + ' × ' + UF + ' × ' + MF + ') = ' + N_exact.toFixed(2) + ' -> ' + N + ' وحدة',
-        'التوزيع الشبكي المقترح = ' + cols + ' عمود × ' + rows + ' صف = ' + N_grid + ' وحدة (تباعد ' + spacingX.toFixed(2) + ' m × ' + spacingY.toFixed(2) + ' m)',
-        'الإضاءة الفعلية E_actual = (' + N_grid + ' × ' + F + ' × ' + UF + ' × ' + MF + ') / ' + A.toFixed(2) + ' = ' + actualLux.toFixed(1) + ' lux',
-        'كثافة القدرة = ' + totalWatts.toFixed(0) + ' W / ' + A.toFixed(2) + ' m² = ' + wPerM2.toFixed(2) + ' W/m²'
+        { step: 'مساحة الغرفة', formula: 'A = L × W', substitution: L + ' × ' + W, result: A.toFixed(2) + ' m²' },
+        { step: 'معامل الغرفة', formula: 'K = (L × W) / (Hm × (L + W))', substitution: '(' + L + ' × ' + W + ') / (' + Hm + ' × (' + L + ' + ' + W + '))', result: K.toFixed(2) },
+        { step: 'عدد الكشافات النظري', formula: 'N = (E × A) / (F × UF × MF)', substitution: '(' + E + ' × ' + A.toFixed(2) + ') / (' + F + ' × ' + UF + ' × ' + MF + ')', result: N_exact.toFixed(2) + ' -> ' + N + ' وحدة' },
+        { step: 'التوزيع الشبكي', formula: 'cols × rows >= N ; التباعد = L / cols , W / rows', substitution: cols + ' × ' + rows + ' ; ' + spacingX.toFixed(2) + ' m × ' + spacingY.toFixed(2) + ' m', result: N_grid + ' وحدة (SHR = ' + shr.toFixed(2) + ')' },
+        { step: 'الإضاءة الفعلية', formula: 'E_actual = (N × F × UF × MF) / A', substitution: '(' + N_grid + ' × ' + F + ' × ' + UF + ' × ' + MF + ') / ' + A.toFixed(2), result: actualLux.toFixed(1) + ' lux' },
+        { step: 'كثافة القدرة', formula: 'W/m² = (N × P) / A', substitution: totalWatts.toFixed(0) + ' W / ' + A.toFixed(2) + ' m²', result: wPerM2.toFixed(2) + ' W/m²' }
       ],
       extra: [
         { k: 'معامل الغرفة (K)', v: K.toFixed(2) },
