@@ -468,3 +468,4 @@ body[data-theme="light"] .chip{background:#fff;color:var(--tx)}
 #utTmplFilters#utTmplFilters .ut-filter-btn{flex:0 0 auto;white-space:nowrap;box-shadow:none;background-image:none;min-height:44px;padding:6px 14px}
 body[data-theme="light"]{background:var(--bg)}
 body[data-theme="light"] .topbar{background:rgba(244,246,251,.92)}
+.sidefoot #ec-side-btn{flex:1 1 100%}
