@@ -9,7 +9,7 @@
   function r3(x) { return Math.round(x * 1000) / 1000; }
 
   var SRC = {
-    sera: { id: 'sera_power_factor_tariff', status: 'verified_mirror', source: 'https://www.sera.gov.sa/ar/consumer/electric-tariff/electric-tariff-categories/power-factor-tariff' },
+    sera: { id: 'sera_power_factor_tariff', status: 'verified_secondary', source: 'https://www.sera.gov.sa/ar/consumer/electric-tariff/electric-tariff-categories/power-factor-tariff' },
     k54: { id: 'iec_60364_5_54_annex_a_k_pe', status: 'verified_secondary', source: 'https://www.electrical-installation.org/enwiki/Sizing_of_protective_earthing_conductor (Fig G60, from IEC 60364-5-54 Annex A; the standard itself is paywalled)' },
     s542: { id: 'iec_60364_5_54_min_pe_simplified', status: 'verified_secondary', source: 'https://www.electrical-installation.org/enwiki/Sizing_of_protective_earthing_conductor (Fig G59, from IEC 60364-5-54 Table 54.2)' },
     std: { id: 'iec_60228_standard_sizes', status: 'from_memory_needs_review', source: 'IEC 60228 preferred conductor sizes, listed from memory: confirm against the cable catalogue' },
