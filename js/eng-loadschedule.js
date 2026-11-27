@@ -11,7 +11,7 @@
   /* loads: [{name, qty, kw, pf, df, phase}] phase: '3P' | 'R' | 'Y' | 'B' | 'AUTO' (single phase, auto balanced) */
   function schedule(input, tables) {
     var o = input || {}, loads = (o.loads || []).filter(function (l) { return l && (num(l.kw) > 0); });
-    if (!loads.length) throw new Error('ضيف حمل واحد على الأقل (kW أكبر من صفر).');
+    if (!loads.length) throw new Error('ضيف Load واحد على الأقل (kW أكبر من صفر).');
     var V = num(o.voltageV) > 0 ? num(o.voltageV) : 400, vph = V / Math.sqrt(3);
     var div = num(o.diversity) > 0 ? num(o.diversity) : 1, spare = num(o.sparePct) >= 0 ? num(o.sparePct) : 0;
     var steps = [], warnings = [], rows = [], ph = { R: { kva: 0, kw: 0, ckva: 0 }, Y: { kva: 0, kw: 0, ckva: 0 }, B: { kva: 0, kw: 0, ckva: 0 } };
@@ -34,22 +34,22 @@
     function add(r, p, share) { ph[p].kva += r.dkva * share; ph[p].kw += r.dkw * share; ph[p].ckva += r.kva * share; }
 
     var tot = rows.reduce(function (a, r) { a.kw += r.kw; a.kva += r.kva; a.dkw += r.dkw; a.dkva += r.dkva; return a; }, { kw: 0, kva: 0, dkw: 0, dkva: 0 });
-    steps.push({ step: 'الحمل الموصل', formula: 'Σ (qty x kW) ; kVA = kW / PF', substitution: rows.length + ' حمل', result: r1(tot.kw) + ' kW | ' + r1(tot.kva) + ' kVA', value: tot.kva, unit: 'kVA' });
-    steps.push({ step: 'حمل الطلب بعد معامل الطلب', formula: 'Σ (kVA x DF)', substitution: 'DF لكل حمل من الجدول', result: r1(tot.dkw) + ' kW | ' + r1(tot.dkva) + ' kVA', value: tot.dkva, unit: 'kVA' });
+    steps.push({ step: 'Connected Load', formula: 'Σ (qty x kW) ; kVA = kW / PF', substitution: rows.length + ' Load', result: r1(tot.kw) + ' kW | ' + r1(tot.kva) + ' kVA', value: tot.kva, unit: 'kVA' });
+    steps.push({ step: 'Demand Load بعد Demand Factor', formula: 'Σ (kVA x DF)', substitution: 'DF لكل Load من الجدول', result: r1(tot.dkw) + ' kW | ' + r1(tot.dkva) + ' kVA', value: tot.dkva, unit: 'kVA' });
     var dkvaDiv = tot.dkva * div;
-    steps.push({ step: 'معامل التنوع للوحة', formula: 'kVA_div = kVA_demand x Diversity', substitution: r1(tot.dkva) + ' x ' + div, result: r1(dkvaDiv) + ' kVA', value: dkvaDiv, unit: 'kVA' });
+    steps.push({ step: 'Diversity Factor للوحة', formula: 'kVA_div = kVA_demand x Diversity', substitution: r1(tot.dkva) + ' x ' + div, result: r1(dkvaDiv) + ' kVA', value: dkvaDiv, unit: 'kVA' });
     var des = dkvaDiv * (1 + spare / 100);
-    steps.push({ step: 'حمل التصميم مع الاحتياطي', formula: 'kVA_design = kVA_div x (1 + Spare%)', substitution: r1(dkvaDiv) + ' x (1 + ' + spare + '/100)', result: r1(des) + ' kVA', value: des, unit: 'kVA' });
+    steps.push({ step: 'Design Load مع الاحتياطي', formula: 'kVA_design = kVA_div x (1 + Spare%)', substitution: r1(dkvaDiv) + ' x (1 + ' + spare + '/100)', result: r1(des) + ' kVA', value: des, unit: 'kVA' });
     var Ib = des * 1000 / (Math.sqrt(3) * V);
-    steps.push({ step: 'تيار التصميم للقاطع الرئيسي', formula: 'Ib = kVA x 1000 / (sqrt(3) x V)', substitution: r1(des) + ' x 1000 / (1.732 x ' + V + ')', result: r1(Ib) + ' A', value: Ib, unit: 'A' });
+    steps.push({ step: 'Design Current لـ Breaker الرئيسي', formula: 'Ib = kVA x 1000 / (sqrt(3) x V)', substitution: r1(des) + ' x 1000 / (1.732 x ' + V + ')', result: r1(Ib) + ' A', value: Ib, unit: 'A' });
 
     var cur = {}, vals = [];
     PH.forEach(function (p) { cur[p] = r1(ph[p].kva * 1000 / vph); vals.push(ph[p].kva * 1000 / vph); });
     var avg = (vals[0] + vals[1] + vals[2]) / 3, mx = Math.max.apply(null, vals), unb = avg > 0 ? (mx - avg) / avg * 100 : 0;
-    steps.push({ step: 'تيار كل فاز (حمل الطلب)', formula: 'I_phase = kVA_phase x 1000 / (V / sqrt(3))', substitution: 'R/Y/B kVA = ' + PH.map(function (p) { return r1(ph[p].kva); }).join(' / '), result: 'IR = ' + cur.R + ' A | IY = ' + cur.Y + ' A | IB = ' + cur.B + ' A', value: null, unit: 'A' });
-    steps.push({ step: 'نسبة عدم الاتزان', formula: 'Unbalance % = (Imax - Iavg) / Iavg x 100', substitution: '(' + r1(mx) + ' - ' + r1(avg) + ') / ' + r1(avg), result: r1(unb) + ' %', value: unb, unit: '%' });
+    steps.push({ step: 'Current كل فاز (Demand Load)', formula: 'I_phase = kVA_phase x 1000 / (V / sqrt(3))', substitution: 'R/Y/B kVA = ' + PH.map(function (p) { return r1(ph[p].kva); }).join(' / '), result: 'IR = ' + cur.R + ' A | IY = ' + cur.Y + ' A | IB = ' + cur.B + ' A', value: null, unit: 'A' });
+    steps.push({ step: 'نسبة Unbalance', formula: 'Unbalance % = (Imax - Iavg) / Iavg x 100', substitution: '(' + r1(mx) + ' - ' + r1(avg) + ') / ' + r1(avg), result: r1(unb) + ' %', value: unb, unit: '%' });
     var UNB_LIMIT = num(o.unbalanceLimitPct) > 0 ? num(o.unbalanceLimitPct) : 10;
-    if (unb > UNB_LIMIT) warnings.push('عدم الاتزان ' + r1(unb) + ' % أعلى من ' + UNB_LIMIT + ' %. وزّع الأحمال أحادية الفاز على الفازات. (حد ' + UNB_LIMIT + ' % قيمة تصميمية شائعة وقابلة للتعديل، مش من نص كود، راجع مواصفات المشروع).');
+    if (unb > UNB_LIMIT) warnings.push('Unbalance ' + r1(unb) + ' % أعلى من ' + UNB_LIMIT + ' %. وزّع Loads أحادية الفاز على الفازات. (حد ' + UNB_LIMIT + ' % قيمة تصميمية شائعة وقابلة للتعديل، مش من نص كود، راجع مواصفات المشروع).');
 
     var res = { rows: rows, totals: tot, phases: { R: ph.R, Y: ph.Y, B: ph.B, currents: cur }, unbalancePct: r1(unb), designKVA: r1(des), designCurrentA: r2(Ib), voltageV: V, steps: steps, tablesUsed: [], warnings: warnings, spare: spare, diversity: div };
 
@@ -63,11 +63,11 @@
         (cs.warnings || []).forEach(function (w) { res.warnings.push(w); });
         res.mainBreakerA = cs.breaker && cs.breaker.rating_a; res.incomerSizeMm2 = cs.size_mm2;
       } catch (e) {
-        res.warnings.push('تعذر اختيار القاطع والكابل من الجداول: ' + (e && e.message ? e.message : e) + ' (قد يحتاج الحمل كابلات على التوازي أو تصميم يدوي).');
+        res.warnings.push('تعذر اختيار Breaker و Cable من الجداول: ' + (e && e.message ? e.message : e) + ' (قد يحتاج Load Cables على التوازي أو تصميم يدوي).');
       }
     }
-    res.summary = 'الحمل الموصل ' + r1(tot.kva) + ' kVA | الطلب ' + r1(tot.dkva) + ' kVA | التصميم ' + r1(des) + ' kVA | Ib = ' + r1(Ib) + ' A | عدم الاتزان ' + r1(unb) + ' %' +
-      (res.mainBreakerA ? ' | القاطع الرئيسي ' + res.mainBreakerA + ' A | الكابل ' + res.incomerSizeMm2 + ' mm2' : '');
+    res.summary = 'Connected Load ' + r1(tot.kva) + ' kVA | الطلب ' + r1(tot.dkva) + ' kVA | التصميم ' + r1(des) + ' kVA | Ib = ' + r1(Ib) + ' A | Unbalance ' + r1(unb) + ' %' +
+      (res.mainBreakerA ? ' | Breaker الرئيسي ' + res.mainBreakerA + ' A | Cable ' + res.incomerSizeMm2 + ' mm2' : '');
     return res;
   }
 
@@ -79,7 +79,7 @@
     var sldSpec = window.EngSLD && window.EngSLD.fromLoadSchedule(res, res.sldExtra);
     if (sldSpec) blocks.push({ type: 'sld', heading: 'Single-line diagram', sld: window.EngSLD.build(sldSpec) });
     if (res.warnings.length) blocks.push({ type: 'warnings', items: res.warnings });
-    blocks.push({ type: 'table', heading: 'جدول الأحمال / Load schedule', columns: ['#', 'Load', 'Qty', 'kW', 'PF', 'DF', 'Phase', 'kVA', 'kVA dem.'], rows: loadRows.concat([['', 'Total', '', r1(t.kw), '', '', '', r1(t.kva), r1(t.dkva)].map(String)]), widths: [0.06, 0.28, 0.07, 0.09, 0.08, 0.08, 0.1, 0.1, 0.14], fontSize: 20 });
+    blocks.push({ type: 'table', heading: 'Load Schedule / Load schedule', columns: ['#', 'Load', 'Qty', 'kW', 'PF', 'DF', 'Phase', 'kVA', 'kVA dem.'], rows: loadRows.concat([['', 'Total', '', r1(t.kw), '', '', '', r1(t.kva), r1(t.dkva)].map(String)]), widths: [0.06, 0.28, 0.07, 0.09, 0.08, 0.08, 0.1, 0.1, 0.14], fontSize: 20 });
     blocks.push({ type: 'table', heading: 'توزيع الفازات / Phase balance', columns: ['Phase', 'kVA (demand)', 'kW (demand)', 'Current (A)'], rows: ['R', 'Y', 'B'].map(function (p) { return [p, String(r1(ph[p].kva)), String(r1(ph[p].kw)), String(ph.currents[p])]; }).concat([['Unbalance', '', '', res.unbalancePct + ' %']]), widths: [0.25, 0.25, 0.25, 0.25], fontSize: 22 });
     blocks.push({ type: 'table', heading: 'الحسابات خطوة بخطوة / Calculation steps', columns: ['الخطوة', 'المعادلة', 'التعويض', 'النتيجة'], rows: res.steps.map(function (s) { return [s.step, s.formula, s.substitution, s.result]; }), widths: [0.2, 0.27, 0.31, 0.22], rtl: true, fontSize: 20 });
     return { title: title || 'Load Schedule', subtitle: 'Panel load schedule, demand and main breaker / incomer sizing', blocks: blocks, signature: true, fileBase: 'Load-Schedule' };
@@ -92,7 +92,7 @@
     if (typeof document === 'undefined' || !window.EngUI || typeof window.EngUI.registerTab !== 'function') return false;
     var h = window.EngUI.helpers, el = h.el;
     window.EngUI.registerTab('loadschedule', 'Load Schedule', function (body) {
-      body.appendChild(el('div', 'ec-summary', 'ضيف الأحمال (kW لكل وحدة، PF، معامل الطلب DF، والفاز). الأحمال أحادية الفاز اختار لها R/Y/B أو Auto للتوزيع التلقائي. بيحسب الطلب وعدم الاتزان ويقترح القاطع الرئيسي وكابل الـ incomer من الجداول.'));
+      body.appendChild(el('div', 'ec-summary', 'ضيف Loads (kW لكل وحدة، PF، Demand Factor DF، والفاز). Loads أحادية الفاز اختار لها R/Y/B أو Auto للتوزيع التلقائي. بيحسب الطلب و Unbalance ويقترح Breaker الرئيسي و Cable الـ incomer من الجداول.'));
       var list = el('div', null), seq = 0; body.appendChild(list);
       function addRow(d) {
         d = d || {}; var id = ++seq, card = el('div', 'ec-summary'), g = el('div', 'ec-grid');
