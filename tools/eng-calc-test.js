@@ -122,7 +122,10 @@ has('missing length gives a prominent warning', nolen.warnings, 'تنبيه مه
 eq('missing length warning comes first', String(nolen.warnings[0]).indexOf('تنبيه مهم') === 0, true);
 has('missing length summary says not checked', [nolen.summary], 'غير مفحوص');
 has('PF missing warns about default', C.cableSizing(wbase).warnings, 'مش مدخل');
-has('voltage 0 warns', C.cableSizing(Object.assign({}, wbase, { voltageV: 0, powerFactor: 0.9 })).warnings, 'Voltage المدخل');
+var vmsg = ''; try { C.cableSizing(Object.assign({}, wbase, { voltageV: 0, powerFactor: 0.9 })); } catch (e) { vmsg = e.message; }
+has('voltage 0 gives a clear error (no silent default)', [vmsg], 'Voltage غير صالح');
+var vmsg2 = ''; try { C.voltageDrop({ size_mm2: 10, currentA: 50, lengthM: 100, voltageV: 0 }); } catch (e) { vmsg2 = e.message; }
+has('voltage drop with voltage 0 gives a clear error', [vmsg2], 'Voltage غير صالح');
 var okpf = C.cableSizing(Object.assign({}, wbase, { powerFactor: 0.9 }));
 eq('valid PF gives no PF warning', okpf.warnings.some(function (x) { return String(x).indexOf('Power Factor') >= 0; }), false);
 var msg = ''; try { C.cableSizing(Object.assign({}, wbase, { method: 'E', powerFactor: 0.9 })); } catch (e) { msg = e.message; }
