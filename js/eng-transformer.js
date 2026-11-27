@@ -99,11 +99,7 @@
   function register() {
     if (!window.EngUI || !window.EngUI.registerTab || !window.EngUI.helpers) return false;
     var h = window.EngUI.helpers;
-    window.EngUI.registerTab({
-      id: 'transformer',
-      title: 'Transformer Sizing',
-      order: 64,
-      render: function (panel) {
+    window.EngUI.registerTab('transformer', 'Transformer', function (body) { var panel = body;
         panel.appendChild(h.el('div', 'ec-note', AR_WARNING));
         var grid = h.el('div', 'ec-grid');
         grid.appendChild(h.createField('tr-dem', 'Demand Load (demandKva)', 'number', '650'));
@@ -132,7 +128,7 @@
           h.showResult(out, res, 'Transformer Sizing');
           if (res.ok) h.renderResultActions(out, 'needs_review', pdfFn('Transformer Sizing', res));
         });
-      }
+  
     });
     return true;
   }
