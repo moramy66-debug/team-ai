@@ -76,13 +76,13 @@
       warnings: warnings,
       constants: CONSTANTS,
       steps: [
-        'الترتيب المختار: ' + arrangementLabel,
-        'مساحة الكابل الواحد = π × (D/2)² = ' + singleCableArea.toFixed(1) + ' mm²',
-        'مساحة الكابلات المجمعة = ' + count + ' × ' + singleCableArea.toFixed(1) + ' = ' + totalCableArea.toFixed(1) + ' mm² (مع الاحتياطي ' + sparePct + '% = ' + effectiveArea.toFixed(1) + ' mm²)',
-        'العرض المطلوب حسب مساحة الملء (' + fillLimitPct + '%) = ' + reqWidthByArea.toFixed(1) + ' mm',
-        'العرض المطلوب للترتيب الهندسي (طبقة واحدة / Trefoil) = ' + layoutWidthMm.toFixed(1) + ' mm',
-        'العرض المطلوب الحاكم = ' + requiredWidthMm.toFixed(1) + ' mm -> العرض القياسي المختار = ' + stdWidthMm + ' mm',
-        'نسبة الملء الفعلية = (' + totalCableArea.toFixed(1) + ' / (' + stdWidthMm + ' × ' + depth + ')) × 100 = ' + actualFillPct.toFixed(2) + '%'
+        { step: 'الترتيب المختار', formula: '-', substitution: arrangementLabel, result: '-' },
+        { step: 'مساحة الكابل الواحد', formula: 'a = π × (D/2)²', substitution: 'π × (' + d + '/2)²', result: singleCableArea.toFixed(1) + ' mm²' },
+        { step: 'مساحة الكابلات المجمعة', formula: 'A_total = n × a ; مع الاحتياطي × (1 + spare/100)', substitution: count + ' × ' + singleCableArea.toFixed(1) + ' ; spare ' + sparePct + '%', result: totalCableArea.toFixed(1) + ' mm² (مع الاحتياطي ' + effectiveArea.toFixed(1) + ' mm²)' },
+        { step: 'العرض حسب مساحة الملء', formula: 'W = A_eff / (depth × fill%)', substitution: effectiveArea.toFixed(1) + ' / (' + depth + ' × ' + (fillLimitPct / 100).toFixed(2) + ')', result: reqWidthByArea.toFixed(1) + ' mm' },
+        { step: 'العرض حسب الترتيب الهندسي', formula: 'Multicore: n × D ; Trefoil: ceil(n/3) × 2D ; × (1 + spare/100)', substitution: arrangementLabel, result: layoutWidthMm.toFixed(1) + ' mm' },
+        { step: 'العرض الحاكم والقياسي', formula: 'max(بالمساحة , بالترتيب) -> أول مقاس قياسي >=', substitution: requiredWidthMm.toFixed(1) + ' mm', result: stdWidthMm + ' mm' },
+        { step: 'نسبة الملء الفعلية', formula: 'Fill% = A_total / (W_std × depth) × 100', substitution: totalCableArea.toFixed(1) + ' / (' + stdWidthMm + ' × ' + depth + ') × 100', result: actualFillPct.toFixed(2) + '%' }
       ],
       extra: [
         { k: 'نوع التمديد', v: arrangementLabel },
