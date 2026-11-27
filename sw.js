@@ -1,4 +1,4 @@
-const CACHE_NAME = 'teamai-v125';
+const CACHE_NAME = 'teamai-v126';
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -9,13 +9,13 @@ const CORE_ASSETS = [
   './js/codes-and-templates.js',
   './js/files-and-export.js',
   './js/orchestrator.js',
-  './js/code-search.js', './js/app.js', './js/team-extras.js', './js/pro-tools.js', './js/project-header.js', './js/eng-tables.js', './js/eng-calc.js', './js/eng-ui.js', './js/eng-shortcircuit-ui.js', './js/eng-crosscheck.js', './js/eng-pdf.js', './js/eng-submittal.js', './js/eng-loadschedule.js', './data/eng-tables.json', './codes-data.json', './js/eng-pfc-cpc.js', './js/eng-sld.js', './js/eng-ups.js', './js/ui-tidy.js', './js/eng-lighting.js', './js/eng-cabletray.js', './js/eng-transformer.js', './js/eng-generator.js', './js/code-library.js', './data/code-library.json'
+  './js/code-search.js', './js/app.js', './js/team-extras.js', './js/pro-tools.js', './js/project-header.js', './js/eng-tables.js', './js/eng-calc.js', './js/eng-ui.js', './js/eng-shortcircuit-ui.js', './js/eng-crosscheck.js', './js/eng-pdf.js', './js/eng-submittal.js', './js/eng-loadschedule.js', './data/eng-tables.json', './codes-data.json', './js/eng-pfc-cpc.js', './js/eng-sld.js', './js/eng-ups.js', './js/a11y-polish.js', './js/ui-tidy.js', './js/eng-lighting.js', './js/eng-cabletray.js', './js/eng-transformer.js', './js/eng-generator.js', './js/code-library.js', './data/code-library.json'
 ];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(CORE_ASSETS))
+      .then((cache) => cache.addAll(CORE_ASSETS).then(() => cache.add(new Request('https://cdn.jsdelivr.net/npm/dompurify@3.5.0/dist/purify.min.js', { mode: 'cors' })).catch(() => {})))
       .then(() => self.skipWaiting())
   );
 });
