@@ -2,6 +2,11 @@
 
 جميع التغييرات الجوهرية في مشروع **Team AI** موثقة في هذا الملف.
 
+## [المهمة 1] - 2026-11-27
+
+### الإضافات
+- إضافة حاسبات الإضاءة (Lumen Method - `js/eng-lighting.js`)، والـ Cable Tray (`js/eng-cabletray.js`)، والمحول (`js/eng-transformer.js`)، والمولد (`js/eng-generator.js`) وملفات اختبارها، وربطها في `index.html` و`sw.js`.
+
 ## [v88 - v89] - 2026-11-26
 
 ### التحسينات وتنظيف الواجهة
