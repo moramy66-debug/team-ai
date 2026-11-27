@@ -7,7 +7,7 @@
     "clause": null,
     "source_url": "https://www.sbc.gov.sa/ar/BC/Pages/BuildingCode/BCDetails.aspx?codeId=401&year=2024",
     "source_note": "الموقع الرسمي للمركز السعودي لكود البناء — صفحة تفاصيل SBC 401 (2024)",
-    "status": "verified_mirror",
+    "status": "verified_secondary",
     "checked_on": "2026-11-27"
   },
   {
@@ -73,7 +73,7 @@
     "clause": "6.5",
     "source_url": "https://www.se.com.sa/-/media/sec/Sustainability/Renewable-Energy/ProcAndGuides/LargeScale/PV-Large-Scale-Technical-Connection-Standards.ashx",
     "source_note": "SEC — PV Large Scale Technical Connection Standards (Solar PV > 2 MW). موثق لهذا النطاق فقط، وليس Distribution Code عاماً",
-    "status": "verified_mirror",
+    "status": "verified_secondary",
     "checked_on": "2026-11-27"
   },
   {
@@ -84,7 +84,7 @@
     "clause": "6.2",
     "source_url": "https://www.se.com.sa/-/media/sec/Sustainability/Renewable-Energy/ProcAndGuides/LargeScale/PV-Large-Scale-Technical-Connection-Standards.ashx",
     "source_note": "SEC — PV Large Scale Technical Connection Standards (Solar PV > 2 MW). موثق لهذا النطاق فقط",
-    "status": "verified_mirror",
+    "status": "verified_secondary",
     "checked_on": "2026-11-27"
   },
   {
