@@ -163,7 +163,7 @@
       };
     }
 
-    var warnings = [AR_WARN];
+    var warnings = [AR_WARN, 'Note: the UPS kVA above is the output rating for the load. UPS efficiency affects input power and heat, not the output kVA rating.'];
     if (standardUpsKva === null) {
       warnings.push('Required UPS kVA (' + round2(requiredUpsKva) + ' kVA) exceeds max standard table size (1000 kVA). Consider parallel UPS modules.');
     }
