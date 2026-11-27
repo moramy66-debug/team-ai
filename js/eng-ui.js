@@ -66,7 +66,13 @@
   function el(tag, className, text) {
     var node = document.createElement(tag);
     if (className) node.className = className;
-    if (text !== undefined && text !== null) node.textContent = String(text);
+    if (text !== undefined && text !== null) {
+      var t = String(text);
+      if (className && /(^| )ec-(warn|note|ok)( |$)/.test(className)) {
+        t = t.replace(/from_memory_needs_review/g, 'From memory, needs review').replace(/needs_review/g, 'needs review').replace(/old_edition/g, 'old edition');
+      }
+      node.textContent = t;
+    }
     return node;
   }
 
