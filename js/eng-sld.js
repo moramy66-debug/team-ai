@@ -73,7 +73,7 @@
     if (typeof document === 'undefined' || !window.EngUI || typeof window.EngUI.registerTab !== 'function') return false;
     var h = window.EngUI.helpers, el = h.el;
     window.EngUI.registerTab('sld', 'SLD', function (body) {
-      body.appendChild(el('div', 'ec-summary', 'رسم single-line مصغر: مصدر، قاطع، كابل، حمل. املا القيم أو اسحبها من آخر Load Schedule. الرسم بيتضاف في الـ PDF.'));
+      body.appendChild(el('div', 'ec-summary', 'رسم single-line مصغر: مصدر، Breaker، Cable، Load. املا القيم أو اسحبها من آخر Load Schedule. الرسم بيتضاف في الـ PDF.'));
       var g = el('div', 'ec-grid');
       g.appendChild(h.createField('sld-src', 'Source / panel name', 'text', 'Main DB'));
       g.appendChild(h.createField('sld-v', 'Voltage (V)', 'number', 400));
@@ -96,7 +96,7 @@
       function setv(id, v) { var n = document.getElementById(id); if (n && v !== undefined && v !== null && v !== '') n.value = v; }
       pull.addEventListener('click', function () {
         var s = window.EngSLD.recall();
-        if (!s) { status.textContent = 'احسب Load Schedule الأول (مع طول الكابل عشان الهبوط).'; return; }
+        if (!s) { status.textContent = 'احسب Load Schedule الأول (مع طول Cable عشان الهبوط).'; return; }
         setv('sld-src', s.source); setv('sld-v', s.voltageV); setv('sld-isc', s.iscKA); setv('sld-bt', s.breakerType); setv('sld-in', s.breakerA); setv('sld-mm', s.cableMm2); setv('sld-cond', s.conductor); setv('sld-ins', s.insulation);
         setv('sld-len', s.lengthM); setv('sld-load', s.loadName); setv('sld-kw', s.loadKW !== undefined ? Math.round(s.loadKW * 10) / 10 : ''); setv('sld-ib', s.IbA); setv('sld-dv', s.dropPct);
         status.textContent = 'تم السحب من آخر Load Schedule.';
@@ -104,7 +104,7 @@
       btn.addEventListener('click', function () {
         out.innerHTML = ''; status.textContent = '';
         var spec = { source: h.val('sld-src'), voltageV: h.numVal('sld-v'), iscKA: h.numVal('sld-isc'), breakerType: h.val('sld-bt'), breakerA: h.numVal('sld-in'), cableMm2: h.numVal('sld-mm'), cores: h.val('sld-cores'), conductor: h.val('sld-cond'), insulation: h.val('sld-ins'), lengthM: h.numVal('sld-len'), loadName: h.val('sld-load'), loadKW: h.numVal('sld-kw'), IbA: h.numVal('sld-ib'), dropPct: h.numVal('sld-dv') };
-        if (!has(spec.breakerA) && !has(spec.cableMm2)) { status.textContent = 'ادخل In أو مقطع الكابل على الأقل.'; return; }
+        if (!has(spec.breakerA) && !has(spec.cableMm2)) { status.textContent = 'ادخل In أو Cable Cross-section على الأقل.'; return; }
         var d = build(spec), box = el('div', 'ec-sld'); box.innerHTML = toSVG(d);
         out.appendChild(box);
         var res = { summary: 'Single-line: ' + (spec.breakerType || 'MCCB') + ' ' + (spec.breakerA || '?') + ' A -> ' + (spec.cores || '4C') + 'x' + (spec.cableMm2 || '?') + ' mm2 -> ' + (spec.loadName || 'Load'), steps: [], warnings: [], tablesUsed: [], sld: d };
