@@ -29,11 +29,14 @@
     if (mpfGiven && !(motorPf > 0 && motorPf <= 1)) return { ok: false, error: 'Motor Power Factor غير صالح (' + inp.motorPf + '): لازم يكون أكبر من 0 وأقل من أو يساوي 1. سيبه فاضي لو عايز الافتراض ' + CONSTANTS.motorPowerFactor.value + '.' };
     var startMethod = inp.startMethod || 'DOL';
     var altM = Number(inp.altitudeM || 0);
-    var tempC = Number(inp.ambientTempC || 40);
+    var tempGiven = !(inp.ambientTempC === undefined || inp.ambientTempC === null || inp.ambientTempC === '');
+    var tempC = tempGiven ? Number(inp.ambientTempC) : 40;
+    if (!isFinite(tempC)) return { ok: false, error: 'Ambient Temperature غير صالحة (' + inp.ambientTempC + '). سيبها فاضية لو عايز القيمة الافتراضية 40 C.' };
     var sparePct = Number(inp.sparePct || 0);
 
     var multMap = CONSTANTS.startingMultipliers.value;
-    var mult = multMap[startMethod] || multMap['DOL'];
+    if (!Object.prototype.hasOwnProperty.call(multMap, startMethod)) return { ok: false, error: 'Starting Method غير معروف (' + startMethod + ').' };
+    var mult = multMap[startMethod];
 
     if (!(contKw > 0 && pf > 0 && pf <= 1) || motorKw < 0 || altM < 0 || sparePct < 0) {
       return { ok: false, error: 'أدخل قيماً موجبة صحيحة لـ Loads المستمرة (kW) و Power Factor PF (بين 0 و 1) وبقية المدخلات.' };
