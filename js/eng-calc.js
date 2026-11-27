@@ -178,6 +178,7 @@
       methodUsed = 'computed_r_x';
       steps.push({ step: 'مقاومة الموصل عند درجة التشغيل', formula: 'R = R20 x (1 + a x (theta - 20))', substitution: f(res.r20, 4) + ' x (1 + ' + res.alpha + ' x (' + theta + ' - 20))', result: f(rOp, 4) + ' ohm/km', value: rOp, unit: 'ohm/km' });
       steps.push({ step: 'هبوط الجهد', formula: phases === 1 ? 'dV = 2 x I x L/1000 x (R cos(phi) + X sin(phi))' : 'dV = sqrt(3) x I x L/1000 x (R cos(phi) + X sin(phi))', substitution: (phases === 1 ? '2' : '1.732') + ' x ' + f(I) + ' x ' + f(L / 1000, 3) + ' x (' + f(rOp, 4) + ' x ' + pf + ' + ' + x + ' x ' + f(sin, 3) + ')', result: f(dv, 3) + ' V', value: dv, unit: 'V' });
+      extra.push('المفاعلة X = ' + x + ' ohm/km قيمة نموذجية مش متأكد منها من معيار (الحالة needs_review): داتاشيتات الكابلات بتدي 0.081 لـ 0.094، راجعها مع داتاشيت الكابل.');
       extra.push('هبوط الجهد هنا محسوب من المقاومة والمفاعلة (مش من جدول BS 7671 4D1B)' + (size > 16 ? ': جدول 4D1B للمقاطع 25 mm2 فأكتر مش متاح في البيانات.' : ': الجدول متاح لنحاس PVC لحد 16 mm2 بس.') + ' المقاومة والمفاعلة من الذاكرة وتحتاج مراجعة.');
     }
     var pct = dv / V * 100;
