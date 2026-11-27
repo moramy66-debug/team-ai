@@ -15,9 +15,10 @@
     var demandKva = Number(inp.demandKva);
     var growthPct = Number(inp.growthPct || 0);
     var sparePct = Number(inp.sparePct || 0);
-    var targetLoadPct = Number(inp.targetLoadPct || CONSTANTS.defaultTargetLoadPct.value);
-    var vPrimary = Number(inp.vPrimary || CONSTANTS.defaultVPrimary.value);
-    var vSecondary = Number(inp.vSecondary || CONSTANTS.defaultVSecondary.value);
+    function given(x) { return !(x === undefined || x === null || x === ''); }
+    var targetLoadPct = given(inp.targetLoadPct) ? Number(inp.targetLoadPct) : CONSTANTS.defaultTargetLoadPct.value;
+    var vPrimary = given(inp.vPrimary) ? Number(inp.vPrimary) : CONSTANTS.defaultVPrimary.value;
+    var vSecondary = given(inp.vSecondary) ? Number(inp.vSecondary) : CONSTANTS.defaultVSecondary.value;
     var zGiven = !(inp.impedancePct === undefined || inp.impedancePct === null || inp.impedancePct === '');
     var impedancePct = zGiven ? Number(inp.impedancePct) : CONSTANTS.defaultImpedancePct.value;
     if (zGiven && !(impedancePct > 0)) return { ok: false, error: 'Impedance (Z%) لازم تكون أكبر من صفر (القيمة المدخلة: ' + inp.impedancePct + '). سيبها فاضية لو عايز القيمة الافتراضية ' + CONSTANTS.defaultImpedancePct.value + '%.' };
