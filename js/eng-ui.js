@@ -188,6 +188,7 @@
   function isOkStatus(st) { return String(st || '').indexOf('verified') === 0 && String(st).indexOf('old_edition') < 0; }
 
   function showResult(out, res, title) {
+    if (res && res.ok === false) { out.appendChild(el('div', 'ec-err', res.error || 'Calculation error')); return; }
     var used = res.tablesUsed || [];
     used.forEach(function (u) {
       var ok = isOkStatus(u.status);
