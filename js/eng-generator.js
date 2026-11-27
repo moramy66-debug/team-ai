@@ -12,6 +12,7 @@
       source_url: null,
       source_note: 'مضاعفات Current/Power البدء التقريبية لطرق بدء المحركات؛ تُراجع من بيانات المحرك والبادئ'
     },
+    motorPowerFactor: { value: 0.85, unit: 'ratio', status: 'needs_review', source_url: null, source_note: 'معامل قدرة افتراضي للموتور (افتراض، قابل للتعديل)؛ يُؤخذ من Nameplate الموتور' },
     motorEfficiency: { value: 0.90, unit: 'ratio', status: 'needs_review', source_url: null, source_note: 'كفاءة/معامل تحويل تقديري للمحرك لحساب kVA البدء' },
     xdSubtransientPct: { value: 15, unit: '%', status: 'needs_review', source_url: null, source_note: 'Impedance العابرة التحتية التقريبية لـ Generator Xd" (15%) لحساب Voltage Drop التقريبي' },
     maxRecommendedDipPct: { value: 15, unit: '%', status: 'needs_review', source_url: null, source_note: 'حد Voltage Drop اللحظي الإرشادي (15%) عند بدء أكبر محرك' },
@@ -23,6 +24,9 @@
     var contKw = Number(inp.continuousKw);
     var pf = (inp.pf === undefined || inp.pf === null || inp.pf === '') ? 0.8 : Number(inp.pf);
     var motorKw = Number(inp.largestMotorKw || 0);
+    var mpfGiven = !(inp.motorPf === undefined || inp.motorPf === null || inp.motorPf === '');
+    var motorPf = mpfGiven ? Number(inp.motorPf) : CONSTANTS.motorPowerFactor.value;
+    if (mpfGiven && !(motorPf > 0 && motorPf <= 1)) return { ok: false, error: 'Motor Power Factor غير صالح (' + inp.motorPf + '): لازم يكون أكبر من 0 وأقل من أو يساوي 1. سيبه فاضي لو عايز الافتراض ' + CONSTANTS.motorPowerFactor.value + '.' };
     var startMethod = inp.startMethod || 'DOL';
     var altM = Number(inp.altitudeM || 0);
     var tempC = Number(inp.ambientTempC || 40);
@@ -36,7 +40,7 @@
     }
 
     var runningKva = contKw / pf;
-    var motorStartKva = motorKw > 0 ? (motorKw / CONSTANTS.motorEfficiency.value) * mult : 0;
+    var motorStartKva = motorKw > 0 ? (motorKw / (CONSTANTS.motorEfficiency.value * motorPf)) * mult : 0;
     var runningWithSpareKva = runningKva * (1 + sparePct / 100);
     var stepLoadKva = runningKva + motorStartKva;
     var requiredSiteKva = Math.max(runningWithSpareKva, stepLoadKva);
@@ -85,7 +89,7 @@
       constants: CONSTANTS,
       steps: [
         { step: 'Loads المستمرة الظاهرية', formula: 'S_run = kW / PF', substitution: contKw + ' / ' + pf + ' ; مع الاحتياطي ' + sparePct + '%', result: runningKva.toFixed(2) + ' kVA (مع الاحتياطي ' + runningWithSpareKva.toFixed(2) + ' kVA)' },
-        { step: 'Starting Power لأكبر موتور', formula: 'S_start = (kW / η) × مضاعف البدء', substitution: '(' + motorKw + ' / ' + CONSTANTS.motorEfficiency.value + ') × ' + mult + ' (' + startMethod + ')', result: motorStartKva.toFixed(2) + ' kVA' },
+        { step: 'Starting Power لأكبر موتور', formula: 'S_start = (kW / (η × PF_motor)) × مضاعف البدء', substitution: '(' + motorKw + ' / (' + CONSTANTS.motorEfficiency.value + ' × ' + motorPf + ')) × ' + mult + ' (' + startMethod + ')', result: motorStartKva.toFixed(2) + ' kVA' },
         { step: 'Load الذروة والمطلوب بالموقع', formula: 'S_step = S_run + S_start ; S_site = max(S_run مع الاحتياطي , S_step)', substitution: runningKva.toFixed(2) + ' + ' + motorStartKva.toFixed(2), result: stepLoadKva.toFixed(2) + ' kVA -> ' + requiredSiteKva.toFixed(2) + ' kVA' },
         { step: 'معامل Derating', formula: 'DF = 1 - (ارتفاع + Temperature)%', substitution: altM + ' m: -' + altDeratePct.toFixed(1) + '% ; ' + tempC + '°C: -' + tempDeratePct.toFixed(1) + '%', result: deratingFactor.toFixed(3) },
         { step: 'Standard Rating المطلوبة (ISO)', formula: 'S_iso = S_site / DF -> أول مقاس قياسي >=', substitution: requiredSiteKva.toFixed(2) + ' / ' + deratingFactor.toFixed(3), result: requiredIsoKva.toFixed(2) + ' kVA -> ' + stdKva + ' kVA' },
@@ -94,6 +98,7 @@
       extra: [
         { k: 'Loads المستمرة (kVA)', v: runningKva.toFixed(1) + ' kVA' },
         { k: 'Starting Power لأكبر موتور (' + startMethod + ')', v: motorStartKva.toFixed(1) + ' kVA' },
+        { k: 'Motor Power Factor المستخدم', v: motorPf + (mpfGiven ? '' : ' (افتراض 0.85، غيّره من خانة Motor PF)') },
         { k: 'Altitude and Temperature Correction Factor', v: deratingFactor.toFixed(3) + ' (تخفيض ' + totalDeratePct.toFixed(1) + '%)' },
         { k: 'Required Capacity (ISO)', v: requiredIsoKva.toFixed(1) + ' kVA' },
         { k: 'المقاس القياسي لـ Generator', v: stdKva + ' kVA' },
@@ -127,6 +132,7 @@
         grid.appendChild(h.createField('gn-kw', 'Continuous Loads (kW)', 'number', '200'));
         grid.appendChild(h.createField('gn-pf', 'Load Power Factor (PF)', 'number', '0.85'));
         grid.appendChild(h.createField('gn-mkw', 'Largest Motor (kW)', 'number', '45'));
+        grid.appendChild(h.createField('gn-mpf', 'Motor Power Factor (PF) - assumed 0.85, editable', 'number', '0.85'));
         grid.appendChild(h.createField('gn-sm', 'Motor Starting Method', 'select', [
           { value: 'DOL', label: 'DOL (Direct On Line)', selected: true },
           { value: 'Star-Delta', label: 'Star-Delta' },
@@ -147,6 +153,7 @@
             continuousKw: h.numVal('gn-kw'),
             pf: h.numVal('gn-pf'),
             largestMotorKw: h.numVal('gn-mkw'),
+            motorPf: h.numVal('gn-mpf'),
             startMethod: h.val('gn-sm'),
             altitudeM: h.numVal('gn-alt'),
             ambientTempC: h.numVal('gn-tmp'),
