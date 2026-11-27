@@ -156,4 +156,14 @@ assert.strictEqual(doc.status, 'from_memory_needs_review');
 assert(Array.isArray(doc.sections) && doc.sections.length === 1);
 assert(Array.isArray(doc.warnings) && doc.warnings.length >= 1);
 
+// Optional UPS efficiency: hand 80 kW, PF 0.8, spare 15 %: (80/0.8) x 1.15 = 115 kVA; / 0.92 = 125.0 kVA
+var base = ups.calculate({ loadKw: 80, loadPf: 0.8, upsRatedPf: 0.8, sparePct: 15, runtimeMin: 15 });
+assert(base.ok); near(base.requiredUpsKva, 115, 1e-6);
+var withEff = ups.calculate({ loadKw: 80, loadPf: 0.8, upsRatedPf: 0.8, sparePct: 15, runtimeMin: 15, upsEff: 0.92 });
+assert(withEff.ok); near(withEff.requiredUpsKva, 125.0, 0.05);
+var blankEff = ups.calculate({ loadKw: 80, loadPf: 0.8, upsRatedPf: 0.8, sparePct: 15, runtimeMin: 15, upsEff: null });
+assert(blankEff.ok); near(blankEff.requiredUpsKva, 115, 1e-6);
+assert.strictEqual(ups.calculate({ loadKw: 80, loadPf: 0.8, upsRatedPf: 0.8, sparePct: 15, runtimeMin: 15, upsEff: 0 }).ok, false);
+assert.strictEqual(ups.calculate({ loadKw: 80, loadPf: 0.8, upsRatedPf: 0.8, sparePct: 15, runtimeMin: 15, upsEff: 1.5 }).ok, false);
+
 console.log('ALL ENG-UPS TESTS PASSED');
