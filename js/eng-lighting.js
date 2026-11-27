@@ -1,10 +1,10 @@
 (function () {
   'use strict';
 
-  var AR_WARNING = 'تحذير: الحسابات مبنية على طريقة اللومن التقديرية وثوابت افتراضية (needs_review). يجب مراجعة معامل الاستخدام (UF) من كتالوج الكشاف ومعامل الصيانة (MF) وفق ظروف التشغيل الفعلية قبل الاعتماد التصميمي.';
+  var AR_WARNING = 'تحذير: الحسابات مبنية على طريقة Lumen التقديرية وثوابت افتراضية (needs_review). يجب مراجعة معامل الاستخدام (UF) من كتالوج الكشاف ومعامل الصيانة (MF) وفق ظروف التشغيل الفعلية قبل الاعتماد التصميمي.';
 
   var CONSTANTS = {
-    defaultTargetLux: { value: 500, unit: 'lux', status: 'needs_review', source_url: null, source_note: 'شدة إضاءة إرشادية للمكاتب؛ تُراجع حسب الكود المعتمد' },
+    defaultTargetLux: { value: 500, unit: 'lux', status: 'needs_review', source_url: null, source_note: 'Illuminance إرشادية للمكاتب؛ تُراجع حسب الكود المعتمد' },
     defaultUF: { value: 0.65, unit: 'ratio', status: 'needs_review', source_url: null, source_note: 'معامل استخدام تقديري (UF) يعتمد على جدول الكشاف ومعامل الغرفة K' },
     defaultMF: { value: 0.80, unit: 'ratio', status: 'needs_review', source_url: null, source_note: 'معامل صيانة تقديري (MF) يعتمد على بيئة المكان وجدول التنظيف' },
     maxSHR: { value: 1.5, unit: 'ratio', status: 'needs_review', source_url: null, source_note: 'أقصى نسبة تباعد إلى ارتفاع (SHR) إرشادية؛ تُراجع من بيانات الشركة المصنعة' }
@@ -21,7 +21,7 @@
     var MF = Number(inp.mf);
 
     if (!(L > 0 && W > 0 && Hm > 0 && E > 0 && F > 0 && UF > 0 && MF > 0) || P < 0) {
-      return { ok: false, error: 'أدخل قيماً موجبة صحيحة للأبعاد والارتفاع والإضاءة واللومن و UF و MF.' };
+      return { ok: false, error: 'أدخل قيماً موجبة صحيحة للأبعاد والارتفاع و Lighting و Lumen و UF و MF.' };
     }
 
     var A = L * W;
@@ -43,12 +43,12 @@
 
     var warnings = [AR_WARNING];
     if (shr > CONSTANTS.maxSHR.value) {
-      warnings.push('تحذير: نسبة التباعد إلى الارتفاع (' + shr.toFixed(2) + ') تتجاوز الحد الإرشادي ' + CONSTANTS.maxSHR.value + '؛ قد يحدث عدم تجانس في الإضاءة.');
+      warnings.push('تحذير: نسبة التباعد إلى الارتفاع (' + shr.toFixed(2) + ') تتجاوز الحد الإرشادي ' + CONSTANTS.maxSHR.value + '؛ قد يحدث عدم تجانس في Lighting.');
     }
 
     return {
       ok: true,
-      summary: 'العدد المطلوب ' + N + ' وحدة | التوزيع الشبكي ' + cols + ' x ' + rows + ' (' + N_grid + ' وحدة) | الإضاءة الفعلية ' + actualLux.toFixed(0) + ' lux | ' + wPerM2.toFixed(2) + ' W/m²',
+      summary: 'العدد المطلوب ' + N + ' وحدة | التوزيع الشبكي ' + cols + ' x ' + rows + ' (' + N_grid + ' وحدة) | Actual Illuminance ' + actualLux.toFixed(0) + ' lux | ' + wPerM2.toFixed(2) + ' W/m²',
       A: A, K: K, N_exact: N_exact, N: N, N_grid: N_grid, rows: rows, cols: cols,
       spacingX: spacingX, spacingY: spacingY, shr: shr, actualLux: actualLux,
       totalWatts: totalWatts, wPerM2: wPerM2, warnings: warnings, constants: CONSTANTS,
@@ -57,15 +57,15 @@
         { step: 'معامل الغرفة', formula: 'K = (L × W) / (Hm × (L + W))', substitution: '(' + L + ' × ' + W + ') / (' + Hm + ' × (' + L + ' + ' + W + '))', result: K.toFixed(2) },
         { step: 'عدد الكشافات النظري', formula: 'N = (E × A) / (F × UF × MF)', substitution: '(' + E + ' × ' + A.toFixed(2) + ') / (' + F + ' × ' + UF + ' × ' + MF + ')', result: N_exact.toFixed(2) + ' -> ' + N + ' وحدة' },
         { step: 'التوزيع الشبكي', formula: 'cols × rows >= N ; التباعد = L / cols , W / rows', substitution: cols + ' × ' + rows + ' ; ' + spacingX.toFixed(2) + ' m × ' + spacingY.toFixed(2) + ' m', result: N_grid + ' وحدة (SHR = ' + shr.toFixed(2) + ')' },
-        { step: 'الإضاءة الفعلية', formula: 'E_actual = (N × F × UF × MF) / A', substitution: '(' + N_grid + ' × ' + F + ' × ' + UF + ' × ' + MF + ') / ' + A.toFixed(2), result: actualLux.toFixed(1) + ' lux' },
-        { step: 'كثافة القدرة', formula: 'W/m² = (N × P) / A', substitution: totalWatts.toFixed(0) + ' W / ' + A.toFixed(2) + ' m²', result: wPerM2.toFixed(2) + ' W/m²' }
+        { step: 'Actual Illuminance', formula: 'E_actual = (N × F × UF × MF) / A', substitution: '(' + N_grid + ' × ' + F + ' × ' + UF + ' × ' + MF + ') / ' + A.toFixed(2), result: actualLux.toFixed(1) + ' lux' },
+        { step: 'Power Density', formula: 'W/m² = (N × P) / A', substitution: totalWatts.toFixed(0) + ' W / ' + A.toFixed(2) + ' m²', result: wPerM2.toFixed(2) + ' W/m²' }
       ],
       extra: [
         { k: 'معامل الغرفة (K)', v: K.toFixed(2) },
         { k: 'عدد الوحدات المحسوب (N)', v: String(N) },
         { k: 'التوزيع الشبكي (أعمدة × صفوف)', v: cols + ' × ' + rows + ' (' + N_grid + ' وحدة)' },
-        { k: 'الإضاءة الفعلية (lux)', v: actualLux.toFixed(1) + ' lux' },
-        { k: 'كثافة القدرة (W/m²)', v: wPerM2.toFixed(2) + ' W/m²' },
+        { k: 'Actual Illuminance (lux)', v: actualLux.toFixed(1) + ' lux' },
+        { k: 'Power Density (W/m²)', v: wPerM2.toFixed(2) + ' W/m²' },
         { k: 'نسبة التباعد للارتفاع (SHR)', v: shr.toFixed(2) }
       ],
       used: [
@@ -102,7 +102,7 @@
         grid.appendChild(h.createField('lt-uf', 'Utilization Factor (UF)', 'number', String(CONSTANTS.defaultUF.value)));
         grid.appendChild(h.createField('lt-mf', 'Maintenance Factor (MF)', 'number', String(CONSTANTS.defaultMF.value)));
       body.appendChild(grid);
-        var btn = h.el('button', 'ec-btn', 'حساب الإضاءة (Lumen Method)');
+        var btn = h.el('button', 'ec-btn', 'حساب Lighting (Lumen Method)');
         btn.type = 'button';
       body.appendChild(btn);
         var out = h.el('div', 'ec-out');
