@@ -3,8 +3,8 @@ main = "api-proxy.js"
 compatibility_date = "2026-01-01"
 
 [vars]
-# Restrict to your production domain, e.g. "https://example.com"
-ALLOWED_ORIGIN = "*"
+# Restricted to the Team AI Pages origin. Change only if you host the app elsewhere.
+ALLOWED_ORIGIN = "https://moramy66-debug.github.io"
 
 # Store API keys securely as Wrangler secrets (do not put keys in this file):
 # wrangler secret put GEMINI_API_KEY
