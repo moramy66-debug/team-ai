@@ -195,12 +195,12 @@
       if (window.SourceInfo) line.insertBefore(window.SourceInfo.marker(used, used.indexOf(u), 'تفاصيل مصدر الجدول ' + u.id), line.firstChild);
       out.appendChild(line);
     });
-    (res.warnings || []).forEach(function (w) { out.appendChild(el('div', 'ec-warn', w)); });
+    (res.warnings || []).filter(function (w, i, a) { return a.indexOf(w) === i; }).forEach(function (w) { out.appendChild(el('div', 'ec-warn', w)); });
     out.appendChild(el('div', 'ec-summary', res.summary || ''));
     renderStepsTable(out, res.steps || [], used);
     var lines = [title];
     used.forEach(function (u) { lines.push('[الجدول ' + u.id + ' | الحالة: ' + u.status + ' | المصدر: ' + u.source + ']'); });
-    (res.warnings || []).forEach(function (w) { lines.push('[تنبيه: ' + w + ']'); });
+    (res.warnings || []).filter(function (w, i, a) { return a.indexOf(w) === i; }).forEach(function (w) { lines.push('[تنبيه: ' + w + ']'); });
     lines.push(res.summary || '', '', 'الخطوة | المعادلة | التعويض | النتيجة');
     (res.steps || []).forEach(function (st) { lines.push(st.step + ' | ' + st.formula + ' | ' + st.substitution + ' | ' + st.result); });
     lastReportText = lines.join('\n');
