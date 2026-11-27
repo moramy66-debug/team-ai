@@ -31,29 +31,29 @@
   /* input: {pKW, pfExisting, pfTarget (0.95), voltageV (400)} */
   function pfc(input) {
     var o = input || {}, P = num(o.pKW), pf1 = num(o.pfExisting), pf2 = pos(num(o.pfTarget)) ? num(o.pfTarget) : TARIFF_PF, V = pos(num(o.voltageV)) ? num(o.voltageV) : 400;
-    if (!pos(P)) throw new Error('ادخل الحمل الفعال P (kW) أكبر من صفر.');
+    if (!pos(P)) throw new Error('ادخل Load الفعال P (kW) أكبر من صفر.');
     if (!(pf1 > 0 && pf1 <= 1)) throw new Error('ادخل PF الحالي بين 0 و 1.');
     if (!(pf2 > 0 && pf2 <= 1)) throw new Error('ادخل PF المستهدف بين 0 و 1.');
     var steps = [], extra = [], used = [SRC.sera, SRC.bank];
     var t1 = Math.tan(Math.acos(pf1)), t2 = Math.tan(Math.acos(pf2));
     var S1 = P / pf1, S2 = P / pf2, Q1 = P * t1, Q2 = P * t2;
-    steps.push({ step: 'القدرة الظاهرة والمفاعلة الحالية', formula: 'S = P / PF ; Q = P x tan(acos(PF))', substitution: 'S = ' + r1(P) + ' / ' + pf1 + ' ; tan = ' + r3(t1), result: 'S1 = ' + r1(S1) + ' kVA | Q1 = ' + r1(Q1) + ' kVAR', value: Q1, unit: 'kVAR' });
+    steps.push({ step: 'Power الظاهرة و Reactance الحالية', formula: 'S = P / PF ; Q = P x tan(acos(PF))', substitution: 'S = ' + r1(P) + ' / ' + pf1 + ' ; tan = ' + r3(t1), result: 'S1 = ' + r1(S1) + ' kVA | Q1 = ' + r1(Q1) + ' kVAR', value: Q1, unit: 'kVAR' });
     var Qc = P * (t1 - t2);
     if (Qc <= 0) {
       extra.push('PF الحالي ' + pf1 + ' أعلى من أو يساوي المستهدف ' + pf2 + ': مفيش تعويض مطلوب.');
       Qc = 0;
     }
-    steps.push({ step: 'سعة المكثفات المطلوبة', formula: 'Qc = P x (tan(phi1) - tan(phi2))', substitution: r1(P) + ' x (' + r3(t1) + ' - ' + r3(t2) + ')', result: r1(Qc) + ' kVAR', value: Qc, unit: 'kVAR' });
+    steps.push({ step: 'Capacitor Rating المطلوبة', formula: 'Qc = P x (tan(phi1) - tan(phi2))', substitution: r1(P) + ' x (' + r3(t1) + ' - ' + r3(t2) + ')', result: r1(Qc) + ' kVAR', value: Qc, unit: 'kVAR' });
     var std = Qc > 0 ? nextStd(BANK, Qc) : 0;
-    if (Qc > 0 && std === null) { extra.push('السعة المطلوبة أكبر من أكبر خطوة في القايمة: قسّمها على أكتر من بنك.'); }
+    if (Qc > 0 && std === null) { extra.push('Required Capacity أكبر من أكبر خطوة في القايمة: قسّمها على أكتر من بنك.'); }
     steps.push({ step: 'أقرب خطوة بنك أعلى', formula: 'أول قيمة من قايمة الخطوات >= Qc', substitution: 'Qc = ' + r1(Qc) + ' kVAR', result: (std === null ? 'خارج القايمة' : std + ' kVAR') + ' (القايمة needs_review، تأكد من كتالوج المصنع)', value: std, unit: 'kVAR' });
     var I1 = S1 * 1000 / (Math.sqrt(3) * V), I2 = S2 * 1000 / (Math.sqrt(3) * V);
-    steps.push({ step: 'التيار قبل وبعد التعويض', formula: 'I = S x 1000 / (sqrt(3) x V)', substitution: 'S1 = ' + r1(S1) + ' kVA ; S2 = ' + r1(S2) + ' kVA ; V = ' + V + ' V', result: 'قبل ' + r1(I1) + ' A | بعد ' + r1(I2) + ' A | تخفيض ' + r1((1 - I2 / I1) * 100) + ' %', value: I2, unit: 'A' });
+    steps.push({ step: 'Current قبل وبعد التعويض', formula: 'I = S x 1000 / (sqrt(3) x V)', substitution: 'S1 = ' + r1(S1) + ' kVA ; S2 = ' + r1(S2) + ' kVA ; V = ' + V + ' V', result: 'قبل ' + r1(I1) + ' A | بعد ' + r1(I2) + ' A | تخفيض ' + r1((1 - I2 / I1) * 100) + ' %', value: I2, unit: 'A' });
     var Sfinal = std ? Math.sqrt(P * P + Math.pow(Q1 - std, 2)) : S1, pfFinal = P / Sfinal;
     if (std) steps.push({ step: 'PF الفعلي بعد تركيب الخطوة القياسية', formula: 'PF = P / sqrt(P^2 + (Q1 - Qstd)^2)', substitution: 'Q1 - Qstd = ' + r1(Q1 - std) + ' kVAR', result: r3(pfFinal), value: pfFinal });
-    if (std && Q1 - std < 0) extra.push('الخطوة القياسية أكبر من المفاعلة الحالية: ممكن يحصل over-compensation (PF leading) عند الحمل الخفيف. استخدم بنك automatic بخطوات.');
+    if (std && Q1 - std < 0) extra.push('الخطوة القياسية أكبر من Reactance الحالية: ممكن يحصل over-compensation (PF leading) عند Load الخفيف. استخدم بنك automatic بخطوات.');
     extra.push('التعريفة: SERA بتحدد PF (0.95) أو أعلى بدون رسوم، وأقل من 0.95 بتتحاسب رسوم إضافية (5 هللة لكل ك.فار.س إضافي حسب صفحة التعريفة). تأكد من التعريفة السارية وقت التصميم.');
-    extra.push('لو فيه harmonics (VFD، UPS، LED): استخدم بنك detuned reactor (مثلا 5.67 %) ومتركبش مكثفات عادية بدون قياس THD.');
+    extra.push('لو فيه harmonics (VFD، UPS، LED): استخدم بنك detuned reactor (مثلا 5.67 %) ومتركبش Capacitors عادية بدون قياس THD.');
     return { ok: Qc >= 0, Qc: r1(Qc), qcKVAR: r1(Qc), standardKVAR: std, currentBeforeA: r1(I1), currentAfterA: r1(I2), pfFinal: r3(pfFinal), steps: steps, tablesUsed: used, warnings: warnFor(used, extra),
       summary: 'تعويض PF من ' + pf1 + ' إلى ' + pf2 + ': Qc = ' + r1(Qc) + ' kVAR' + (std ? ' (بنك ' + std + ' kVAR)' : '') + ' | I من ' + r1(I1) + ' إلى ' + r1(I2) + ' A' };
   }
@@ -66,34 +66,34 @@
     var i2t, basis;
     if (pos(lt)) { i2t = lt * 1e6; basis = 'datasheet'; }
     else {
-      if (!pos(I) || !pos(t)) throw new Error('ادخل تيار العطل (A أو kA) وزمن القطع (s)، أو I2t من بيانات القاطع.');
+      if (!pos(I) || !pos(t)) throw new Error('ادخل Current العطل (A أو kA) وزمن القطع (s)، أو I2t من بيانات Breaker.');
       i2t = I * I * t; basis = 'time';
     }
     var k = K[cond][kind][ins];
-    steps.push({ step: 'طاقة العطل', formula: basis === 'datasheet' ? 'I2t = القيمة المدخلة من بيانات القاطع' : 'I2t = I^2 x t', substitution: basis === 'datasheet' ? r3(lt) + ' kA2s x 10^6' : r1(I) + '^2 x ' + t, result: r2(i2t / 1e6) + ' x 10^6 A2s', value: i2t, unit: 'A2s' });
-    steps.push({ step: 'ثابت k للموصل الأرضي', formula: 'k من IEC 60364-5-54 Annex A (' + cond + ', ' + ins + ', ' + (kind === 'insulated' ? 'موصل معزول منفصل / عاري' : 'جزء من كابل multicore') + ')', substitution: cond + ' / ' + ins + ' / ' + kind, result: 'k = ' + k, value: k });
+    steps.push({ step: 'طاقة العطل', formula: basis === 'datasheet' ? 'I2t = القيمة المدخلة من بيانات Breaker' : 'I2t = I^2 x t', substitution: basis === 'datasheet' ? r3(lt) + ' kA2s x 10^6' : r1(I) + '^2 x ' + t, result: r2(i2t / 1e6) + ' x 10^6 A2s', value: i2t, unit: 'A2s' });
+    steps.push({ step: 'Constant k لـ Earthing Conductor', formula: 'k من IEC 60364-5-54 Annex A (' + cond + ', ' + ins + ', ' + (kind === 'insulated' ? 'Conductor معزول منفصل / عاري' : 'جزء من Cable multicore') + ')', substitution: cond + ' / ' + ins + ' / ' + kind, result: 'k = ' + k, value: k });
     var Sad = Math.sqrt(i2t) / k;
-    steps.push({ step: 'أقل مقطع بالمعادلة الأديباتيكية', formula: 'S = sqrt(I^2 t) / k', substitution: 'sqrt(' + r2(i2t / 1e6) + ' x 10^6) / ' + k, result: r2(Sad) + ' mm2', value: Sad, unit: 'mm2' });
+    steps.push({ step: 'أقل Cross-section بالمعادلة الأديباتيكية', formula: 'S = sqrt(I^2 t) / k', substitution: 'sqrt(' + r2(i2t / 1e6) + ' x 10^6) / ' + k, result: r2(Sad) + ' mm2', value: Sad, unit: 'mm2' });
     var minMech = o.separated === 'unprotected' ? 4 : (o.separated === 'protected' ? 2.5 : 0);
     var Sph = num(o.phaseMm2), Ssimple = null;
     if (pos(Sph)) {
       Ssimple = Sph <= 16 ? Sph : (Sph <= 35 ? 16 : Sph / 2);
-      steps.push({ step: 'الطريقة المبسطة (جدول 54.2)', formula: 'Sph <= 16: S = Sph ; 16 < Sph <= 35: 16 ; Sph > 35: Sph / 2', substitution: 'Sph = ' + Sph + ' mm2 (نفس خامة الموصل)', result: r2(Ssimple) + ' mm2', value: Ssimple, unit: 'mm2' });
-      extra.push('الطريقة المبسطة صالحة فقط لو موصل الأرضي من نفس خامة موصل الفاز. لو مختلفة اعتمد الأديباتيكية أو صحح بالتوصيلية.');
+      steps.push({ step: 'الطريقة المبسطة (جدول 54.2)', formula: 'Sph <= 16: S = Sph ; 16 < Sph <= 35: 16 ; Sph > 35: Sph / 2', substitution: 'Sph = ' + Sph + ' mm2 (نفس خامة Conductor)', result: r2(Ssimple) + ' mm2', value: Ssimple, unit: 'mm2' });
+      extra.push('الطريقة المبسطة صالحة فقط لو Earthing Conductor من نفس خامة Conductor الفاز. لو مختلفة اعتمد الأديباتيكية أو صحح بالتوصيلية.');
     }
     var need = Math.max(Sad, minMech);
-    if (minMech) steps.push({ step: 'الحد الأدنى الميكانيكي (موصل أرضي منفصل عن الفازات)', formula: o.separated === 'unprotected' ? '4 mm2 لو غير محمي ميكانيكيا' : '2.5 mm2 لو محمي ميكانيكيا', substitution: o.separated === 'unprotected' ? 'غير محمي' : 'محمي', result: minMech + ' mm2', value: minMech, unit: 'mm2' });
+    if (minMech) steps.push({ step: 'الحد الأدنى الميكانيكي (Earthing Conductor منفصل عن الفازات)', formula: o.separated === 'unprotected' ? '4 mm2 لو غير محمي ميكانيكيا' : '2.5 mm2 لو محمي ميكانيكيا', substitution: o.separated === 'unprotected' ? 'غير محمي' : 'محمي', result: minMech + ' mm2', value: minMech, unit: 'mm2' });
     var sel = nextStd(SIZES, need);
-    steps.push({ step: 'المقطع القياسي المختار', formula: 'أول مقطع قياسي >= أكبر من (الأديباتيكي، الحد الميكانيكي)', substitution: r2(need) + ' mm2', result: (sel === null ? 'خارج القايمة' : sel + ' mm2'), value: sel, unit: 'mm2' });
+    steps.push({ step: 'Cross-section القياسي المختار', formula: 'أول Cross-section قياسي >= أكبر من (الأديباتيكي، الحد الميكانيكي)', substitution: r2(need) + ' mm2', result: (sel === null ? 'خارج القايمة' : sel + ' mm2'), value: sel, unit: 'mm2' });
     if (Ssimple !== null) {
       var final = Math.max(sel || 0, 0);
-      if (Ssimple > (sel || 0)) extra.push('المقطع من الطريقة المبسطة (' + r2(Ssimple) + ' mm2) أكبر من الأديباتيكي: اعتمد الأكبر لو محتاج تقليل impedance حلقة العطل (TN).');
+      if (Ssimple > (sel || 0)) extra.push('Cross-section من الطريقة المبسطة (' + r2(Ssimple) + ' mm2) أكبر من الأديباتيكي: اعتمد الأكبر لو محتاج تقليل impedance حلقة العطل (TN).');
     }
     if (basis === 'time' && pos(t) && t > 5) extra.push('زمن القطع أكبر من 5 ثواني: المعادلة الأديباتيكية غير صالحة.');
-    if (basis === 'time' && pos(t) && t < 0.1) extra.push('زمن القطع أقل من 0.1 ثانية: استخدم I2t الفعلي للقاطع من بيانات المصنع.');
-    extra.push('تيار العطل للأرض ممكن يكون أقل من Isc ثلاثي الفاز: استخدم تيار earth-fault الفعلي لو متاح، وإلا النتيجة محافظة.');
+    if (basis === 'time' && pos(t) && t < 0.1) extra.push('زمن القطع أقل من 0.1 ثانية: استخدم I2t الفعلي لـ Breaker من بيانات المصنع.');
+    extra.push('Current العطل للأرض ممكن يكون أقل من Isc ثلاثي الفاز: استخدم Current earth-fault الفعلي لو متاح، وإلا النتيجة محافظة.');
     return { ok: true, adiabaticMm2: r2(Sad), simplifiedMm2: Ssimple === null ? null : r2(Ssimple), selectedMm2: sel, k: k, i2t: i2t, basis: basis, steps: steps, tablesUsed: used, warnings: warnFor(used, extra),
-      summary: 'موصل الأرضي: S = sqrt(I2t)/k = ' + r2(Sad) + ' mm2 (k = ' + k + ') | المقطع القياسي ' + (sel === null ? 'خارج القايمة' : sel + ' mm2') + (Ssimple === null ? '' : ' | المبسطة ' + r2(Ssimple) + ' mm2') };
+      summary: 'Earthing Conductor: S = sqrt(I2t)/k = ' + r2(Sad) + ' mm2 (k = ' + k + ') | Cross-section القياسي ' + (sel === null ? 'خارج القايمة' : sel + ' mm2') + (Ssimple === null ? '' : ' | المبسطة ' + r2(Ssimple) + ' mm2') };
   }
 
   window.EngPfcCpc = { pfc: pfc, cpc: cpc, constants: { K: K, SIZES: SIZES, BANK: BANK, sources: SRC } };
@@ -112,7 +112,7 @@
     var h = window.EngUI.helpers, el = h.el;
     function pdfFn(title, res) { return function () { return window.EngPDF && window.EngPDF.docFromResult ? window.EngPDF.docFromResult(title, res) : null; }; }
     window.EngUI.registerTab('pfc', 'PFC', function (body) {
-      body.appendChild(el('div', 'ec-summary', 'تعويض معامل القدرة: Qc = P x (tan phi1 - tan phi2). الافتراضي PF مستهدف 0.95 (حد تعريفة SERA).'));
+      body.appendChild(el('div', 'ec-summary', 'تعويض Power Factor: Qc = P x (tan phi1 - tan phi2). الافتراضي PF مستهدف 0.95 (حد تعريفة SERA).'));
       var g = el('div', 'ec-grid');
       g.appendChild(h.createField('pfc-p', 'Active load P (kW)', 'number', ''));
       g.appendChild(h.createField('pfc-pf1', 'Existing PF', 'number', 0.8));
@@ -131,7 +131,7 @@
       });
     });
     window.EngUI.registerTab('cpc', 'CPC', function (body) {
-      body.appendChild(el('div', 'ec-summary', 'مقطع الموصل الأرضي: S = sqrt(I2t) / k. ممكن تسحب القيم من تاب Short-circuit.'));
+      body.appendChild(el('div', 'ec-summary', 'Cross-section Earthing Conductor: S = sqrt(I2t) / k. ممكن تسحب القيم من تاب Short-circuit.'));
       var g = el('div', 'ec-grid');
       g.appendChild(h.createField('cpc-i', 'Fault current (kA)', 'number', ''));
       g.appendChild(h.createField('cpc-t', 'Clearing time (s)', 'number', ''));
