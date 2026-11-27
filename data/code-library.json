@@ -1,0 +1,112 @@
+[
+  {
+    "id": "sbc401-scope-systems",
+    "code": "sbc401",
+    "topic": "نطاق الكود السعودي الكهربائي وأنظمته الرئيسية (SBC 401)",
+    "text": "يغطي الكود السعودي الكهربائي متطلبات التصميم والتركيب والتشغيل والصيانة والسلامة لأنظمة المباني، ويشمل: أنظمة التأريض، الحماية من الصواعق، لوحات التوزيع وقواطعها، التمديدات في الأماكن الرطبة، تمديدات الأسلاك والكابلات، أنظمة الإنذار من الحريق، وشواحن المركبات الكهربائية (EV Chargers).",
+    "clause": null,
+    "source_url": "https://www.sbc.gov.sa/ar/BC/Pages/BuildingCode/BCDetails.aspx?codeId=401&year=2024",
+    "source_note": "الموقع الرسمي للمركز السعودي لكود البناء — صفحة تفاصيل SBC 401 (2024)",
+    "status": "verified_mirror",
+    "checked_on": "2026-11-27"
+  },
+  {
+    "id": "sbc401-vdrop-design",
+    "code": "sbc401",
+    "topic": "التحقق من هبوط الجهد (Voltage Drop) في التغذية والدوائر الفرعية",
+    "text": "يلزم التحقق من أن هبوط الجهد الكلي من نقطة التغذية حتى أبعد حمل لا يؤثر على تشغيل المعدات بأمان، مع مراعاة معامل القدرة وطول المسار ودرجة حرارة الموصل. راجع الحدود الرقمية المعتمدة في الجداول الرسمية للكود ومواصفات المشروع قبل الاعتماد النهائي.",
+    "clause": null,
+    "source_url": null,
+    "source_note": "ملخص هندسي للمراجعة — يتطلب مطابقة الحدود الرقمية مع نسخة SBC 401 الرسمية",
+    "status": "needs_review",
+    "checked_on": "2026-11-27"
+  },
+  {
+    "id": "sbc401-protection-rcd",
+    "code": "sbc401",
+    "topic": "الحماية من الصعق الكهربائي وقواطع التسرب الأرضي (RCD / OCPD)",
+    "text": "تتطلب التمديدات تنسيق قواطع الحماية من زيادة التيار وقواطع التسرب الأرضي (RCD) لحماية الأشخاص والممتلكات، خاصة في الأماكن الرطبة ودورات المياه والمطابخ والمخارج الخارجية وشواحن المركبات الكهربائية، مع التحقق من زمن الفصل الآلي.",
+    "clause": null,
+    "source_url": null,
+    "source_note": "ملخص هندسي للمراجعة — يتطلب تأكيد قيم الحساسية وزمن الفصل من SBC 401",
+    "status": "needs_review",
+    "checked_on": "2026-11-27"
+  },
+  {
+    "id": "sbc401-earthing-bonding",
+    "code": "sbc401",
+    "topic": "أنظمة التأريض والربط متساوي الجهد (Earthing & Equipotential Bonding)",
+    "text": "يجب تصميم شبكة تأريض متكاملة وربط جميع الأجزاء المعدنية المكشوفة والدخيلة (Main & Supplementary Bonding) مع التحقق من ممانعة مسار العطل ومقاومة الإلكترود الأرضي حسب نوع التربة واشتراطات المشروع.",
+    "clause": null,
+    "source_url": null,
+    "source_note": "ملخص هندسي للمراجعة — يتطلب مطابقة القيم الحدية مع SBC 401 وتقرير التربة",
+    "status": "needs_review",
+    "checked_on": "2026-11-27"
+  },
+  {
+    "id": "sbc401-cables-derating",
+    "code": "sbc401",
+    "topic": "تمديدات الكابلات ومعاملات التصحيح (Cable Sizing & Derating)",
+    "text": "عند اختيار مقاطع الكابلات في المشروع يجب تطبيق معاملات التصحيح لحرارة المحيط المرتفعة في المملكة وطريقة التمديد (هواء، مواسير، أو دفن في التربة) ومعامل التجميع (Grouping)، مع الحفاظ على الترتيب القياسي Ib <= In <= Iz.",
+    "clause": null,
+    "source_url": null,
+    "source_note": "ملخص هندسي للمراجعة — راجع جداول السعة ومعاملات التصحيح في SBC 401",
+    "status": "needs_review",
+    "checked_on": "2026-11-27"
+  },
+  {
+    "id": "sbc401-panels-labeling",
+    "code": "sbc401",
+    "topic": "لوحات التوزيع الكهربائية والتمييز والوصول (Distribution Boards)",
+    "text": "يجب توفير خلوصات عمل آمنة أمام لوحات التوزيع، وتزويد كل لوحة بجدول دوائر واضح ومحدّث (Panel Schedule) ومفتاح فصل رئيسي واضح، مع مراعاة درجة الحماية (IP) المناسبة لمكان التركيب الداخلي أو الخارجي.",
+    "clause": null,
+    "source_url": null,
+    "source_note": "ملخص هندسي للمراجعة — يتطلب مطابقة أبعاد الخلوصات مع SBC 401",
+    "status": "needs_review",
+    "checked_on": "2026-11-27"
+  },
+  {
+    "id": "sec-pv-mv-voltages",
+    "code": "sec_dc",
+    "topic": "الجهود الاسمية لشبكة التوزيع المتوسطة (MV Nominal Voltages) والتردد المستمر",
+    "text": "تعتمد شبكة التوزيع للجهد المتوسط في المملكة الجهود الاسمية 13.8 kV و33 kV و69 kV، ويكون نطاق التشغيل المستمر للتردد في أنظمة الربط الكبيرة بين 58.8–60.0 Hz و60.0–60.5 Hz وفق المعايير الفنية المنشورة للشركة السعودية للكهرباء.",
+    "clause": "6.5",
+    "source_url": "https://www.se.com.sa/-/media/sec/Sustainability/Renewable-Energy/ProcAndGuides/LargeScale/PV-Large-Scale-Technical-Connection-Standards.ashx",
+    "source_note": "معايير الربط الفني لأنظمة الطاقة الشمسية الكبيرة — الشركة السعودية للكهرباء (SEC)",
+    "status": "verified_mirror",
+    "checked_on": "2026-11-27"
+  },
+  {
+    "id": "sec-dc-fault-isolation",
+    "code": "sec_dc",
+    "topic": "عزل الأعطال الداخلية قبل نقطة الربط (Fault Clearance at Exit Point)",
+    "text": "يجب تصميم أنظمة الحماية في منشأة المستهلك بحيث يتم اكتشاف وفصل أي أعطال داخلية أو أعطال تسرب أرضي قبل نقطة الخروج/الربط (Exit Point) قبل أن تعمل أجهزة حماية شبكة التوزيع التابعة للشركة السعودية للكهرباء.",
+    "clause": "6.2",
+    "source_url": "https://www.se.com.sa/-/media/sec/Sustainability/Renewable-Energy/ProcAndGuides/LargeScale/PV-Large-Scale-Technical-Connection-Standards.ashx",
+    "source_note": "معايير الربط الفني للشركة السعودية للكهرباء (SEC) — الإحالة إلى Distribution Code",
+    "status": "verified_mirror",
+    "checked_on": "2026-11-27"
+  },
+  {
+    "id": "sec-dps-load-estimation",
+    "code": "sec_dps",
+    "topic": "تقدير الأحمال ومعاملات الطلب والتزامن (SEC DPS Load Estimation)",
+    "text": "يُراعى في دراسات تغذية المشتركين تطبيق معاملات الطلب (Demand Factors) ومعاملات التزامن وكثافات الأحمال (VA/m2) المعتمدة في معيار تخطيط التوزيع (SEC DPS) عند إعداد نموذج إعلان الأحمال (SEC-LD) لتحديد سعة المحول أو نقطة التغذية.",
+    "clause": null,
+    "source_url": null,
+    "source_note": "ملخص هندسي للمراجعة — راجع الجداول المعتمدة في نسخة SEC DPS الرسمية",
+    "status": "needs_review",
+    "checked_on": "2026-11-27"
+  },
+  {
+    "id": "sec-dps-pf-harmonics",
+    "code": "sec_dps",
+    "topic": "معامل القدرة والتوافقات (Power Factor & THD) عند نقطة الربط",
+    "text": "يلزم الالتزام بحدود معامل القدرة والتشوه التوافقي الكلي (THD) عند نقطة الربط المشترك (PCC) وفق متطلبات كود التوزيع ومعيار التخطيط (SEC DPS)، مع دراسة الحاجة لمكثفات تحسين معامل القدرة أو مرشحات التوافقات للأحمال غير الخطية.",
+    "clause": null,
+    "source_url": null,
+    "source_note": "ملخص هندسي للمراجعة — راجع الحدود الرقمية في SEC Distribution Code و SEC DPS",
+    "status": "needs_review",
+    "checked_on": "2026-11-27"
+  }
+]
