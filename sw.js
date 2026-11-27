@@ -1,4 +1,4 @@
-const CACHE_NAME = 'teamai-v110';
+const CACHE_NAME = 'teamai-v111';
 const CORE_ASSETS = [
   './',
   './index.html',
