@@ -124,6 +124,7 @@
             uf: h.numVal('lt-uf'),
             mf: h.numVal('lt-mf')
           });
+          out.innerHTML = '';
           h.showResult(out, res, 'Lighting — Lumen Method');
           if (res.ok) h.renderResultActions(out, 'needs_review', pdfFn('Lighting — Lumen Method', res));
         });
