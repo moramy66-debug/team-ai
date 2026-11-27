@@ -134,7 +134,8 @@
         sp.setAttribute('dir', hasAr ? 'rtl' : 'ltr');
         if (hasAr) {
           sp.className = 'ec-ltr ec-mixed';
-          var re = /[A-Za-z0-9\u2264\u2265\u2192=<>+*\/\u00d7\u00f7%\u00b0][A-Za-z0-9.,%\u00b0\u00b2\u00b3\u00b7\u2264\u2265\u2192=<>+\-*\/\u00d7\u00f7^_:;()\[\]\s]*/g;
+          txt = txt.replace(/\u2192/g, '\u2190');
+          var re = /[A-Za-z0-9\u2264\u2265=<>+*\/\u00d7\u00f7%\u00b0][A-Za-z0-9.,%\u00b0\u00b2\u00b3\u00b7\u2264\u2265=<>+\-*\/\u00d7\u00f7^_:;()\[\]\s]*/g;
           var last = 0, m;
           while ((m = re.exec(txt))) {
             var run = m[0], tail = run.match(/[\s().,;:\])]*$/)[0];
