@@ -289,7 +289,7 @@
       { value: 'PVC', label: 'PVC (70C)' }
     ]));
     grid.appendChild(createField('ec-cs-method', 'Method', 'select', [
-      { value: 'air', label: 'In Air', selected: true },
+      { value: 'air', label: 'In Air (Method C)', selected: true },
       { value: 'ground', label: 'Buried direct (D2)' },
       { value: 'duct', label: 'Buried in ducts (D1)' }
     ]));
