@@ -79,7 +79,7 @@
       requiredSiteKva: requiredSiteKva,
       deratingFactor: deratingFactor,
       requiredIsoKva: requiredIsoKva,
-      stdKva: stdKva,
+      stdKva: stdKva, stepLoadKva: stepLoadKva, stdSiteKva: stdSiteKva,
       voltageDipPct: voltageDipPct,
       warnings: warnings,
       constants: CONSTANTS,
@@ -121,11 +121,7 @@
   function register() {
     if (!window.EngUI || !window.EngUI.registerTab || !window.EngUI.helpers) return false;
     var h = window.EngUI.helpers;
-    window.EngUI.registerTab({
-      id: 'generator',
-      title: 'Generator Sizing',
-      order: 65,
-      render: function (panel) {
+    window.EngUI.registerTab('generator', 'Generator', function (body) { var panel = body;
         panel.appendChild(h.el('div', 'ec-note', AR_WARNING));
         var grid = h.el('div', 'ec-grid');
         grid.appendChild(h.createField('gn-kw', 'Continuous Loads (kW)', 'number', '200'));
@@ -159,7 +155,7 @@
           h.showResult(out, res, 'Generator Sizing');
           if (res.ok) h.renderResultActions(out, 'needs_review', pdfFn('Generator Sizing', res));
         });
-      }
+  
     });
     return true;
   }
