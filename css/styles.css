@@ -444,7 +444,7 @@ body .cl-item-head{flex-shrink:0}
 .ec-steps td::before{content:attr(data-label);flex:0 0 64px;color:var(--mut);font-size:12px}
 .ec-steps td:first-child{font-weight:700;padding-bottom:6px;border-bottom:1px solid var(--line);margin-bottom:4px}
 .ec-steps td:last-child{font-weight:600}
-#settings .row>input.grow{flex:1 1 100%;min-width:0}
+#settings .row>input.grow{flex:1 1 100%!important;min-width:0}
 }
 
 /* batch 4: LTR formula/substitution isolation, calm source marker */
