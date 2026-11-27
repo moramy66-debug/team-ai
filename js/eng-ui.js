@@ -126,7 +126,16 @@
       var tr = document.createElement('tr');
       function cell(t, label) { var c = el('td', null, t); c.setAttribute('data-label', label); return c; }
       tr.appendChild(cell(s.step, 'الخطوة'));
-      function ltrCell(t, label) { var c = cell('', label); var sp = el('span', 'ec-ltr', t); sp.setAttribute('dir', 'ltr'); c.appendChild(sp); return c; }
+      function ltrCell(t, label) {
+        var c = cell('', label); var sp = el('span', 'ec-ltr', ''); sp.setAttribute('dir', 'ltr');
+        String(t == null ? '' : t).replace(/<=/g, '\u2264').replace(/>=/g, '\u2265').replace(/->/g, '\u2192')
+          .split(/([\u0600-\u06FF][\u0600-\u06FF\u060C\s]*[\u0600-\u06FF]|[\u0600-\u06FF])/).forEach(function (seg) {
+            if (!seg) return;
+            if (/[\u0600-\u06FF]/.test(seg)) { var b = document.createElement('bdi'); b.setAttribute('dir', 'rtl'); b.textContent = seg; sp.appendChild(b); }
+            else sp.appendChild(document.createTextNode(seg));
+          });
+        c.appendChild(sp); return c;
+      }
       tr.appendChild(ltrCell(s.formula, 'المعادلة'));
       tr.appendChild(ltrCell(s.substitution, 'التعويض'));
       var tdr = cell(s.result, 'النتيجة');
