@@ -33,6 +33,9 @@
     if (status === 'verified_mirror') {
       return { text: 'Verified Mirror', cls: 'cl-badge-verified' };
     }
+    if (status === 'verified_secondary') {
+      return { text: 'Verified Secondary', cls: 'cl-badge-secondary' };
+    }
     return { text: 'Needs Review', cls: 'cl-badge-review' };
   }
 
@@ -120,6 +123,7 @@
       '}',
       '.cl-badge-code { background: rgba(59, 130, 246, 0.2); color: #93c5fd; }',
       '.cl-badge-verified { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; }',
+      '.cl-badge-secondary { background: rgba(59, 130, 246, 0.2); color: #93c5fd; }',
       '.cl-badge-review { background: rgba(245, 158, 11, 0.2); color: #fcd34d; }',
       '.cl-item-body {',
       '  display: none; padding: 0 12px 12px; font-size: 0.9rem; line-height: 1.6;',
