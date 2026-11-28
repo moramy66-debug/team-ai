@@ -100,9 +100,9 @@ function render(){var L=get(),box=$('cdList');box.innerHTML='';if(!L.length){box
   var n=document.createElement('div');n.className='nm';n.dir='ltr';var n1=document.createElement('div');n1.className='nn';n1.textContent=c.name;var n2=document.createElement('div');n2.className='nv';n2.textContent=c.ver?'Latest: '+c.ver:'';n.append(n1,n2);
   var m=document.createElement('span');m.className='mt';m.textContent='';
   var on=document.createElement('input');on.type='checkbox';on.checked=c.on!==false;on.title='استخدمه في المهام';on.style.width='auto';on.onchange=function(){var l=get(),x=l.find(function(y){return y.id===c.id});if(x){x.on=on.checked;put(l)}};
-  var ed=document.createElement('button');ed.className='sec';ed.textContent='تعديل';ed.onclick=function(){editId=c.id;$('cdName').value=c.name;$('cdText').value=c.text||'';$('cdAdd').textContent='حفظ التعديل';msg('بتعدّل: '+c.name+'. تعديلاتك محفوظة على جهازك ومش هتتكتب فوقها.');$('cdName').scrollIntoView()};
-  var v=document.createElement('button');v.className='sec';v.textContent='عرض';
-  var del=document.createElement('button');del.className='sec';del.textContent='حذف';
+  var ed=document.createElement('button');ed.className='sec';ed.textContent='Edit';ed.onclick=function(){editId=c.id;$('cdName').value=c.name;$('cdText').value=c.text||'';$('cdAdd').textContent='Save Edit';msg('بتعدّل: '+c.name+'. تعديلاتك محفوظة على جهازك ومش هتتكتب فوقها.');$('cdName').scrollIntoView()};
+  var v=document.createElement('button');v.className='sec';v.textContent='View';
+  var del=document.createElement('button');del.className='sec';del.textContent='Delete';
   var pre=document.createElement('div');pre.className='cdView';pre.hidden=true;
   v.onclick=function(){pre.hidden=!pre.hidden;if(!pre.hidden)pre.textContent=(c.text||'').slice(0,20000)+((c.text||'').length>20000?'\n...':'')};
   del.onclick=function(){if(!confirm('تمسح "'+c.name+'"؟'))return;put(get().filter(function(y){return y.id!==c.id}));render()};
@@ -113,10 +113,10 @@ async function pdfText(file){await loadPdfJs();var doc=await pdfjsLib.getDocumen
 $('cdFile').onchange=async function(){var f=this.files[0];if(!f)return;if(f.size>30*1024*1024){msg('الملف أكبر من 30 ميجا.');this.value='';return}if(!$('cdName').value.trim())$('cdName').value=f.name.replace(/\.[^.]+$/,'');
  try{var t=/pdf$/i.test(f.name)||/pdf/i.test(f.type)?await pdfText(f):await f.text();t=t.replace(/[ \t]+/g,' ').trim();
   if(t.length<50){msg('الملف ده شكله مصوّر (سكان) ومفيهوش نص. الصق النص يدوي.');return}
-  $('cdText').value=t.slice(0,250000);msg('اتقرا '+Math.round(t.length/1000)+'K حرف'+(t.length>250000?' (اتقص عند 250K)':'')+'. اضغط إضافة للمكتبة.')}
+  $('cdText').value=t.slice(0,250000);msg('اتقرا '+Math.round(t.length/1000)+'K حرف'+(t.length>250000?' (اتقص عند 250K)':'')+'. اضغط Add to Library.')}
  catch(e){msg('فشل قراءة الملف: '+e.message)}};
 $('cdAdd').onclick=function(){var n=$('cdName').value.trim(),t=$('cdText').value.trim();if(!n){msg('اكتب اسم الكود.');return}if(!t){msg('الصق نص أو ارفع PDF.');return}
- var L=get();if(editId){var x=L.find(function(y){return y.id===editId});if(x){x.name=n;x.text=t}editId=null;$('cdAdd').textContent='إضافة للمكتبة'}else L.unshift({id:Date.now(),name:n,text:t,on:true,t:Date.now()});if(!put(L))return;$('cdName').value='';$('cdText').value='';$('cdFile').value='';msg('اتضاف ✔');render()};
+ var L=get();if(editId){var x=L.find(function(y){return y.id===editId});if(x){x.name=n;x.text=t}editId=null;$('cdAdd').textContent='Add to Library'}else L.unshift({id:Date.now(),name:n,text:t,on:true,t:Date.now()});if(!put(L))return;$('cdName').value='';$('cdText').value='';$('cdFile').value='';msg('اتضاف ✔');render()};
 $('codesBtn').onclick=function(){$('codes').hidden=!$('codes').hidden;document.body.classList.remove('menu-open');if(!$('codes').hidden){render();$('codes').scrollIntoView()}};
 $('codesClose').onclick=function(){$('codes').hidden=true};
 window.codesRender=render;
