@@ -2631,10 +2631,10 @@
     },
     "sensitivity_edition_2015": {
       "status": "needs_review",
-      "note": "Previous edition DPS-01 Rev-02 Sep 2015, for sensitivity only: offices 220 VA/m2, restaurant 235 VA/m2, demand factor 0.6.",
+      "note": "Previous edition DPS-01 Rev-02 Sep 2015, for sensitivity only: offices 220 VA/m2, restaurant 235 VA/m2. The demand factor for that edition is NOT confirmed: the user-supplied sheet says 0.6, another reviewer says 0.70 (Table 11). Neither source was opened here (studylib refused the fetch), so both are shown as unconfirmed candidates.",
       "source": "https://studylib.net/doc/28721503/",
       "density": {"C7": 220, "C6": 235},
-      "demand_factor": 0.6
+      "demand_factor_candidates": [0.6, 0.7]
     }
   },
   "sec_voltage_drop_allocation_dps": {
