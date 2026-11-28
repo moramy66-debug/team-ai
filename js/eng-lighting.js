@@ -24,6 +24,10 @@
       return { ok: false, error: 'أدخل قيماً موجبة صحيحة للأبعاد والارتفاع و Lighting و Lumen و UF و MF.' };
     }
 
+    if (UF > 1 || MF > 1) {
+      return { ok: false, error: 'UF و MF لازم يكونوا أكبر من صفر وأقل من أو يساوي 1 (القيمة المدخلة: UF=' + UF + ' و MF=' + MF + ').' };
+    }
+
     var A = L * W;
     var K = (L * W) / (Hm * (L + W));
     var N_exact = (E * A) / (F * UF * MF);
