@@ -80,6 +80,10 @@
     return null;
   }
 
+  function round3(n) {
+    return Math.round(n * 1000) / 1000;
+  }
+
   function round2(n) {
     return Math.round(n * 100) / 100;
   }
@@ -108,6 +112,11 @@
     var hasUpsEff = input.upsEff !== undefined && input.upsEff !== null && input.upsEff !== '' && !(typeof input.upsEff === 'number' && isNaN(input.upsEff));
     var upsEff = hasUpsEff ? Number(input.upsEff) : null;
 
+    var hasPk = input.peukertK !== undefined && input.peukertK !== null && input.peukertK !== '' && !(typeof input.peukertK === 'number' && isNaN(input.peukertK));
+    var peukertK = hasPk ? Number(input.peukertK) : null;
+    var hasRh = input.ratedHours !== undefined && input.ratedHours !== null && input.ratedHours !== '' && !(typeof input.ratedHours === 'number' && isNaN(input.ratedHours));
+    var ratedHours = hasRh ? Number(input.ratedHours) : 20;
+
     var hasInstalledAh = input.installedAh !== undefined && input.installedAh !== null && input.installedAh !== '';
     var installedAh = hasInstalledAh ? Number(input.installedAh) : null;
 
@@ -129,6 +138,9 @@
     if (typeof designMargin !== 'number' || !isFinite(designMargin) || designMargin < 1) {
       return { ok: false, error: 'Design margin factor must be >= 1.' };
     }
+    if (hasPk && (!isFinite(peukertK) || peukertK < 1 || peukertK > 2)) return { ok: false, error: 'Peukert exponent k must be between 1 and 2 (battery datasheet value).' };
+    if (hasPk && !isFinitePos(ratedHours)) return { ok: false, error: 'Rated discharge time H (hours) must be a positive number.' };
+    if (!hasPk && hasRh) return { ok: false, error: 'Rated discharge time H is only used with a Peukert exponent k. Enter k or clear H.' };
     if (hasInstalledAh && (typeof installedAh !== 'number' || !isFinite(installedAh) || installedAh < 0)) {
       return { ok: false, error: 'Installed battery Ah must be a non-negative finite number.' };
     }
@@ -152,13 +164,19 @@
     var combinedDerating = ageingFactor * tempFactor * designMargin;
     var correctedEnergyKwh = rawEnergyKwh * combinedDerating;
     var rawAh = dcCurrentEodA * runtimeHours;
-    var requiredAh = rawAh * combinedDerating;
+    /* Peukert (optional): C = I x t x (t/H)^(1/k - 1), with H the rated discharge time of the datasheet capacity.
+       Never reduces the linear result (factor floor 1). k and H come from the battery datasheet. */
+    var peukertFactor = 1;
+    if (hasPk) peukertFactor = Math.max(1, Math.pow(runtimeHours / ratedHours, 1 / peukertK - 1));
+    var peukertAh = rawAh * peukertFactor;
+    var requiredAh = peukertAh * combinedDerating;
     var standardAh = pickStandard(requiredAh, CONSTANTS.STANDARD_BATTERY_AH.value);
 
     var reverseCheck = null;
     if (hasInstalledAh && installedAh > 0) {
       var effectiveAvailableAh = installedAh / combinedDerating;
       var estimatedRuntimeHours = effectiveAvailableAh / dcCurrentEodA;
+      if (hasPk) estimatedRuntimeHours = ratedHours * Math.pow(effectiveAvailableAh / (dcCurrentEodA * ratedHours), peukertK);
       var estimatedRuntimeMin = estimatedRuntimeHours * 60;
       reverseCheck = {
         installedAh: installedAh,
@@ -211,9 +229,13 @@
       steps.push({ step: 'UPS Efficiency (اختياري، needs_review)', formula: 'S_ups_eff = S_ups / eff_ups', substitution: round2(requiredUpsKvaBase) + ' / ' + upsEff, result: round2(requiredUpsKva) + ' kVA', value: requiredUpsKva, unit: 'kVA' });
     }
     steps.push({ step: 'Battery Power و DC Current', formula: 'Pdc = P / eff_inv ; Veod = Vdc x ratio ; Idc = Pdc x 1000 / Veod', substitution: 'Pdc = ' + round2(requiredKw) + ' / ' + inverterEff + ' ; Veod = ' + dcVoltageV + ' x ' + eodRatio + ' ; Idc = ' + round2(batteryPowerKw) + ' x 1000 / ' + round2(eodVoltageV), result: 'Pdc = ' + round2(batteryPowerKw) + ' kW | Veod = ' + round2(eodVoltageV) + ' V | Idc = ' + round2(dcCurrentEodA) + ' A', value: dcCurrentEodA, unit: 'A' });
-    steps.push({ step: 'Capacity Battery', formula: 'Ah = Idc x (t/60) x ageing x temp x margin', substitution: round2(dcCurrentEodA) + ' x (' + runtimeMin + ' / 60) x ' + ageingFactor + ' x ' + tempFactor + ' x ' + designMargin, result: 'خام ' + round2(rawAh) + ' Ah | مصحح ' + round2(requiredAh) + ' Ah | قياسي ' + (standardAh !== null ? standardAh + ' Ah' : 'خارج القايمة') + ' | طاقة مصححة ' + round2(correctedEnergyKwh) + ' kWh (القايمة needs_review)', value: requiredAh, unit: 'Ah' });
+    if (hasPk) {
+      steps.push({ step: 'Peukert Correction (اختياري، needs_review)', formula: 'Ah_peukert = Idc x t x (t / H)^(1/k - 1)', substitution: round2(dcCurrentEodA) + ' x ' + round3(runtimeHours) + ' x (' + round3(runtimeHours) + ' / ' + ratedHours + ')^(1/' + peukertK + ' - 1)', result: 'معامل ' + round3(peukertFactor) + ' | ' + round2(rawAh) + ' -> ' + round2(peukertAh) + ' Ah', value: peukertAh, unit: 'Ah' });
+      warnings.push('Peukert correction applied with k = ' + peukertK + ' and H = ' + ratedHours + ' h. Both are entered values (take them from the battery datasheet); no source is recorded here (needs_review).');
+    }
+    steps.push({ step: 'Capacity Battery', formula: hasPk ? 'Ah = Ah_peukert x ageing x temp x margin' : 'Ah = Idc x (t/60) x ageing x temp x margin', substitution: round2(hasPk ? peukertAh : dcCurrentEodA) + (hasPk ? '' : ' x (' + runtimeMin + ' / 60)') + ' x ' + ageingFactor + ' x ' + tempFactor + ' x ' + designMargin, result: 'خام ' + round2(rawAh) + ' Ah | مصحح ' + round2(requiredAh) + ' Ah | قياسي ' + (standardAh !== null ? standardAh + ' Ah' : 'خارج القايمة') + ' | طاقة مصححة ' + round2(correctedEnergyKwh) + ' kWh (القايمة needs_review)', value: requiredAh, unit: 'Ah' });
     if (reverseCheck) {
-      steps.push({ step: 'فحص زمن التشغيل العكسي', formula: 't = (Ah_installed / (ageing x temp x margin)) / Idc x 60', substitution: '(' + installedAh + ' / ' + round2(combinedDerating) + ') / ' + round2(dcCurrentEodA) + ' x 60', result: round1(reverseCheck.estimatedRuntimeMin) + ' min (' + (reverseCheck.meetsRequiredRuntime ? 'PASS' : 'FAIL') + ' مقابل ' + runtimeMin + ' min)', value: reverseCheck.estimatedRuntimeMin, unit: 'min' });
+      steps.push({ step: 'فحص زمن التشغيل العكسي', formula: hasPk ? 't = H x (Ceff / (Idc x H))^k x 60 , Ceff = Ah_installed / (ageing x temp x margin)' : 't = (Ah_installed / (ageing x temp x margin)) / Idc x 60', substitution: '(' + installedAh + ' / ' + round2(combinedDerating) + ') / ' + round2(dcCurrentEodA) + ' x 60', result: round1(reverseCheck.estimatedRuntimeMin) + ' min (' + (reverseCheck.meetsRequiredRuntime ? 'PASS' : 'FAIL') + ' مقابل ' + runtimeMin + ' min)', value: reverseCheck.estimatedRuntimeMin, unit: 'min' });
     }
     var used = [{ id: 'eng_ups_defaults_and_standard_sizes', status: 'from_memory_needs_review', source: null }];
     var summary = 'UPS ' + (standardUpsKva !== null ? standardUpsKva + ' kVA' : round2(requiredUpsKva) + ' kVA') + ' | Battery ' + round2(requiredAh) + ' Ah عند ' + round2(eodVoltageV) + ' V | كل الثوابت needs_review';
@@ -234,6 +256,9 @@
       rawEnergyKwh: rawEnergyKwh,
       correctedEnergyKwh: correctedEnergyKwh,
       rawAh: rawAh,
+      peukertFactor: peukertFactor,
+      peukertAh: peukertAh,
+      peukertApplied: hasPk,
       requiredAh: requiredAh,
       standardAh: standardAh,
       combinedDerating: combinedDerating,
@@ -281,6 +306,8 @@
       grid.appendChild(h.createField('ups-margin', 'Design Margin (>=1)', 'number', CONSTANTS.DEFAULT_DESIGN_MARGIN.value));
       grid.appendChild(h.createField('ups-eff', 'UPS Efficiency (0-1, optional, divides UPS kVA)', 'number', ''));
       grid.appendChild(h.createField('ups-installed-ah', 'Installed Battery Ah (optional reverse check)', 'number', ''));
+      grid.appendChild(h.createField('ups-peukert-k', 'Peukert Exponent k (1-2, optional, from battery datasheet)', 'number', ''));
+      grid.appendChild(h.createField('ups-rated-h', 'Rated Discharge Time H (h, default 20 when k is entered)', 'number', ''));
       body.appendChild(grid);
 
       var btn = h.el('button', 'ec-btn');
@@ -305,7 +332,9 @@
           tempFactor: h.numVal('ups-temp'),
           designMargin: h.numVal('ups-margin'),
           upsEff: h.val('ups-eff') !== '' ? Number(h.val('ups-eff')) : null,
-          installedAh: installedRaw !== '' ? Number(installedRaw) : null
+          installedAh: installedRaw !== '' ? Number(installedRaw) : null,
+          peukertK: h.val('ups-peukert-k') !== '' ? Number(h.val('ups-peukert-k')) : null,
+          ratedHours: h.val('ups-rated-h') !== '' ? Number(h.val('ups-rated-h')) : null
         });
         out.innerHTML = '';
         h.showResult(out, res, 'UPS + Battery Sizing');
