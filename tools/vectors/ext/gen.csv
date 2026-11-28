@@ -1,0 +1,121 @@
+id,desc,contKw,PF,motorKw,startType,sparePct,altM,ambC,hand_result,source_ref
+GEN-001,GEN 160kW Star-Delta 15kW,160,0.8,15,Star-Delta,10,600,35,"S_run=200, S_start=39.2157, StepLoad=239.2157, S_site=239.2157, DF=1, S_iso=239.2157, Std=250, Dip=2.2989",needs_review
+GEN-002,GEN 80kW Soft-Starter 22kW,80,0.8,22,Soft-Starter,15,1000,40,"S_run=100, S_start=86.2745, StepLoad=186.2745, S_site=186.2745, DF=1, S_iso=186.2745, Std=200, Dip=6.0773",needs_review
+GEN-003,GEN 120kW VFD 37kW,120,0.85,37,VFD,25,1200,45,"S_run=141.1765, S_start=60.4575, StepLoad=201.634, S_site=201.634, DF=0.955, S_iso=211.1351, Std=250, Dip=3.6594",needs_review
+GEN-004,GEN 160kW DOL 55kW,160,0.9,55,DOL,50,1800,50,"S_run=177.7778, S_start=431.3725, StepLoad=609.1503, S_site=609.1503, DF=0.87, S_iso=700.1728, Std=750, Dip=9.0219",needs_review
+GEN-005,GEN 240kW Star-Delta 75kW,240,1,75,Star-Delta,0,2500,55,"S_run=240, S_start=196.0784, StepLoad=436.0784, S_site=436.0784, DF=0.775, S_iso=562.6818, Std=625, Dip=5.7245",needs_review
+GEN-006,GEN 320kW Soft-Starter 110kW,320,0.7,110,Soft-Starter,10,4000,80,"S_run=457.1429, S_start=431.3725, StepLoad=888.5154, S_site=888.5154, DF=0.5, S_iso=1777.0308, Std=2000, Dip=6.0773",needs_review
+GEN-007,GEN 450kW VFD 160kW,450,0.75,160,VFD,15,0,30,"S_run=600, S_start=261.4379, StepLoad=861.4379, S_site=861.4379, DF=1, S_iso=861.4379, Std=1000, Dip=3.7736",needs_review
+GEN-008,GEN 600kW DOL 0kW,600,0.8,0,DOL,25,600,35,"S_run=750, S_start=0, StepLoad=750, S_site=937.5, DF=1, S_iso=937.5, Std=1000, Dip=0",needs_review
+GEN-009,GEN 850kW Star-Delta 15kW,850,0.85,15,Star-Delta,50,1000,40,"S_run=1000, S_start=39.2157, StepLoad=1039.2157, S_site=1500, DF=1, S_iso=1500, Std=1500, Dip=0.3906",needs_review
+GEN-010,GEN 1200kW Soft-Starter 22kW,1200,0.9,22,Soft-Starter,0,1200,45,"S_run=1333.3333, S_start=86.2745, StepLoad=1419.6078, S_site=1419.6078, DF=0.955, S_iso=1486.5004, Std=1500, Dip=0.8953",needs_review
+GEN-011,GEN 1800kW VFD 37kW,1800,1,37,VFD,10,1800,50,"S_run=1800, S_start=60.4575, StepLoad=1860.4575, S_site=1980, DF=0.87, S_iso=2275.8621, Std=2500, Dip=0.4152",needs_review
+GEN-012,GEN 2200kW DOL 55kW,2200,0.7,55,DOL,15,2500,55,"S_run=3142.8571, S_start=431.3725, StepLoad=3574.2297, S_site=3614.2857, DF=0.775, S_iso=4663.5945, Std=2500, Dip=3.2317",needs_review
+GEN-013,GEN 18kW Star-Delta 75kW,18,0.75,75,Star-Delta,25,4000,80,"S_run=24, S_start=196.0784, StepLoad=220.0784, S_site=220.0784, DF=0.5, S_iso=440.1569, Std=500, Dip=10.5263",needs_review
+GEN-014,GEN 45kW Soft-Starter 110kW,45,0.8,110,Soft-Starter,50,0,30,"S_run=56.25, S_start=431.3725, StepLoad=487.6225, S_site=487.6225, DF=1, S_iso=487.6225, Std=500, Dip=11.4583",needs_review
+GEN-015,GEN 80kW VFD 160kW,80,0.85,160,VFD,0,600,35,"S_run=94.1176, S_start=261.4379, StepLoad=355.5556, S_site=355.5556, DF=1, S_iso=355.5556, Std=400, Dip=8.9286",needs_review
+GEN-016,GEN 120kW DOL 0kW,120,0.9,0,DOL,10,1000,40,"S_run=133.3333, S_start=0, StepLoad=133.3333, S_site=146.6667, DF=1, S_iso=146.6667, Std=150, Dip=0",needs_review
+GEN-017,GEN 160kW Star-Delta 15kW,160,1,15,Star-Delta,15,1200,45,"S_run=160, S_start=39.2157, StepLoad=199.2157, S_site=199.2157, DF=0.955, S_iso=208.6028, Std=250, Dip=2.4046",needs_review
+GEN-018,GEN 240kW Soft-Starter 22kW,240,0.7,22,Soft-Starter,25,1800,50,"S_run=342.8571, S_start=86.2745, StepLoad=429.1317, S_site=429.1317, DF=0.87, S_iso=493.2548, Std=500, Dip=2.889",needs_review
+GEN-019,GEN 320kW VFD 37kW,320,0.75,37,VFD,50,2500,55,"S_run=426.6667, S_start=60.4575, StepLoad=487.1242, S_site=640, DF=0.775, S_iso=825.8065, Std=1000, Dip=1.1566",needs_review
+GEN-020,GEN 450kW DOL 55kW,450,0.8,55,DOL,0,4000,80,"S_run=562.5, S_start=431.3725, StepLoad=993.8725, S_site=993.8725, DF=0.5, S_iso=1987.7451, Std=2000, Dip=6.0773",needs_review
+GEN-021,GEN 600kW Star-Delta 75kW,600,0.85,75,Star-Delta,10,0,30,"S_run=705.8824, S_start=196.0784, StepLoad=901.9608, S_site=901.9608, DF=1, S_iso=901.9608, Std=1000, Dip=2.8571",needs_review
+GEN-022,GEN 850kW Soft-Starter 110kW,850,0.9,110,Soft-Starter,15,600,35,"S_run=944.4444, S_start=431.3725, StepLoad=1375.817, S_site=1375.817, DF=1, S_iso=1375.817, Std=1500, Dip=4.1353",needs_review
+GEN-023,GEN 1200kW VFD 160kW,1200,1,160,VFD,25,1000,40,"S_run=1200, S_start=261.4379, StepLoad=1461.4379, S_site=1500, DF=1, S_iso=1500, Std=1500, Dip=2.5478",needs_review
+GEN-024,GEN 1800kW DOL 0kW,1800,0.7,0,DOL,50,1200,45,"S_run=2571.4286, S_start=0, StepLoad=2571.4286, S_site=3857.1429, DF=0.955, S_iso=4038.893, Std=2500, Dip=0",needs_review
+GEN-025,GEN 2200kW Star-Delta 15kW,2200,0.75,15,Star-Delta,0,1800,50,"S_run=2933.3333, S_start=39.2157, StepLoad=2972.549, S_site=2972.549, DF=0.87, S_iso=3416.723, Std=2500, Dip=0.2697",needs_review
+GEN-026,GEN 18kW Soft-Starter 22kW,18,0.8,22,Soft-Starter,10,2500,55,"S_run=22.5, S_start=86.2745, StepLoad=108.7745, S_site=108.7745, DF=0.775, S_iso=140.3542, Std=150, Dip=10.0171",needs_review
+GEN-027,GEN 45kW VFD 37kW,45,0.85,37,VFD,15,4000,80,"S_run=52.9412, S_start=60.4575, StepLoad=113.3987, S_site=113.3987, DF=0.5, S_iso=226.7974, Std=250, Dip=6.7642",needs_review
+GEN-028,GEN 80kW DOL 55kW,80,0.9,55,DOL,25,0,30,"S_run=88.8889, S_start=431.3725, StepLoad=520.2614, S_site=520.2614, DF=1, S_iso=520.2614, Std=625, Dip=9.3817",needs_review
+GEN-029,GEN 120kW Star-Delta 75kW,120,1,75,Star-Delta,50,600,35,"S_run=120, S_start=196.0784, StepLoad=316.0784, S_site=316.0784, DF=1, S_iso=316.0784, Std=350, Dip=7.7519",needs_review
+GEN-030,GEN 160kW Soft-Starter 110kW,160,0.7,110,Soft-Starter,0,1000,40,"S_run=228.5714, S_start=431.3725, StepLoad=659.944, S_site=659.944, DF=1, S_iso=659.944, Std=750, Dip=7.9422",needs_review
+GEN-031,GEN 240kW VFD 160kW,240,0.75,160,VFD,10,1200,45,"S_run=320, S_start=261.4379, StepLoad=581.4379, S_site=581.4379, DF=0.955, S_iso=608.8355, Std=625, Dip=6.1651",needs_review
+GEN-032,GEN 320kW DOL 0kW,320,0.8,0,DOL,15,1800,50,"S_run=400, S_start=0, StepLoad=400, S_site=460, DF=0.87, S_iso=528.7356, Std=625, Dip=0",needs_review
+GEN-033,GEN 450kW Star-Delta 15kW,450,0.85,15,Star-Delta,25,2500,55,"S_run=529.4118, S_start=39.2157, StepLoad=568.6275, S_site=661.7647, DF=0.775, S_iso=853.8899, Std=1000, Dip=0.7533",needs_review
+GEN-034,GEN 600kW Soft-Starter 22kW,600,0.9,22,Soft-Starter,50,4000,80,"S_run=666.6667, S_start=86.2745, StepLoad=752.9412, S_site=1000, DF=0.5, S_iso=2000, Std=2000, Dip=1.2776",needs_review
+GEN-035,GEN 850kW VFD 37kW,850,1,37,VFD,0,0,30,"S_run=850, S_start=60.4575, StepLoad=910.4575, S_site=910.4575, DF=1, S_iso=910.4575, Std=1000, Dip=0.8987",needs_review
+GEN-036,GEN 1200kW DOL 55kW,1200,0.7,55,DOL,10,600,35,"S_run=1714.2857, S_start=431.3725, StepLoad=2145.6583, S_site=2145.6583, DF=1, S_iso=2145.6583, Std=2500, Dip=2.5229",needs_review
+GEN-037,GEN 1800kW Star-Delta 75kW,1800,0.75,75,Star-Delta,15,1000,40,"S_run=2400, S_start=196.0784, StepLoad=2596.0784, S_site=2760, DF=1, S_iso=2760, Std=2500, Dip=1.1628",needs_review
+GEN-038,GEN 2200kW Soft-Starter 110kW,2200,0.8,110,Soft-Starter,25,1200,45,"S_run=2750, S_start=431.3725, StepLoad=3181.3725, S_site=3437.5, DF=0.955, S_iso=3599.4764, Std=2500, Dip=2.6387",needs_review
+GEN-039,GEN 18kW VFD 160kW,18,0.85,160,VFD,50,1800,50,"S_run=21.1765, S_start=261.4379, StepLoad=282.6144, S_site=282.6144, DF=0.87, S_iso=324.8441, Std=350, Dip=11.4093",needs_review
+GEN-040,GEN 45kW DOL 0kW,45,0.9,0,DOL,0,2500,55,"S_run=50, S_start=0, StepLoad=50, S_site=50, DF=0.775, S_iso=64.5161, Std=80, Dip=0",needs_review
+GEN-041,GEN 80kW Star-Delta 15kW,80,1,15,Star-Delta,10,4000,80,"S_run=80, S_start=39.2157, StepLoad=119.2157, S_site=119.2157, DF=0.5, S_iso=238.4314, Std=250, Dip=4.4944",needs_review
+GEN-042,GEN 120kW Soft-Starter 22kW,120,0.7,22,Soft-Starter,15,0,30,"S_run=171.4286, S_start=86.2745, StepLoad=257.7031, S_site=257.7031, DF=1, S_iso=257.7031, Std=300, Dip=4.1353",needs_review
+GEN-043,GEN 160kW VFD 37kW,160,0.75,37,VFD,25,600,35,"S_run=213.3333, S_start=60.4575, StepLoad=273.7908, S_site=273.7908, DF=1, S_iso=273.7908, Std=300, Dip=2.9342",needs_review
+GEN-044,GEN 240kW DOL 55kW,240,0.8,55,DOL,50,1000,40,"S_run=300, S_start=431.3725, StepLoad=731.3725, S_site=731.3725, DF=1, S_iso=731.3725, Std=750, Dip=7.9422",needs_review
+GEN-045,GEN 320kW Star-Delta 75kW,320,0.85,75,Star-Delta,0,1200,45,"S_run=376.4706, S_start=196.0784, StepLoad=572.549, S_site=572.549, DF=0.955, S_iso=599.5278, Std=625, Dip=4.6962",needs_review
+GEN-046,GEN 450kW Soft-Starter 110kW,450,0.9,110,Soft-Starter,10,1800,50,"S_run=500, S_start=431.3725, StepLoad=931.3725, S_site=931.3725, DF=0.87, S_iso=1070.5432, Std=1250, Dip=5.6158",needs_review
+GEN-047,GEN 600kW VFD 160kW,600,1,160,VFD,15,2500,55,"S_run=600, S_start=261.4379, StepLoad=861.4379, S_site=861.4379, DF=0.775, S_iso=1111.5328, Std=1250, Dip=3.8906",needs_review
+GEN-048,GEN 850kW DOL 0kW,850,0.7,0,DOL,25,4000,80,"S_run=1214.2857, S_start=0, StepLoad=1214.2857, S_site=1517.8571, DF=0.5, S_iso=3035.7143, Std=2500, Dip=0",needs_review
+GEN-049,GEN 1200kW Star-Delta 15kW,1200,0.75,15,Star-Delta,50,0,30,"S_run=1600, S_start=39.2157, StepLoad=1639.2157, S_site=2400, DF=1, S_iso=2400, Std=2500, Dip=0.2347",needs_review
+GEN-050,GEN 1800kW Soft-Starter 22kW,1800,0.8,22,Soft-Starter,0,600,35,"S_run=2250, S_start=86.2745, StepLoad=2336.2745, S_site=2336.2745, DF=1, S_iso=2336.2745, Std=2500, Dip=0.515",needs_review
+GEN-051,GEN 2200kW VFD 37kW,2200,0.85,37,VFD,10,1000,40,"S_run=2588.2353, S_start=60.4575, StepLoad=2648.6928, S_site=2847.0588, DF=1, S_iso=2847.0588, Std=2500, Dip=0.3614",needs_review
+GEN-052,GEN 18kW DOL 55kW,18,0.9,55,DOL,15,1200,45,"S_run=20, S_start=431.3725, StepLoad=451.3725, S_site=451.3725, DF=0.955, S_iso=472.6414, Std=500, Dip=11.9338",needs_review
+GEN-053,GEN 45kW Star-Delta 75kW,45,1,75,Star-Delta,25,1800,50,"S_run=45, S_start=196.0784, StepLoad=241.0784, S_site=241.0784, DF=0.87, S_iso=277.1016, Std=300, Dip=10.1276",needs_review
+GEN-054,GEN 80kW Soft-Starter 110kW,80,0.7,110,Soft-Starter,50,2500,55,"S_run=114.2857, S_start=431.3725, StepLoad=545.6583, S_site=545.6583, DF=0.775, S_iso=704.0752, Std=750, Dip=10.0171",needs_review
+GEN-055,GEN 120kW VFD 160kW,120,0.75,160,VFD,0,4000,80,"S_run=160, S_start=261.4379, StepLoad=421.4379, S_site=421.4379, DF=0.5, S_iso=842.8758, Std=1000, Dip=7.2727",needs_review
+GEN-056,GEN 160kW DOL 0kW,160,0.8,0,DOL,10,0,30,"S_run=200, S_start=0, StepLoad=200, S_site=220, DF=1, S_iso=220, Std=250, Dip=0",needs_review
+GEN-057,GEN 240kW Star-Delta 15kW,240,0.85,15,Star-Delta,15,600,35,"S_run=282.3529, S_start=39.2157, StepLoad=321.5686, S_site=324.7059, DF=1, S_iso=324.7059, Std=350, Dip=1.6529",needs_review
+GEN-058,GEN 320kW Soft-Starter 22kW,320,0.9,22,Soft-Starter,25,1000,40,"S_run=355.5556, S_start=86.2745, StepLoad=441.8301, S_site=444.4444, DF=1, S_iso=444.4444, Std=500, Dip=2.5229",needs_review
+GEN-059,GEN 450kW VFD 37kW,450,1,37,VFD,50,1200,45,"S_run=450, S_start=60.4575, StepLoad=510.4575, S_site=675, DF=0.955, S_iso=706.8063, Std=750, Dip=1.2503",needs_review
+GEN-060,GEN 600kW DOL 55kW,600,0.7,55,DOL,0,1800,50,"S_run=857.1429, S_start=431.3725, StepLoad=1288.5154, S_site=1288.5154, DF=0.87, S_iso=1481.0522, Std=1500, Dip=4.7241",needs_review
+GEN-061,GEN 850kW Star-Delta 75kW,850,0.75,75,Star-Delta,10,2500,55,"S_run=1133.3333, S_start=196.0784, StepLoad=1329.4118, S_site=1329.4118, DF=0.775, S_iso=1715.37, Std=2000, Dip=1.8622",needs_review
+GEN-062,GEN 1200kW Soft-Starter 110kW,1200,0.8,110,Soft-Starter,15,4000,80,"S_run=1500, S_start=431.3725, StepLoad=1931.3725, S_site=1931.3725, DF=0.5, S_iso=3862.7451, Std=2500, Dip=4.9217",needs_review
+GEN-063,GEN 1800kW VFD 160kW,1800,0.85,160,VFD,25,0,30,"S_run=2117.6471, S_start=261.4379, StepLoad=2379.085, S_site=2647.0588, DF=1, S_iso=2647.0588, Std=2500, Dip=1.5444",needs_review
+GEN-064,GEN 2200kW DOL 0kW,2200,0.9,0,DOL,50,600,35,"S_run=2444.4444, S_start=0, StepLoad=2444.4444, S_site=3666.6667, DF=1, S_iso=3666.6667, Std=2500, Dip=0",needs_review
+GEN-065,GEN 18kW Star-Delta 15kW,18,1,15,Star-Delta,0,1000,40,"S_run=18, S_start=39.2157, StepLoad=57.2157, S_site=57.2157, DF=1, S_iso=57.2157, Std=60, Dip=8.9286",needs_review
+GEN-066,GEN 45kW Soft-Starter 22kW,45,0.7,22,Soft-Starter,10,1200,45,"S_run=64.2857, S_start=86.2745, StepLoad=150.5602, S_site=150.5602, DF=0.955, S_iso=157.6547, Std=200, Dip=6.3455",needs_review
+GEN-067,GEN 80kW VFD 37kW,80,0.75,37,VFD,15,1800,50,"S_run=106.6667, S_start=60.4575, StepLoad=167.1242, S_site=167.1242, DF=0.87, S_iso=192.0968, Std=200, Dip=4.9537",needs_review
+GEN-068,GEN 120kW DOL 55kW,120,0.8,55,DOL,25,2500,55,"S_run=150, S_start=431.3725, StepLoad=581.3725, S_site=581.3725, DF=0.775, S_iso=750.1581, Std=800, Dip=9.4502",needs_review
+GEN-069,GEN 160kW Star-Delta 75kW,160,0.85,75,Star-Delta,50,4000,80,"S_run=188.2353, S_start=196.0784, StepLoad=384.3137, S_site=384.3137, DF=0.5, S_iso=768.6275, Std=800, Dip=6.8493",needs_review
+GEN-070,GEN 240kW Soft-Starter 110kW,240,0.9,110,Soft-Starter,0,0,30,"S_run=266.6667, S_start=431.3725, StepLoad=698.0392, S_site=698.0392, DF=1, S_iso=698.0392, Std=750, Dip=7.9422",needs_review
+GEN-071,GEN 320kW VFD 160kW,320,1,160,VFD,10,600,35,"S_run=320, S_start=261.4379, StepLoad=581.4379, S_site=581.4379, DF=1, S_iso=581.4379, Std=625, Dip=5.9041",needs_review
+GEN-072,GEN 450kW DOL 0kW,450,0.7,0,DOL,15,1000,40,"S_run=642.8571, S_start=0, StepLoad=642.8571, S_site=739.2857, DF=1, S_iso=739.2857, Std=750, Dip=0",needs_review
+GEN-073,GEN 600kW Star-Delta 15kW,600,0.75,15,Star-Delta,25,1200,45,"S_run=800, S_start=39.2157, StepLoad=839.2157, S_site=1000, DF=0.955, S_iso=1047.1204, Std=1250, Dip=0.4903",needs_review
+GEN-074,GEN 850kW Soft-Starter 22kW,850,0.8,22,Soft-Starter,50,1800,50,"S_run=1062.5, S_start=86.2745, StepLoad=1148.7745, S_site=1593.75, DF=0.87, S_iso=1831.8966, Std=2000, Dip=0.7383",needs_review
+GEN-075,GEN 1200kW VFD 37kW,1200,0.85,37,VFD,0,2500,55,"S_run=1411.7647, S_start=60.4575, StepLoad=1472.2222, S_site=1472.2222, DF=0.775, S_iso=1899.6416, Std=2000, Dip=0.5817",needs_review
+GEN-076,GEN 1800kW DOL 55kW,1800,0.9,55,DOL,10,4000,80,"S_run=2000, S_start=431.3725, StepLoad=2431.3725, S_site=2431.3725, DF=0.5, S_iso=4862.7451, Std=2500, Dip=4.9217",needs_review
+GEN-077,GEN 2200kW Star-Delta 75kW,2200,1,75,Star-Delta,15,0,30,"S_run=2200, S_start=196.0784, StepLoad=2396.0784, S_site=2530, DF=1, S_iso=2530, Std=2500, Dip=1.1628",needs_review
+GEN-078,GEN 18kW Soft-Starter 110kW,18,0.7,110,Soft-Starter,25,600,35,"S_run=25.7143, S_start=431.3725, StepLoad=457.0868, S_site=457.0868, DF=1, S_iso=457.0868, Std=500, Dip=11.4583",needs_review
+GEN-079,GEN 45kW VFD 160kW,45,0.75,160,VFD,50,1000,40,"S_run=60, S_start=261.4379, StepLoad=321.4379, S_site=321.4379, DF=1, S_iso=321.4379, Std=350, Dip=10.0756",needs_review
+GEN-080,GEN 80kW DOL 0kW,80,0.8,0,DOL,0,1200,45,"S_run=100, S_start=0, StepLoad=100, S_site=100, DF=0.955, S_iso=104.712, Std=125, Dip=0",needs_review
+GEN-081,GEN 120kW Star-Delta 15kW,120,0.85,15,Star-Delta,10,1800,50,"S_run=141.1765, S_start=39.2157, StepLoad=180.3922, S_site=180.3922, DF=0.87, S_iso=207.3473, Std=250, Dip=2.6333",needs_review
+GEN-082,GEN 160kW Soft-Starter 22kW,160,0.9,22,Soft-Starter,15,2500,55,"S_run=177.7778, S_start=86.2745, StepLoad=264.0523, S_site=264.0523, DF=0.775, S_iso=340.7126, Std=350, Dip=4.5537",needs_review
+GEN-083,GEN 240kW VFD 37kW,240,1,37,VFD,25,4000,80,"S_run=240, S_start=60.4575, StepLoad=300.4575, S_site=300.4575, DF=0.5, S_iso=600.915, Std=625, Dip=2.8201",needs_review
+GEN-084,GEN 320kW DOL 55kW,320,0.7,55,DOL,50,0,30,"S_run=457.1429, S_start=431.3725, StepLoad=888.5154, S_site=888.5154, DF=1, S_iso=888.5154, Std=1000, Dip=6.0773",needs_review
+GEN-085,GEN 450kW Star-Delta 75kW,450,0.75,75,Star-Delta,0,600,35,"S_run=600, S_start=196.0784, StepLoad=796.0784, S_site=796.0784, DF=1, S_iso=796.0784, Std=800, Dip=3.5461",needs_review
+GEN-086,GEN 600kW Soft-Starter 110kW,600,0.8,110,Soft-Starter,10,1000,40,"S_run=750, S_start=431.3725, StepLoad=1181.3725, S_site=1181.3725, DF=1, S_iso=1181.3725, Std=1250, Dip=4.9217",needs_review
+GEN-087,GEN 850kW VFD 160kW,850,0.85,160,VFD,15,1200,45,"S_run=1000, S_start=261.4379, StepLoad=1261.4379, S_site=1261.4379, DF=0.955, S_iso=1320.8774, Std=1500, Dip=2.6646",needs_review
+GEN-088,GEN 1200kW DOL 0kW,1200,0.9,0,DOL,25,1800,50,"S_run=1333.3333, S_start=0, StepLoad=1333.3333, S_site=1666.6667, DF=0.87, S_iso=1915.7088, Std=2000, Dip=0",needs_review
+GEN-089,GEN 1800kW Star-Delta 15kW,1800,1,15,Star-Delta,50,2500,55,"S_run=1800, S_start=39.2157, StepLoad=1839.2157, S_site=2700, DF=0.775, S_iso=3483.871, Std=2500, Dip=0.3027",needs_review
+GEN-090,GEN 2200kW Soft-Starter 22kW,2200,0.7,22,Soft-Starter,0,4000,80,"S_run=3142.8571, S_start=86.2745, StepLoad=3229.1317, S_site=3229.1317, DF=0.5, S_iso=6458.2633, Std=2500, Dip=1.0247",needs_review
+GEN-091,GEN 18kW VFD 37kW,18,0.75,37,VFD,10,0,30,"S_run=24, S_start=60.4575, StepLoad=84.4575, S_site=84.4575, DF=1, S_iso=84.4575, Std=100, Dip=8.3146",needs_review
+GEN-092,GEN 45kW DOL 55kW,45,0.8,55,DOL,15,600,35,"S_run=56.25, S_start=431.3725, StepLoad=487.6225, S_site=487.6225, DF=1, S_iso=487.6225, Std=500, Dip=11.4583",needs_review
+GEN-093,GEN 80kW Star-Delta 75kW,80,0.85,75,Star-Delta,25,1000,40,"S_run=94.1176, S_start=196.0784, StepLoad=290.1961, S_site=290.1961, DF=1, S_iso=290.1961, Std=300, Dip=8.9286",needs_review
+GEN-094,GEN 120kW Soft-Starter 110kW,120,0.9,110,Soft-Starter,50,1200,45,"S_run=133.3333, S_start=431.3725, StepLoad=564.7059, S_site=564.7059, DF=0.955, S_iso=591.3151, Std=625, Dip=9.7805",needs_review
+GEN-095,GEN 160kW VFD 160kW,160,1,160,VFD,0,1800,50,"S_run=160, S_start=261.4379, StepLoad=421.4379, S_site=421.4379, DF=0.87, S_iso=484.4114, Std=500, Dip=8.2696",needs_review
+GEN-096,GEN 240kW DOL 0kW,240,0.7,0,DOL,10,2500,55,"S_run=342.8571, S_start=0, StepLoad=342.8571, S_site=377.1429, DF=0.775, S_iso=486.6359, Std=500, Dip=0",needs_review
+GEN-097,Invalid: contKw=0,0,0.8,15,DOL,10,600,40,INVALID_INPUT (contKw=0),needs_review
+GEN-098,Invalid: contKw=-50,-50,0.8,15,DOL,10,600,40,INVALID_INPUT (contKw=-50),needs_review
+GEN-099,Invalid: PF=0,100,0,15,DOL,10,600,40,INVALID_INPUT (PF=0),needs_review
+GEN-100,Invalid: PF=1.1,100,1.1,15,DOL,10,600,40,INVALID_INPUT (PF=1.1),needs_review
+GEN-101,Invalid: motorKw=-10,100,0.8,-10,DOL,10,600,40,INVALID_INPUT (motorKw=-10),needs_review
+GEN-102,Invalid: altM=-100,100,0.8,15,DOL,10,-100,40,INVALID_INPUT (altM=-100),needs_review
+GEN-103,Invalid: sparePct=-5,100,0.8,15,DOL,-5,600,40,INVALID_INPUT (sparePct=-5),needs_review
+GEN-104,Invalid: unknown startType,100,0.8,15,AUTO,10,600,40,INVALID_INPUT (unknown startType),needs_review
+GEN-105,Invalid: contKw=0,0,0.8,15,DOL,10,600,40,INVALID_INPUT (contKw=0),needs_review
+GEN-106,Invalid: contKw=-50,-50,0.8,15,DOL,10,600,40,INVALID_INPUT (contKw=-50),needs_review
+GEN-107,Invalid: PF=0,100,0,15,DOL,10,600,40,INVALID_INPUT (PF=0),needs_review
+GEN-108,Invalid: PF=1.1,100,1.1,15,DOL,10,600,40,INVALID_INPUT (PF=1.1),needs_review
+GEN-109,Invalid: motorKw=-10,100,0.8,-10,DOL,10,600,40,INVALID_INPUT (motorKw=-10),needs_review
+GEN-110,Invalid: altM=-100,100,0.8,15,DOL,10,-100,40,INVALID_INPUT (altM=-100),needs_review
+GEN-111,Invalid: sparePct=-5,100,0.8,15,DOL,-5,600,40,INVALID_INPUT (sparePct=-5),needs_review
+GEN-112,Invalid: unknown startType,100,0.8,15,AUTO,10,600,40,INVALID_INPUT (unknown startType),needs_review
+GEN-113,Invalid: contKw=0,0,0.8,15,DOL,10,600,40,INVALID_INPUT (contKw=0),needs_review
+GEN-114,Invalid: contKw=-50,-50,0.8,15,DOL,10,600,40,INVALID_INPUT (contKw=-50),needs_review
+GEN-115,Invalid: PF=0,100,0,15,DOL,10,600,40,INVALID_INPUT (PF=0),needs_review
+GEN-116,Invalid: PF=1.1,100,1.1,15,DOL,10,600,40,INVALID_INPUT (PF=1.1),needs_review
+GEN-117,Invalid: motorKw=-10,100,0.8,-10,DOL,10,600,40,INVALID_INPUT (motorKw=-10),needs_review
+GEN-118,Invalid: altM=-100,100,0.8,15,DOL,10,-100,40,INVALID_INPUT (altM=-100),needs_review
+GEN-119,Invalid: sparePct=-5,100,0.8,15,DOL,-5,600,40,INVALID_INPUT (sparePct=-5),needs_review
+GEN-120,Invalid: unknown startType,100,0.8,15,AUTO,10,600,40,INVALID_INPUT (unknown startType),needs_review
