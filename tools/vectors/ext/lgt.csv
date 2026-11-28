@@ -1,0 +1,111 @@
+id,desc,L_m,W_m,Hm_m,targetLux,lumens,watts,UF,MF,hand_result,source_ref
+LGT-001,LGT 10x8x2.8m 500lx,10,8,2.8,500,4000,36,0.65,0.8,"A=80, K=1.5873, N_ex=19.2308, N=20, Cols=5, Rows=4, Grid=20, SHR=0.7143, Wm2=9",needs_review
+LGT-002,LGT 6x4x2.8m 200lx,6,4,2.8,200,3600,18,0.62,0.75,"A=24, K=0.8571, N_ex=2.8674, N=3, Cols=2, Rows=2, Grid=4, SHR=1.0714, Wm2=3",needs_review
+LGT-003,LGT 8x5x3.0m 300lx,8,5,3,300,4000,32,0.65,0.8,"A=40, K=1.0256, N_ex=5.7692, N=6, Cols=3, Rows=2, Grid=6, SHR=0.8889, Wm2=4.8",needs_review
+LGT-004,LGT 10x6x3.5m 400lx,10,6,3.5,400,5000,36,0.7,0.85,"A=60, K=1.0714, N_ex=8.0672, N=9, Cols=4, Rows=3, Grid=12, SHR=0.7143, Wm2=7.2",needs_review
+LGT-005,LGT 12x8x4.5m 500lx,12,8,4.5,500,8000,45,1,1,"A=96, K=1.0667, N_ex=6, N=6, Cols=3, Rows=2, Grid=6, SHR=0.8889, Wm2=2.8125",needs_review
+LGT-006,LGT 15x10x6.0m 750lx,15,10,6,750,12000,60,0.5,0.6,"A=150, K=1, N_ex=31.25, N=32, Cols=7, Rows=5, Grid=35, SHR=0.3571, Wm2=14",needs_review
+LGT-007,LGT 18x12x8.0m 1000lx,18,12,8,1000,18000,90,0.55,0.7,"A=216, K=0.9, N_ex=31.1688, N=32, Cols=7, Rows=5, Grid=35, SHR=0.3214, Wm2=14.5833",needs_review
+LGT-008,LGT 24x15x2.1m 75lx,24,15,2.1,75,1200,120,0.62,0.75,"A=360, K=4.3956, N_ex=48.3871, N=49, Cols=9, Rows=6, Grid=54, SHR=1.2698, Wm2=18",needs_review
+LGT-009,LGT 30x20x2.5m 150lx,30,20,2.5,150,2000,0,0.65,0.8,"A=600, K=4.8, N_ex=86.5385, N=87, Cols=11, Rows=8, Grid=88, SHR=1.0909, Wm2=0",needs_review
+LGT-010,LGT 40x1.8x2.8m 200lx,40,1.8,2.8,200,3600,12,0.7,0.85,"A=72, K=0.6152, N_ex=6.7227, N=7, Cols=12, Rows=1, Grid=12, SHR=1.1905, Wm2=2",needs_review
+LGT-011,LGT 2.5x2.2x3.0m 300lx,2.5,2.2,3,300,4000,18,1,1,"A=5.5, K=0.3901, N_ex=0.4125, N=1, Cols=1, Rows=1, Grid=1, SHR=0.8333, Wm2=3.2727",needs_review
+LGT-012,LGT 5x4x3.5m 400lx,5,4,3.5,400,5000,32,0.5,0.6,"A=20, K=0.6349, N_ex=5.3333, N=6, Cols=3, Rows=2, Grid=6, SHR=0.5714, Wm2=9.6",needs_review
+LGT-013,LGT 6x5x4.5m 500lx,6,5,4.5,500,8000,36,0.55,0.7,"A=30, K=0.6061, N_ex=4.8701, N=5, Cols=2, Rows=3, Grid=6, SHR=0.6667, Wm2=7.2",needs_review
+LGT-014,LGT 8x6x6.0m 750lx,8,6,6,750,12000,45,0.62,0.75,"A=48, K=0.5714, N_ex=6.4516, N=7, Cols=3, Rows=3, Grid=9, SHR=0.4444, Wm2=8.4375",needs_review
+LGT-015,LGT 10x8x8.0m 1000lx,10,8,8,1000,18000,60,0.65,0.8,"A=80, K=0.5556, N_ex=8.547, N=9, Cols=3, Rows=3, Grid=9, SHR=0.4167, Wm2=6.75",needs_review
+LGT-016,LGT 12x10x2.1m 75lx,12,10,2.1,75,1200,90,0.7,0.85,"A=120, K=2.5974, N_ex=12.605, N=13, Cols=4, Rows=4, Grid=16, SHR=1.4286, Wm2=12",needs_review
+LGT-017,LGT 15x12x2.5m 150lx,15,12,2.5,150,2000,120,1,1,"A=180, K=2.6667, N_ex=13.5, N=14, Cols=4, Rows=4, Grid=16, SHR=1.5, Wm2=10.6667",needs_review
+LGT-018,LGT 18x15x2.8m 200lx,18,15,2.8,200,3600,0,0.5,0.6,"A=270, K=2.9221, N_ex=50, N=50, Cols=8, Rows=7, Grid=56, SHR=0.8036, Wm2=0",needs_review
+LGT-019,LGT 24x20x3.0m 300lx,24,20,3,300,4000,12,0.55,0.7,"A=480, K=3.6364, N_ex=93.5065, N=94, Cols=11, Rows=9, Grid=99, SHR=0.7407, Wm2=2.475",needs_review
+LGT-020,LGT 30x1.8x3.5m 400lx,30,1.8,3.5,400,5000,18,0.62,0.75,"A=54, K=0.4852, N_ex=9.2903, N=10, Cols=13, Rows=1, Grid=13, SHR=0.6593, Wm2=4.3333",needs_review
+LGT-021,LGT 40x2.2x4.5m 500lx,40,2.2,4.5,500,8000,32,0.65,0.8,"A=88, K=0.4634, N_ex=10.5769, N=11, Cols=14, Rows=1, Grid=14, SHR=0.6349, Wm2=5.0909",needs_review
+LGT-022,LGT 2.5x4x6.0m 750lx,2.5,4,6,750,12000,36,0.7,0.85,"A=10, K=0.2564, N_ex=1.0504, N=2, Cols=1, Rows=2, Grid=2, SHR=0.4167, Wm2=7.2",needs_review
+LGT-023,LGT 5x5x8.0m 1000lx,5,5,8,1000,18000,45,1,1,"A=25, K=0.3125, N_ex=1.3889, N=2, Cols=1, Rows=2, Grid=2, SHR=0.625, Wm2=3.6",needs_review
+LGT-024,LGT 6x6x2.1m 75lx,6,6,2.1,75,1200,60,0.5,0.6,"A=36, K=1.4286, N_ex=7.5, N=8, Cols=3, Rows=3, Grid=9, SHR=0.9524, Wm2=15",needs_review
+LGT-025,LGT 8x8x2.5m 150lx,8,8,2.5,150,2000,90,0.55,0.7,"A=64, K=1.6, N_ex=12.4675, N=13, Cols=4, Rows=4, Grid=16, SHR=0.8, Wm2=22.5",needs_review
+LGT-026,LGT 10x10x2.8m 200lx,10,10,2.8,200,3600,120,0.62,0.75,"A=100, K=1.7857, N_ex=11.9474, N=12, Cols=3, Rows=4, Grid=12, SHR=1.1905, Wm2=14.4",needs_review
+LGT-027,LGT 12x12x3.0m 300lx,12,12,3,300,4000,0,0.65,0.8,"A=144, K=2, N_ex=20.7692, N=21, Cols=5, Rows=5, Grid=25, SHR=0.8, Wm2=0",needs_review
+LGT-028,LGT 15x15x3.5m 400lx,15,15,3.5,400,5000,12,0.7,0.85,"A=225, K=2.1429, N_ex=30.2521, N=31, Cols=6, Rows=6, Grid=36, SHR=0.7143, Wm2=1.92",needs_review
+LGT-029,LGT 18x20x4.5m 500lx,18,20,4.5,500,8000,18,1,1,"A=360, K=2.1053, N_ex=22.5, N=23, Cols=5, Rows=5, Grid=25, SHR=0.8889, Wm2=1.25",needs_review
+LGT-030,LGT 24x1.8x6.0m 750lx,24,1.8,6,750,12000,32,0.5,0.6,"A=43.2, K=0.2791, N_ex=9, N=9, Cols=11, Rows=1, Grid=11, SHR=0.3636, Wm2=8.1481",needs_review
+LGT-031,LGT 30x2.2x8.0m 1000lx,30,2.2,8,1000,18000,36,0.55,0.7,"A=66, K=0.2562, N_ex=9.5238, N=10, Cols=12, Rows=1, Grid=12, SHR=0.3125, Wm2=6.5455",needs_review
+LGT-032,LGT 40x4x2.1m 75lx,40,4,2.1,75,1200,45,0.62,0.75,"A=160, K=1.7316, N_ex=21.5054, N=22, Cols=15, Rows=2, Grid=30, SHR=1.2698, Wm2=8.4375",needs_review
+LGT-033,LGT 2.5x5x2.5m 150lx,2.5,5,2.5,150,2000,60,0.65,0.8,"A=12.5, K=0.6667, N_ex=1.8029, N=2, Cols=1, Rows=2, Grid=2, SHR=1, Wm2=9.6",needs_review
+LGT-034,LGT 5x6x2.8m 200lx,5,6,2.8,200,3600,90,0.7,0.85,"A=30, K=0.974, N_ex=2.8011, N=3, Cols=2, Rows=2, Grid=4, SHR=1.0714, Wm2=12",needs_review
+LGT-035,LGT 6x8x3.0m 300lx,6,8,3,300,4000,120,1,1,"A=48, K=1.1429, N_ex=3.6, N=4, Cols=2, Rows=2, Grid=4, SHR=1.3333, Wm2=10",needs_review
+LGT-036,LGT 8x10x3.5m 400lx,8,10,3.5,400,5000,0,0.5,0.6,"A=80, K=1.2698, N_ex=21.3333, N=22, Cols=4, Rows=6, Grid=24, SHR=0.5714, Wm2=0",needs_review
+LGT-037,LGT 10x12x4.5m 500lx,10,12,4.5,500,8000,12,0.55,0.7,"A=120, K=1.2121, N_ex=19.4805, N=20, Cols=4, Rows=5, Grid=20, SHR=0.5556, Wm2=2",needs_review
+LGT-038,LGT 12x15x6.0m 750lx,12,15,6,750,12000,18,0.62,0.75,"A=180, K=1.1111, N_ex=24.1935, N=25, Cols=4, Rows=7, Grid=28, SHR=0.5, Wm2=2.8",needs_review
+LGT-039,LGT 15x20x8.0m 1000lx,15,20,8,1000,18000,32,0.65,0.8,"A=300, K=1.0714, N_ex=32.0513, N=33, Cols=5, Rows=7, Grid=35, SHR=0.375, Wm2=3.7333",needs_review
+LGT-040,LGT 18x1.8x2.1m 75lx,18,1.8,2.1,75,1200,36,0.7,0.85,"A=32.4, K=0.7792, N_ex=3.4034, N=4, Cols=6, Rows=1, Grid=6, SHR=1.4286, Wm2=6.6667",needs_review
+LGT-041,LGT 24x2.2x2.5m 150lx,24,2.2,2.5,150,2000,45,1,1,"A=52.8, K=0.8061, N_ex=3.96, N=4, Cols=7, Rows=1, Grid=7, SHR=1.3714, Wm2=5.9659",needs_review
+LGT-042,LGT 30x4x2.8m 200lx,30,4,2.8,200,3600,60,0.5,0.6,"A=120, K=1.2605, N_ex=22.2222, N=23, Cols=13, Rows=2, Grid=26, SHR=0.8242, Wm2=13",needs_review
+LGT-043,LGT 40x5x3.0m 300lx,40,5,3,300,4000,90,0.55,0.7,"A=200, K=1.4815, N_ex=38.961, N=39, Cols=18, Rows=3, Grid=54, SHR=0.7407, Wm2=24.3",needs_review
+LGT-044,LGT 2.5x6x3.5m 400lx,2.5,6,3.5,400,5000,120,0.62,0.75,"A=15, K=0.5042, N_ex=2.5806, N=3, Cols=1, Rows=3, Grid=3, SHR=0.7143, Wm2=24",needs_review
+LGT-045,LGT 5x8x4.5m 500lx,5,8,4.5,500,8000,0,0.65,0.8,"A=40, K=0.6838, N_ex=4.8077, N=5, Cols=2, Rows=3, Grid=6, SHR=0.5926, Wm2=0",needs_review
+LGT-046,LGT 6x10x6.0m 750lx,6,10,6,750,12000,12,0.7,0.85,"A=60, K=0.625, N_ex=6.3025, N=7, Cols=2, Rows=4, Grid=8, SHR=0.5, Wm2=1.6",needs_review
+LGT-047,LGT 8x12x8.0m 1000lx,8,12,8,1000,18000,18,1,1,"A=96, K=0.6, N_ex=5.3333, N=6, Cols=2, Rows=3, Grid=6, SHR=0.5, Wm2=1.125",needs_review
+LGT-048,LGT 10x15x2.1m 75lx,10,15,2.1,75,1200,32,0.5,0.6,"A=150, K=2.8571, N_ex=31.25, N=32, Cols=5, Rows=7, Grid=35, SHR=1.0204, Wm2=7.4667",needs_review
+LGT-049,LGT 12x20x2.5m 150lx,12,20,2.5,150,2000,36,0.55,0.7,"A=240, K=3, N_ex=46.7532, N=47, Cols=5, Rows=10, Grid=50, SHR=0.96, Wm2=7.5",needs_review
+LGT-050,LGT 15x1.8x2.8m 200lx,15,1.8,2.8,200,3600,45,0.62,0.75,"A=27, K=0.574, N_ex=3.2258, N=4, Cols=6, Rows=1, Grid=6, SHR=0.8929, Wm2=10",needs_review
+LGT-051,LGT 18x2.2x3.0m 300lx,18,2.2,3,300,4000,60,0.65,0.8,"A=39.6, K=0.6535, N_ex=5.7115, N=6, Cols=7, Rows=1, Grid=7, SHR=0.8571, Wm2=10.6061",needs_review
+LGT-052,LGT 24x4x3.5m 400lx,24,4,3.5,400,5000,90,0.7,0.85,"A=96, K=0.9796, N_ex=12.9076, N=13, Cols=9, Rows=2, Grid=18, SHR=0.7619, Wm2=16.875",needs_review
+LGT-053,LGT 30x5x4.5m 500lx,30,5,4.5,500,8000,120,1,1,"A=150, K=0.9524, N_ex=9.375, N=10, Cols=8, Rows=2, Grid=16, SHR=0.8333, Wm2=12.8",needs_review
+LGT-054,LGT 40x6x6.0m 750lx,40,6,6,750,12000,0,0.5,0.6,"A=240, K=0.8696, N_ex=50, N=50, Cols=18, Rows=3, Grid=54, SHR=0.3704, Wm2=0",needs_review
+LGT-055,LGT 2.5x8x8.0m 1000lx,2.5,8,8,1000,18000,12,0.55,0.7,"A=20, K=0.2381, N_ex=2.886, N=3, Cols=1, Rows=3, Grid=3, SHR=0.3333, Wm2=1.8",needs_review
+LGT-056,LGT 5x10x2.1m 75lx,5,10,2.1,75,1200,18,0.62,0.75,"A=50, K=1.5873, N_ex=6.7204, N=7, Cols=2, Rows=4, Grid=8, SHR=1.1905, Wm2=2.88",needs_review
+LGT-057,LGT 6x12x2.5m 150lx,6,12,2.5,150,2000,32,0.65,0.8,"A=72, K=1.6, N_ex=10.3846, N=11, Cols=2, Rows=6, Grid=12, SHR=1.2, Wm2=5.3333",needs_review
+LGT-058,LGT 8x15x2.8m 200lx,8,15,2.8,200,3600,36,0.7,0.85,"A=120, K=1.8634, N_ex=11.2045, N=12, Cols=3, Rows=4, Grid=12, SHR=1.3393, Wm2=3.6",needs_review
+LGT-059,LGT 10x20x3.0m 300lx,10,20,3,300,4000,45,1,1,"A=200, K=2.2222, N_ex=15, N=15, Cols=3, Rows=5, Grid=15, SHR=1.3333, Wm2=3.375",needs_review
+LGT-060,LGT 12x1.8x3.5m 400lx,12,1.8,3.5,400,5000,60,0.5,0.6,"A=21.6, K=0.4472, N_ex=5.76, N=6, Cols=6, Rows=1, Grid=6, SHR=0.5714, Wm2=16.6667",needs_review
+LGT-061,LGT 15x2.2x4.5m 500lx,15,2.2,4.5,500,8000,90,0.55,0.7,"A=33, K=0.4264, N_ex=5.3571, N=6, Cols=6, Rows=1, Grid=6, SHR=0.5556, Wm2=16.3636",needs_review
+LGT-062,LGT 18x4x6.0m 750lx,18,4,6,750,12000,120,0.62,0.75,"A=72, K=0.5455, N_ex=9.6774, N=10, Cols=7, Rows=2, Grid=14, SHR=0.4286, Wm2=23.3333",needs_review
+LGT-063,LGT 24x5x8.0m 1000lx,24,5,8,1000,18000,0,0.65,0.8,"A=120, K=0.5172, N_ex=12.8205, N=13, Cols=8, Rows=2, Grid=16, SHR=0.375, Wm2=0",needs_review
+LGT-064,LGT 30x6x2.1m 75lx,30,6,2.1,75,1200,12,0.7,0.85,"A=180, K=2.381, N_ex=18.9076, N=19, Cols=10, Rows=2, Grid=20, SHR=1.4286, Wm2=1.3333",needs_review
+LGT-065,LGT 40x8x2.5m 150lx,40,8,2.5,150,2000,18,1,1,"A=320, K=2.6667, N_ex=24, N=24, Cols=11, Rows=3, Grid=33, SHR=1.4545, Wm2=1.8562",needs_review
+LGT-066,LGT 2.5x10x2.8m 200lx,2.5,10,2.8,200,3600,32,0.5,0.6,"A=25, K=0.7143, N_ex=4.6296, N=5, Cols=1, Rows=5, Grid=5, SHR=0.8929, Wm2=6.4",needs_review
+LGT-067,LGT 5x12x3.0m 300lx,5,12,3,300,4000,36,0.55,0.7,"A=60, K=1.1765, N_ex=11.6883, N=12, Cols=2, Rows=6, Grid=12, SHR=0.8333, Wm2=7.2",needs_review
+LGT-068,LGT 6x15x3.5m 400lx,6,15,3.5,400,5000,45,0.62,0.75,"A=90, K=1.2245, N_ex=15.4839, N=16, Cols=3, Rows=6, Grid=18, SHR=0.7143, Wm2=9",needs_review
+LGT-069,LGT 8x20x4.5m 500lx,8,20,4.5,500,8000,60,0.65,0.8,"A=160, K=1.2698, N_ex=19.2308, N=20, Cols=3, Rows=7, Grid=21, SHR=0.6349, Wm2=7.875",needs_review
+LGT-070,LGT 10x1.8x6.0m 750lx,10,1.8,6,750,12000,90,0.7,0.85,"A=18, K=0.2542, N_ex=1.8908, N=2, Cols=3, Rows=1, Grid=3, SHR=0.5556, Wm2=15",needs_review
+LGT-071,LGT 12x2.2x8.0m 1000lx,12,2.2,8,1000,18000,120,1,1,"A=26.4, K=0.2324, N_ex=1.4667, N=2, Cols=3, Rows=1, Grid=3, SHR=0.5, Wm2=13.6364",needs_review
+LGT-072,LGT 15x4x2.1m 75lx,15,4,2.1,75,1200,0,0.5,0.6,"A=60, K=1.5038, N_ex=12.5, N=13, Cols=7, Rows=2, Grid=14, SHR=1.0204, Wm2=0",needs_review
+LGT-073,LGT 18x5x2.5m 150lx,18,5,2.5,150,2000,12,0.55,0.7,"A=90, K=1.5652, N_ex=17.5325, N=18, Cols=8, Rows=3, Grid=24, SHR=0.9, Wm2=3.2",needs_review
+LGT-074,LGT 24x6x2.8m 200lx,24,6,2.8,200,3600,18,0.62,0.75,"A=144, K=1.7143, N_ex=17.2043, N=18, Cols=8, Rows=3, Grid=24, SHR=1.0714, Wm2=3",needs_review
+LGT-075,LGT 30x8x3.0m 300lx,30,8,3,300,4000,32,0.65,0.8,"A=240, K=2.1053, N_ex=34.6154, N=35, Cols=11, Rows=4, Grid=44, SHR=0.9091, Wm2=5.8667",needs_review
+LGT-076,LGT 40x10x3.5m 400lx,40,10,3.5,400,5000,36,0.7,0.85,"A=400, K=2.2857, N_ex=53.7815, N=54, Cols=15, Rows=4, Grid=60, SHR=0.7619, Wm2=5.4",needs_review
+LGT-077,LGT 2.5x12x4.5m 500lx,2.5,12,4.5,500,8000,45,1,1,"A=30, K=0.4598, N_ex=1.875, N=2, Cols=1, Rows=2, Grid=2, SHR=1.3333, Wm2=3",needs_review
+LGT-078,LGT 5x15x6.0m 750lx,5,15,6,750,12000,60,0.5,0.6,"A=75, K=0.625, N_ex=15.625, N=16, Cols=2, Rows=8, Grid=16, SHR=0.4167, Wm2=12.8",needs_review
+LGT-079,LGT 6x20x8.0m 1000lx,6,20,8,1000,18000,90,0.55,0.7,"A=120, K=0.5769, N_ex=17.316, N=18, Cols=2, Rows=9, Grid=18, SHR=0.375, Wm2=13.5",needs_review
+LGT-080,LGT 8x1.8x2.1m 75lx,8,1.8,2.1,75,1200,120,0.62,0.75,"A=14.4, K=0.6997, N_ex=1.9355, N=2, Cols=3, Rows=1, Grid=3, SHR=1.2698, Wm2=25",needs_review
+LGT-081,LGT 10x2.2x2.5m 150lx,10,2.2,2.5,150,2000,0,0.65,0.8,"A=22, K=0.7213, N_ex=3.1731, N=4, Cols=4, Rows=1, Grid=4, SHR=1, Wm2=0",needs_review
+LGT-082,LGT 12x4x2.8m 200lx,12,4,2.8,200,3600,12,0.7,0.85,"A=48, K=1.0714, N_ex=4.4818, N=5, Cols=4, Rows=2, Grid=8, SHR=1.0714, Wm2=2",needs_review
+LGT-083,LGT 15x5x3.0m 300lx,15,5,3,300,4000,18,1,1,"A=75, K=1.25, N_ex=5.625, N=6, Cols=4, Rows=2, Grid=8, SHR=1.25, Wm2=1.92",needs_review
+LGT-084,LGT 18x6x3.5m 400lx,18,6,3.5,400,5000,32,0.5,0.6,"A=108, K=1.2857, N_ex=28.8, N=29, Cols=9, Rows=4, Grid=36, SHR=0.5714, Wm2=10.6667",needs_review
+LGT-085,LGT 24x8x4.5m 500lx,24,8,4.5,500,8000,36,0.55,0.7,"A=192, K=1.3333, N_ex=31.1688, N=32, Cols=10, Rows=4, Grid=40, SHR=0.5333, Wm2=7.5",needs_review
+LGT-086,LGT 30x10x6.0m 750lx,30,10,6,750,12000,45,0.62,0.75,"A=300, K=1.25, N_ex=40.3226, N=41, Cols=11, Rows=4, Grid=44, SHR=0.4545, Wm2=6.6",needs_review
+LGT-087,LGT 40x12x8.0m 1000lx,40,12,8,1000,18000,60,0.65,0.8,"A=480, K=1.1538, N_ex=51.2821, N=52, Cols=13, Rows=4, Grid=52, SHR=0.3846, Wm2=6.5",needs_review
+LGT-088,LGT 2.5x15x2.1m 75lx,2.5,15,2.1,75,1200,90,0.7,0.85,"A=37.5, K=1.0204, N_ex=3.9391, N=4, Cols=1, Rows=4, Grid=4, SHR=1.7857, Wm2=9.6",needs_review
+LGT-089,Invalid: L=0,0,8,3,500,4000,36,0.65,0.8,INVALID_INPUT (L=0),needs_review
+LGT-090,Invalid: W=-4,10,-4,3,500,4000,36,0.65,0.8,INVALID_INPUT (W=-4),needs_review
+LGT-091,Invalid: Hm=0,10,8,0,500,4000,36,0.65,0.8,INVALID_INPUT (Hm=0),needs_review
+LGT-092,Invalid: targetLux=0,10,8,3,0,4000,36,0.65,0.8,INVALID_INPUT (targetLux=0),needs_review
+LGT-093,Invalid: lumens=0,10,8,3,500,0,36,0.65,0.8,INVALID_INPUT (lumens=0),needs_review
+LGT-094,Invalid: UF=0,10,8,3,500,4000,36,0,0.8,INVALID_INPUT (UF=0),needs_review
+LGT-095,Invalid: UF=1.05 > 1,10,8,3,500,4000,36,1.05,0.8,INVALID_INPUT (UF=1.05 > 1),needs_review
+LGT-096,Invalid: MF=0,10,8,3,500,4000,36,0.65,0,INVALID_INPUT (MF=0),needs_review
+LGT-097,Invalid: MF=1.1 > 1,10,8,3,500,4000,36,0.65,1.1,INVALID_INPUT (MF=1.1 > 1),needs_review
+LGT-098,Invalid: watts=-10,10,8,3,500,4000,-10,0.65,0.8,INVALID_INPUT (watts=-10),needs_review
+LGT-099,Invalid: L=-10,-10,8,3,500,4000,36,0.65,0.8,INVALID_INPUT (L=-10),needs_review
+LGT-100,Invalid: L=0,0,8,3,500,4000,36,0.65,0.8,INVALID_INPUT (L=0),needs_review
+LGT-101,Invalid: W=-4,10,-4,3,500,4000,36,0.65,0.8,INVALID_INPUT (W=-4),needs_review
+LGT-102,Invalid: Hm=0,10,8,0,500,4000,36,0.65,0.8,INVALID_INPUT (Hm=0),needs_review
+LGT-103,Invalid: targetLux=0,10,8,3,0,4000,36,0.65,0.8,INVALID_INPUT (targetLux=0),needs_review
+LGT-104,Invalid: lumens=0,10,8,3,500,0,36,0.65,0.8,INVALID_INPUT (lumens=0),needs_review
+LGT-105,Invalid: UF=0,10,8,3,500,4000,36,0,0.8,INVALID_INPUT (UF=0),needs_review
+LGT-106,Invalid: UF=1.05 > 1,10,8,3,500,4000,36,1.05,0.8,INVALID_INPUT (UF=1.05 > 1),needs_review
+LGT-107,Invalid: MF=0,10,8,3,500,4000,36,0.65,0,INVALID_INPUT (MF=0),needs_review
+LGT-108,Invalid: MF=1.1 > 1,10,8,3,500,4000,36,0.65,1.1,INVALID_INPUT (MF=1.1 > 1),needs_review
+LGT-109,Invalid: watts=-10,10,8,3,500,4000,-10,0.65,0.8,INVALID_INPUT (watts=-10),needs_review
+LGT-110,Invalid: L=-10,-10,8,3,500,4000,36,0.65,0.8,INVALID_INPUT (L=-10),needs_review
