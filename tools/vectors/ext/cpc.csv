@@ -1,0 +1,111 @@
+id,desc,If_kA,t_s,cond,type,insul,Sph_mm2,protected,hand_result,source_ref
+CPC-001,CPC Cu single XLPE 10kA 0.2s,10,0.2,Cu,single,XLPE,50,true,"k=176, S_ad=25.4099, Mech=2.5, S_std=35, S_simp=25",needs_review
+CPC-002,CPC Cu multi XLPE 6kA 0.2s,6,0.2,Cu,multi,XLPE,6,true,"k=143, S_ad=18.7642, Mech=2.5, S_std=25, S_simp=6",needs_review
+CPC-003,CPC Al single XLPE 10kA 0.3s,10,0.3,Al,single,XLPE,16,true,"k=116, S_ad=47.2175, Mech=2.5, S_std=50, S_simp=16",needs_review
+CPC-004,CPC Cu multi PVC 15kA 0.4s,15,0.4,Cu,multi,PVC,25,true,"k=115, S_ad=82.4942, Mech=2.5, S_std=95, S_simp=16",needs_review
+CPC-005,CPC Cu single XLPE 22kA 0.5s,22,0.5,Cu,single,XLPE,35,false,"k=176, S_ad=88.3883, Mech=4, S_std=95, S_simp=16",needs_review
+CPC-006,CPC Al multi XLPE 35kA 1.2s,35,1.2,Al,multi,XLPE,50,true,"k=94, S_ad=407.8785, Mech=2.5, S_std=500, S_simp=25",needs_review
+CPC-007,CPC Cu single XLPE 50kA 6.0s,50,6,Cu,single,XLPE,95,true,"k=176, S_ad=695.8778, Mech=2.5, S_std=None, S_simp=47.5",needs_review
+CPC-008,CPC Cu multi PVC 65kA 8.5s,65,8.5,Cu,multi,PVC,150,true,"k=115, S_ad=1647.8777, Mech=2.5, S_std=None, S_simp=75",needs_review
+CPC-009,CPC Al single XLPE 80kA 0.04s,80,0.04,Al,single,XLPE,240,true,"k=116, S_ad=137.931, Mech=2.5, S_std=150, S_simp=120",needs_review
+CPC-010,CPC Cu multi XLPE 1kA 0.1s,1,0.1,Cu,multi,XLPE,400,false,"k=143, S_ad=2.2114, Mech=4, S_std=4, S_simp=200",needs_review
+CPC-011,CPC Cu single XLPE 3kA 0.2s,3,0.2,Cu,single,XLPE,630,true,"k=176, S_ad=7.623, Mech=2.5, S_std=10, S_simp=315",needs_review
+CPC-012,CPC Al multi PVC 6kA 0.3s,6,0.3,Al,multi,PVC,1.5,true,"k=76, S_ad=43.2413, Mech=2.5, S_std=50, S_simp=1.5",needs_review
+CPC-013,CPC Cu single XLPE 10kA 0.4s,10,0.4,Cu,single,XLPE,2.5,true,"k=176, S_ad=35.935, Mech=2.5, S_std=50, S_simp=2.5",needs_review
+CPC-014,CPC Cu multi XLPE 15kA 0.5s,15,0.5,Cu,multi,XLPE,6,true,"k=143, S_ad=74.172, Mech=2.5, S_std=95, S_simp=6",needs_review
+CPC-015,CPC Al single XLPE 22kA 1.2s,22,1.2,Al,single,XLPE,16,false,"k=116, S_ad=207.7568, Mech=4, S_std=240, S_simp=16",needs_review
+CPC-016,CPC Cu multi PVC 35kA 6.0s,35,6,Cu,multi,PVC,25,true,"k=115, S_ad=745.4969, Mech=2.5, S_std=None, S_simp=16",needs_review
+CPC-017,CPC Cu single XLPE 50kA 8.5s,50,8.5,Cu,single,XLPE,35,true,"k=176, S_ad=828.2602, Mech=2.5, S_std=None, S_simp=16",needs_review
+CPC-018,CPC Al multi XLPE 65kA 0.04s,65,0.04,Al,multi,XLPE,50,true,"k=94, S_ad=138.2979, Mech=2.5, S_std=150, S_simp=25",needs_review
+CPC-019,CPC Cu single XLPE 80kA 0.1s,80,0.1,Cu,single,XLPE,95,true,"k=176, S_ad=143.7399, Mech=2.5, S_std=150, S_simp=47.5",needs_review
+CPC-020,CPC Cu multi PVC 1kA 0.2s,1,0.2,Cu,multi,PVC,150,false,"k=115, S_ad=3.8888, Mech=4, S_std=4, S_simp=75",needs_review
+CPC-021,CPC Al single XLPE 3kA 0.3s,3,0.3,Al,single,XLPE,240,true,"k=116, S_ad=14.1652, Mech=2.5, S_std=16, S_simp=120",needs_review
+CPC-022,CPC Cu multi XLPE 6kA 0.4s,6,0.4,Cu,multi,XLPE,400,true,"k=143, S_ad=26.5366, Mech=2.5, S_std=35, S_simp=200",needs_review
+CPC-023,CPC Cu single XLPE 10kA 0.5s,10,0.5,Cu,single,XLPE,630,true,"k=176, S_ad=40.1765, Mech=2.5, S_std=50, S_simp=315",needs_review
+CPC-024,CPC Al multi PVC 15kA 1.2s,15,1.2,Al,multi,PVC,1.5,true,"k=76, S_ad=216.2063, Mech=2.5, S_std=240, S_simp=1.5",needs_review
+CPC-025,CPC Cu single XLPE 22kA 6.0s,22,6,Cu,single,XLPE,2.5,false,"k=176, S_ad=306.1862, Mech=4, S_std=400, S_simp=2.5",needs_review
+CPC-026,CPC Cu multi XLPE 35kA 8.5s,35,8.5,Cu,multi,XLPE,6,true,"k=143, S_ad=713.578, Mech=2.5, S_std=None, S_simp=6",needs_review
+CPC-027,CPC Al single XLPE 50kA 0.04s,50,0.04,Al,single,XLPE,16,true,"k=116, S_ad=86.2069, Mech=2.5, S_std=95, S_simp=16",needs_review
+CPC-028,CPC Cu multi PVC 65kA 0.1s,65,0.1,Cu,multi,PVC,25,true,"k=115, S_ad=178.7374, Mech=2.5, S_std=185, S_simp=16",needs_review
+CPC-029,CPC Cu single XLPE 80kA 0.2s,80,0.2,Cu,single,XLPE,35,true,"k=176, S_ad=203.2789, Mech=2.5, S_std=240, S_simp=16",needs_review
+CPC-030,CPC Al multi XLPE 1kA 0.3s,1,0.3,Al,multi,XLPE,50,false,"k=94, S_ad=5.8268, Mech=4, S_std=6, S_simp=25",needs_review
+CPC-031,CPC Cu single XLPE 3kA 0.4s,3,0.4,Cu,single,XLPE,95,true,"k=176, S_ad=10.7805, Mech=2.5, S_std=16, S_simp=47.5",needs_review
+CPC-032,CPC Cu multi PVC 6kA 0.5s,6,0.5,Cu,multi,PVC,150,true,"k=115, S_ad=36.8925, Mech=2.5, S_std=50, S_simp=75",needs_review
+CPC-033,CPC Al single XLPE 10kA 1.2s,10,1.2,Al,single,XLPE,240,true,"k=116, S_ad=94.4349, Mech=2.5, S_std=95, S_simp=120",needs_review
+CPC-034,CPC Cu multi XLPE 15kA 6.0s,15,6,Cu,multi,XLPE,400,true,"k=143, S_ad=256.9395, Mech=2.5, S_std=300, S_simp=200",needs_review
+CPC-035,CPC Cu single XLPE 22kA 8.5s,22,8.5,Cu,single,XLPE,630,false,"k=176, S_ad=364.4345, Mech=4, S_std=400, S_simp=315",needs_review
+CPC-036,CPC Al multi PVC 35kA 0.04s,35,0.04,Al,multi,PVC,1.5,true,"k=76, S_ad=92.1053, Mech=2.5, S_std=95, S_simp=1.5",needs_review
+CPC-037,CPC Cu single XLPE 50kA 0.1s,50,0.1,Cu,single,XLPE,2.5,true,"k=176, S_ad=89.8374, Mech=2.5, S_std=95, S_simp=2.5",needs_review
+CPC-038,CPC Cu multi XLPE 65kA 0.2s,65,0.2,Cu,multi,XLPE,6,true,"k=143, S_ad=203.2789, Mech=2.5, S_std=240, S_simp=6",needs_review
+CPC-039,CPC Al single XLPE 80kA 0.3s,80,0.3,Al,single,XLPE,16,true,"k=116, S_ad=377.7397, Mech=2.5, S_std=400, S_simp=16",needs_review
+CPC-040,CPC Cu multi PVC 1kA 0.4s,1,0.4,Cu,multi,PVC,25,false,"k=115, S_ad=5.4996, Mech=4, S_std=6, S_simp=16",needs_review
+CPC-041,CPC Cu single XLPE 3kA 0.5s,3,0.5,Cu,single,XLPE,35,true,"k=176, S_ad=12.053, Mech=2.5, S_std=16, S_simp=16",needs_review
+CPC-042,CPC Al multi XLPE 6kA 1.2s,6,1.2,Al,multi,XLPE,50,true,"k=94, S_ad=69.922, Mech=2.5, S_std=70, S_simp=25",needs_review
+CPC-043,CPC Cu single XLPE 10kA 6.0s,10,6,Cu,single,XLPE,95,true,"k=176, S_ad=139.1756, Mech=2.5, S_std=150, S_simp=47.5",needs_review
+CPC-044,CPC Cu multi PVC 15kA 8.5s,15,8.5,Cu,multi,PVC,150,true,"k=115, S_ad=380.2795, Mech=2.5, S_std=400, S_simp=75",needs_review
+CPC-045,CPC Al single XLPE 22kA 0.04s,22,0.04,Al,single,XLPE,240,false,"k=116, S_ad=37.931, Mech=4, S_std=50, S_simp=120",needs_review
+CPC-046,CPC Cu multi XLPE 35kA 0.1s,35,0.1,Cu,multi,XLPE,400,true,"k=143, S_ad=77.3984, Mech=2.5, S_std=95, S_simp=200",needs_review
+CPC-047,CPC Cu single XLPE 50kA 0.2s,50,0.2,Cu,single,XLPE,630,true,"k=176, S_ad=127.0493, Mech=2.5, S_std=150, S_simp=315",needs_review
+CPC-048,CPC Al multi PVC 65kA 0.3s,65,0.3,Al,multi,PVC,1.5,true,"k=76, S_ad=468.4469, Mech=2.5, S_std=500, S_simp=1.5",needs_review
+CPC-049,CPC Cu single XLPE 80kA 0.4s,80,0.4,Cu,single,XLPE,2.5,true,"k=176, S_ad=287.4798, Mech=2.5, S_std=300, S_simp=2.5",needs_review
+CPC-050,CPC Cu multi XLPE 1kA 0.5s,1,0.5,Cu,multi,XLPE,6,false,"k=143, S_ad=4.9448, Mech=4, S_std=6, S_simp=6",needs_review
+CPC-051,CPC Al single XLPE 3kA 1.2s,3,1.2,Al,single,XLPE,16,true,"k=116, S_ad=28.3305, Mech=2.5, S_std=35, S_simp=16",needs_review
+CPC-052,CPC Cu multi PVC 6kA 6.0s,6,6,Cu,multi,PVC,25,true,"k=115, S_ad=127.7995, Mech=2.5, S_std=150, S_simp=16",needs_review
+CPC-053,CPC Cu single XLPE 10kA 8.5s,10,8.5,Cu,single,XLPE,35,true,"k=176, S_ad=165.652, Mech=2.5, S_std=185, S_simp=16",needs_review
+CPC-054,CPC Al multi XLPE 15kA 0.04s,15,0.04,Al,multi,XLPE,50,true,"k=94, S_ad=31.9149, Mech=2.5, S_std=35, S_simp=25",needs_review
+CPC-055,CPC Cu single XLPE 22kA 0.1s,22,0.1,Cu,single,XLPE,95,false,"k=176, S_ad=39.5285, Mech=4, S_std=50, S_simp=47.5",needs_review
+CPC-056,CPC Cu multi PVC 35kA 0.2s,35,0.2,Cu,multi,PVC,150,true,"k=115, S_ad=136.1085, Mech=2.5, S_std=150, S_simp=75",needs_review
+CPC-057,CPC Al single XLPE 50kA 0.3s,50,0.3,Al,single,XLPE,240,true,"k=116, S_ad=236.0873, Mech=2.5, S_std=240, S_simp=120",needs_review
+CPC-058,CPC Cu multi XLPE 65kA 0.4s,65,0.4,Cu,multi,XLPE,400,true,"k=143, S_ad=287.4798, Mech=2.5, S_std=300, S_simp=200",needs_review
+CPC-059,CPC Cu single XLPE 80kA 0.5s,80,0.5,Cu,single,XLPE,630,true,"k=176, S_ad=321.4122, Mech=2.5, S_std=400, S_simp=315",needs_review
+CPC-060,CPC Al multi PVC 1kA 1.2s,1,1.2,Al,multi,PVC,1.5,false,"k=76, S_ad=14.4138, Mech=4, S_std=16, S_simp=1.5",needs_review
+CPC-061,CPC Cu single XLPE 3kA 6.0s,3,6,Cu,single,XLPE,2.5,true,"k=176, S_ad=41.7527, Mech=2.5, S_std=50, S_simp=2.5",needs_review
+CPC-062,CPC Cu multi XLPE 6kA 8.5s,6,8.5,Cu,multi,XLPE,6,true,"k=143, S_ad=122.3277, Mech=2.5, S_std=150, S_simp=6",needs_review
+CPC-063,CPC Al single XLPE 10kA 0.04s,10,0.04,Al,single,XLPE,16,true,"k=116, S_ad=17.2414, Mech=2.5, S_std=25, S_simp=16",needs_review
+CPC-064,CPC Cu multi PVC 15kA 0.1s,15,0.1,Cu,multi,PVC,25,true,"k=115, S_ad=41.2471, Mech=2.5, S_std=50, S_simp=16",needs_review
+CPC-065,CPC Cu single XLPE 22kA 0.2s,22,0.2,Cu,single,XLPE,35,false,"k=176, S_ad=55.9017, Mech=4, S_std=70, S_simp=16",needs_review
+CPC-066,CPC Al multi XLPE 35kA 0.3s,35,0.3,Al,multi,XLPE,50,true,"k=94, S_ad=203.9393, Mech=2.5, S_std=240, S_simp=25",needs_review
+CPC-067,CPC Cu single XLPE 50kA 0.4s,50,0.4,Cu,single,XLPE,95,true,"k=176, S_ad=179.6749, Mech=2.5, S_std=185, S_simp=47.5",needs_review
+CPC-068,CPC Cu multi PVC 65kA 0.5s,65,0.5,Cu,multi,PVC,150,true,"k=115, S_ad=399.6691, Mech=2.5, S_std=400, S_simp=75",needs_review
+CPC-069,CPC Al single XLPE 80kA 1.2s,80,1.2,Al,single,XLPE,240,true,"k=116, S_ad=755.4794, Mech=2.5, S_std=None, S_simp=120",needs_review
+CPC-070,CPC Cu multi XLPE 1kA 6.0s,1,6,Cu,multi,XLPE,400,false,"k=143, S_ad=17.1293, Mech=4, S_std=25, S_simp=200",needs_review
+CPC-071,CPC Cu single XLPE 3kA 8.5s,3,8.5,Cu,single,XLPE,630,true,"k=176, S_ad=49.6956, Mech=2.5, S_std=50, S_simp=315",needs_review
+CPC-072,CPC Al multi PVC 6kA 0.04s,6,0.04,Al,multi,PVC,1.5,true,"k=76, S_ad=15.7895, Mech=2.5, S_std=16, S_simp=1.5",needs_review
+CPC-073,CPC Cu single XLPE 10kA 0.1s,10,0.1,Cu,single,XLPE,2.5,true,"k=176, S_ad=17.9675, Mech=2.5, S_std=25, S_simp=2.5",needs_review
+CPC-074,CPC Cu multi XLPE 15kA 0.2s,15,0.2,Cu,multi,XLPE,6,true,"k=143, S_ad=46.9105, Mech=2.5, S_std=50, S_simp=6",needs_review
+CPC-075,CPC Al single XLPE 22kA 0.3s,22,0.3,Al,single,XLPE,16,false,"k=116, S_ad=103.8784, Mech=4, S_std=120, S_simp=16",needs_review
+CPC-076,CPC Cu multi PVC 35kA 0.4s,35,0.4,Cu,multi,PVC,25,true,"k=115, S_ad=192.4865, Mech=2.5, S_std=240, S_simp=16",needs_review
+CPC-077,CPC Cu single XLPE 50kA 0.5s,50,0.5,Cu,single,XLPE,35,true,"k=176, S_ad=200.8826, Mech=2.5, S_std=240, S_simp=16",needs_review
+CPC-078,CPC Al multi XLPE 65kA 1.2s,65,1.2,Al,multi,XLPE,50,true,"k=94, S_ad=757.4886, Mech=2.5, S_std=None, S_simp=25",needs_review
+CPC-079,CPC Cu single XLPE 80kA 6.0s,80,6,Cu,single,XLPE,95,true,"k=176, S_ad=1113.4044, Mech=2.5, S_std=None, S_simp=47.5",needs_review
+CPC-080,CPC Cu multi PVC 1kA 8.5s,1,8.5,Cu,multi,PVC,150,false,"k=115, S_ad=25.352, Mech=4, S_std=35, S_simp=75",needs_review
+CPC-081,CPC Al single XLPE 3kA 0.04s,3,0.04,Al,single,XLPE,240,true,"k=116, S_ad=5.1724, Mech=2.5, S_std=6, S_simp=120",needs_review
+CPC-082,CPC Cu multi XLPE 6kA 0.1s,6,0.1,Cu,multi,XLPE,400,true,"k=143, S_ad=13.2683, Mech=2.5, S_std=16, S_simp=200",needs_review
+CPC-083,CPC Cu single XLPE 10kA 0.2s,10,0.2,Cu,single,XLPE,630,true,"k=176, S_ad=25.4099, Mech=2.5, S_std=35, S_simp=315",needs_review
+CPC-084,CPC Al multi PVC 15kA 0.3s,15,0.3,Al,multi,PVC,1.5,true,"k=76, S_ad=108.1031, Mech=2.5, S_std=120, S_simp=1.5",needs_review
+CPC-085,CPC Cu single XLPE 22kA 0.4s,22,0.4,Cu,single,XLPE,2.5,false,"k=176, S_ad=79.0569, Mech=4, S_std=95, S_simp=2.5",needs_review
+CPC-086,CPC Cu multi XLPE 35kA 0.5s,35,0.5,Cu,multi,XLPE,6,true,"k=143, S_ad=173.0681, Mech=2.5, S_std=185, S_simp=6",needs_review
+CPC-087,CPC Al single XLPE 50kA 1.2s,50,1.2,Al,single,XLPE,16,true,"k=116, S_ad=472.1746, Mech=2.5, S_std=500, S_simp=16",needs_review
+CPC-088,CPC Cu multi PVC 65kA 6.0s,65,6,Cu,multi,PVC,25,true,"k=115, S_ad=1384.4942, Mech=2.5, S_std=None, S_simp=16",needs_review
+CPC-089,Invalid: If_kA=0,0,0.2,Cu,single,XLPE,50,true,INVALID_INPUT (If_kA=0),needs_review
+CPC-090,Invalid: If_kA=-10,-10,0.2,Cu,single,XLPE,50,true,INVALID_INPUT (If_kA=-10),needs_review
+CPC-091,Invalid: t_s=0,10,0,Cu,single,XLPE,50,true,INVALID_INPUT (t_s=0),needs_review
+CPC-092,Invalid: t_s=-0.5,10,-0.5,Al,multi,PVC,95,false,INVALID_INPUT (t_s=-0.5),needs_review
+CPC-093,Invalid: If_kA=0 unprotected,0,0.4,Cu,multi,PVC,25,false,INVALID_INPUT (If_kA=0 unprotected),needs_review
+CPC-094,Invalid: t_s=-1,25,-1,Al,single,XLPE,120,true,INVALID_INPUT (t_s=-1),needs_review
+CPC-095,Invalid: If_kA=-0.1,-0.1,0.1,Cu,single,PVC,16,true,INVALID_INPUT (If_kA=-0.1),needs_review
+CPC-096,Invalid: t_s=0 Al,15,0,Al,single,PVC,70,false,INVALID_INPUT (t_s=0 Al),needs_review
+CPC-097,Invalid: If_kA=0 t=0,0,0,Cu,single,XLPE,35,true,INVALID_INPUT (If_kA=0 t=0),needs_review
+CPC-098,Invalid: t_s=-0.01,6,-0.01,Cu,multi,XLPE,16,true,INVALID_INPUT (t_s=-0.01),needs_review
+CPC-099,Invalid: If_kA=-25,-25,0.3,Cu,single,XLPE,150,false,INVALID_INPUT (If_kA=-25),needs_review
+CPC-100,Invalid: If_kA=0,0,0.2,Cu,single,XLPE,50,true,INVALID_INPUT (If_kA=0),needs_review
+CPC-101,Invalid: If_kA=-10,-10,0.2,Cu,single,XLPE,50,true,INVALID_INPUT (If_kA=-10),needs_review
+CPC-102,Invalid: t_s=0,10,0,Cu,single,XLPE,50,true,INVALID_INPUT (t_s=0),needs_review
+CPC-103,Invalid: t_s=-0.5,10,-0.5,Al,multi,PVC,95,false,INVALID_INPUT (t_s=-0.5),needs_review
+CPC-104,Invalid: If_kA=0 unprotected,0,0.4,Cu,multi,PVC,25,false,INVALID_INPUT (If_kA=0 unprotected),needs_review
+CPC-105,Invalid: t_s=-1,25,-1,Al,single,XLPE,120,true,INVALID_INPUT (t_s=-1),needs_review
+CPC-106,Invalid: If_kA=-0.1,-0.1,0.1,Cu,single,PVC,16,true,INVALID_INPUT (If_kA=-0.1),needs_review
+CPC-107,Invalid: t_s=0 Al,15,0,Al,single,PVC,70,false,INVALID_INPUT (t_s=0 Al),needs_review
+CPC-108,Invalid: If_kA=0 t=0,0,0,Cu,single,XLPE,35,true,INVALID_INPUT (If_kA=0 t=0),needs_review
+CPC-109,Invalid: t_s=-0.01,6,-0.01,Cu,multi,XLPE,16,true,INVALID_INPUT (t_s=-0.01),needs_review
+CPC-110,Invalid: If_kA=-25,-25,0.3,Cu,single,XLPE,150,false,INVALID_INPUT (If_kA=-25),needs_review
