@@ -13,7 +13,7 @@
     if (!t) return { ok: false, error: 'الجدول غير موجود في ملف البيانات: ' + TID };
     var rowsIn = o.areas || [];
     if (!rowsIn.length) return { ok: false, error: 'ضيف مساحة واحدة على الأقل.' };
-    var steps = [], warnings = [], rows = [], tot = { area: 0, cl: 0, dl: 0 }, tot15 = { cl: 0, dl: 0 }, anyCustom = false, i;
+    var steps = [], warnings = [], rows = [], tot = { area: 0, cl: 0, dl: 0 }, tot15 = { cl: 0, dl: 0, dl2: 0 }, anyCustom = false, i;
     var sens = t.sensitivity_edition_2015;
     for (i = 0; i < rowsIn.length; i++) {
       var r = rowsIn[i], cat = String(r.category || ''), area = num(r.areaM2), dens, df, src, name = r.label || cat, row15 = null;
@@ -31,7 +31,7 @@
       }
       var cl = area * dens / 1000, dl = cl * df;
       tot.area += area; tot.cl += cl; tot.dl += dl;
-      if (row15) { var c15 = area * row15 / 1000; tot15.cl += c15; tot15.dl += c15 * sens.demand_factor; } else if (sens) { tot15.skip = true; }
+      if (row15) { var c15 = area * row15 / 1000; tot15.cl += c15; tot15.dl += c15 * sens.demand_factor_candidates[0]; tot15.dl2 += c15 * sens.demand_factor_candidates[1]; } else if (sens) { tot15.skip = true; }
       rows.push({ label: name, category: cat, areaM2: area, densityVaM2: dens, demandFactor: df, connectedKva: cl, demandKva: dl, basis: src });
       steps.push({ step: name + ' (' + cat + ')', formula: 'CL = area x density / 1000 ; DL = CL x DF', substitution: area + ' x ' + dens + ' / 1000 = ' + r2(cl) + ' kVA ; ' + r2(cl) + ' x ' + df, result: 'CL = ' + r2(cl) + ' kVA | DL = ' + r2(dl) + ' kVA | ' + src, value: dl, unit: 'kVA' });
     }
@@ -64,12 +64,12 @@
     if (anyCustom) warnings.push('Rows marked "assumption" use values the user entered. They are not from DPS-01.');
     var sensTxt = null;
     if (sens && o.sensitivity && !tot15.skip) {
-      sensTxt = 'Sensitivity only (previous edition DPS-01 Rev-02, Sep 2015, needs_review): CL = ' + r2(tot15.cl) + ' kVA, DL = ' + r2(tot15.dl) + ' kVA';
+      sensTxt = 'Sensitivity only (previous edition DPS-01 Rev-02, Sep 2015, needs_review): CL = ' + r2(tot15.cl) + ' kVA, DL = ' + r2(tot15.dl) + ' kVA if DF 0.6 or ' + r2(tot15.dl2) + ' kVA if DF 0.70 (the 2015 demand factor is unconfirmed)';
       warnings.push(sensTxt + '. Do not use for design.');
-      steps.push({ step: 'Sensitivity (2015 edition)', formula: 'same method with 2015 densities (offices 220, restaurant 235 VA/m2, DF 0.6)', substitution: 'for comparison only', result: sensTxt, value: tot15.dl, unit: 'kVA' });
+      steps.push({ step: 'Sensitivity (2015 edition)', formula: 'same method with 2015 densities (offices 220, restaurant 235 VA/m2), DF 0.6 or 0.70 unconfirmed', substitution: 'for comparison only', result: sensTxt, value: tot15.dl, unit: 'kVA' });
     }
     var used = [{ id: TID, source: (a.meta(TID) || {}).source || '', status: (a.meta(TID) || {}).status || 'unknown', title: (a.meta(TID) || {}).title || '' }];
-    return { ok: true, rows: rows, totalAreaM2: tot.area, connectedKva: tot.cl, demandKva: tot.dl, sensitivity: sens && o.sensitivity && !tot15.skip ? { connectedKva: tot15.cl, demandKva: tot15.dl } : null,
+    return { ok: true, rows: rows, totalAreaM2: tot.area, connectedKva: tot.cl, demandKva: tot.dl, sensitivity: sens && o.sensitivity && !tot15.skip ? { connectedKva: tot15.cl, demandKva: tot15.dl, demandKvaDf070: tot15.dl2 } : null,
       steps: steps, tablesUsed: used, warnings: warnings,
       summary: 'Connected ' + r1(tot.cl) + ' kVA | Demand ' + r1(tot.dl) + ' kVA | Area ' + r1(tot.area) + ' m2 | Source: SEC DPS-01 (2023) Table 19 / Table 20' };
   }
