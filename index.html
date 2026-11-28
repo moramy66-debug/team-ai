@@ -35,7 +35,7 @@
 <input id="cdName" placeholder="مثال: اسم الكود أو المعيار">
 <label>النص (الصقه هنا) أو ارفع PDF</label>
 <textarea id="cdText" style="min-height:110px" placeholder="الصق نص الكود أو البنود المهمة"></textarea>
-<div class="row"><input type="file" id="cdFile" accept="application/pdf,.pdf,.txt,text/plain" class="grow"><button id="cdAdd" class="sec">إضافة للمكتبة</button></div>
+<div class="row"><input type="file" id="cdFile" accept="application/pdf,.pdf,.txt,text/plain" class="grow"><button id="cdAdd" class="sec">Add to Library</button></div>
 <p class="hint" id="cdMsg"></p>
 <div id="cdList"></div>
 </section>
@@ -62,7 +62,7 @@
 <label>ذاكرة مستوردة (الصق هنا اللي أدوات AI التانية تعرفه عنك)</label>
 <textarea id="mem" style="min-height:70px" placeholder="الصق هنا الميموري من ChatGPT أو Claude أو أي أداة تانية"></textarea>
 <label>التوقيع (صورة بتظهر آخر الخطابات الرسمية)</label>
-<div class="row"><input type="file" id="sigFile" accept="image/*"><button id="sigDel" class="sec">مسح التوقيع</button></div>
+<div class="row"><input type="file" id="sigFile" accept="image/*"><button id="sigDel" class="sec">Clear Signature</button></div>
 <img id="sigPrev" alt="" style="max-height:80px;background:#fff;border-radius:6px;margin-top:6px" hidden>
 <label class="hint" for="mailTo">Your email (for task results)</label>
 <input id="mailTo" type="email" dir="ltr" autocomplete="email" placeholder="name@example.com" style="width:100%">
@@ -93,16 +93,16 @@
 <label class="mailauto"><input type="checkbox" id="mailAuto"><span>Email me the result when done</span></label>
 <div id="procHome"><div id="proc" role="status" aria-live="polite" hidden><div class="pr"><span class="spin"></span><b id="procT">جاري التنفيذ</b><span id="procTime"></span></div><div id="procS" class="hint"></div><div class="bar"><i></i></div></div></div>
 </section>
-<div id="logScrim"></div><aside class="logp" id="logPanel"><div class="lh"><h2>الفريق وسير العمل</h2><button id="logClose" class="sec i-x" type="button">Close</button></div><p id="who" class="hint"></p><div id="steps"></div></aside>
+<div id="logScrim"></div><aside class="logp" id="logPanel"><div class="lh"><h2>Team &amp; Workflow</h2><button id="logClose" class="sec i-x" type="button">Close</button></div><p id="who" class="hint"></p><div id="steps"></div></aside>
 <section id="run" hidden>
 <div id="thread"></div>
 <div id="finalCard" class="card final" hidden>
-<div class="row" style="justify-content:space-between"><h2 style="margin:0">النتيجة النهائية</h2><span class="row" style="gap:8px"><button id="convTop" class="sec i-up" type="button" hidden>المحادثة من الأول</button><button id="repBtn" class="sec i-down" type="button">Report</button><button id="docBtn" class="sec i-down" type="button">Word</button><button id="pdfBtn" class="sec i-down" type="button">PDF</button><button id="mailBtn" class="sec i-mail" type="button">Email Result</button><button id="logBtn2" class="sec i-list" type="button">Team Log</button><button id="copy" class="sec i-copy">Copy</button></span></div>
+<div class="row" style="justify-content:space-between"><h2 style="margin:0">Final Result</h2><span class="row" style="gap:8px"><button id="convTop" class="sec i-up" type="button" hidden>Back to Top</button><button id="repBtn" class="sec i-down" type="button">Report</button><button id="docBtn" class="sec i-down" type="button">Word</button><button id="pdfBtn" class="sec i-down" type="button">PDF</button><button id="mailBtn" class="sec i-mail" type="button">Email Result</button><button id="logBtn2" class="sec i-list" type="button">Team Log</button><button id="copy" class="sec i-copy">Copy</button></span></div>
 <div id="final" class="out" style="margin-top:8px"></div>
 <div id="repHead" class="rephead"></div>
 <div id="mailNote" class="hint" style="margin-top:8px" hidden></div>
 <div id="finalView" class="out md" style="margin-top:8px"></div>
-<div id="xlOut" style="margin-top:10px" hidden><button id="xlDl">تحميل الإكسيل المحسّن</button> <span id="xlNote" class="hint"></span></div>
+<div id="xlOut" style="margin-top:10px" hidden><button id="xlDl">Download Excel</button> <span id="xlNote" class="hint"></span></div>
 <div id="pdfOut" style="margin-top:10px" hidden><button id="pdfDl" class="sec i-down" type="button">Download PDF</button> <span id="pdfNote" class="hint"></span></div>
 <div id="sigOut" style="margin-top:10px" hidden><img id="sigImg" alt="" style="max-height:90px;background:#fff;border-radius:6px"></div>
 <div class="row" style="margin-top:10px"><textarea id="follow" class="grow" rows="1" dir="rtl" placeholder="كمل كلام مع الفريق في نفس المهمة... (Enter للإرسال، Shift+Enter سطر جديد)"></textarea><button id="sendF" class="sec i-send">Send</button></div>
