@@ -38,6 +38,7 @@ jobs:
       - name: Engineering calculator tests (real data)
         run: |
           node tools/eng-calc-test.js
+          node tools/eng-vdlimit-test.js
           node tools/eng-crosscheck-test.js
           node tools/eng-pdf-test.js
           node tools/eng-submittal-test.js
