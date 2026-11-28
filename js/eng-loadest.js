@@ -85,7 +85,7 @@
     var used = [{ id: TID, source: (a.meta(TID) || {}).source || '', status: (a.meta(TID) || {}).status || 'unknown', title: (a.meta(TID) || {}).title || '' }];
     return { ok: true, rows: rows, totalAreaM2: tot.area, connectedKva: tot.cl, demandKva: tot.dl, sensitivity: sens && o.sensitivity && (!tot15.skip || partial15) ? { partial: partial15, connectedKva: tot15.cl, demandKva: tot15.dl, demandKvaDf070: tot15.dl2 } : null,
       steps: steps, tablesUsed: used, warnings: warnings,
-      summary: 'Connected ' + r1(tot.cl) + ' kVA | Demand ' + r1(tot.dl) + ' kVA | Area ' + r1(tot.area) + ' m2 | Source: SEC DPS-01 Rev-02 (Nov 2023), Table 19 pp.26-27 and Table 20 pp.29-30 as reported by a reviewer (secondary copies, not official SEC)' + (anyCustom || asm.length || extraDl ? ' | includes custom rows, additions or default assumptions, see the list' : '') };
+      summary: 'Connected ' + r1(tot.cl) + ' kVA | Demand ' + r1(tot.dl) + ' kVA | Area ' + r1(tot.area) + ' m2 | Source: SEC DPS-01 Rev-02 (Nov 2023), Table 19 pp.26-27 and Table 20 p.29 as reported by a reviewer (other sources say p.30) (secondary copies, not official SEC)' + (anyCustom || asm.length || extraDl ? ' | includes custom rows, additions or default assumptions, see the list' : '') };
   }
 
   function register() {
