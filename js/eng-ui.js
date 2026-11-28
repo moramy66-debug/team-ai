@@ -220,12 +220,15 @@
   function isOkStatus(st) { return String(st || '').indexOf('verified') === 0 && String(st).indexOf('old_edition') < 0; }
 
   function showResult(out, res, title) {
-    if (res && res.ok === false) { out.appendChild(el('div', 'ec-err', res.error || 'Calculation error')); return; }
+    if (res && res.ok === false) {
+      if (res.error || !(res.steps && res.steps.length)) { out.appendChild(el('div', 'ec-err', res.error || 'Calculation error')); return; }
+      out.appendChild(el('div', 'ec-err ec-nc', 'Not compliant: the check failed. Steps are shown below.'));
+    }
     var used = res.tablesUsed || [];
     used.forEach(function (u) {
       var ok = isOkStatus(u.status);
       var line = el('div', (ok ? 'ec-ok' : 'ec-warn') + ' ec-src');
-      var badge = el('span', 'ec-badge ' + (ok ? 'ec-badge-ok' : 'ec-badge-warn'), String(u.status || '').replace(/from_memory_needs_review/g, 'from memory, needs review').replace(/needs_review/g, 'needs review').replace(/old_edition/g, 'old edition').replace(/_/g, ' '));
+      var badge = el('span', 'ec-badge ' + (ok ? 'ec-badge-ok' : 'ec-badge-warn'), String(u.status || '').replace(/from_memory_needs_review/g, 'assumption (from memory, needs review)').replace(/needs_review/g, 'needs review').replace(/old_edition/g, 'old edition').replace(/_/g, ' '));
       var idEl = el('span', 'ec-src-id', u.id);
       var srcEl = el('span', 'ec-src-from', u.source ? u.source : (window.SourceInfo ? window.SourceInfo.NR : 'المصدر غير مسجل'));
       line.appendChild(badge); line.appendChild(idEl); line.appendChild(srcEl);
@@ -406,6 +409,7 @@
       { value: 'PVC', label: 'PVC' }
     ]));
     grid.appendChild(createField('ec-vd-pf', 'Power Factor', 'number', 0.85));
+    grid.appendChild(createField('ec-vd-x', 'Reactance X (ohm/km) - optional override', 'number', ''));
     body.appendChild(grid);
 
     var calcRow = el('div', 'ec-actions');
@@ -428,7 +432,8 @@
           lengthM: numVal('ec-vd-len'),
           conductor: val('ec-vd-cond'),
           insulation: val('ec-vd-ins'),
-          powerFactor: numVal('ec-vd-pf')
+          powerFactor: numVal('ec-vd-pf'),
+          reactanceOhmKm: numVal('ec-vd-x')
         };
         var res = window.EngCalc.voltageDrop(input);
         showResult(out, res, 'Voltage Drop Result');
