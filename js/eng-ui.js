@@ -422,6 +422,7 @@
       { value: 'ACB', label: 'ACB' }
     ]));
     grid.appendChild(createField('ec-br-sf', 'Safety Factor', 'number', 1.0));
+    grid.appendChild(createField('ec-br-i2f', 'Tripping Factor I2/In - optional (datasheet)', 'number', ''));
     body.appendChild(grid);
 
     var calcRow = el('div', 'ec-actions');
@@ -440,7 +441,8 @@
           designCurrentA: numVal('ec-br-ib'),
           cableAmpacityA: numVal('ec-br-iz'),
           type: val('ec-br-type'),
-          safetyFactor: numVal('ec-br-sf')
+          safetyFactor: numVal('ec-br-sf'),
+          i2Factor: val('ec-br-i2f') !== '' ? numVal('ec-br-i2f') : undefined
         };
         var res = window.EngCalc.breakerSelection(input);
         showResult(out, res, 'Breaker Selection Result');
