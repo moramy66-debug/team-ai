@@ -584,3 +584,5 @@ body .ec-nc{font-weight:700}
 .imp-chip.on{background:#2563eb;border-color:#2563eb;color:#fff}
 body .imp-chip{background:transparent;background-image:none;box-shadow:none;color:inherit;border:1px solid rgba(128,128,128,.55)}
 body .imp-chip.on{background:#2563eb;color:#fff;border-color:#2563eb}
+.imp-chat-card{margin:10px 0;padding:10px 12px;border:1px solid #2563eb;border-radius:10px}
+.imp-chat-t{font-weight:700;margin-bottom:4px;unicode-bidi:plaintext}
