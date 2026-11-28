@@ -1,0 +1,26 @@
+id,desc,P_kW,PF1,PF2,V_3ph,hand_result,standard_ref
+PFC-01,Normal 200kW PF 0.75 -> 0.95,200,0.75,0.95,400,"Q1=176.3834, Q2=65.7368, Qc=110.6466kVAR, Std=125kVAR, PF_fin=0.9685",IEC 61921 / 3ph
+PFC-02,Chiller plant 500kW PF 0.80 -> 0.95,500,0.80,0.95,400,"Q1=375.0000, Q2=164.3421, Qc=210.6579kVAR, Std=250kVAR, PF_fin=0.9701",IEC 61921 / 3ph
+PFC-03,Small workshop 45kW PF 0.70 -> 0.95,45,0.70,0.95,400,"Q1=45.9092, Q2=14.7908, Qc=31.1184kVAR, Std=40kVAR, PF_fin=0.9915",IEC 61921 / 3ph
+PFC-04,Target 0.98 high correction 300kW 0.82,300,0.82,0.98,400,"Q1=209.4013, Q2=60.9176, Qc=148.4837kVAR, Std=150kVAR, PF_fin=0.9810",IEC 61921 / 3ph
+PFC-05,Target 1.00 unity 150kW 0.85,150,0.85,1.00,400,"Q1=92.9617, Q2=0.0000, Qc=92.9617kVAR, Std=100kVAR, PF_fin=0.9989 [LEADING]",Over-compensation warning
+PFC-06,Very poor PF 0.55 -> 0.95 100kW,100,0.55,0.95,400,"Q1=151.8481, Q2=32.8684, Qc=118.9797kVAR, Std=125kVAR, PF_fin=0.9658",IEC 61921 / 3ph
+PFC-07,Legacy 380V 250kW 0.78 -> 0.95,250,0.78,0.95,380,"Q1=200.5704, Q2=82.1710, Qc=118.3993kVAR, Std=125kVAR, PF_fin=0.9572",IEC 61921 / 3ph
+PFC-08,Industrial 480V 600kW 0.80 -> 0.95,600,0.80,0.95,480,"Q1=450.0000, Q2=197.2105, Qc=252.7895kVAR, Std=300kVAR, PF_fin=0.9701",IEC 61921 / 3ph
+PFC-09,Small 15kW 0.75 -> 0.95,15,0.75,0.95,400,"Q1=13.2288, Q2=4.9303, Qc=8.2985kVAR, Std=10kVAR, PF_fin=0.9776",IEC 61921 / 3ph
+PFC-10,Low kVAR 12kW 0.85->0.95,12,0.85,0.95,400,"Q1=7.4369, Q2=3.9442, Qc=3.4927kVAR, Std=5kVAR, PF_fin=0.9800",IEC 61921 / 3ph
+PFC-11,Large factory 1200kW 0.76 -> 0.95,1200,0.76,0.95,400,"Q1=1026.1943, Q2=394.4209, Qc=631.7734kVAR, Std=750kVAR, PF_fin=0.9745",IEC 61921 / 3ph
+PFC-12,Already near target 0.93 -> 0.95 400kW,400,0.93,0.95,400,"Q1=158.0901, Q2=131.4736, Qc=26.6165kVAR, Std=30kVAR, PF_fin=0.9524",IEC 61921 / 3ph
+PFC-13,Motor load 85kW 0.72 -> 0.92,85,0.72,0.92,400,"Q1=81.9275, Q2=36.2098, Qc=45.7176kVAR, Std=50kVAR, PF_fin=0.9361",IEC 61921 / 3ph
+PFC-14,Pump station 180kW 0.81 -> 0.95,180,0.81,0.95,400,"Q1=130.3178, Q2=59.1631, Qc=71.1546kVAR, Std=75kVAR, PF_fin=0.9559",IEC 61921 / 3ph
+PFC-15,Commercial tower 750kW 0.84 -> 0.96,750,0.84,0.96,400,"Q1=484.4521, Q2=218.7500, Qc=265.7021kVAR, Std=300kVAR, PF_fin=0.9711",IEC 61921 / 3ph
+PFC-16,Tricky: PF1 == PF2 (0.95 -> 0.95),200,0.95,0.95,400,"Qc=0.0000 kVAR (no capacitor bank needed)",Boundary check
+PFC-17,Tricky: PF1 > PF2 (0.95 -> 0.90),200,0.95,0.90,400,"Qc=0.0000 kVAR (PF1 >= PF2, no capacitor bank needed)",Logic check
+PFC-18,Tricky: >1000 kVAR bank exceeded,1500,0.60,0.98,400,"Q1=2000.0000, Q2=304.5880, Qc=1695.4120kVAR, Std=None (exceeds 1000kVAR)",Multi-bank needed
+PFC-19,690V heavy industry 900kW 0.78 -> 0.95,900,0.78,0.95,690,"Q1=722.0533, Q2=295.8157, Qc=426.2376kVAR, Std=500kVAR, PF_fin=0.9709",IEC 61921 / 3ph
+PFC-20,Medium 320kW 0.83 -> 0.95,320,0.83,0.95,400,"Q1=215.0413, Q2=105.1789, Qc=109.8624kVAR, Std=125kVAR, PF_fin=0.9626",IEC 61921 / 3ph
+PFC-21,Low voltage 220V 3ph 50kW 0.75 -> 0.95,50,0.75,0.95,220,"Q1=44.0959, Q2=16.4342, Qc=27.6616kVAR, Std=30kVAR, PF_fin=0.9625",IEC 61921 / 3ph
+PFC-22,Edge: P=0 (invalid),0,0.75,0.95,400,"INVALID_INPUT (Error: P <= 0)",Validation check
+PFC-23,Edge: PF1=0 (invalid),200,0.0,0.95,400,"INVALID_INPUT (Error: PF1 <= 0)",Validation check
+PFC-24,Edge: PF2=1.1 > 1 (invalid),200,0.75,1.1,400,"INVALID_INPUT (Error: PF2 > 1)",Validation check
+PFC-25,Edge: V=-400 (invalid),200,0.75,0.95,-400,"INVALID_INPUT (Error: V <= 0)",Validation check
