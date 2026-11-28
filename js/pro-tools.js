@@ -383,7 +383,7 @@
       bkBtn.type = 'button';
       bkBtn.className = 'sec';
       bkBtn.title = 'النسخ الاحتياطي وترويسة المكتب';
-      bkBtn.textContent = 'نسخ احتياطي';
+      bkBtn.textContent = 'Backup';
       bkBtn.addEventListener('click', function () {
         buildModal();
         document.getElementById('ptModalBackdrop').__openTab('backup');
