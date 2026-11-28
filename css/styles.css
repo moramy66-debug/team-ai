@@ -563,3 +563,24 @@ body .ec-warn,body .ec-note{direction:rtl;unicode-bidi:isolate;text-align:start}
 .key-note button{min-height:44px;font-size:16px}
 body .ec-nc{font-weight:700}
 .app-ver{font-size:12px;opacity:.7;text-align:center;padding:10px 0;direction:ltr}
+
+.imp-import{margin-bottom:16px}
+.imp-file{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.imp-pick{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 16px;cursor:pointer;margin-bottom:10px}
+.imp-msg:empty{display:none}
+.imp-list{display:flex;flex-direction:column;gap:10px;margin:8px 0}
+.imp-row{border:1px solid rgba(128,128,128,.4);border-radius:10px;padding:10px}
+.imp-row-h{display:flex;justify-content:space-between;gap:8px;font-weight:600;align-items:baseline}
+.imp-row-n{unicode-bidi:plaintext;overflow-wrap:anywhere}.imp-row-a{direction:ltr;white-space:nowrap}
+.imp-row select,.imp-row input[type=number]{width:100%;min-height:44px;font-size:16px;margin-top:6px}
+.imp-inc{display:flex;align-items:center;gap:10px;min-height:44px;margin-top:6px}
+.imp-inc input{width:24px;height:24px}
+.imp-ex{opacity:.55}
+.imp-small{font-size:12px;opacity:.8;margin-top:4px;unicode-bidi:plaintext}
+.imp-cust{display:flex;gap:6px;margin-top:6px}
+.imp-q{margin:12px 0}.imp-q-h{font-weight:700;margin:14px 0 4px}.imp-q-t{font-size:14px;margin-bottom:6px}
+.imp-chips{display:flex;flex-wrap:wrap;gap:8px}
+.imp-chip{min-height:44px;padding:8px 14px;border-radius:22px;border:1px solid rgba(128,128,128,.5);background:transparent;color:inherit;font-size:14px;cursor:pointer}
+.imp-chip.on{background:#2563eb;border-color:#2563eb;color:#fff}
+body .imp-chip{background:transparent;background-image:none;box-shadow:none;color:inherit;border:1px solid rgba(128,128,128,.55)}
+body .imp-chip.on{background:#2563eb;color:#fff;border-color:#2563eb}
