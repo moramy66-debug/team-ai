@@ -1,0 +1,26 @@
+id,desc,contKw,PF,motorKw,startType,sparePct,altM,ambC,Xd_pct,hand_result,standard_ref
+GEN-01,Normal office standby 160kW PF0.8,160,0.80,15,Star-Delta,10,600,35,15,"S_run=200.0000, S_start=39.2157, S_site=239.2157, DF=1.0000, S_iso=239.2157, Std=250kVA, Dip=2.2989%",ISO 8528-1 [needs verification]
+GEN-02,Riyadh summer 50C [needs verification] alt 650m,240,0.80,30,Soft-Starter,10,650,50,15,"S_run=300.0000, S_start=117.6471, S_site=417.6471, DF=0.9500, S_iso=439.6285, Std=500kVA, Dip=3.5821%",ISO 8528-1 / 50C test value [needs verification]
+GEN-03,Abha high altitude 2200m 35C,180,0.80,22,VFD,10,2200,35,15,"S_run=225.0000, S_start=35.9477, S_site=260.9477, DF=0.8800, S_iso=296.5315, Std=300kVA, Dip=2.0016%",ISO 8528-1 [needs verification]
+GEN-04,Fire pump DOL 75kW on 150kW base,150,0.80,75,DOL,10,600,40,15,"S_run=187.5000, S_start=588.2353, S_site=775.7353, DF=1.0000, S_iso=775.7353, Std=800kVA, Dip=9.9338%",ISO 8528-1 / NFPA 20 [needs verification]
+GEN-05,Large chiller VFD 110kW,300,0.80,110,VFD,15,600,45,15,"S_run=375.0000, S_start=179.7386, S_site=554.7386, DF=0.9750, S_iso=568.9626, Std=600kVA, Dip=4.4056%",ISO 8528-1
+GEN-06,No motor 0kW pure resistive PF1.0,100,1.00,0,DOL,20,500,40,15,"S_run=100.0000, S_start=0.0000, S_site=120.0000, DF=1.0000, S_iso=120.0000, Std=125kVA, Dip=0.0000%",ISO 8528-1
+GEN-07,Small clinic 18kW no motor,18,0.80,0,DOL,10,600,40,15,"S_run=22.5000, S_start=0.0000, S_site=24.7500, DF=1.0000, S_iso=24.7500, Std=30kVA, Dip=0.0000%",ISO 8528-1
+GEN-08,High ambient 55C + 1500m,400,0.80,45,Soft-Starter,10,1500,55,15,"S_run=500.0000, S_start=176.4706, S_site=676.4706, DF=0.8750, S_iso=773.1092, Std=800kVA, Dip=3.6437%",ISO 8528-1
+GEN-09,Star-Delta 55kW pump,200,0.80,55,Star-Delta,15,600,40,15,"S_run=250.0000, S_start=143.7908, S_site=393.7908, DF=1.0000, S_iso=393.7908, Std=400kVA, Dip=5.1163%",ISO 8528-1
+GEN-10,DOL 37kW on small 50kW load,50,0.80,37,DOL,10,600,40,15,"S_run=62.5000, S_start=290.1961, S_site=352.6961, DF=1.0000, S_iso=352.6961, Std=400kVA, Dip=9.8143%",ISO 8528-1
+GEN-11,Low PF 0.70 industrial load,280,0.70,30,VFD,10,500,40,15,"S_run=400.0000, S_start=49.0196, S_site=449.0196, DF=1.0000, S_iso=449.0196, Std=500kVA, Dip=1.4493%",ISO 8528-1
+GEN-12,Spare-governed 50% spare no motor,320,0.80,0,DOL,50,600,40,15,"S_run=400.0000, S_start=0.0000, S_site=600.0000, DF=1.0000, S_iso=600.0000, Std=600kVA, Dip=0.0000%",ISO 8528-1
+GEN-13,Data center 1200kW VFD,1200,0.80,90,VFD,15,600,45,15,"S_run=1500.0000, S_start=147.0588, S_site=1725.0000, DF=0.9750, S_iso=1769.2308, Std=2000kVA, Dip=1.1186%",ISO 8528-1
+GEN-14,Boundary 1000m 40C zero derate,500,0.80,45,Soft-Starter,10,1000,40,15,"S_run=625.0000, S_start=176.4706, S_site=801.4706, DF=1.0000, S_iso=801.4706, Std=1000kVA, Dip=2.5788%",ISO 8528-1
+GEN-15,Just above base 1100m 42C,500,0.80,45,Soft-Starter,10,1100,42,15,"S_run=625.0000, S_start=176.4706, S_site=801.4706, DF=0.9800, S_iso=817.8271, Std=1000kVA, Dip=2.6300%",ISO 8528-1
+GEN-16,Coast 0m 48C,350,0.80,37,Star-Delta,10,0,48,15,"S_run=437.5000, S_start=96.7320, S_site=534.2320, DF=0.9600, S_iso=556.4917, Std=600kVA, Dip=2.4572%",ISO 8528-1
+GEN-17,High Xd''=20% stiff dip check,220,0.80,45,DOL,10,600,40,20,"S_run=275.0000, S_start=352.9412, S_site=627.9412, DF=1.0000, S_iso=627.9412, Std=650kVA, Dip=9.7959%",ISO 8528-1
+GEN-18,Tricky: 50% max derate cap (4000m + 80C),200,0.80,15,VFD,10,4000,80,15,"S_run=250.0000, S_start=24.5098, S_site=275.0000, DF=0.5000, S_iso=550.0000, Std=600kVA, Dip=1.2107%",Derate cap 50%
+GEN-19,Tricky: >2500 kVA exceeded,2200,0.80,160,DOL,15,600,50,15,"S_run=2750.0000, S_start=1254.9020, S_site=4004.9020, DF=0.9500, S_iso=4215.6863, Std=None (exceeds 2500kVA), Dip=7.3437%",Parallel gensets needed
+GEN-20,Tricky: motor already in contKw vs additive,100,0.80,90,DOL,10,600,40,15,"S_run=125.0000, S_start=705.8824, S_site=830.8824, DF=1.0000, S_iso=830.8824, Std=1000kVA, Dip=9.5745%",Additive stepLoad conservative
+GEN-21,Soft-starter 75kW booster,450,0.80,75,Soft-Starter,10,600,45,15,"S_run=562.5000, S_start=294.1176, S_site=856.6176, DF=0.9750, S_iso=878.5822, Std=1000kVA, Dip=4.3290%",ISO 8528-1
+GEN-22,Edge: contKw=0 (invalid),0,0.80,15,DOL,10,600,40,15,"INVALID_INPUT (Error: contKw <= 0)",Validation check
+GEN-23,Edge: PF=0 (invalid),100,0.0,15,DOL,10,600,40,15,"INVALID_INPUT (Error: PF <= 0)",Validation check
+GEN-24,Edge: alt=-100m (invalid),100,0.80,15,DOL,10,-100,40,15,"INVALID_INPUT (Error: alt < 0)",Validation check
+GEN-25,Edge: Xd''=0 (invalid),100,0.80,15,DOL,10,600,40,0,"INVALID_INPUT (Error: Xd'' <= 0)",Validation check
