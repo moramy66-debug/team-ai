@@ -79,6 +79,9 @@ eq('zero watt wPerM2', rZeroWatt.wPerM2, 0);
 eq('neg width', L.calculate({ lengthM: 10, widthM: -8, mountingHeightM: 2.5, targetLux: 500, lumensPerFixture: 4000, wattPerFixture: 40, uf: 0.65, mf: 0.80 }).ok, false);
 eq('neg watt', L.calculate({ lengthM: 10, widthM: 8, mountingHeightM: 2.5, targetLux: 500, lumensPerFixture: 4000, wattPerFixture: -10, uf: 0.65, mf: 0.80 }).ok, false);
 eq('neg lux', L.calculate({ lengthM: 10, widthM: 8, mountingHeightM: 2.5, targetLux: -500, lumensPerFixture: 4000, wattPerFixture: 40, uf: 0.65, mf: 0.80 }).ok, false);
+eq('UF over 1 rejected', L.calculate({ lengthM: 10, widthM: 8, mountingHeightM: 2.5, targetLux: 500, lumensPerFixture: 4000, wattPerFixture: 40, uf: 1.2, mf: 0.80 }).ok, false);
+eq('MF over 1 rejected', L.calculate({ lengthM: 10, widthM: 8, mountingHeightM: 2.5, targetLux: 500, lumensPerFixture: 4000, wattPerFixture: 40, uf: 0.65, mf: 1.1 }).ok, false);
+eq('UF exactly 1 accepted', L.calculate({ lengthM: 10, widthM: 8, mountingHeightM: 2.5, targetLux: 500, lumensPerFixture: 4000, wattPerFixture: 40, uf: 1, mf: 1 }).ok, true);
 
 var rLarge = L.calculate({ lengthM: 1000, widthM: 500, mountingHeightM: 20, targetLux: 1000, lumensPerFixture: 50000, wattPerFixture: 300, uf: 0.70, mf: 0.80 });
 eq('large ok', rLarge.ok, true);
