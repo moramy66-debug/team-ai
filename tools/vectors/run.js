@@ -48,7 +48,7 @@ var RUN = {
     return out;
   },
   isc: function (v) {
-    var r = tryRun(function () { return W.EngCalc.shortCircuit({ size_mm2: n(v.S_mm2), iscKA: n(v.Isc_kA) > 0 ? n(v.Isc_kA) : (n(v.Isc_kA) === 0 ? 0 : 1), clearingTimeS: n(v.t_s) > 0 ? n(v.t_s) : undefined, letThroughKA2s: n(v.I2t_in_kA2s), conductor: v.cond, insulation: v.insul }); });
+    var r = tryRun(function () { return W.EngCalc.shortCircuit({ size_mm2: n(v.S_mm2), iscKA: (n(v.Isc_kA) === undefined ? 1 : n(v.Isc_kA)), clearingTimeS: n(v.t_s) > 0 ? n(v.t_s) : undefined, letThroughKA2s: n(v.I2t_in_kA2s), conductor: v.cond, insulation: v.insul }); });
     if (r.invalid) return r;
     var SIZES = W.EngPfcCpc.constants.SIZES, std = null, i;
     for (i = 0; i < SIZES.length; i++) if (SIZES[i] >= r.minSizeMm2 - 1e-9) { std = SIZES[i]; break; }
