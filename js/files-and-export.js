@@ -105,8 +105,19 @@ async function sendMail(auto){
   var E=ejsCfg();
   if(E){try{var r0=await fetch('https://api.emailjs.com/api/v1.0/email/send',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({service_id:E.s,template_id:E.t,user_id:E.k,template_params:{to_email:em,subject:subj,html:reportHTML(false),task:ttl,when:when,status:'تم الإنجاز',message:body}})});if(r0.ok){done=true;note='اتبعت التقرير (HTML) على '+em+' ✔'}}catch(e0){}}
   if(!done){
-   var r2=await fetch('https://formsubmit.co/ajax/'+encodeURIComponent(em),{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(mailPayload(subj,ttl,when,$('final').textContent)) });
-   var j2={};try{j2=await r2.json()}catch(e){}
+   var j2={};
+   try{var fd=new FormData(),sm=((mailSections($('final').textContent)[0]||{}).b||'').slice(0,700);
+    fd.append('_subject',subj);fd.append('_template','table');fd.append('_captcha','false');
+    fd.append('Task / المهمة',ttl);fd.append('Status / الحالة','تم الإنجاز (Completed)');fd.append('Finished / وقت الانتهاء',when);fd.append('Ref / رقم المرجع',refNo());
+    fd.append('Summary / الملخص',sm||'(see the attached report)');
+    fd.append('Note','التقرير الكامل في الملف المرفق (HTML منسق، افتحه في المتصفح واعمل Print لو عايز PDF). نص التقرير بعد كده كنسخة احتياطية.');
+    fd.append('Full text / النص الكامل',mailBodyText($('final').textContent));
+    fd.append('attachment',new Blob([reportHTML(true)],{type:'text/html'}),'Ramz-report-'+refNo().replace(/[^\w-]/g,'')+'.html');
+    var r3=await fetch('https://formsubmit.co/ajax/'+encodeURIComponent(em),{method:'POST',headers:{'Accept':'application/json'},body:fd});
+    j2=await r3.json()}catch(e3){j2={}}
+   if(!(j2.success===true||j2.success==='true')){
+    var r2=await fetch('https://formsubmit.co/ajax/'+encodeURIComponent(em),{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(mailPayload(subj,ttl,when,$('final').textContent)) });
+    try{j2=await r2.json()}catch(e){}}
    if(j2.success===true||j2.success==='true'){done=true;note=/activat/i.test(String(j2.message||''))?'FormSubmit بعتلك إيميل تفعيل على '+em+' (مرة واحدة بس). افتحه واضغط Activate، وبعدين دوس Email Result تاني.':'اتبعت على '+em+' ✔'}}
   if(!done)throw new Error('x');
   mailMsg(note,'ok')
