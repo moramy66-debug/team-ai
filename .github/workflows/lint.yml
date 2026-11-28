@@ -48,6 +48,7 @@ jobs:
           node tools/eng-lighting-test.js
           node tools/eng-loadest-test.js
           node tools/eng-areaimport-test.js
+          node tools/eng-chatcalc-test.js
           node tools/eng-cabletray-test.js
           node tools/eng-isc-test.js
           node tools/eng-cablecalc-test.js
