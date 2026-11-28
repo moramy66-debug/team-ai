@@ -57,8 +57,15 @@
     return w.filter(function (x, i) { return w.indexOf(x) === i; });
   }
 
+  /* explicit-but-invalid inputs are rejected; an empty field still means "use the default" */
+  function isGiven(x) { return x !== undefined && x !== null && x !== '' && !(typeof x === 'number' && isNaN(x)); }
+  function needPhases(x) {
+    if (isGiven(x) && Number(x) !== 1 && Number(x) !== 3) throw new Error('Phases غير صالح (' + x + '): القيم المسموحة 1 أو 3 فقط.');
+  }
+
   /* ---------- design current ---------- */
   function designCurrent(o, steps, extra) {
+    needPhases(o.phases);
     var phases = Number(o.phases) === 1 ? 1 : 3;
     var vGiven = !(o.voltageV === undefined || o.voltageV === null || o.voltageV === '');
     if (vGiven && !pos(Number(o.voltageV))) throw new Error('Voltage غير صالح (' + o.voltageV + '): لازم يكون أكبر من صفر. سيبه فاضي لو عايز القيمة الافتراضية (' + (phases === 1 ? 230 : 400) + ' V).');
@@ -74,6 +81,7 @@
       else if (!given(o.voltageV)) extra.push('Voltage مش مدخل، استخدمت القيمة الافتراضية ' + V + ' V.');
     }
     var Ib;
+    if (extra && pos(o.currentA) && P) extra.push('اتدخل Current و Power مع بعض: الحساب استخدم Current (Ib = ' + f(o.currentA) + ' A) وتجاهل Power. سيب واحد بس لو مش قصدك.');
     if (pos(o.currentA)) {
       Ib = o.currentA;
       steps.push({ step: 'Design Current Ib', formula: 'Ib = I (مدخل)', substitution: 'I = ' + f(Ib) + ' A', result: f(Ib) + ' A', value: Ib, unit: 'A' });
@@ -94,6 +102,7 @@
   /* ---------- breakers ---------- */
   function ratingsFor(a, type, used, warnings) {
     var t = String(type || 'any').toUpperCase();
+    if (t !== 'ANY' && t !== 'MCB' && t !== 'MCCB' && t !== 'ACB') throw new Error('Breaker Type غير معروف (' + type + '): المسموح MCB أو MCCB أو any.');
     if (t === 'ACB') throw new Error('جدول ACB مش موجود في البيانات. اختار MCB أو MCCB.');
     var mcb = need(a, 'mcb_iec60898_rated_currents'), mccb = need(a, 'mccb_iec60947_2_typical_ratings');
     if (t === 'MCB') { useTable(used, a, 'mcb_iec60898_rated_currents'); return { type: 'MCB', values: mcb.values }; }
@@ -118,6 +127,8 @@
     var o = input || {}, a = api(tablesApi), used = [], steps = [];
     var Ib = Number(o.designCurrentA || o.currentA || o.ib);
     if (!pos(Ib)) throw new Error('ادخل Design Current Ib (رقم موجب).');
+    if (isGiven(o.cableAmpacityA) && !pos(Number(o.cableAmpacityA))) throw new Error('Cable Ampacity Iz غير صالح (' + o.cableAmpacityA + '): لازم يكون أكبر من صفر. سيبه فاضي لو مش عايز تتحقق من الـ Overload.');
+    if (isGiven(o.i2Factor) && !pos(Number(o.i2Factor))) throw new Error('Tripping Factor I2/In غير صالح (' + o.i2Factor + '): لازم يكون أكبر من صفر. سيبه فاضي للقيمة الافتراضية.');
     var sf = pos(o.safetyFactor) ? o.safetyFactor : 1;
     var need_In = Ib * sf;
     steps.push({ step: 'Current المطلوب لـ Breaker', formula: 'In_min = Ib x SF', substitution: f(Ib) + ' x ' + sf, result: f(need_In) + ' A', value: need_In, unit: 'A' });
@@ -166,6 +177,7 @@
   function voltageDrop(input, tablesApi) {
     var o = input || {}, a = api(tablesApi), used = [], steps = [], extra = [];
     var size = Number(o.size_mm2), I = Number(o.currentA), L = Number(o.lengthM);
+    needPhases(o.phases);
     var phases = Number(o.phases) === 1 ? 1 : 3;
     var vGiven = !(o.voltageV === undefined || o.voltageV === null || o.voltageV === '');
     if (vGiven && !pos(Number(o.voltageV))) throw new Error('Voltage غير صالح (' + o.voltageV + '): لازم يكون أكبر من صفر. سيبه فاضي لو عايز القيمة الافتراضية (' + (phases === 1 ? 230 : 400) + ' V).');
@@ -282,6 +294,9 @@
   function cableSizing(input, tablesApi) {
     var o = input || {}, a = api(tablesApi), used = [], steps = [], extra = [];
     var d = designCurrent(o, steps, extra);
+    if (isGiven(o.circuits) && !(Number(o.circuits) >= 1)) throw new Error('Number of Circuits غير صالح (' + o.circuits + '): لازم يكون 1 أو أكتر. سيبه فاضي لو دائرة واحدة.');
+    if (isGiven(o.lengthM) && !pos(Number(o.lengthM))) throw new Error('Length غير صالح (' + o.lengthM + '): لازم يكون أكبر من صفر. سيبه فاضي لو مش عايز Voltage Drop.');
+    if (isGiven(o.maxVdropPct) && !pos(Number(o.maxVdropPct))) throw new Error('Max Voltage Drop % غير صالح (' + o.maxVdropPct + '): لازم يكون أكبر من صفر. سيبه فاضي لو مش عايز Voltage Drop.');
     var ins = String(o.insulation || 'XLPE').toUpperCase(), cond = String(o.conductor || 'Cu');
     var loaded = d.phases === 1 ? 2 : 3;
     var mkey = METHODS[String(o.method || 'air').toLowerCase()] || String(o.method).toUpperCase();
