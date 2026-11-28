@@ -1,0 +1,25 @@
+/* eng-chatcalc: intent detection, deterministic parse, report builder. */
+const fs = require('fs'), vm = require('vm'), assert = require('assert');
+const ctx = { window: {}, document: { addEventListener() {} }, setTimeout() {}, console, TextEncoder, Blob, DataView, Uint8Array, URL }; ctx.window = ctx;
+vm.createContext(ctx);
+vm.runInContext(fs.readFileSync('js/eng-crosscheck.js', 'utf8'), ctx);
+vm.runInContext(fs.readFileSync('js/eng-xlsx.js', 'utf8'), ctx);
+vm.runInContext(fs.readFileSync('js/eng-sheet.js', 'utf8'), ctx);
+vm.runInContext(fs.readFileSync('js/eng-chatcalc.js', 'utf8'), ctx);
+const C = ctx.EngChatCalc;
+assert.strictEqual(C.detect('حساب voltage drop لكابل 95 mm2'), 'vdrop');
+assert.strictEqual(C.detect('size the cable for 120 A, 80 m'), 'cable');
+assert.strictEqual(C.detect('اختار مقطع الكابل'), 'cable');
+assert.strictEqual(C.detect('MCCB for 200 A'), 'breaker');
+assert.strictEqual(C.detect('hello'), null);
+const p = C.parse('cable sizing 3 phase 400 V 120 A length 80 m copper XLPE max voltage drop 3%');
+assert.strictEqual(p.currentA, 120); assert.strictEqual(p.voltageV, 400); assert.strictEqual(p.lengthM, 80);
+assert.strictEqual(p.phases, 3); assert.strictEqual(p.conductor, 'Cu'); assert.strictEqual(p.maxVdropPct, 3);
+const q = C.parse('cable 100 A 50 m');
+assert.strictEqual(q.conductor, undefined, 'conductor must not be filled silently');
+assert.strictEqual(q.phases, undefined, 'phases must not be filled silently');
+const rep = C.buildReport('vdrop', { size_mm2: '95', currentA: '120', lengthM: '80', voltageV: '', phases: '3', conductor: '', insulation: '', powerFactor: '' }, { size_mm2: 'from your text' }, { summary: 'Voltage Drop: 1 V', steps: [{ step: 's', formula: 'f', substitution: 'x|y', result: 'r' }], warnings: ['w'], tablesUsed: [{ id: 't', status: 'verified_secondary', source: '' }] });
+assert(/default \(assumption\): 400 V/.test(rep)); assert(!/x\|y/.test(rep)); assert(/parallel cables/.test(rep));
+const bk = ctx.EngSheet.book({title:'T',edition:'E',meta:[['Project','P']],kpis:[{l:'Demand',v:'1,234.50',u:'kVA'}],sections:[{type:'cards',title:'Per floor',rows:[{head:'GF',cells:[['Area','10.00'],['kVA','2.50']]},{head:'Total',total:1,cells:[['Area','10.00'],['kVA','2.50']]}]},{type:'box',title:'Open',kind:'open',items:['q']}]});
+assert.strictEqual(bk.sheets[0].rows[5][1].v, 1234.5); assert(bk.sheets[0].merges.length>2);
+console.log('ALL CHATCALC TESTS PASSED');
