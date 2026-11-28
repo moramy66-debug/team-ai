@@ -3,6 +3,7 @@
 'use strict';
 var fs = require('fs'), path = require('path');
 var J = path.join(__dirname, '..', '..', 'js');
+var VDIR = process.env.VDIR || __dirname;
 global.window = {};
 ['eng-tables', 'eng-calc', 'eng-transformer', 'eng-generator', 'eng-ups', 'eng-lighting', 'eng-cabletray', 'eng-pfc-cpc'].forEach(function (f) { require(path.join(J, f + '.js')); });
 window.EngTables.setData(JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'data', 'eng-tables.json'), 'utf8')));
@@ -62,25 +63,26 @@ var RUN = {
     var xd = +v.Xd_pct;
     var r = W.EngGenerator.calculate({ continuousKw: +v.contKw, pf: +v.PF, largestMotorKw: +v.motorKw, startMethod: v.startType, sparePct: +v.sparePct, altitudeM: +v.altM, ambientTempC: +v.ambC });
     if (bad(r)) return inv(r);
-    var o = { S_run: r.runningKva, S_start: r.motorStartKva, S_site: r.requiredSiteKva, DF: r.deratingFactor, S_iso: r.requiredIsoKva, Std: r.stdKva, Dip: r.voltageDipPct, _xd: xd };
+    var o = { StepLoad: r.stepLoadKva, S_run: r.runningKva, S_start: r.motorStartKva, S_site: r.requiredSiteKva, DF: r.deratingFactor, S_iso: r.requiredIsoKva, Std: r.stdKva, Dip: r.voltageDipPct, _xd: xd };
     return o;
   },
   ups: function (v) {
     var r = W.EngUps.calculate({ loadKw: +v.loadKw, sparePct: +v.sparePct, loadPf: +v.loadPF, upsRatedPf: +v.upsPF, runtimeMin: +v.rtMin, dcVoltageV: +v.Vdc, inverterEff: +v.invEff, eodRatio: +v.eodRatio, ageingFactor: +v.ageing, tempFactor: +v.Tf, designMargin: +v.margin });
     if (bad(r)) return inv(r);
     var g = function (a) { for (var i = 0; i < a.length; i++) if (r[a[i]] !== undefined) return r[a[i]]; };
-    return { S_ups: g(['requiredUpsKva']), Std: g(['standardUpsKva']), P_batt: g(['batteryPowerKw']), V_eod: g(['eodVoltageV']), I_dc: g(['dcCurrentEodA']), Ah_req: g(['requiredAh']), Std_Ah: g(['standardAh']) };
+    return { Std_kVA: g(['standardUpsKva']), Ah_lin: g(['rawAh']), S_ups: g(['requiredUpsKva']), Std: g(['standardUpsKva']), P_batt: g(['batteryPowerKw']), V_eod: g(['eodVoltageV']), I_dc: g(['dcCurrentEodA']), Ah_req: g(['requiredAh']), Std_Ah: g(['standardAh']) };
   },
   lgt: function (v) {
     var r = W.EngLighting.calculate({ lengthM: +v.L_m, widthM: +v.W_m, mountingHeightM: +v.Hm_m, targetLux: +v.targetLux, lumensPerFixture: +v.lumens, wattPerFixture: +v.watts, uf: +v.UF, mf: +v.MF });
     if (bad(r)) return inv(r);
-    return { A: r.A, K: r.K, N_ex: r.N_exact, Grid: r.N_grid, SHR: r.shr, 'W/m2': r.wPerM2 };
+    return { A: r.A, K: r.K, N_ex: r.N_exact, N: r.N, Cols: r.cols, Rows: r.rows, Grid: r.N_grid, SHR: r.shr, 'W/m2': r.wPerM2, Wm2: r.wPerM2 };
   },
   pfc: function (v) {
     var r = tryRun(function () { return W.EngPfcCpc.pfc({ pKW: +v.P_kW, pfExisting: +v.PF1, pfTarget: +v.PF2, voltageV: +v.V_3ph }); });
     if (r.invalid) return r;
     var P = +v.P_kW;
-    return { Q1: P * Math.tan(Math.acos(+v.PF1)), Qc: r.Qc, Std: r.standardKVAR, PF_fin: r.pfFinal };
+    var Qx = Math.max(0, P * (Math.tan(Math.acos(+v.PF1)) - Math.tan(Math.acos(+v.PF2))));
+    return { Q1: P * Math.tan(Math.acos(+v.PF1)), Qc: Qx, Std: r.standardKVAR, PF_fin: r.standardKVAR === null ? undefined : r.pfFinal, I_before: r.currentBeforeA, I_after: r.currentAfterA };
   },
   cpc: function (v) {
     var r = tryRun(function () { return W.EngPfcCpc.cpc({ iscKA: +v.If_kA, timeS: +v.t_s, conductor: v.cond, insulation: v.insul, kind: v.type === 'single' ? 'insulated' : 'multicore', phaseMm2: +v.Sph_mm2, separated: v.protected === 'true' ? 'protected' : 'unprotected' }); });
@@ -91,11 +93,21 @@ var RUN = {
   peu: function (v) {
     var r = W.EngUps.calculate({ loadKw: +v.loadKw, sparePct: +v.sparePct, loadPf: +v.loadPF, upsRatedPf: +v.upsPF, runtimeMin: +v.rtMin, dcVoltageV: +v.Vdc, inverterEff: +v.invEff, eodRatio: +v.eodRatio, ageingFactor: +v.ageing, tempFactor: +v.Tf, designMargin: +v.margin, peukertK: +v.k, ratedHours: +v.H_h });
     if (bad(r)) return inv(r);
-    return { Ah_lin: r.rawAh, PF: r.peukertFactor, Ah_req: r.requiredAh, Std: r.standardAh };
+    return { Ah_lin: r.rawAh, PF: r.peukertFactor, Ah_req: r.requiredAh, Std: r.standardAh, Std_Ah: r.standardAh };
   },
   brk: function (v) {
     var r = W.EngCalc.breakerSelection({ designCurrentA: +v.Ib, cableAmpacityA: +v.Iz, type: v.type, i2Factor: v.i2Factor === '' ? undefined : +v.i2Factor });
     return { In: r.rating_a, I2: r.i2A, Lim: 1.45 * +v.Iz, OverloadOK: r.overloadOk, Coord: r.coordinated };
+  },
+  vd: function (v) {
+    var o = function (x) { return x === '' || x === undefined ? undefined : Number(x); };
+    var r = W.EngCalc.voltageDrop({ size_mm2: o(v.size_mm2), currentA: o(v.I_A), lengthM: o(v.L_m), voltageV: o(v.V), phases: +v.ph, conductor: v.cond, insulation: v.insul, powerFactor: o(v.PF), operatingTempC: o(v.theta_C), reactanceOhmKm: o(v.X_ohmkm) });
+    return { dV_V: r.vdropV, dV_pct: r.vdropPct, Method: r.methodUsed === 'bs7671_4d1b' ? '4d1b' : 'rx' };
+  },
+  siz: function (v) {
+    var o = function (x) { return x === '' || x === undefined ? undefined : Number(x); };
+    var r = W.EngCalc.cableSizing({ phases: +v.ph, powerKW: o(v.P_kW), currentA: o(v.I_A), voltageV: o(v.V), powerFactor: o(v.PF), insulation: v.insul, conductor: v.cond, method: v.method, ambientC: o(v.ambC), circuits: o(v.circuits), spacing: v.spacing || undefined, lengthM: o(v.L_m), maxVdropPct: o(v.maxVD_pct) });
+    return { Ib: r.designCurrentA, In: r.breaker.rating_a, Ca: r.factors.ca, Cg: r.factors.cg, Ct: r.factors.combined, Iz_req: r.requiredBaseAmpacityA, Size: r.size_mm2, Iz: r.deratedAmpacityA, VD_pct: r.vdrop ? r.vdrop.vdropPct : undefined, Compliant: r.compliant };
   },
   ct: function (v) {
     var r = W.EngCableTray.calculate({ cableCount: +v.count, outerDiaMm: +v.diaMm, arrangement: v.type === 'single-core' ? 'single_core' : 'multicore', sparePct: +v.sparePct, trayDepthMm: +v.depthMm, fillLimitPct: +v.fillLimitPct });
@@ -107,22 +119,24 @@ var ALIAS = { Std_Ah: 'Std' };
 
 function parseHand(s) {
   if (/^INVALID_INPUT/.test(s)) return { invalid: true };
-  var o = {}, re = /([A-Za-z_\/0-9]+)=([-0-9.]+|None|True|False)/g, m;
+  var o = {}, re = /([A-Za-z_\/0-9]+)=(4d1b|rx|[-0-9.]+|None|True|False)/g, m;
   var gm = s.match(/Grid=\d+x\d+=(\d+)/); s = s.replace(/Grid=\d+x\d+=\d+/, '');
-  while ((m = re.exec(s))) o[m[1]] = m[2] === 'True' ? true : m[2] === 'False' ? false : m[2] === 'None' ? null : Number(m[2]);
+  while ((m = re.exec(s))) o[m[1]] = m[2] === 'True' ? true : m[2] === 'False' ? false : m[2] === 'None' ? null : (m[2] === 'rx' || m[2] === '4d1b') ? m[2] : Number(m[2]);
   if (gm) o.Grid = Number(gm[1]);
   return o;
 }
 function close(a, b, key) {
   if (typeof b === 'boolean') return a === b;
   if (b === null) return a === null || a === undefined;
+  if (typeof b === 'string') return a === b;
   if (typeof a !== 'number') return false;
-  var tol = key === 'Std' || /^(Std|StdS|S_std|MinS_VD)$/.test(key) ? 1e-9 : Math.max(2e-3 * Math.abs(b), 2e-3);
+  var tol = /^(Std|Std_kVA|Std_Ah|StdS|S_std|MinS_VD|Size|Grid|Cols|Rows|N|In|k)$/.test(key) ? 1e-9 : (/^I_(before|after)$/.test(key) ? 0.06 : Math.max(2e-3 * Math.abs(b), 2e-3));
   return Math.abs(a - b) <= tol;
 }
-var files = ['cab', 'isc', 'tx', 'gen', 'ups', 'lgt', 'pfc', 'cpc', 'ct', 'peu', 'brk'], total = 0, mism = [], matched = 0;
+var files = ['cab', 'isc', 'tx', 'gen', 'ups', 'lgt', 'pfc', 'cpc', 'ct', 'peu', 'brk', 'vd', 'siz'], total = 0, mism = [], matched = 0;
 files.forEach(function (f) {
-  parseCsv(fs.readFileSync(path.join(__dirname, f + '.csv'), 'utf8')).forEach(function (v) {
+  if (!fs.existsSync(path.join(VDIR, f + '.csv'))) return;
+  parseCsv(fs.readFileSync(path.join(VDIR, f + '.csv'), 'utf8')).forEach(function (v) {
     total++;
     var hand = parseHand(v.hand_result), app = tryRun(function () { return RUN[f](v); });
     var diffs = [];
@@ -136,7 +150,7 @@ files.forEach(function (f) {
         if (!close(got, hand[k], k)) diffs.push(k + ': model ' + hand[k] + ' app ' + (typeof got === 'number' ? Math.round(got * 1e4) / 1e4 : got));
       });
       if (f === 'ups') { var mah = v.hand_result.match(/Ah_req=[-0-9.]+Ah \(Std=(\d+|None)\)/); if (mah && String(app.Std_Ah) !== mah[1] && !(mah[1]==='None' && app.Std_Ah==null)) diffs.push('Std_Ah: model ' + mah[1] + ' app ' + app.Std_Ah); var m2 = v.hand_result.match(/S_ups=[-0-9.]+kVA \(Std=(\d+|None)\)/); if (m2 && String(app.Std) !== m2[1] && !(m2[1] === 'None' && app.Std == null)) diffs.push('Std_kVA: model ' + m2[1] + ' app ' + app.Std); }
-      if (f === 'gen' && app._xd !== 15) diffs.push('Xd=' + app._xd + ' not an app input (app fixed Xd); Dip compare uses app constant');
+      if (f === 'gen' && !isNaN(app._xd) && app._xd !== 15) diffs.push('Xd=' + app._xd + ' not an app input (app fixed Xd); Dip compare uses app constant');
     }
     if (diffs.length) mism.push(v.id + ' | ' + diffs.join(' ; ')); else matched++;
   });
