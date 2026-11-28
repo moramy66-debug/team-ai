@@ -159,6 +159,21 @@
     return out;
   }
 
+  /* quick read for the chat card: sheets used, totals per proposed category (no model involved) */
+  function summarize(sheets) {
+    var out = { spaces: 0, c7: 0, c6: 0, unmapped: 0, unmappedArea: 0, area: 0 };
+    sheets.forEach(function (sh) {
+      if (H_SUMMARY.test(sh.name)) return;
+      var d = detect(sh.rows); if (d.col.area < 0) return;
+      buildSpaces(d, d.col, sh.name).forEach(function (s) {
+        if (s.excluded) return;
+        out.spaces++; out.area += s.area;
+        if (s.cat === 'C7') out.c7 += s.area; else if (s.cat === 'C6') out.c6 += s.area; else { out.unmapped++; out.unmappedArea += s.area; }
+      });
+    });
+    return out;
+  }
+
   /* ---------- UI ---------- */
   function mount(body, h) {
     var box = h.el('div', 'ec-card imp-import');
@@ -171,8 +186,8 @@
     body.appendChild(box);
     var state = {};
 
-    pick.addEventListener('change', function () {
-      var f = pick.files && pick.files[0]; if (!f) return;
+    function loadFile(f) {
+      if (!f) return;
       area.innerHTML = ''; msg.className = 'imp-msg'; msg.textContent = 'Reading ' + f.name + ' ...';
       readFile(f).then(function (sheets) {
         sheets = sheets.filter(function (s) { return s.rows.length; });
@@ -182,7 +197,9 @@
         state.use = null; msg.textContent = '';
         renderSheet(area, state, h);
       }).catch(function (e) { msg.textContent = e.message || 'Could not read the file.'; msg.className = 'imp-msg ec-err'; });
-    });
+    }
+    pick.addEventListener('change', function () { loadFile(pick.files && pick.files[0]); });
+    if (window.EngAreaImport && window.EngAreaImport.pending) { var pf = window.EngAreaImport.pending; window.EngAreaImport.pending = null; loadFile(pf); }
   }
 
   function renderSheet(area, state, h) {
@@ -310,5 +327,5 @@
     rebuild(); renderQuestions();
   }
 
-  window.EngAreaImport = { mount: mount, parseCsv: parseCsv, parseXlsx: parseXlsx, detect: detect, buildSpaces: buildSpaces, classify: classify, readFile: readFile, num: num };
+  window.EngAreaImport = { summarize: summarize, mount: mount, parseCsv: parseCsv, parseXlsx: parseXlsx, detect: detect, buildSpaces: buildSpaces, classify: classify, readFile: readFile, num: num };
 })();
