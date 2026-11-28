@@ -1,0 +1,26 @@
+id,desc,L_m,W_m,Hm_m,targetLux,lumens,watts,UF,MF,hand_result,standard_ref
+LGT-01,Standard office 10x8x2.8m 500lx,10,8,2.8,500,4000,36,0.65,0.80,"A=80.00m2, K=1.5873, N_ex=19.2308, Grid=5x4=20, SHR=0.7143, W/m2=9.0000",CIBSE / IES Lumen Method
+LGT-02,Small meeting room 5x4x2.7m 400lx,5,4,2.7,400,3600,32,0.60,0.80,"A=20.00m2, K=0.8230, N_ex=4.6296, Grid=2x3=6, SHR=0.9259, W/m2=9.6000",CIBSE / IES Lumen Method
+LGT-03,Long corridor 24x2.2x2.6m 150lx,24,2.2,2.6,150,1800,18,0.55,0.80,"A=52.80m2, K=0.7751, N_ex=10.0000, Grid=10x1=10, SHR=0.9231, W/m2=3.4091",CIBSE / IES Lumen Method
+LGT-04,High-bay warehouse 30x20x8m 200lx,30,20,8.0,200,18000,120,0.70,0.75,"A=600.00m2, K=1.5000, N_ex=12.6984, Grid=4x4=16, SHR=0.9375, W/m2=3.2000",CIBSE / IES Lumen Method
+LGT-05,Hospital ICU 6x5x2.8m 1000lx,6,5,2.8,1000,5000,42,0.65,0.80,"A=30.00m2, K=0.9740, N_ex=11.5385, Grid=4x3=12, SHR=0.5952, W/m2=16.8000",CIBSE / IES Lumen Method
+LGT-06,Electrical room 6x4x3.2m 300lx,6,4,3.2,300,4200,36,0.62,0.75,"A=24.00m2, K=0.7500, N_ex=3.6866, Grid=2x2=4, SHR=0.9375, W/m2=6.0000",CIBSE / IES Lumen Method
+LGT-07,Basement parking 40x15x3m 75lx,40,15,3.0,75,4500,36,0.65,0.70,"A=600.00m2, K=3.6364, N_ex=21.9780, Grid=8x3=24, SHR=1.6667, W/m2=1.4400 [SHR>1.5]",SHR warning (>1.5)
+LGT-08,Classroom 9x7x3.0m 350lx,9,7,3.0,350,4000,34,0.65,0.80,"A=63.00m2, K=1.3125, N_ex=10.6010, Grid=4x3=12, SHR=0.7778, W/m2=6.4762",CIBSE / IES Lumen Method
+LGT-09,Tiny WC 2.5x2x2.5m 150lx,2.5,2.0,2.5,150,1200,12,0.50,0.80,"A=5.00m2, K=0.4444, N_ex=1.5625, Grid=2x1=2, SHR=0.8000, W/m2=4.8000",CIBSE / IES Lumen Method
+LGT-10,Prayer hall 18x12x4.5m 300lx,18,12,4.5,300,6000,50,0.68,0.80,"A=216.00m2, K=1.6000, N_ex=19.8529, Grid=5x4=20, SHR=0.8000, W/m2=4.6296",CIBSE / IES Lumen Method
+LGT-11,Low ceiling SHR>1.5 12x12x2.1m,12,12,2.1,200,8000,60,0.65,0.80,"A=144.00m2, K=2.8571, N_ex=6.9231, Grid=3x3=9, SHR=1.9048, W/m2=3.7500 [SHR>1.5]",SHR warning (>1.5)
+LGT-12,Workshop 15x10x5m 500lx,15,10,5.0,500,12000,90,0.68,0.75,"A=150.00m2, K=1.2000, N_ex=12.2549, Grid=4x4=16, SHR=0.7500, W/m2=9.6000",CIBSE / IES Lumen Method
+LGT-13,Server room 8x6x3.0m 500lx,8,6,3.0,500,4000,36,0.65,0.80,"A=48.00m2, K=1.1429, N_ex=11.5385, Grid=4x3=12, SHR=0.6667, W/m2=9.0000",CIBSE / IES Lumen Method
+LGT-14,Lobby double height 14x10x6.5m 250lx,14,10,6.5,250,7500,60,0.62,0.80,"A=140.00m2, K=0.8974, N_ex=9.4086, Grid=4x3=12, SHR=0.5385, W/m2=5.1429",CIBSE / IES Lumen Method
+LGT-15,Narrow storage 16x1.8x3.0m 150lx,16,1.8,3.0,150,2000,18,0.50,0.75,"A=28.80m2, K=0.5393, N_ex=5.7600, Grid=7x1=7, SHR=0.7619, W/m2=4.3750",CIBSE / IES Lumen Method
+LGT-16,Lab 12x8x3.0m 750lx,12,8,3.0,750,4800,40,0.65,0.80,"A=96.00m2, K=1.6000, N_ex=28.8462, Grid=7x5=35, SHR=0.5714, W/m2=14.5833",CIBSE / IES Lumen Method
+LGT-17,Exact integer N=12 check,10,6,3.0,400,4000,36,0.625,0.80,"A=60.00m2, K=1.2500, N_ex=12.0000, Grid=4x3=12, SHR=0.8333, W/m2=7.2000",Exact integer boundary
+LGT-18,High efficacy 150 lm/W LED,12,10,3.0,500,6000,40,0.70,0.85,"A=120.00m2, K=1.8182, N_ex=16.8067, Grid=5x4=20, SHR=0.8333, W/m2=6.6667",CIBSE / IES Lumen Method
+LGT-19,Dusty factory MF=0.60,20,15,6.0,300,15000,110,0.65,0.60,"A=300.00m2, K=1.4286, N_ex=15.3846, Grid=5x4=20, SHR=0.6667, W/m2=7.3333",CIBSE / IES Lumen Method
+LGT-20,Square 8x8x3m 500lx,8,8,3.0,500,4000,36,0.65,0.80,"A=64.00m2, K=1.3333, N_ex=15.3846, Grid=4x4=16, SHR=0.6667, W/m2=9.0000",CIBSE / IES Lumen Method
+LGT-21,Tricky: UF=1.2 > 1 (bug check),10,8,3.0,500,4000,36,1.20,0.80,"A=80.00m2, K=1.4815, N_ex=10.4167, Grid=4x3=12, SHR=0.8889, W/m2=5.4000 [UF>1_BUG]",Validation bug in app
+LGT-22,Edge: L=0 (invalid),0,8,3.0,500,4000,36,0.65,0.80,"INVALID_INPUT (Error: L <= 0)",Validation check
+LGT-23,Edge: Hm=0 (invalid),10,8,0,500,4000,36,0.65,0.80,"INVALID_INPUT (Error: Hm <= 0)",Validation check
+LGT-24,Edge: lumens=0 (invalid),10,8,3.0,500,0,36,0.65,0.80,"INVALID_INPUT (Error: lumens <= 0)",Validation check
+LGT-25,Edge: targetLux=-100 (invalid),10,8,3.0,-100,4000,36,0.65,0.80,"INVALID_INPUT (Error: targetLux <= 0)",Validation check
