@@ -8,6 +8,8 @@
   var KW_TOTAL = /^\s*(grand\s+)?(total|sum|subtotal)|اجمالي|إجمالي|المجموع|مجموع/i;
   var H_AREA = /area|m2|m²|sqm|sq\.?\s*m|مساحة|المساحة|م2|م²/i;
   var H_NAME = /space|name|use|usage|type|description|room|zone|function|الفراغ|الاستخدام|البيان|الوصف|النشاط|الاسم/i;
+  var H_TYPE = /type|category|النوع|التصنيف|الفئة/i;
+  var H_SUMMARY = /total|summary|sum\b|اجمالي|إجمالي|ملخص|الاجمالي/i;
   var H_FLOOR = /floor|level|storey|story|الدور|الطابق|المستوى/i;
 
   function num(v) {
@@ -117,12 +119,13 @@
     var header = hi >= 0 ? rows[hi].map(cellStr) : [];
     var width = rows.reduce(function (m, r) { return Math.max(m, (r || []).length); }, 0);
     for (j = 0; j < width; j++) if (header[j] === undefined) header[j] = '';
-    var col = { area: -1, name: -1, floor: -1 };
+    var col = { area: -1, name: -1, floor: -1, type: -1 };
     header.forEach(function (h, k) {
       if (col.area < 0 && H_AREA.test(h)) col.area = k;
       if (col.floor < 0 && H_FLOOR.test(h)) col.floor = k;
     });
-    header.forEach(function (h, k) { if (col.name < 0 && k !== col.area && k !== col.floor && H_NAME.test(h)) col.name = k; });
+    header.forEach(function (h, k) { if (col.name < 0 && k !== col.area && k !== col.floor && H_NAME.test(h) && !(H_TYPE.test(h) && !/space|name|اسم/i.test(h))) col.name = k; });
+    header.forEach(function (h, k) { if (col.type < 0 && k !== col.area && k !== col.floor && k !== col.name && H_TYPE.test(h)) col.type = k; });
     var data = rows.slice(hi + 1);
     if (col.area < 0) {
       /* no header: the numeric column with the most numbers */
@@ -140,16 +143,16 @@
     if (KW_C7.test(name) && !KW_C6.test(name)) return { cat: 'C7', why: 'keyword match' };
     return { cat: '', why: 'no match' };
   }
-  function buildSpaces(d, col) {
+  function buildSpaces(d, col, sheetName) {
     var out = [];
     d.data.forEach(function (r, k) {
       r = r || [];
-      var nm = col.name >= 0 ? cellStr(r[col.name]) : '', ar = col.area >= 0 ? num(r[col.area]) : NaN, fl = col.floor >= 0 ? cellStr(r[col.floor]) : '';
+      var nm = col.name >= 0 ? cellStr(r[col.name]) : '', ar = col.area >= 0 ? num(r[col.area]) : NaN, fl = col.floor >= 0 ? cellStr(r[col.floor]) : (sheetName || ''), ty = col.type >= 0 ? cellStr(r[col.type]) : '';
       if (!nm && isNaN(ar)) return;
-      var sp = { src: (d.headerRow + 2 + k), name: nm || '(no name)', floor: fl, area: ar, cat: '', why: '', custDens: '', custDf: '', excluded: false, note: '' };
-      if (KW_TOTAL.test(nm) || KW_TOTAL.test(fl)) { sp.excluded = true; sp.note = 'looks like a total row, excluded to avoid double counting'; }
+      var sp = { src: (d.headerRow + 2 + k), sheet: sheetName || '', type: ty, name: nm || '(no name)', floor: fl, area: ar, cat: '', why: '', custDens: '', custDf: '', excluded: false, note: '' };
+      if (KW_TOTAL.test(nm) || KW_TOTAL.test(ty) || (col.floor >= 0 && KW_TOTAL.test(fl))) { sp.excluded = true; sp.note = 'looks like a total row, excluded to avoid double counting'; }
       else if (isNaN(ar) || ar <= 0) { sp.excluded = true; sp.note = 'no valid area'; }
-      var c = classify((fl ? fl + ' ' : '') + nm);
+      var c = classify(nm + ' ' + ty);
       sp.cat = c.cat; sp.why = c.why;
       out.push(sp);
     });
@@ -176,7 +179,7 @@
         if (!sheets.length) throw new Error('الملف فاضي.');
         state.fileName = f.name; state.sheets = sheets;
         var best = 0, bs = -1; sheets.forEach(function (s, k) { var d = detect(s.rows), sc = d.col.area >= 0 ? d.data.filter(function (r) { return !isNaN(num((r || [])[d.col.area])); }).length : 0; if (sc > bs) { bs = sc; best = k; } });
-        state.sheetIdx = best; msg.textContent = '';
+        state.use = null; msg.textContent = '';
         renderSheet(area, state, h);
       }).catch(function (e) { msg.textContent = e.message || 'Could not read the file.'; msg.className = 'imp-msg ec-err'; });
     });
@@ -184,14 +187,24 @@
 
   function renderSheet(area, state, h) {
     area.innerHTML = '';
-    var sheet = state.sheets[state.sheetIdx], d = detect(sheet.rows), col = d.col, spaces;
+    state.info = state.sheets.map(function (sh) {
+      var d = detect(sh.rows), n = d.col.area >= 0 ? d.data.filter(function (r) { return !isNaN(num((r || [])[d.col.area])); }).length : 0;
+      return { d: d, n: n, summary: H_SUMMARY.test(sh.name) };
+    });
+    if (!state.use) state.use = state.info.map(function (i) { return i.n > 0 && !i.summary; });
+    if (!state.use.some(Boolean)) state.use = state.info.map(function (i) { return i.n > 0; });
+    var usedIdx = []; state.use.forEach(function (u, k) { if (u) usedIdx.push(k); });
+    var d = state.info[usedIdx[0] || 0].d, col = d.col;
     if (state.sheets.length > 1) {
-      var ss = document.createElement('select'); ss.className = 'ec-input'; ss.setAttribute('aria-label', 'Sheet');
-      state.sheets.forEach(function (s, k) { var o = document.createElement('option'); o.value = k; o.textContent = 'Sheet: ' + s.name; if (k === state.sheetIdx) o.selected = true; ss.appendChild(o); });
-      ss.addEventListener('change', function () { state.sheetIdx = +ss.value; renderSheet(area, state, h); });
-      area.appendChild(ss);
+      var sl = h.el('div', 'imp-q'); sl.appendChild(h.el('div', 'imp-q-t', 'Sheets found in the file (tick the ones that hold spaces; summary sheets are off by default to avoid double counting)'));
+      state.sheets.forEach(function (sh, k) {
+        var lb = h.el('label', 'imp-inc'), cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = !!state.use[k];
+        cb.addEventListener('change', function () { state.use[k] = cb.checked; renderSheet(area, state, h); });
+        lb.appendChild(cb); lb.appendChild(h.el('span', null, sh.name + ' (' + state.info[k].n + ' numeric area rows' + (state.info[k].summary ? ', looks like a summary' : '') + ')')); sl.appendChild(lb);
+      });
+      area.appendChild(sl);
     }
-    /* column mapping (editable) */
+    var spaces, single = usedIdx.length === 1;
     var map = h.el('div', 'ec-grid');
     function colSel(label, key, optional) {
       var wrap = h.el('label', 'ec-field'); wrap.appendChild(h.el('span', null, label));
@@ -201,8 +214,8 @@
       s.addEventListener('change', function () { col[key] = +s.value; rebuild(); });
       wrap.appendChild(s); map.appendChild(wrap);
     }
-    colSel('Space name column', 'name'); colSel('Area (m2) column', 'area'); colSel('Floor column', 'floor', true);
-    area.appendChild(map);
+    if (single) { colSel('Space name column', 'name'); colSel('Area (m2) column', 'area'); colSel('Floor column', 'floor', true); colSel('Type column', 'type', true); area.appendChild(map); }
+    else { var ds = state.info[usedIdx[0]].d; area.appendChild(h.el('div', 'imp-small', 'Columns detected per sheet, e.g. "' + state.sheets[usedIdx[0]].name + '": name = "' + (ds.header[ds.col.name] || '?') + '", area = "' + (ds.header[ds.col.area] || '?') + '", type = "' + (ds.col.type >= 0 ? ds.header[ds.col.type] : '-') + '". Floor comes from the sheet name.')); }
     var tableHost = h.el('div', 'imp-tw'); area.appendChild(tableHost);
     var qHost = h.el('div', null); area.appendChild(qHost);
     var go = h.el('button', 'ec-btn', 'Calculate from this file'); go.type = 'button'; area.appendChild(go);
@@ -237,10 +250,11 @@
     }
 
     function rebuild() {
-      spaces = buildSpaces(d, col);
+      spaces = [];
+      usedIdx.forEach(function (k) { spaces = spaces.concat(buildSpaces(state.info[k].d, state.info[k].d.col, state.sheets[k].name)); });
       state.spaces = spaces; tableHost.innerHTML = '';
       var tot = spaces.filter(function (s) { return !s.excluded; }).reduce(function (a, s) { return a + s.area; }, 0);
-      tableHost.appendChild(h.el('div', 'ec-note', 'Read ' + spaces.length + ' rows from "' + state.fileName + '" (sheet ' + state.sheets[state.sheetIdx].name + '). Area total of included rows: ' + round2(tot) + ' m2. Check each row; change the category or exclude what does not belong.'));
+      tableHost.appendChild(h.el('div', 'ec-note', 'Read ' + spaces.length + ' rows from "' + state.fileName + '" (' + usedIdx.length + ' sheet' + (usedIdx.length > 1 ? 's' : '') + '). Area total of included rows: ' + round2(tot) + ' m2. Check each row; change the category or exclude what does not belong.'));
       var tb = h.el('div', 'imp-list');
       spaces.forEach(function (sp, ix) {
         var card = h.el('div', 'imp-row' + (sp.excluded ? ' imp-ex' : ''));
@@ -248,7 +262,7 @@
         head.appendChild(h.el('div', 'imp-row-n', (sp.floor ? sp.floor + ' / ' : '') + sp.name));
         head.appendChild(h.el('div', 'imp-row-a', (isNaN(sp.area) ? '-' : round2(sp.area)) + ' m2'));
         card.appendChild(head);
-        card.appendChild(h.el('div', 'imp-small', 'File row ' + sp.src + (sp.note ? ' - ' + sp.note : '')));
+        card.appendChild(h.el('div', 'imp-small', 'Sheet ' + sp.sheet + ', file row ' + sp.src + (sp.note ? ' - ' + sp.note : '')));
         var sel = document.createElement('select'); sel.className = 'ec-input'; sel.setAttribute('aria-label', 'Category for ' + sp.name);
         [['', 'Choose DPS-01 category...'], ['C7', 'Offices (C7) - Table 19/20'], ['C6', 'Restaurant / cafe (C6) - Table 19/20'], ['custom', 'Custom (assumption)']].forEach(function (o) { var op = document.createElement('option'); op.value = o[0]; op.textContent = o[1]; if (sp.cat === o[0]) op.selected = true; sel.appendChild(op); });
         var cust = h.el('div', 'imp-cust', ''); cust.style.display = sp.cat === 'custom' ? '' : 'none';
@@ -273,14 +287,21 @@
         var used = state.spaces.filter(function (s) { return !s.excluded; }), bad = used.filter(function (s) { return !s.cat; }), touched = {}, areas = [];
         if (!used.length) { out.appendChild(h.el('div', 'ec-err', 'مفيش صفوف مشمولة.')); return; }
         if (bad.length) { out.appendChild(h.el('div', 'ec-err', 'اختار category لـ: ' + bad.map(function (s) { return s.name; }).join('، ') + ' (أو شيلهم من Include). ما بخمنش category.')); return; }
-        used.forEach(function (s, k) {
-          var slot = k + 1; if (s.touched) touched['c' + slot] = true;
-          areas.push({ slot: slot, label: (s.floor ? s.floor + ' / ' : '') + s.name, category: s.cat, areaM2: s.area, densityVaM2: s.custDens === '' ? undefined : Number(s.custDens), demandFactor: s.custDf === '' ? undefined : Number(s.custDf) });
+        var groups = [], gi = {};
+        used.forEach(function (s) {
+          var key = [s.floor, s.cat, s.custDens, s.custDf].join('|'), g = gi[key];
+          if (!g) { g = gi[key] = { floor: s.floor, cat: s.cat, custDens: s.custDens, custDf: s.custDf, area: 0, n: 0, touched: false }; groups.push(g); }
+          g.area += s.area; g.n++; if (s.touched) g.touched = true;
+        });
+        var catName = { C7: 'Offices', C6: 'Restaurant / cafe', custom: 'Custom' };
+        groups.forEach(function (g, k) {
+          var slot = k + 1; if (g.touched) touched['c' + slot] = true;
+          areas.push({ slot: slot, label: (g.floor ? g.floor + ' / ' : '') + (catName[g.cat] || g.cat) + ' (' + g.n + ' spaces)', category: g.cat, areaM2: round2(g.area), densityVaM2: g.custDens === '' ? undefined : Number(g.custDens), demandFactor: g.custDf === '' ? undefined : Number(g.custDf) });
         });
         var res = window.EngLoadEst.calculate({ areas: areas, sensitivity: false, assumptions: {
           touched: touched, cooling: ans.cooling, ceiling: ans.ceil, heightM: ans.height === '' ? undefined : Number(ans.height), rate: ans.rate,
           special: ans.special, specialKva: ans.specialKva === '' ? undefined : Number(ans.specialKva), supply: ans.supply,
-          source: 'Areas read from the uploaded file "' + state.fileName + '" (' + used.length + ' rows, row numbers kept), checked by the user before calculating.' } });
+          source: 'Areas read from the uploaded file "' + state.fileName + '" (' + used.length + ' spaces grouped by floor and category into ' + groups.length + ' lines; areas summed, no other change), checked by the user before calculating.' } });
         h.showResult(out, res, 'Load Estimate from file (SEC DPS-01)');
         if (res.ok) { var st = h.el('div', null); h.renderResultActions(out, st); out.appendChild(st); }
       }).catch(function (e) { out.appendChild(h.el('div', 'ec-err', e.message || 'Calculation error')); });
