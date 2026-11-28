@@ -271,39 +271,65 @@
       usedIdx.forEach(function (k) { spaces = spaces.concat(buildSpaces(state.info[k].d, state.info[k].d.col, state.sheets[k].name)); });
       state.spaces = spaces; tableHost.innerHTML = '';
       var tot = spaces.filter(function (s) { return !s.excluded; }).reduce(function (a, s) { return a + s.area; }, 0);
-      tableHost.appendChild(h.el('div', 'ec-note', 'Read ' + spaces.length + ' rows (' + spaces.filter(function (s) { return s.excluded; }).length + ' excluded: totals or no valid area) from "' + state.fileName + '" (' + usedIdx.length + ' sheet' + (usedIdx.length > 1 ? 's' : '') + '). Area total of included rows: ' + round2(tot) + ' m2. Check each row; change the category or exclude what does not belong.'));
+      tableHost.appendChild(h.el('div', 'ec-note', 'Read ' + spaces.length + ' rows (' + spaces.filter(function (s) { return s.excluded; }).length + ' excluded: totals or no valid area) from "' + state.fileName + '" (' + usedIdx.length + ' sheet' + (usedIdx.length > 1 ? 's' : '') + '). Area total of included rows: ' + round2(tot) + ' m2. Review the groups below.'));
+      var groups = [], gm = {};
+      spaces.forEach(function (sp) {
+        if (sp.excluded) return;
+        var key = (sp.type || sp.name.replace(/[\s\-\u2013_.]*\d+[\s\-\u2013_.\d]*$/, '')).trim() || sp.name, g = gm[key];
+        if (!g) { g = gm[key] = { key: key, spaces: [], area: 0, cat: sp.cat, why: sp.why, proposed: sp.cat, confirmed: false, custDens: '', custDf: '' }; groups.push(g); }
+        g.spaces.push(sp); g.area += sp.area;
+        if (g.proposed !== sp.cat) { g.proposed = ''; g.cat = ''; g.why = 'mixed'; }
+      });
+      state.groups = groups;
+      var TBL = null; try { TBL = window.EngTables.get('sec_dps01_load_density_demand'); } catch (e) { TBL = null; }
       var tb = h.el('div', 'imp-list');
-      spaces.forEach(function (sp, ix) {
-        var card = h.el('div', 'imp-row' + (sp.excluded ? ' imp-ex' : ''));
-        var head = h.el('div', 'imp-row-h');
-        head.appendChild(h.el('div', 'imp-row-n', (sp.floor ? sp.floor + ' / ' : '') + sp.name));
-        head.appendChild(h.el('div', 'imp-row-a', (isNaN(sp.area) ? '-' : round2(sp.area)) + ' m2'));
-        card.appendChild(head);
-        card.appendChild(h.el('div', 'imp-small', 'Sheet ' + sp.sheet + ', file row ' + sp.src + (sp.note ? ' - ' + sp.note : '')));
-        var sel = document.createElement('select'); sel.className = 'ec-input'; sel.setAttribute('aria-label', 'Category for ' + sp.name);
-        [['', 'Choose DPS-01 category...'], ['C7', 'Offices (C7) - Table 19/20'], ['C6', 'Restaurant / cafe (C6) - Table 19/20'], ['custom', 'Custom (assumption)']].forEach(function (o) { var op = document.createElement('option'); op.value = o[0]; op.textContent = o[1]; if (sp.cat === o[0]) op.selected = true; sel.appendChild(op); });
-        var cust = h.el('div', 'imp-cust', ''); cust.style.display = sp.cat === 'custom' ? '' : 'none';
+      tb.appendChild(h.el('div', 'imp-q-h', 'Confirm the DPS-01 category for each space group (nothing is calculated until you confirm every group)'));
+      var cnt = h.el('div', 'imp-small', ''); tb.appendChild(cnt);
+      function upd() { var n = groups.filter(function (g) { return g.cat === 'exclude' || g.confirmed; }).length; cnt.textContent = 'Confirmed ' + n + ' of ' + groups.length + ' groups.'; }
+      groups.forEach(function (g) {
+        var card = h.el('div', 'imp-row');
+        var head = h.el('div', 'imp-row-h'); head.appendChild(h.el('div', 'imp-row-n', g.key)); head.appendChild(h.el('div', 'imp-row-a', round2(g.area) + ' m2')); card.appendChild(head);
+        card.appendChild(h.el('div', 'imp-small', g.spaces.length + ' spaces. ' + (g.proposed ? 'App proposal: ' + g.proposed + ' (keyword match on the name / type column). Not applied until you confirm.' : 'No proposal: the name does not match a category in the app table.')));
+        var sel = document.createElement('select'); sel.className = 'ec-input'; sel.setAttribute('aria-label', 'Category for ' + g.key);
+        [['', 'Choose a DPS-01 category...'], ['C7', 'C7 Offices (Table 19 / Table 20)'], ['C6', 'C6 Restaurants / cafes (Table 19 / Table 20)'], ['custom', 'Alternative: Custom assumption (my own density and DF)'], ['exclude', 'Exclude this group']].forEach(function (o) { var op = document.createElement('option'); op.value = o[0]; op.textContent = o[1]; if (g.cat === o[0]) op.selected = true; sel.appendChild(op); });
+        var basis = h.el('div', 'imp-basis', ''), cust = h.el('div', 'imp-cust', '');
         var di = document.createElement('input'); di.type = 'number'; di.step = 'any'; di.placeholder = 'Density VA/m2'; di.className = 'ec-input'; di.setAttribute('aria-label', 'Density VA/m2');
         var fi = document.createElement('input'); fi.type = 'number'; fi.step = 'any'; fi.placeholder = 'Demand factor 0-1'; fi.className = 'ec-input'; fi.setAttribute('aria-label', 'Demand factor');
-        di.addEventListener('input', function () { sp.custDens = di.value; }); fi.addEventListener('input', function () { sp.custDf = fi.value; });
+        di.addEventListener('input', function () { g.custDens = di.value; }); fi.addEventListener('input', function () { g.custDf = fi.value; });
         cust.appendChild(di); cust.appendChild(fi);
-        sel.addEventListener('change', function () { sp.cat = sel.value; sp.touched = true; cust.style.display = sp.cat === 'custom' ? '' : 'none'; });
-        card.appendChild(sel); card.appendChild(cust);
-        if (sp.why === 'keyword match') card.appendChild(h.el('div', 'imp-small', 'Proposed by keyword match, please confirm'));
-        var lb = h.el('label', 'imp-inc'), cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = !sp.excluded;
-        cb.addEventListener('change', function () { sp.excluded = !cb.checked; card.className = 'imp-row' + (sp.excluded ? ' imp-ex' : ''); });
-        lb.appendChild(cb); lb.appendChild(h.el('span', null, 'Include in the calculation')); card.appendChild(lb);
-        tb.appendChild(card);
+        var btn = h.el('button', 'imp-chip', 'Confirm this category'); btn.type = 'button';
+        function refresh() {
+          cust.style.display = g.cat === 'custom' ? '' : 'none';
+          var row = TBL && TBL.rows ? TBL.rows.filter(function (x) { return x[0] === g.cat; })[0] : null;
+          if (row) basis.textContent = 'Code basis: SEC DPS-01 Rev-02 (Nov 2023). Density ' + row[2] + ' VA/m2 from Table 19 pp.26-27 (' + g.cat + ', standard / with AC). Demand factor ' + row[3] + ' from Table 20 p.29. Status: verified_secondary (third-party mirror, not the official SEC file). Appendix 1 tables cover C1 and C2 only, so they do not apply here.';
+          else if (g.cat === 'custom') basis.textContent = 'Alternative assumption: your own density and demand factor. Not from DPS-01. Use it for other categories (C1-C5, C8-C29 are not in the app table; read the value from Table 19 yourself).';
+          else if (g.cat === 'exclude') basis.textContent = 'This group is left out of the load total.';
+          else basis.textContent = 'Choose a category to see its code basis.';
+          btn.style.display = g.cat && g.cat !== 'exclude' ? '' : 'none';
+          btn.className = 'imp-chip' + (g.confirmed ? ' on' : ''); btn.textContent = g.confirmed ? 'Confirmed' : 'Confirm this category'; btn.setAttribute('aria-pressed', g.confirmed ? 'true' : 'false');
+          upd();
+        }
+        sel.addEventListener('change', function () { g.cat = sel.value; g.confirmed = false; refresh(); });
+        btn.addEventListener('click', function () { g.confirmed = !g.confirmed; refresh(); });
+        card.appendChild(sel); card.appendChild(cust); card.appendChild(basis); card.appendChild(btn);
+        var det = document.createElement('details'); var sm = document.createElement('summary'); sm.textContent = 'Rows in this group'; det.appendChild(sm);
+        g.spaces.forEach(function (sp) { det.appendChild(h.el('div', 'imp-small', sp.sheet + ' row ' + sp.src + ': ' + sp.name + ' - ' + round2(sp.area) + ' m2')); });
+        card.appendChild(det);
+        refresh(); tb.appendChild(card);
       });
+      upd();
       tableHost.appendChild(tb);
     }
 
     go.addEventListener('click', function () {
       out.innerHTML = '';
       h.ensureTables().then(function () {
+        var gs = state.groups || [], unconf = gs.filter(function (g) { return g.cat !== 'exclude' && !g.confirmed; });
+        if (unconf.length) { out.appendChild(h.el('div', 'ec-err', 'Confirm the category for every group first. Not confirmed: ' + unconf.map(function (g) { return g.key; }).join(', ') + '.')); return; }
+        gs.forEach(function (g) { g.spaces.forEach(function (sp) { sp.cat = g.cat === 'exclude' ? '' : g.cat; sp.custDens = g.custDens; sp.custDf = g.custDf; sp.touched = true; if (g.cat === 'exclude') sp.excluded = true; }); });
         var used = state.spaces.filter(function (s) { return !s.excluded; }), bad = used.filter(function (s) { return !s.cat; }), touched = {}, areas = [];
-        if (!used.length) { out.appendChild(h.el('div', 'ec-err', 'مفيش صفوف مشمولة.')); return; }
-        if (bad.length) { out.appendChild(h.el('div', 'ec-err', 'اختار category لـ: ' + bad.map(function (s) { return s.name; }).join('، ') + ' (أو شيلهم من Include). ما بخمنش category.')); return; }
+        if (!used.length) { out.appendChild(h.el('div', 'ec-err', 'No included rows.')); return; }
+        if (bad.length) { out.appendChild(h.el('div', 'ec-err', 'Choose a category for: ' + bad.map(function (s) { return s.name; }).join(', '))); return; }
         var groups = [], gi = {};
         used.forEach(function (s) {
           var key = [s.floor, s.cat, s.custDens, s.custDf].join('|'), g = gi[key];
@@ -318,13 +344,13 @@
         var res = window.EngLoadEst.calculate({ areas: areas, sensitivity: false, assumptions: {
           touched: touched, cooling: ans.cooling, ceiling: ans.ceil, heightM: ans.height === '' ? undefined : Number(ans.height), rate: ans.rate,
           special: ans.special, specialKva: ans.specialKva === '' ? undefined : Number(ans.specialKva), supply: ans.supply,
-          source: 'Areas read from the uploaded file "' + state.fileName + '" (' + used.length + ' spaces grouped by floor and category into ' + groups.length + ' lines; areas summed, no other change), checked by the user before calculating.' } });
+          source: 'Areas read from the uploaded file "' + state.fileName + '" (' + used.length + ' spaces grouped by floor and category into ' + groups.length + ' lines; areas summed, no other change), categories confirmed by the user per group (' + gs.filter(function (g) { return g.cat !== 'exclude'; }).map(function (g) { return g.key + ' = ' + g.cat; }).join('; ') + '), code basis SEC DPS-01 Rev-02 Nov 2023 Table 19 pp.26-27 and Table 20 p.29 (secondary copy).' } });
         h.showResult(out, res, 'Load Estimate from file (SEC DPS-01)');
         if (res.ok) { var st = h.el('div', null); h.renderResultActions(out, st); out.appendChild(st); }
       }).catch(function (e) { out.appendChild(h.el('div', 'ec-err', e.message || 'Calculation error')); });
     });
 
-    rebuild(); renderQuestions();
+    h.ensureTables().then(function () { rebuild(); renderQuestions(); }, function () { rebuild(); renderQuestions(); });
   }
 
   window.EngAreaImport = { summarize: summarize, mount: mount, parseCsv: parseCsv, parseXlsx: parseXlsx, detect: detect, buildSpaces: buildSpaces, classify: classify, readFile: readFile, num: num };
