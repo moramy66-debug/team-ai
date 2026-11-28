@@ -76,6 +76,31 @@
     return node;
   }
 
+  /* Per-project defaults for supply voltage and ambient temperature: presets list + remembered value (default unchanged until the user picks one). */
+  var PRESETS = { 'ec-cs-volt': ['230', '380', '400', '415'], 'ec-vd-volt': ['230', '380', '400', '415'], 'ec-cs-amb': ['30', '35', '40', '45', '50'] };
+  var PKEY = { 'ec-cs-volt': 'volt', 'ec-vd-volt': 'volt', 'ec-cs-amb': 'amb' };
+  function projKey() {
+    try { var P = window.Projects; return (P && P.core && P.core.state().active) || 'default'; } catch (e) { return 'default'; }
+  }
+  function readDefaults() { try { return JSON.parse(localStorage.getItem('teamai-ec-defaults') || '{}'); } catch (e) { return {}; } }
+  function attachPreset(inp, id) {
+    if (!PRESETS[id]) return;
+    var dl = document.createElement('datalist');
+    dl.id = id + '-list';
+    PRESETS[id].forEach(function (v) { var o = document.createElement('option'); o.value = v; dl.appendChild(o); });
+    inp.setAttribute('list', dl.id);
+    inp.parentNode.appendChild(dl);
+    var saved = (readDefaults()[projKey()] || {})[PKEY[id]];
+    if (saved !== undefined && saved !== '' && isFinite(Number(saved))) inp.value = String(saved);
+    inp.addEventListener('change', function () {
+      var all = readDefaults(), k = projKey();
+      all[k] = all[k] || {};
+      all[k][PKEY[id]] = inp.value.trim();
+      try { localStorage.setItem('teamai-ec-defaults', JSON.stringify(all)); } catch (e) { }
+      document.querySelectorAll('input[list]').forEach(function (o) { if (o !== inp && PKEY[o.id] === PKEY[id]) o.value = inp.value; });
+    });
+  }
+
   function createField(id, labelText, type, optionsOrVal) {
     var wrap = el('div', 'ec-field');
     var lbl = el('label', null, labelText);
@@ -100,6 +125,7 @@
       if (type === 'number') inp.step = 'any';
       if (optionsOrVal !== undefined) inp.value = String(optionsOrVal);
       wrap.appendChild(inp);
+      attachPreset(inp, id);
     }
     return wrap;
   }
