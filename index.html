@@ -23,12 +23,12 @@
 <aside class="side" id="side">
 <div class="brand"><div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><defs><linearGradient id="wside" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#6b7bff"/></linearGradient></defs><circle cx="32" cy="32" r="32" fill="#10182b"/><path d="M5 41C15 23 23 23 32 41S49 59 59 41" fill="none" stroke="url(#wside)" stroke-width="6" stroke-linecap="round"/><path d="M24 47V16h12.500a9 9 0 0 1 0 18H24M36.500 34L46 47" fill="none" stroke="#fff" stroke-width="6.500" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><b>Ramz</b><small>فريقك من نماذج الذكاء الاصطناعي</small></div></div>
 <button id="newBtn" class="newb i-plus">New Task</button>
-<section id="histCard"><h2 class="i-clock">History</h2><p id="noHist" class="hint">لسه مفيش مهام محفوظة</p><div id="hist"></div><button id="clearH" class="sec i-trash" style="margin-top:8px;width:100%">مسح السجل</button></section>
-<div class="sidefoot"><button id="install" class="sec i-down">تثبيت التطبيق</button><button id="codesBtn" class="sec i-book">Codes Library</button><button id="setBtn" class="sec i-gear">Settings</button></div>
+<section id="histCard"><h2 class="i-clock">History</h2><p id="noHist" class="hint">لسه مفيش مهام محفوظة</p><div id="hist"></div><button id="clearH" class="sec i-trash" style="margin-top:8px;width:100%">Clear History</button></section>
+<div class="sidefoot"><button id="install" class="sec i-down">Install App</button><button id="codesBtn" class="sec i-book">Codes Library</button><button id="setBtn" class="sec i-gear">Settings</button></div>
 </aside>
 <div class="scrim" id="scrim"></div>
 <section id="codes" class="card" hidden>
-<div class="row" style="justify-content:space-between;margin-bottom:6px"><h2 style="margin:0;font-size:17px;color:var(--tx)">Codes Library</h2><button id="codesClose" class="sec">إغلاق</button></div>
+<div class="row" style="justify-content:space-between;margin-bottom:6px"><h2 style="margin:0;font-size:17px;color:var(--tx)">Codes Library</h2><button id="codesClose" class="sec">Close</button></div>
 <p class="hint">ضيف الأكواد اللي بتشتغل بيها. أسماءها ومحتواها (ضمن حد حجم) بيتحطوا مصادر مرجعية في كل مهمة. بتتحفظ على جهازك.</p>
 <p class="hint" style="color:#e8c872">الأكواد الجاهزة هنا ملخصات مرجعية مش النص الكامل. راجع القيم من النص الرسمي قبل الاعتماد. حد المحتوى في المهمة: 6000 حرف مع Groq و40000 مع Gemini. الكود المذكور اسمه في نص المهمة ياخد الحصة الأكبر، فاكتب اسمه (مثلاً اسم الكود اللي رفعته). وتقدر تعطّل اللي مش محتاجه.</p>
 <label>اسم الكود</label>
@@ -40,7 +40,7 @@
 <div id="cdList"></div>
 </section>
 <section id="settings" class="card" hidden>
-<div class="row" style="justify-content:space-between;margin-bottom:6px"><h2 style="margin:0;font-size:17px;color:var(--tx)">Settings</h2><button id="setClose" class="sec">إغلاق</button></div>
+<div class="row" style="justify-content:space-between;margin-bottom:6px"><h2 style="margin:0;font-size:17px;color:var(--tx)">Settings</h2><button id="setClose" class="sec">Close</button></div>
 <h2>مفاتيح الـ API (بتتحفظ على جهازك بس)</h2>
 <p class="hint">المفتاح بيتخزن في المتصفح ده وبيتبعت مباشرة لجوجل وGroq. مفيش سيرفر وسيط.</p>
 <label>Gemini API Key <span class="hint">(مجاني: افتح <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener" style="color:#8fb0f0">aistudio.google.com/apikey</a> واعمل Create API key والصقه هنا. اشتراك Gemini العادي مش هو المفتاح)</span></label>
@@ -68,7 +68,7 @@
 <input id="mailTo" type="email" dir="ltr" autocomplete="email" placeholder="name@example.com" style="width:100%">
 <details style="margin-top:8px"><summary class="hint">Professional HTML email (EmailJS, optional)</summary><p class="hint" style="line-height:1.7">اختياري لو عايز الإيميل نفسه يوصل منسق HTML مباشرة في جسم الرسالة: اعمل حساب مجاني على emailjs.com، اربط Gmail كـ Service، واعمل Template فيه To = {{to_email}} وSubject = {{subject}} والمحتوى {{{html}}} (3 أقواس) بوضع HTML، وانسخ هنا Service ID وTemplate ID وPublic Key. من غيره، الإيميل بيوصل بنص منظم ومعاه التقرير المنسق كملف HTML مرفق.</p><input id="ejsS" dir="ltr" placeholder="Service ID" style="width:100%;margin-bottom:6px"><input id="ejsT" dir="ltr" placeholder="Template ID" style="width:100%;margin-bottom:6px"><input id="ejsK" dir="ltr" placeholder="Public Key" style="width:100%"></details>
 <label class="row" style="margin-top:10px;min-height:44px;align-items:center;gap:8px"><input type="checkbox" id="keysSession" aria-label="Session-only keys"><span class="hint" style="margin:0">Session only: متحفظش المفاتيح على الجهاز، بتتمسح لما تقفل التاب (اضغط حفظ بعد التفعيل)</span></label>
-<div class="row" style="margin-top:12px"><button id="saveBtn">حفظ</button><button id="testBtn" class="sec">اختبار المفاتيح</button><span id="testOut" class="hint"></span></div>
+<div class="row" style="margin-top:12px"><button id="saveBtn">Save</button><button id="testBtn" class="sec">Test Keys</button><span id="testOut" class="hint"></span></div>
 </section>
 <section class="card compose">
 <div class="ch"><h2>New Task</h2><span>اكتب المهمة أو اختار قالب، وارفق ملفات لو محتاج</span></div>
