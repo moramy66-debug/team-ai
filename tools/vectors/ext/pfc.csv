@@ -1,0 +1,101 @@
+id,desc,P_kW,PF1,PF2,V_3ph,hand_result,source_ref
+PFC-001,PFC 200kW 0.75->0.95 400V,200,0.75,0.95,400,"Q1=176.3834, Qc=110.6466, Std=125, PF_fin=0.9685, I_before=384.9002, I_after=303.8686",needs_review
+PFC-002,PFC 45kW 0.7->0.96 400V,45,0.7,0.96,400,"Q1=45.9092, Qc=32.7842, Std=40, PF_fin=0.9915, I_before=92.7884, I_after=67.6582",needs_review
+PFC-003,PFC 85kW 0.75->0.98 480V,85,0.75,0.98,480,"Q1=74.963, Qc=57.703, Std=60, PF_fin=0.9849, I_before=136.3188, I_after=104.3256",needs_review
+PFC-004,PFC 120kW 0.78->1.0 690V,120,0.78,1,690,"Q1=96.2738, Qc=96.2738, Std=100, PF_fin=0.9995, I_before=128.7292, I_after=100.4087",needs_review
+PFC-005,PFC 180kW 0.8->0.9 220V,180,0.8,0.9,220,"Q1=135, Qc=47.822, Std=50, PF_fin=0.9042, I_before=590.4719, I_after=524.8639",needs_review
+PFC-006,PFC 200kW 0.84->0.92 380V,200,0.84,0.92,380,"Q1=129.1872, Qc=43.9876, Std=50, PF_fin=0.9298, I_before=361.7483, I_after=330.2919",needs_review
+PFC-007,PFC 320kW 0.9->0.95 400V,320,0.9,0.95,400,"Q1=154.9831, Qc=49.8042, Std=50, PF_fin=0.9502, I_before=513.2002, I_after=486.1897",needs_review
+PFC-008,PFC 450kW 0.95->0.96 480V,450,0.95,0.96,480,"Q1=147.9078, Qc=16.6578, Std=20, PF_fin=0.9619, I_before=569.7536, I_after=563.8186",needs_review
+PFC-009,PFC 600kW 0.55->0.98 690V,600,0.55,0.98,690,"Q1=911.0887, Qc=789.2535, Std=800, PF_fin=0.9833, I_before=912.8067, I_after=512.2895",needs_review
+PFC-010,PFC 750kW 0.65->1.0 220V,750,0.65,1,220,"Q1=876.8472, Qc=876.8472, Std=1000, PF_fin=0.9868, I_before=3028.0609, I_after=1968.2396",needs_review
+PFC-011,PFC 900kW 0.7->0.9 380V,900,0.7,0.9,380,"Q1=918.1837, Qc=482.2938, Std=500, PF_fin=0.9069, I_before=1953.4408, I_after=1519.3428",needs_review
+PFC-012,PFC 1200kW 0.75->0.92 400V,1200,0.75,0.92,400,"Q1=1058.3005, Qc=547.1027, Std=600, PF_fin=0.9342, I_before=2309.4011, I_after=1882.6639",needs_review
+PFC-013,PFC 1500kW 0.78->0.95 480V,1500,0.78,0.95,480,"Q1=1203.4221, Qc=710.396, Std=800, PF_fin=0.9657, I_before=2313.102, I_after=1899.1785",needs_review
+PFC-014,PFC 12kW 0.8->0.96 690V,12,0.8,0.96,690,"Q1=9, Qc=5.5, Std=10, PF_fin=0.9965, I_before=12.5511, I_after=10.4592",needs_review
+PFC-015,PFC 25kW 0.84->0.98 220V,25,0.84,0.98,220,"Q1=16.1484, Qc=11.0719, Std=12.5, PF_fin=0.9895, I_before=78.1047, I_after=66.9469",needs_review
+PFC-016,PFC 45kW 0.9->1.0 380V,45,0.9,1,380,"Q1=21.7945, Qc=21.7945, Std=25, PF_fin=0.9975, I_before=75.9671, I_after=68.3704",needs_review
+PFC-017,PFC 85kW 0.95->0.9 400V,85,0.95,0.9,400,"Q1=27.9381, Qc=0, Std=0, PF_fin=0.95, I_before=129.1441, I_after=136.3188",needs_review
+PFC-018,PFC 120kW 0.55->0.92 480V,120,0.55,0.92,480,"Q1=182.2177, Qc=131.098, Std=150, PF_fin=0.9658, I_before=262.4319, I_after=156.8887",needs_review
+PFC-019,PFC 180kW 0.65->0.95 690V,180,0.65,0.95,690,"Q1=210.4433, Qc=151.2802, Std=175, PF_fin=0.9812, I_before=231.7125, I_after=158.5401",needs_review
+PFC-020,PFC 200kW 0.7->0.96 220V,200,0.7,0.96,220,"Q1=204.0408, Qc=145.7075, Std=150, PF_fin=0.9654, I_before=749.8055, I_after=546.7332",needs_review
+PFC-021,PFC 320kW 0.75->0.98 380V,320,0.75,0.98,380,"Q1=282.2135, Qc=217.2347, Std=250, PF_fin=0.995, I_before=648.2529, I_after=496.1119",needs_review
+PFC-022,PFC 450kW 0.78->1.0 400V,450,0.78,1,400,"Q1=361.0266, Qc=361.0266, Std=400, PF_fin=0.9963, I_before=832.7167, I_after=649.5191",needs_review
+PFC-023,PFC 600kW 0.8->0.9 480V,600,0.8,0.9,480,"Q1=450, Qc=159.4067, Std=175, PF_fin=0.9091, I_before=902.1098, I_after=801.8754",needs_review
+PFC-024,PFC 750kW 0.84->0.92 690V,750,0.84,0.92,690,"Q1=484.4521, Qc=164.9535, Std=175, PF_fin=0.9244, I_before=747.0889, I_after=682.1246",needs_review
+PFC-025,PFC 900kW 0.9->0.95 220V,900,0.9,0.95,220,"Q1=435.8899, Qc=140.0742, Std=150, PF_fin=0.9531, I_before=2624.3194, I_after=2486.1973",needs_review
+PFC-026,PFC 1200kW 0.95->0.96 380V,1200,0.95,0.96,380,"Q1=394.4209, Qc=44.4209, Std=50, PF_fin=0.9612, I_before=1919.1699, I_after=1899.1785",needs_review
+PFC-027,PFC 1500kW 0.55->0.98 400V,1500,0.55,0.98,400,"Q1=2277.7218, Qc=1973.1338, Std=None, I_before=3936.4791, I_after=2209.2485",needs_review
+PFC-028,PFC 12kW 0.65->1.0 480V,12,0.65,1,480,"Q1=14.0296, Qc=14.0296, Std=15, PF_fin=0.9967, I_before=22.2058, I_after=14.4338",needs_review
+PFC-029,PFC 25kW 0.7->0.9 690V,25,0.7,0.9,690,"Q1=25.5051, Qc=13.397, Std=15, PF_fin=0.9219, I_before=29.8836, I_after=23.2428",needs_review
+PFC-030,PFC 45kW 0.75->0.92 220V,45,0.75,0.92,220,"Q1=39.6863, Qc=20.5163, Std=25, PF_fin=0.9507, I_before=157.4592, I_after=128.3634",needs_review
+PFC-031,PFC 85kW 0.78->0.95 380V,85,0.78,0.95,380,"Q1=68.1939, Qc=40.2558, Std=50, PF_fin=0.9779, I_before=165.5694, I_after=135.9412",needs_review
+PFC-032,PFC 120kW 0.8->0.96 400V,120,0.8,0.96,400,"Q1=90, Qc=55, Std=60, PF_fin=0.9701, I_before=216.5064, I_after=180.422",needs_review
+PFC-033,PFC 180kW 0.84->0.98 480V,180,0.84,0.98,480,"Q1=116.2685, Qc=79.718, Std=100, PF_fin=0.9959, I_before=257.7457, I_after=220.9248",needs_review
+PFC-034,PFC 200kW 0.9->1.0 690V,200,0.9,1,690,"Q1=96.8644, Qc=96.8644, Std=100, PF_fin=0.9999, I_before=185.9421, I_after=167.3479",needs_review
+PFC-035,PFC 320kW 0.95->0.9 220V,320,0.95,0.9,220,"Q1=105.1789, Qc=0, Std=0, PF_fin=0.95, I_before=883.9813, I_after=933.0913",needs_review
+PFC-036,PFC 450kW 0.55->0.92 380V,450,0.55,0.92,380,"Q1=683.3165, Qc=491.6173, Std=500, PF_fin=0.9261, I_before=1243.0987, I_after=743.1568",needs_review
+PFC-037,PFC 600kW 0.65->0.95 400V,600,0.65,0.95,400,"Q1=701.4777, Qc=504.2673, Std=600, PF_fin=0.986, I_before=1332.3468, I_after=911.6057",needs_review
+PFC-038,PFC 750kW 0.7->0.96 480V,750,0.7,0.96,480,"Q1=765.153, Qc=546.403, Std=600, PF_fin=0.9766, I_before=1288.7283, I_after=939.6977",needs_review
+PFC-039,PFC 900kW 0.75->0.98 690V,900,0.75,0.98,690,"Q1=793.7254, Qc=610.9726, Std=800, PF_fin=1, I_before=1004.0874, I_after=768.4343",needs_review
+PFC-040,PFC 1200kW 0.78->1.0 220V,1200,0.78,1,220,"Q1=962.7377, Qc=962.7377, Std=1000, PF_fin=0.9995, I_before=4037.4145, I_after=3149.1833",needs_review
+PFC-041,PFC 1500kW 0.8->0.9 380V,1500,0.8,0.9,380,"Q1=1125, Qc=398.5168, Std=400, PF_fin=0.9003, I_before=2848.7678, I_after=2532.238",needs_review
+PFC-042,PFC 12kW 0.84->0.92 400V,12,0.84,0.92,400,"Q1=7.7512, Qc=2.6393, Std=5, PF_fin=0.9747, I_before=20.6197, I_after=18.8266",needs_review
+PFC-043,PFC 25kW 0.9->0.95 480V,25,0.9,0.95,480,"Q1=12.1081, Qc=3.8909, Std=5, PF_fin=0.9619, I_before=33.4115, I_after=31.653",needs_review
+PFC-044,PFC 45kW 0.95->0.96 690V,45,0.95,0.96,690,"Q1=14.7908, Qc=1.6658, Std=5, PF_fin=0.9771, I_before=39.635, I_after=39.2222",needs_review
+PFC-045,PFC 85kW 0.55->0.98 220V,85,0.55,0.98,220,"Q1=129.0709, Qc=111.8109, Std=125, PF_fin=0.9989, I_before=405.5766, I_after=227.6195",needs_review
+PFC-046,PFC 120kW 0.65->1.0 380V,120,0.65,1,380,"Q1=140.2955, Qc=140.2955, Std=150, PF_fin=0.9967, I_before=280.4941, I_after=182.3211",needs_review
+PFC-047,PFC 180kW 0.7->0.9 400V,180,0.7,0.9,400,"Q1=183.6367, Qc=96.4588, Std=100, PF_fin=0.9069, I_before=371.1537, I_after=288.6751",needs_review
+PFC-048,PFC 200kW 0.75->0.92 480V,200,0.75,0.92,480,"Q1=176.3834, Qc=91.1838, Std=100, PF_fin=0.9342, I_before=320.7501, I_after=261.4811",needs_review
+PFC-049,PFC 320kW 0.78->0.95 690V,320,0.78,0.95,690,"Q1=256.7301, Qc=151.5511, Std=175, PF_fin=0.9689, I_before=343.2778, I_after=281.8491",needs_review
+PFC-050,PFC 450kW 0.8->0.96 220V,450,0.8,0.96,220,"Q1=337.5, Qc=206.25, Std=250, PF_fin=0.9816, I_before=1476.1797, I_after=1230.1497",needs_review
+PFC-051,PFC 600kW 0.84->0.98 380V,600,0.84,0.98,380,"Q1=387.5617, Qc=265.7265, Std=300, PF_fin=0.9895, I_before=1085.2449, I_after=930.2099",needs_review
+PFC-052,PFC 750kW 0.9->1.0 400V,750,0.9,1,400,"Q1=363.2416, Qc=363.2416, Std=400, PF_fin=0.9988, I_before=1202.8131, I_after=1082.5318",needs_review
+PFC-053,PFC 900kW 0.95->0.9 480V,900,0.95,0.9,480,"Q1=295.8157, Qc=0, Std=0, PF_fin=0.95, I_before=1139.5071, I_after=1202.8131",needs_review
+PFC-054,PFC 1200kW 0.55->0.92 690V,1200,0.55,0.92,690,"Q1=1822.1774, Qc=1310.9796, Std=None, I_before=1825.6135, I_after=1091.3994",needs_review
+PFC-055,PFC 1500kW 0.65->0.95 220V,1500,0.65,0.95,220,"Q1=1753.6943, Qc=1260.6682, Std=None, I_before=6056.1217, I_after=4143.6622",needs_review
+PFC-056,PFC 12kW 0.7->0.96 380V,12,0.7,0.96,380,"Q1=12.2424, Qc=8.7424, Std=10, PF_fin=0.983, I_before=26.0459, I_after=18.9918",needs_review
+PFC-057,PFC 25kW 0.75->0.98 400V,25,0.75,0.98,400,"Q1=22.0479, Qc=16.9715, Std=20, PF_fin=0.9967, I_before=48.1125, I_after=36.8208",needs_review
+PFC-058,PFC 45kW 0.78->1.0 480V,45,0.78,1,480,"Q1=36.1027, Qc=36.1027, Std=40, PF_fin=0.9963, I_before=69.3931, I_after=54.1266",needs_review
+PFC-059,PFC 85kW 0.8->0.9 690V,85,0.8,0.9,690,"Q1=63.75, Qc=22.5826, Std=25, PF_fin=0.9099, I_before=88.9036, I_after=79.0254",needs_review
+PFC-060,PFC 120kW 0.84->0.92 220V,120,0.84,0.92,220,"Q1=77.5123, Qc=26.3926, Std=30, PF_fin=0.9298, I_before=374.9028, I_after=342.3025",needs_review
+PFC-061,PFC 180kW 0.9->0.95 380V,180,0.9,0.95,380,"Q1=87.178, Qc=28.0148, Std=30, PF_fin=0.9531, I_before=303.8686, I_after=287.8755",needs_review
+PFC-062,PFC 200kW 0.95->0.96 400V,200,0.95,0.96,400,"Q1=65.7368, Qc=7.4035, Std=10, PF_fin=0.9633, I_before=303.8686, I_after=300.7033",needs_review
+PFC-063,PFC 320kW 0.55->0.98 480V,320,0.55,0.98,480,"Q1=485.914, Qc=420.9352, Std=500, PF_fin=0.999, I_before=699.8185, I_after=392.7553",needs_review
+PFC-064,PFC 450kW 0.65->1.0 690V,450,0.65,1,690,"Q1=526.1083, Qc=526.1083, Std=600, PF_fin=0.9868, I_before=579.2812, I_after=376.5328",needs_review
+PFC-065,PFC 600kW 0.7->0.9 220V,600,0.7,0.9,220,"Q1=612.1224, Qc=321.5292, Std=400, PF_fin=0.9428, I_before=2249.4166, I_after=1749.5463",needs_review
+PFC-066,PFC 750kW 0.75->0.92 380V,750,0.75,0.92,380,"Q1=661.4378, Qc=341.9392, Std=400, PF_fin=0.9443, I_before=1519.3428, I_after=1238.5947",needs_review
+PFC-067,PFC 900kW 0.78->0.95 400V,900,0.78,0.95,400,"Q1=722.0533, Qc=426.2376, Std=500, PF_fin=0.9709, I_before=1665.4335, I_after=1367.4085",needs_review
+PFC-068,PFC 1200kW 0.8->0.96 480V,1200,0.8,0.96,480,"Q1=900, Qc=550, Std=600, PF_fin=0.9701, I_before=1804.2196, I_after=1503.5163",needs_review
+PFC-069,PFC 1500kW 0.84->0.98 690V,1500,0.84,0.98,690,"Q1=968.9043, Qc=664.3163, Std=800, PF_fin=0.9937, I_before=1494.1777, I_after=1280.7238",needs_review
+PFC-070,PFC 12kW 0.9->1.0 220V,12,0.9,1,220,"Q1=5.8119, Qc=5.8119, Std=10, PF_fin=0.9441, I_before=34.9909, I_after=31.4918",needs_review
+PFC-071,PFC 25kW 0.95->0.9 380V,25,0.95,0.9,380,"Q1=8.2171, Qc=0, Std=0, PF_fin=0.95, I_before=39.9827, I_after=42.204",needs_review
+PFC-072,PFC 45kW 0.55->0.92 400V,45,0.55,0.92,400,"Q1=68.3317, Qc=49.1617, Std=50, PF_fin=0.9261, I_before=118.0944, I_after=70.5999",needs_review
+PFC-073,PFC 85kW 0.65->0.95 480V,85,0.65,0.95,480,"Q1=99.376, Qc=71.4379, Std=75, PF_fin=0.9613, I_before=157.2909, I_after=107.6201",needs_review
+PFC-074,PFC 120kW 0.7->0.96 690V,120,0.7,0.96,690,"Q1=122.4245, Qc=87.4245, Std=100, PF_fin=0.983, I_before=143.4411, I_after=104.5924",needs_review
+PFC-075,PFC 180kW 0.75->0.98 220V,180,0.75,0.98,220,"Q1=158.7451, Qc=122.1945, Std=125, PF_fin=0.9829, I_before=629.8367, I_after=482.0178",needs_review
+PFC-076,PFC 200kW 0.78->1.0 380V,200,0.78,1,380,"Q1=160.4563, Qc=160.4563, Std=175, PF_fin=0.9974, I_before=389.5751, I_after=303.8686",needs_review
+PFC-077,PFC 320kW 0.8->0.9 400V,320,0.8,0.9,400,"Q1=240, Qc=85.0169, Std=100, PF_fin=0.9162, I_before=577.3503, I_after=513.2002",needs_review
+PFC-078,PFC 450kW 0.84->0.92 480V,450,0.84,0.92,480,"Q1=290.6713, Qc=98.9721, Std=100, PF_fin=0.9208, I_before=644.3641, I_after=588.3325",needs_review
+PFC-079,PFC 600kW 0.9->0.95 690V,600,0.9,0.95,690,"Q1=290.5933, Qc=93.3828, Std=100, PF_fin=0.9531, I_before=557.8263, I_after=528.4671",needs_review
+PFC-080,PFC 750kW 0.95->0.96 220V,750,0.95,0.96,220,"Q1=246.5131, Qc=27.7631, Std=30, PF_fin=0.9608, I_before=2071.8311, I_after=2050.2495",needs_review
+PFC-081,Invalid: P=0,0,0.75,0.95,400,INVALID_INPUT (P=0),needs_review
+PFC-082,Invalid: P=-100,-100,0.75,0.95,400,INVALID_INPUT (P=-100),needs_review
+PFC-083,Invalid: PF1=0,200,0,0.95,400,INVALID_INPUT (PF1=0),needs_review
+PFC-084,Invalid: PF1=1.1,200,1.1,0.95,400,INVALID_INPUT (PF1=1.1),needs_review
+PFC-085,Invalid: PF2=0,200,0.75,0,400,INVALID_INPUT (PF2=0),needs_review
+PFC-086,Invalid: PF2=-0.9,200,0.75,-0.9,400,INVALID_INPUT (PF2=-0.9),needs_review
+PFC-087,Invalid: PF2=1.05,200,0.75,1.05,400,INVALID_INPUT (PF2=1.05),needs_review
+PFC-088,Invalid: V=0,200,0.75,0.95,0,INVALID_INPUT (V=0),needs_review
+PFC-089,Invalid: V=-400,200,0.75,0.95,-400,INVALID_INPUT (V=-400),needs_review
+PFC-090,Invalid: PF1=-0.7,200,-0.7,0.95,400,INVALID_INPUT (PF1=-0.7),needs_review
+PFC-091,Invalid: P=0,0,0.75,0.95,400,INVALID_INPUT (P=0),needs_review
+PFC-092,Invalid: P=-100,-100,0.75,0.95,400,INVALID_INPUT (P=-100),needs_review
+PFC-093,Invalid: PF1=0,200,0,0.95,400,INVALID_INPUT (PF1=0),needs_review
+PFC-094,Invalid: PF1=1.1,200,1.1,0.95,400,INVALID_INPUT (PF1=1.1),needs_review
+PFC-095,Invalid: PF2=0,200,0.75,0,400,INVALID_INPUT (PF2=0),needs_review
+PFC-096,Invalid: PF2=-0.9,200,0.75,-0.9,400,INVALID_INPUT (PF2=-0.9),needs_review
+PFC-097,Invalid: PF2=1.05,200,0.75,1.05,400,INVALID_INPUT (PF2=1.05),needs_review
+PFC-098,Invalid: V=0,200,0.75,0.95,0,INVALID_INPUT (V=0),needs_review
+PFC-099,Invalid: V=-400,200,0.75,0.95,-400,INVALID_INPUT (V=-400),needs_review
+PFC-100,Invalid: PF1=-0.7,200,-0.7,0.95,400,INVALID_INPUT (PF1=-0.7),needs_review
