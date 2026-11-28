@@ -1,0 +1,61 @@
+id,desc,Ib,Iz,type,i2Factor,hand_result,source_ref
+BRK-001,MCB 45A Iz 75,45,75,MCB,,"In=50, I2=72.5, Lim=108.75, OverloadOK=True, Coord=True",needs_review
+BRK-002,Exact boundary MCB 6A Iz 10,6,10,MCB,,"In=6, I2=8.7, Lim=14.5, OverloadOK=True, Coord=True",needs_review
+BRK-003,Just above MCB 6.01A Iz 10,6.01,10,MCB,,"In=8, I2=11.6, Lim=14.5, OverloadOK=True, Coord=True",needs_review
+BRK-004,MCB 12.5A selects 13A Iz 15,12.5,15,MCB,,"In=13, I2=18.85, Lim=21.75, OverloadOK=True, Coord=True",needs_review
+BRK-005,MCB 13.01A selects 16A Iz 20,13.01,20,MCB,,"In=16, I2=23.2, Lim=29, OverloadOK=True, Coord=True",needs_review
+BRK-006,MCB 19.5A Iz 22 (Coord true),19.5,22,MCB,,"In=20, I2=29, Lim=31.9, OverloadOK=True, Coord=True",needs_review
+BRK-007,MCB 25A exact Iz 25 (OverloadOK true),25,25,MCB,,"In=25, I2=36.25, Lim=36.25, OverloadOK=True, Coord=True",needs_review
+BRK-008,MCB 31A Iz 31 (Coord false In=32>Iz),31,31,MCB,,"In=32, I2=46.4, Lim=44.95, OverloadOK=False, Coord=False",needs_review
+BRK-009,MCB 39A Iz 40 custom f=1.55 (Overload false),39,40,MCB,1.55,"In=40, I2=62, Lim=58, OverloadOK=False, Coord=False",needs_review
+BRK-010,MCB 50A Iz 55 custom f=1.25,50,55,MCB,1.25,"In=50, I2=62.5, Lim=79.75, OverloadOK=True, Coord=True",needs_review
+BRK-011,MCB 62.9A selects 63A Iz 70,62.9,70,MCB,,"In=63, I2=91.35, Lim=101.5, OverloadOK=True, Coord=True",needs_review
+BRK-012,MCB 63.1A selects 80A Iz 85,63.1,85,MCB,,"In=80, I2=116, Lim=123.25, OverloadOK=True, Coord=True",needs_review
+BRK-013,MCB 99A Iz 110,99,110,MCB,,"In=100, I2=145, Lim=159.5, OverloadOK=True, Coord=True",needs_review
+BRK-014,MCB 125A max MCB Iz 130,125,130,MCB,,"In=125, I2=181.25, Lim=188.5, OverloadOK=True, Coord=True",needs_review
+BRK-015,MCCB 16A min MCCB Iz 20,16,20,MCCB,,"In=16, I2=20.8, Lim=29, OverloadOK=True, Coord=True",needs_review
+BRK-016,MCCB 24A Iz 25,24,25,MCCB,,"In=25, I2=32.5, Lim=36.25, OverloadOK=True, Coord=True",needs_review
+BRK-017,MCCB 40A exact Iz 40,40,40,MCCB,,"In=40, I2=52, Lim=58, OverloadOK=True, Coord=True",needs_review
+BRK-018,MCCB 79A selects 80A Iz 80,79,80,MCCB,,"In=80, I2=104, Lim=116, OverloadOK=True, Coord=True",needs_review
+BRK-019,MCCB 125A Iz 125,125,125,MCCB,,"In=125, I2=162.5, Lim=181.25, OverloadOK=True, Coord=True",needs_review
+BRK-020,MCCB 125.1A selects 160A Iz 175,125.1,175,MCCB,,"In=160, I2=208, Lim=253.75, OverloadOK=True, Coord=True",needs_review
+BRK-021,MCCB 160A Iz 150 (In>Iz Coord false),160,150,MCCB,,"In=160, I2=208, Lim=217.5, OverloadOK=True, Coord=False",needs_review
+BRK-022,MCCB 199.5A selects 200A Iz 220,199.5,220,MCCB,,"In=200, I2=260, Lim=319, OverloadOK=True, Coord=True",needs_review
+BRK-023,MCCB 240A Iz 260 custom f=1.40,240,260,MCCB,1.4,"In=250, I2=350, Lim=377, OverloadOK=True, Coord=True",needs_review
+BRK-024,MCCB 315A exact Iz 320,315,320,MCCB,,"In=315, I2=409.5, Lim=464, OverloadOK=True, Coord=True",needs_review
+BRK-025,MCCB 316A selects 400A Iz 410,316,410,MCCB,,"In=400, I2=520, Lim=594.5, OverloadOK=True, Coord=True",needs_review
+BRK-026,MCCB 490A selects 500A Iz 520,490,520,MCCB,,"In=500, I2=650, Lim=754, OverloadOK=True, Coord=True",needs_review
+BRK-027,MCCB 620A selects 630A Iz 650,620,650,MCCB,,"In=630, I2=819, Lim=942.5, OverloadOK=True, Coord=True",needs_review
+BRK-028,MCCB 780A selects 800A Iz 820,780,820,MCCB,,"In=800, I2=1040, Lim=1189, OverloadOK=True, Coord=True",needs_review
+BRK-029,MCCB 990A selects 1000A Iz 1050,990,1050,MCCB,,"In=1000, I2=1300, Lim=1522.5, OverloadOK=True, Coord=True",needs_review
+BRK-030,MCCB 1200A selects 1250A Iz 1300,1200,1300,MCCB,,"In=1250, I2=1625, Lim=1885, OverloadOK=True, Coord=True",needs_review
+BRK-031,MCCB 1599A selects 1600A Iz 1650,1599,1650,MCCB,,"In=1600, I2=2080, Lim=2392.5, OverloadOK=True, Coord=True",needs_review
+BRK-032,MCCB 1600A exact max Iz 1600,1600,1600,MCCB,,"In=1600, I2=2080, Lim=2320, OverloadOK=True, Coord=True",needs_review
+BRK-033,Type any 5A selects MCB 6A Iz 8,5,8,any,,"In=6, I2=8.7, Lim=11.6, OverloadOK=True, Coord=True",needs_review
+BRK-034,Type any 12.8A selects MCB 13A Iz 14,12.8,14,any,,"In=13, I2=18.85, Lim=20.3, OverloadOK=True, Coord=True",needs_review
+BRK-035,Type any 125A selects MCB 125A f=1.45,125,130,any,,"In=125, I2=181.25, Lim=188.5, OverloadOK=True, Coord=True",needs_review
+BRK-036,Type any 126A selects MCCB 160A f=1.30,126,170,any,,"In=160, I2=208, Lim=246.5, OverloadOK=True, Coord=True",needs_review
+BRK-037,Type any 290A selects MCCB 315A Iz 330,290,330,any,,"In=315, I2=409.5, Lim=478.5, OverloadOK=True, Coord=True",needs_review
+BRK-038,Type any 550A selects MCCB 630A Iz 600 (Coord false),550,600,any,,"In=630, I2=819, Lim=870, OverloadOK=True, Coord=False",needs_review
+BRK-039,Type any 1100A selects MCCB 1250A Iz 1250,1100,1250,any,,"In=1250, I2=1625, Lim=1812.5, OverloadOK=True, Coord=True",needs_review
+BRK-040,Type any 1450A selects MCCB 1600A Iz 1700,1450,1700,any,,"In=1600, I2=2080, Lim=2465, OverloadOK=True, Coord=True",needs_review
+BRK-041,MCCB 200A custom f=1.60 Iz 210 (Overload false),200,210,MCCB,1.6,"In=200, I2=320, Lim=304.5, OverloadOK=False, Coord=False",needs_review
+BRK-042,MCB 10A custom f=1.05 Iz 10 (Overload true),10,10,MCB,1.05,"In=10, I2=10.5, Lim=14.5, OverloadOK=True, Coord=True",needs_review
+BRK-043,Small load 0.5A MCB 6A Iz 15,0.5,15,MCB,,"In=6, I2=8.7, Lim=21.75, OverloadOK=True, Coord=True",needs_review
+BRK-044,Type any 0.8A MCB 6A Iz 5 (In>Iz Coord false),0.8,5,any,,"In=6, I2=8.7, Lim=7.25, OverloadOK=False, Coord=False",needs_review
+BRK-045,MCCB 10A below min MCCB selects 16A Iz 20,10,20,MCCB,,"In=16, I2=20.8, Lim=29, OverloadOK=True, Coord=True",needs_review
+BRK-046,MCCB 350A selects 400A custom f=1.45 Iz 400,350,400,MCCB,1.45,"In=400, I2=580, Lim=580, OverloadOK=True, Coord=True",needs_review
+BRK-047,Type any 79.9A selects MCB 80A Iz 85,79.9,85,any,,"In=80, I2=116, Lim=123.25, OverloadOK=True, Coord=True",needs_review
+BRK-048,Type any 80.1A selects MCB 100A Iz 105,80.1,105,any,,"In=100, I2=145, Lim=152.25, OverloadOK=True, Coord=True",needs_review
+BRK-049,Invalid: Ib=0,0,20,MCB,,INVALID_INPUT (Ib <= 0),needs_review
+BRK-050,Invalid: Ib negative -15A,-15,20,MCB,,INVALID_INPUT (Ib <= 0),needs_review
+BRK-051,Invalid: Iz=0,20,0,MCB,,INVALID_INPUT (Iz <= 0),needs_review
+BRK-052,Invalid: Iz negative -50A,40,-50,MCCB,,INVALID_INPUT (Iz <= 0),needs_review
+BRK-053,Invalid: type ACB unsupported,800,900,ACB,,INVALID_INPUT (ACB unsupported),needs_review
+BRK-054,Invalid: type ACB with 1600A,1600,1700,ACB,,INVALID_INPUT (ACB unsupported),needs_review
+BRK-055,Invalid: Ib 130A exceeds max MCB 125A,130,150,MCB,,INVALID_INPUT (Ib=130A exceeds MCB max),needs_review
+BRK-056,Invalid: Ib 1601A exceeds max MCCB 1600A,1601,1700,MCCB,,INVALID_INPUT (Ib=1601A exceeds MCCB max),needs_review
+BRK-057,Invalid: type any Ib 1650A exceeds max 1600A,1650,1800,any,,INVALID_INPUT (Ib=1650A exceeds any max),needs_review
+BRK-058,Invalid: i2Factor=0,30,40,MCB,0,INVALID_INPUT (i2Factor <= 0),needs_review
+BRK-059,Invalid: i2Factor negative -1.2,30,40,MCCB,-1.2,INVALID_INPUT (i2Factor <= 0),needs_review
+BRK-060,Invalid: unknown type FUSE,30,40,FUSE,,INVALID_INPUT (unknown breaker type),needs_review
