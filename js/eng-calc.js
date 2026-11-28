@@ -125,20 +125,28 @@
     if (!sel) throw new Error('مفيش Breaker في الجداول أكبر من ' + f(need_In) + ' A.');
     steps.push({ step: 'اختيار Breaker القياسي', formula: 'أقرب In قياسي >= In_min', substitution: sel.type + ': In >= ' + f(need_In) + ' A', result: 'In = ' + sel.rating + ' A (' + sel.type + ')', value: sel.rating, unit: 'A' });
     var Iz = pos(o.cableAmpacityA) ? o.cableAmpacityA : (pos(o.iz) ? o.iz : null);
-    var coordinated = sel.rating >= Ib && (Iz === null || sel.rating <= Iz);
+    /* Overload condition I2 <= 1.45 x Iz, with I2 = f x In (conventional tripping current).
+       f defaults: 1.45 for MCB, 1.30 for MCCB (typical values from memory, needs_review): enter the datasheet f via i2Factor. */
+    var i2f = pos(o.i2Factor) ? o.i2Factor : (sel.type === 'MCB' ? 1.45 : 1.30);
+    var i2A = i2f * sel.rating;
+    var overloadOk = Iz === null ? null : (i2A <= 1.45 * Iz);
+    var coordinated = sel.rating >= Ib && (Iz === null || (sel.rating <= Iz && overloadOk));
     if (Iz !== null) {
       steps.push({ step: 'تنسيق Breaker مع Cable', formula: 'Ib <= In <= Iz', substitution: f(Ib) + ' <= ' + sel.rating + ' <= ' + f(Iz), result: coordinated ? 'متحقق' : 'غير متحقق', value: coordinated, unit: '' });
       if (!coordinated) steps.push({ step: 'ملاحظة', formula: 'In > Iz', substitution: sel.rating + ' > ' + f(Iz), result: 'كبّر Cable Cross-section أو اختار Breaker أصغر', value: null, unit: '' });
+    }
+    if (Iz !== null) {
+      steps.push({ step: 'Overload Check I2 <= 1.45 Iz', formula: 'I2 = f x In ; I2 <= 1.45 x Iz', substitution: f(i2f, 2) + ' x ' + sel.rating + ' = ' + f(i2A) + ' A ; 1.45 x ' + f(Iz) + ' = ' + f(1.45 * Iz) + ' A', result: overloadOk ? 'متحقق' : 'غير متحقق', value: overloadOk, unit: 'A' });
     }
     var warnings = [];
     if (pos(o.iscKA) && pos(o.icuKA)) {
       var ok = o.icuKA >= o.iscKA;
       steps.push({ step: 'Breaking Capacity', formula: 'Icu >= Isc', substitution: f(o.icuKA) + ' >= ' + f(o.iscKA) + ' kA', result: ok ? 'متحقق' : 'غير متحقق', value: ok, unit: 'kA' });
     }
-    warnings.push('تنسيق Protection (I2 <= 1.45 Iz) محتاج مراجعة مع بيانات المصنع.');
+    warnings.push('معامل Tripping f (' + f(i2f, 2) + ') قيمة نموذجية من الذاكرة (needs_review): ادخل القيمة الفعلية من بيانات المصنع في i2Factor.');
     var table = a.meta(sel.type === 'MCB' ? 'mcb_iec60898_rated_currents' : 'mccb_iec60947_2_typical_ratings');
     return {
-      rating_a: sel.rating, type: sel.type, designCurrentA: r2(Ib), cableAmpacityA: Iz, coordinated: coordinated,
+      rating_a: sel.rating, type: sel.type, designCurrentA: r2(Ib), cableAmpacityA: Iz, coordinated: coordinated, i2A: i2A, i2Factor: i2f, overloadOk: overloadOk,
       table: table, steps: steps, tablesUsed: used, warnings: buildWarnings(used, warnings),
       summary: 'Breaker: ' + sel.rating + ' A (' + sel.type + ') | Ib = ' + f(Ib) + ' A'
     };
