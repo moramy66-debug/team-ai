@@ -588,3 +588,7 @@ body .imp-chip.on{background:#2563eb;color:#fff;border-color:#2563eb}
 .imp-chat-t{font-weight:700;margin-bottom:4px;unicode-bidi:plaintext}
 .imp-basis{font-size:13px;line-height:1.7;margin:8px 0;padding:8px 10px;border-radius:8px;border:1px solid rgba(128,128,128,.4);unicode-bidi:plaintext}
 .imp-row details{margin-top:8px}
+@media (max-width: 700px) {
+#finalView th, #finalView td { white-space: nowrap; overflow-wrap: normal; word-break: normal; min-width: 0; padding: 7px 8px; font-size: 13px; }
+#finalView .tw table { display: table; }
+}
