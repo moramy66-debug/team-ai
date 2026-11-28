@@ -271,7 +271,7 @@
       usedIdx.forEach(function (k) { spaces = spaces.concat(buildSpaces(state.info[k].d, state.info[k].d.col, state.sheets[k].name)); });
       state.spaces = spaces; tableHost.innerHTML = '';
       var tot = spaces.filter(function (s) { return !s.excluded; }).reduce(function (a, s) { return a + s.area; }, 0);
-      tableHost.appendChild(h.el('div', 'ec-note', 'Read ' + spaces.length + ' rows from "' + state.fileName + '" (' + usedIdx.length + ' sheet' + (usedIdx.length > 1 ? 's' : '') + '). Area total of included rows: ' + round2(tot) + ' m2. Check each row; change the category or exclude what does not belong.'));
+      tableHost.appendChild(h.el('div', 'ec-note', 'Read ' + spaces.length + ' rows (' + spaces.filter(function (s) { return s.excluded; }).length + ' excluded: totals or no valid area) from "' + state.fileName + '" (' + usedIdx.length + ' sheet' + (usedIdx.length > 1 ? 's' : '') + '). Area total of included rows: ' + round2(tot) + ' m2. Check each row; change the category or exclude what does not belong.'));
       var tb = h.el('div', 'imp-list');
       spaces.forEach(function (sp, ix) {
         var card = h.el('div', 'imp-row' + (sp.excluded ? ' imp-ex' : ''));
