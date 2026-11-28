@@ -2616,6 +2616,27 @@
       "text": "When the main wiring systems of the installation are longer than 100 m, these limits may be increased by 0.005 % per meter of wiring system beyond 100 m, without the supplement being greater than 0.5 %."
     }
   },
+  "sec_dps01_load_density_demand": {
+    "title": "SEC DPS-01 Rev-02 (Nov 2023) Estimation of Customer Load Guideline: load density (Table 19, with AC) and demand factor (Table 20)",
+    "source": "https://studylib.net/doc/28734960/dps-2023-1 (third-party mirror of the SEC document); same table at https://www.scribd.com/document/1008918274/SEC-DPS-Load-Density. Table numbers and values taken from the sourced sheet the user supplied (load-estimation-sec-dps). Verify against SEC's current official DPS before a formal submittal.",
+    "status": "verified_secondary",
+    "unit": "VA/m2",
+    "note": "Density covers lights + AC + sockets, already in VA, so connected kVA = area x density / 1000 with no PF. Demand load = connected load x demand factor. Not in this table and therefore never labeled as from the code: extra load for ceilings over 3.5 m (sheet quotes +24 VA/m3 in DPS 2023 sec 2.4 and +30 VA/m3 in SERA Electricity Service Guide V8 Art. 8-2), special loads, coincidence factor for multi-meter buildings.",
+    "columns": ["code", "name", "density_va_m2", "demand_factor"],
+    "rows": [["C7", "Offices", 176, 0.6], ["C6", "Restaurant / cafe", 188, 0.6]],
+    "corroboration_only": {
+      "status": "needs_review",
+      "note": "Other 2023 densities seen in a secondary document, no demand factor retrieved: schools 144, mosques 148, C1 116, C2 172 VA/m2. Not used by the calculator.",
+      "source": "https://kh.aquaenergyexpo.com/wp-content/uploads/2023/08/مصطلحات-وتعريفات-خاصة-بالتصميم-للأعمال-الكهربية-بمشاريع-البنية-التحتية-بالسعودية.pdf"
+    },
+    "sensitivity_edition_2015": {
+      "status": "needs_review",
+      "note": "Previous edition DPS-01 Rev-02 Sep 2015, for sensitivity only: offices 220 VA/m2, restaurant 235 VA/m2, demand factor 0.6.",
+      "source": "https://studylib.net/doc/28721503/",
+      "density": {"C7": 220, "C6": 235},
+      "demand_factor": 0.6
+    }
+  },
   "sec_voltage_drop_allocation_dps": {
    "title": "SEC Distribution Planning Standard (DPS, March 2004): LV voltage drop allocation and standard voltages",
    "source": "https://mm4design.wordpress.com/wp-content/uploads/2014/09/dps-sec.pdf (third-party copy of SEC DPS, Table 1.3 and 1.4)",
