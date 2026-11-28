@@ -1,0 +1,26 @@
+id,desc,loadKw,sparePct,loadPF,upsPF,rtMin,Vdc,invEff,eodRatio,ageing,Tf,margin,hand_result,standard_ref
+UPS-01,Normal server room 40kW 15min,40,10,0.80,0.90,15,240,0.94,0.875,1.25,1.0,1.1,"S_ups=55.0000kVA (Std=60), P_batt=46.8085kW, V_eod=210.0000V, I_dc=222.8977A, Ah_req=76.6211Ah (Std=80)",IEEE 485 linear [Peukert needs verification]
+UPS-02,Small IDF rack 4kW 30min 48V,4,0,0.80,0.90,30,48,0.92,0.875,1.25,1.0,1.1,"S_ups=5.0000kVA (Std=5), P_batt=4.3478kW, V_eod=42.0000V, I_dc=103.5197A, Ah_req=71.1698Ah (Std=75)",IEEE 485 linear
+UPS-03,Hospital ICU 120kW 60min 480V,120,15,0.85,0.90,60,480,0.95,0.875,1.25,1.0,1.1,"S_ups=162.3529kVA (Std=200), P_batt=145.2632kW, V_eod=420.0000V, I_dc=345.8647A, Ah_req=475.5639Ah (Std=500)",IEEE 485 linear
+UPS-04,Data center 400kW 10min 480V,400,10,0.90,0.90,10,480,0.96,0.875,1.25,1.0,1.1,"S_ups=488.8889kVA (Std=500), P_batt=458.3333kW, V_eod=420.0000V, I_dc=1091.2698A, Ah_req=250.0827Ah (Std=300)",IEEE 485 linear [Peukert risk]
+UPS-05,High temp battery room 35C Tf=1.15,60,10,0.80,0.90,20,240,0.94,0.875,1.25,1.15,1.1,"S_ups=82.5000kVA (Std=100), P_batt=70.2128kW, V_eod=210.0000V, I_dc=334.3465A, Ah_req=176.2285Ah (Std=200)",IEEE 485 linear
+UPS-06,Cold room 10C Tf=1.20,30,10,0.80,0.90,15,240,0.94,0.875,1.25,1.20,1.1,"S_ups=41.2500kVA (Std=60), P_batt=35.1064kW, V_eod=210.0000V, I_dc=167.1733A, Ah_req=68.9590Ah (Std=75)",IEEE 485 linear
+UPS-07,Unity load PF=1.0 vs UPS PF=0.9,90,0,1.00,0.90,15,384,0.94,0.875,1.25,1.0,1.1,"S_ups=100.0000kVA (Std=100), P_batt=95.7447kW, V_eod=336.0000V, I_dc=284.9544A, Ah_req=97.9531Ah (Std=100)",UPS PF governs
+UPS-08,Low load PF=0.65 (loadPF governs),50,10,0.65,0.90,15,240,0.94,0.875,1.25,1.0,1.1,"S_ups=84.6154kVA (Std=100), P_batt=58.5106kW, V_eod=210.0000V, I_dc=278.6221A, Ah_req=95.7763Ah (Std=100)",Load PF governs
+UPS-09,Short 5-min bridge (Peukert risk),200,10,0.85,0.90,5,480,0.95,0.875,1.25,1.0,1.1,"S_ups=258.8235kVA (Std=300), P_batt=231.5789kW, V_eod=420.0000V, I_dc=551.3784A, Ah_req=63.1788Ah (Std=65)",CRITICAL: Linear Ah underestimates 5-min C-rate
+UPS-10,Long 180-min BMS backup 10kW 120V,10,10,0.80,0.90,180,120,0.93,0.875,1.25,1.0,1.1,"S_ups=13.7500kVA (Std=15), P_batt=11.8280kW, V_eod=105.0000V, I_dc=112.6472A, Ah_req=464.6697Ah (Std=500)",IEEE 485 linear
+UPS-11,Micro 0.8kW CCTV 10min 24V,0.8,0,0.80,0.90,10,24,0.90,0.875,1.25,1.0,1.1,"S_ups=1.0000kVA (Std=1), P_batt=0.8889kW, V_eod=21.0000V, I_dc=42.3280A, Ah_req=9.7002Ah (Std=12)",IEEE 485 linear
+UPS-12,Zero margin/ageing 1.0 ideal,50,0,0.80,0.90,30,240,0.94,0.875,1.00,1.0,1.0,"S_ups=62.5000kVA (Std=80), P_batt=53.1915kW, V_eod=210.0000V, I_dc=253.2928A, Ah_req=126.6464Ah (Std=150)",Ideal baseline
+UPS-13,High spare 50%,80,50,0.80,0.90,15,360,0.94,0.875,1.25,1.0,1.1,"S_ups=150.0000kVA (Std=160), P_batt=127.6596kW, V_eod=315.0000V, I_dc=405.2685A, Ah_req=139.3110Ah (Std=150)",IEEE 485 linear
+UPS-14,Lower EOD ratio 0.80 (1.60V/cell),60,10,0.80,0.90,15,240,0.94,0.800,1.25,1.0,1.1,"S_ups=82.5000kVA (Std=100), P_batt=70.2128kW, V_eod=192.0000V, I_dc=365.6915A, Ah_req=125.7064Ah (Std=150)",IEEE 485 linear
+UPS-15,Higher EOD ratio 0.90 (1.80V/cell),60,10,0.80,0.90,15,240,0.94,0.900,1.25,1.0,1.1,"S_ups=82.5000kVA (Std=100), P_batt=70.2128kW, V_eod=216.0000V, I_dc=325.0591A, Ah_req=111.7391Ah (Std=120)",IEEE 485 linear
+UPS-16,400V DC bus 100kW 20min,100,10,0.80,0.90,20,400,0.94,0.875,1.25,1.0,1.1,"S_ups=137.5000kVA (Std=160), P_batt=117.0213kW, V_eod=350.0000V, I_dc=334.3465A, Ah_req=153.2421Ah (Std=200)",IEEE 485 linear
+UPS-17,Tricky: >1000 kVA UPS exceeded,950,20,0.80,0.90,15,480,0.95,0.875,1.25,1.0,1.1,"S_ups=1425.0000kVA (Std=None), P_batt=1200.0000kW, V_eod=420.0000V, I_dc=2857.1429A, Ah_req=982.1429Ah (Std=1000)",Parallel UPS modules needed
+UPS-18,Tricky: >1000 Ah battery exceeded,500,10,0.85,0.90,120,240,0.94,0.875,1.25,1.0,1.1,"S_ups=647.0588kVA (Std=800), P_batt=585.1064kW, V_eod=210.0000V, I_dc=2786.2209A, Ah_req=7662.1074Ah (Std=None)",Parallel battery strings needed
+UPS-19,PF=1.0 modern modular UPS 150kW,150,10,0.90,1.00,15,480,0.96,0.875,1.25,1.0,1.1,"S_ups=183.3333kVA (Std=200), P_batt=171.8750kW, V_eod=420.0000V, I_dc=409.2262A, Ah_req=140.6715Ah (Std=150)",IEEE 485 linear
+UPS-20,Low inverter eff 0.85,25,10,0.80,0.90,25,240,0.85,0.875,1.25,1.0,1.1,"S_ups=34.3750kVA (Std=40), P_batt=32.3529kW, V_eod=210.0000V, I_dc=154.0616A, Ah_req=88.2645Ah (Std=100)",IEEE 485 linear
+UPS-21,Tricky: spare=200% boundary,100,200,0.80,0.90,15,480,0.94,0.875,1.25,1.0,1.1,"S_ups=375.0000kVA (Std=400), P_batt=319.1489kW, V_eod=420.0000V, I_dc=759.8784A, Ah_req=261.2082Ah (Std=300)",Boundary check
+UPS-22,Edge: loadKw=0 (invalid),0,10,0.80,0.90,15,240,0.94,0.875,1.25,1.0,1.1,"INVALID_INPUT (Error: loadKw <= 0)",Validation check
+UPS-23,Edge: runtimeMin=0 (invalid),40,10,0.80,0.90,0,240,0.94,0.875,1.25,1.0,1.1,"INVALID_INPUT (Error: runtimeMin <= 0)",Validation check
+UPS-24,Edge: sparePct=250% > 200 (invalid),40,250,0.80,0.90,15,240,0.94,0.875,1.25,1.0,1.1,"INVALID_INPUT (Error: sparePct > 200)",Validation check
+UPS-25,Edge: ageing=0.8 < 1 (invalid),40,10,0.80,0.90,15,240,0.94,0.875,0.80,1.0,1.1,"INVALID_INPUT (Error: ageing < 1)",Validation check
