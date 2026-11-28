@@ -4,7 +4,7 @@
   var AR_WARNING = 'تحذير: حسابات حامل Cables (Cable Tray) تعتمد على معاملات ملء وتمديد إرشادية (needs_review). يجب مراجعة حدود الملء الفعلية و Thermal Capacity Derating Factors (Grouping/Derating) وفق الكود المعتمد (المعيار المطبق).';
 
   var CONSTANTS = {
-    standardWidthsMm: { value: [50, 75, 100, 150, 200, 300, 450, 600, 750, 900, 1000], unit: 'mm', status: 'needs_review', source_url: null, source_note: 'عروض حوامل Cables القياسية الشائعة؛ تُراجع مع المورد المعتمد' },
+    standardWidthsMm: { value: [50, 75, 100, 150, 200, 300, 400, 450, 500, 600, 750, 900, 1000], unit: 'mm', status: 'needs_review', source_url: null, source_note: 'عروض حوامل Cables القياسية الشائعة؛ تُراجع مع المورد المعتمد؛ 400 و500 مم أُضيفت بقرار المستخدم لأن ثلاثة مراجعين خارجيين ذكروها (ادعاء بدون مصدر رسمي)' },
     defaultFillLimitPct: { value: 40, unit: '%', status: 'needs_review', source_url: null, source_note: 'نسبة ملء إرشادية شائعة (40%) لترك احتياطي مستقبلي وتهوية' },
     defaultTrayDepthMm: { value: 100, unit: 'mm', status: 'needs_review', source_url: null, source_note: 'عمق حامل قياسي افتراضي 100 mm؛ يُراجع حسب نوع الحامل' },
     singleLayerDiaThresholdMm: { value: 50, unit: 'mm', status: 'needs_review', source_url: null, source_note: 'حد القطر الإرشادي (50 mm) الذي يستلزم التمديد في طبقة واحدة فقط' }
