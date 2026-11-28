@@ -136,5 +136,15 @@ eq('overload I2 = 160', o1.i2A, 160); eq('overload fails with f=1.6', o1.overloa
 var o2 = C.breakerSelection({ designCurrentA: 100, type: 'MCCB', cableAmpacityA: 100 });
 eq('MCCB default f=1.30 I2 = 130', o2.i2A, 130); eq('overload ok 130 <= 145', o2.overloadOk, true); eq('coordinated In=Iz', o2.coordinated, true);
 eq('no Iz gives overloadOk null', C.breakerSelection({ designCurrentA: 45, type: 'MCB' }).overloadOk, null);
+// Explicit invalid inputs are rejected with a clear message; empty still means default.
+function thrw(fn) { try { fn(); return ''; } catch (e) { return e.message; } }
+has('breaker Iz 0 rejected', [thrw(function () { C.breakerSelection({ designCurrentA: 30, cableAmpacityA: 0, type: 'MCB' }); })], 'Iz غير صالح');
+has('breaker i2Factor 0 rejected', [thrw(function () { C.breakerSelection({ designCurrentA: 30, i2Factor: 0 }); })], 'Tripping Factor');
+has('breaker unknown type rejected', [thrw(function () { C.breakerSelection({ designCurrentA: 30, type: 'FUSE' }); })], 'Breaker Type');
+has('phases 2 rejected (voltage drop)', [thrw(function () { C.voltageDrop({ size_mm2: 16, currentA: 50, lengthM: 30, phases: 2 }); })], 'Phases');
+has('circuits 0 rejected', [thrw(function () { C.cableSizing(Object.assign({}, wbase, { circuits: 0 })); })], 'Circuits');
+has('negative length rejected', [thrw(function () { C.cableSizing(Object.assign({}, wbase, { lengthM: -15, maxVdropPct: 3 })); })], 'Length');
+has('negative max VD rejected', [thrw(function () { C.cableSizing(Object.assign({}, wbase, { lengthM: 15, maxVdropPct: -3 })); })], 'Max Voltage Drop');
+eq('empty circuits still defaults', C.cableSizing(Object.assign({}, wbase, { circuits: undefined })).ok !== false, true);
 if (fails) { console.log(fails + ' FAILED'); process.exit(1); }
 console.log('ALL ENG-CALC TESTS PASSED');
