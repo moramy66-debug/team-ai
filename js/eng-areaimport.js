@@ -385,7 +385,7 @@
     if (Math.abs(addCl) > 0.004 || Math.abs(addDl) > 0.004) totals.push({ head: 'Additions (ceiling / special loads you entered)', cells: [['Connected', n2(addCl) + ' kVA'], ['Demand', n2(addDl) + ' kVA']] });
     totals.push({ head: 'Total (connected / demand before coincidence)', total: true, cells: [['Connected', n2(res.connectedKva) + ' kVA'], ['Demand', n2(res.demandKva) + ' kVA']] });
     var N = ans.meters === '' || ans.meters == null ? NaN : Number(ans.meters), nOk = isFinite(N) && N >= 1 && Math.round(N) === N;
-    var CF = !nOk || N === 1 ? 1 : (0.67 + 0.33 / Math.sqrt(N)) / 1.25, cdl = res.demandKva * CF;
+    var cfr = nOk && window.EngCF ? window.EngCF.cf(N) : null, CF = cfr ? cfr.cf : (nOk ? (N === 1 ? 1 : (0.67 + 0.33 / Math.sqrt(N)) / 1.25) : 1), cdl = res.demandKva * CF;
     var rp = Number(ans.reserve === '' || ans.reserve == null ? 0 : ans.reserve); if (!isFinite(rp) || rp < 0) rp = 0;
     var withRes = cdl * (1 + rp / 100);
     function f3(x) { return (Math.round(x * 1000) / 1000).toFixed(3); }
@@ -398,7 +398,7 @@
       { head: 'Reserve (user-entered, not from the code)', cells: [['Value', rp + ' %']] },
       { head: 'Total with reserve = CDL x (1 + reserve)', total: true, cells: [['Value', n2(withRes) + ' kVA']] }
     ];
-    var cfNote = nOk ? 'CF(N) for N = ' + N + ' = ' + (N === 1 ? '1.000' : '(0.67 + 0.33 / sqrt(N)) / 1.25 = ' + f3(CF)) + ' (formula as relayed from the DPS-01 full-PDF check; compare with Table 21 before submission).' : 'Number of meters N was not given: CF = 1 assumed, so the demand is shown before any coincidence.';
+    var cfNote = nOk ? 'CF(N) for N = ' + N + ' is ' + f3(CF) + ' (' + (cfr ? cfr.basis : 'formula sec 3.1') + '). N was entered by you.' : 'Number of meters N was not given: CF = 1 assumed, so the demand is shown before any coincidence.';
     var ue = [], da = [], nt = [];
     (res.warnings || []).forEach(function (w) { if (/oincidence factor|Supply:|Supply points/i.test(w)) return; if (/^User entered:/.test(w)) ue.push('You entered: ' + w.replace(/^User entered:\s*/, '')); else if (/^Default \/ assumption:/.test(w)) da.push('Assumption: ' + w.replace(/^Default \/ assumption:\s*/, '')); else nt.push(w); });
     var q = [];
