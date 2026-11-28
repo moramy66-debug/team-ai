@@ -402,5 +402,29 @@
     };
   }
 
-  window.EngCalc = { cableSizing: cableSizing, voltageDrop: voltageDrop, breakerSelection: breakerSelection, shortCircuit: shortCircuit };
+  /* SBC 401 clause 52-5 / Table G.52-1 limit, plus the long main-wiring supplement (0.005 % per meter beyond 100 m, capped at 0.5 %). Reference only, not wired into sizing. */
+  function vdropLimit(input, tablesApi) {
+    var o = input || {}, a = api(tablesApi), id = 'iec_60364_5_52_voltage_drop_limits_informative';
+    var t = need(a, id), rule = t.long_run_rule;
+    var sup = String(o.supply === undefined ? '' : o.supply).trim().toUpperCase().replace(/^TYPE\s*/, '');
+    if (sup !== 'A' && sup !== 'B') throw new Error('Supply type غير صالح (' + o.supply + '): المسموح A أو B.');
+    var use = String(o.use === undefined ? '' : o.use).trim().toLowerCase();
+    if (use !== 'lighting' && use !== 'other') throw new Error('Use غير صالح (' + o.use + '): المسموح lighting أو other.');
+    var runGiven = !(o.mainRunM === undefined || o.mainRunM === null || o.mainRunM === '');
+    var run = runGiven ? Number(o.mainRunM) : 0;
+    if (runGiven && !(isNum(run) && run >= 0)) throw new Error('Main run length غير صالح (' + o.mainRunM + '): لازم يكون صفر أو أكبر.');
+    var row = t.rows.filter(function (r) { return r[0] === 'Type ' + sup; })[0];
+    var base = row[use === 'lighting' ? col(t, 'lighting_pct') : col(t, 'other_uses_pct')];
+    var extraM = Math.max(0, run - rule.main_wiring_longer_than_m);
+    var sup_pct = Math.min(rule.supplement_cap_pct, extraM * rule.supplement_pct_per_meter_beyond);
+    var limit = base + sup_pct, used = [];
+    useTable(used, a, id);
+    return {
+      basePct: base, supplementPct: r3(sup_pct), limitPct: r3(limit), mainRunM: run,
+      steps: [{ step: 'Voltage Drop Limit', formula: 'limit = base + min(cap, 0.005 x (L - 100))', substitution: base + ' + min(' + rule.supplement_cap_pct + ', ' + rule.supplement_pct_per_meter_beyond + ' x ' + f(extraM, 1) + ')', result: f(limit, 3) + ' %', value: limit, unit: '%' }],
+      tablesUsed: used, warnings: buildWarnings(used, []), table: a.meta(id)
+    };
+  }
+
+  window.EngCalc = { cableSizing: cableSizing, voltageDrop: voltageDrop, breakerSelection: breakerSelection, shortCircuit: shortCircuit, vdropLimit: vdropLimit };
 })();
