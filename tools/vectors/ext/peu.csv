@@ -1,0 +1,61 @@
+id,desc,loadKw,sparePct,loadPF,upsPF,rtMin,Vdc,invEff,eodRatio,ageing,Tf,margin,k,H_h,hand_result,source_ref
+PEU-001,PEU 25kW 15min k=1.2 H=10h,25,10,0.8,0.9,15,240,0.94,0.875,1.25,1,1.1,1.2,10,"Ah_lin=34.8278, PF=1.8493, Ah_req=88.5601, Std_Ah=100",needs_review
+PEU-002,PEU 40kW 600min k=1.2 H=10h,40,15,0.8,0.9,600,384,0.94,0.875,1.25,1,1.1,1.2,10,"Ah_lin=1456.4336, PF=1, Ah_req=2002.5963, Std_Ah=None",needs_review
+PEU-003,PEU 60kW 1200min k=1.2 H=10h,60,0,0.8,0.9,1200,480,0.94,0.875,1.25,1,1.1,1.2,10,"Ah_lin=3039.5137, PF=1, Ah_req=4179.3313, Std_Ah=None",needs_review
+PEU-004,PEU 100kW 10min k=1.0 H=10h,100,10,0.8,0.9,10,120,0.94,0.875,1.25,1,1.1,1,10,"Ah_lin=185.7481, PF=1, Ah_req=255.4036, Std_Ah=300",needs_review
+PEU-005,PEU 160kW 15min k=2.0 H=10h,160,15,0.8,0.9,15,240,0.94,0.875,1.25,1,1.1,2,10,"Ah_lin=233.0294, PF=6.3246, Ah_req=2026.4849, Std_Ah=None",needs_review
+PEU-006,PEU 250kW 300min k=2.0 H=10h,250,0,0.8,0.9,300,384,0.94,0.875,1.25,1,1.1,2,10,"Ah_lin=3957.7001, PF=1.4142, Ah_req=7695.9206, Std_Ah=None",needs_review
+PEU-007,PEU 400kW 600min k=1.0 H=20h,400,10,0.8,0.9,600,480,0.94,0.875,1.25,1,1.1,1,20,"Ah_lin=11144.8835, PF=1, Ah_req=15324.2148, Std_Ah=None",needs_review
+PEU-008,PEU 10kW 1200min k=1.1 H=1h,10,15,0.8,0.9,1200,120,0.94,0.875,1.25,1,1.1,1.1,1,"Ah_lin=2330.2938, PF=1, Ah_req=3204.154, Std_Ah=None",needs_review
+PEU-009,PEU 25kW 5min k=1.15 H=5h,25,0,0.8,0.9,5,240,0.94,0.875,1.25,1,1.1,1.15,5,"Ah_lin=10.5539, PF=1.7058, Ah_req=24.7541, Std_Ah=26",needs_review
+PEU-010,PEU 40kW 10min k=1.2 H=10h,40,10,0.8,0.9,10,384,0.94,0.875,1.25,1,1.1,1.2,10,"Ah_lin=23.2185, PF=1.9786, Ah_req=63.1678, Std_Ah=65",needs_review
+PEU-011,PEU 60kW 15min k=1.3 H=20h,60,15,0.8,0.9,15,480,0.94,0.875,1.25,1,1.1,1.3,20,"Ah_lin=43.693, PF=2.749, Ah_req=165.1541, Std_Ah=200",needs_review
+PEU-012,PEU 100kW 30min k=1.5 H=1h,100,0,0.8,0.9,30,120,0.94,0.875,1.25,1,1.1,1.5,1,"Ah_lin=506.5856, PF=1.2599, Ah_req=877.6046, Std_Ah=1000",needs_review
+PEU-013,PEU 160kW 60min k=2.0 H=5h,160,10,0.8,0.9,60,240,0.94,0.875,1.25,1,1.1,2,5,"Ah_lin=891.5907, PF=2.2361, Ah_req=2741.2789, Std_Ah=None",needs_review
+PEU-014,PEU 250kW 120min k=1.0 H=10h,250,15,0.8,0.9,120,384,0.94,0.875,1.25,1,1.1,1,10,"Ah_lin=1820.542, PF=1, Ah_req=2503.2453, Std_Ah=None",needs_review
+PEU-015,PEU 400kW 300min k=1.1 H=20h,400,0,0.8,0.9,300,480,0.94,0.875,1.25,1,1.1,1.1,20,"Ah_lin=5065.8561, PF=1.1343, Ah_req=7901.1131, Std_Ah=None",needs_review
+PEU-016,PEU 10kW 600min k=1.15 H=1h,10,10,0.8,0.9,600,120,0.94,0.875,1.25,1,1.1,1.15,1,"Ah_lin=1114.4883, PF=1, Ah_req=1532.4215, Std_Ah=None",needs_review
+PEU-017,PEU 25kW 1200min k=1.2 H=5h,25,15,0.8,0.9,1200,240,0.94,0.875,1.25,1,1.1,1.2,5,"Ah_lin=2912.8673, PF=1, Ah_req=4005.1925, Std_Ah=None",needs_review
+PEU-018,PEU 40kW 5min k=1.3 H=10h,40,0,0.8,0.9,5,384,0.94,0.875,1.25,1,1.1,1.3,10,"Ah_lin=10.5539, PF=3.0186, Ah_req=43.8052, Std_Ah=50",needs_review
+PEU-019,PEU 60kW 10min k=1.5 H=20h,60,10,0.8,0.9,10,480,0.94,0.875,1.25,1,1.1,1.5,20,"Ah_lin=27.8622, PF=4.9324, Ah_req=188.9638, Std_Ah=200",needs_review
+PEU-020,PEU 100kW 15min k=2.0 H=1h,100,15,0.8,0.9,15,120,0.94,0.875,1.25,1,1.1,2,1,"Ah_lin=291.2867, PF=2, Ah_req=801.0385, Std_Ah=1000",needs_review
+PEU-021,PEU 160kW 30min k=1.0 H=5h,160,0,0.8,0.9,30,240,0.94,0.875,1.25,1,1.1,1,5,"Ah_lin=405.2685, PF=1, Ah_req=557.2442, Std_Ah=600",needs_review
+PEU-022,PEU 250kW 60min k=1.1 H=10h,250,10,0.8,0.9,60,384,0.94,0.875,1.25,1,1.1,1.1,10,"Ah_lin=870.694, PF=1.2328, Ah_req=1475.9694, Std_Ah=None",needs_review
+PEU-023,PEU 400kW 120min k=1.15 H=20h,400,15,0.8,0.9,120,480,0.94,0.875,1.25,1,1.1,1.15,20,"Ah_lin=2330.2938, PF=1.3503, Ah_req=4326.6141, Std_Ah=None",needs_review
+PEU-024,PEU 10kW 300min k=1.2 H=1h,10,0,0.8,0.9,300,120,0.94,0.875,1.25,1,1.1,1.2,1,"Ah_lin=506.5856, PF=1, Ah_req=696.5552, Std_Ah=800",needs_review
+PEU-025,PEU 25kW 600min k=1.3 H=5h,25,10,0.8,0.9,600,240,0.94,0.875,1.25,1,1.1,1.3,5,"Ah_lin=1393.1104, PF=1, Ah_req=1915.5268, Std_Ah=None",needs_review
+PEU-026,PEU 40kW 1200min k=1.5 H=10h,40,15,0.8,0.9,1200,384,0.94,0.875,1.25,1,1.1,1.5,10,"Ah_lin=2912.8673, PF=1, Ah_req=4005.1925, Std_Ah=None",needs_review
+PEU-027,PEU 60kW 5min k=2.0 H=20h,60,0,0.8,0.9,5,480,0.94,0.875,1.25,1,1.1,2,20,"Ah_lin=12.6646, PF=15.4919, Ah_req=269.7747, Std_Ah=300",needs_review
+PEU-028,PEU 100kW 10min k=1.0 H=1h,100,10,0.8,0.9,10,120,0.94,0.875,1.25,1,1.1,1,1,"Ah_lin=185.7481, PF=1, Ah_req=255.4036, Std_Ah=300",needs_review
+PEU-029,PEU 160kW 15min k=1.1 H=5h,160,15,0.8,0.9,15,240,0.94,0.875,1.25,1,1.1,1.1,5,"Ah_lin=233.0294, PF=1.313, Ah_req=420.7158, Std_Ah=500",needs_review
+PEU-030,PEU 250kW 30min k=1.15 H=10h,250,0,0.8,0.9,30,384,0.94,0.875,1.25,1,1.1,1.15,10,"Ah_lin=395.77, PF=1.4781, Ah_req=804.3501, Std_Ah=1000",needs_review
+PEU-031,PEU 400kW 60min k=1.2 H=20h,400,10,0.8,0.9,60,480,0.94,0.875,1.25,1,1.1,1.2,20,"Ah_lin=1114.4883, PF=1.6475, Ah_req=2524.7394, Std_Ah=None",needs_review
+PEU-032,PEU 10kW 120min k=1.3 H=1h,10,15,0.8,0.9,120,120,0.94,0.875,1.25,1,1.1,1.3,1,"Ah_lin=233.0294, PF=1, Ah_req=320.4154, Std_Ah=400",needs_review
+PEU-033,PEU 25kW 300min k=1.5 H=5h,25,0,0.8,0.9,300,240,0.94,0.875,1.25,1,1.1,1.5,5,"Ah_lin=633.232, PF=1, Ah_req=870.694, Std_Ah=1000",needs_review
+PEU-034,PEU 40kW 600min k=2.0 H=10h,40,10,0.8,0.9,600,384,0.94,0.875,1.25,1,1.1,2,10,"Ah_lin=1393.1104, PF=1, Ah_req=1915.5268, Std_Ah=None",needs_review
+PEU-035,PEU 60kW 1200min k=1.0 H=20h,60,15,0.8,0.9,1200,480,0.94,0.875,1.25,1,1.1,1,20,"Ah_lin=3495.4407, PF=1, Ah_req=4806.231, Std_Ah=None",needs_review
+PEU-036,PEU 100kW 5min k=1.1 H=1h,100,0,0.8,0.9,5,120,0.94,0.875,1.25,1,1.1,1.1,1,"Ah_lin=84.4309, PF=1.2535, Ah_req=145.5163, Std_Ah=150",needs_review
+PEU-037,PEU 160kW 10min k=1.15 H=5h,160,10,0.8,0.9,10,240,0.94,0.875,1.25,1,1.1,1.15,5,"Ah_lin=148.5984, PF=1.5584, Ah_req=318.4087, Std_Ah=400",needs_review
+PEU-038,PEU 250kW 15min k=1.2 H=10h,250,15,0.8,0.9,15,384,0.94,0.875,1.25,1,1.1,1.2,10,"Ah_lin=227.5678, PF=1.8493, Ah_req=578.6599, Std_Ah=600",needs_review
+PEU-039,PEU 400kW 30min k=1.3 H=20h,400,0,0.8,0.9,30,480,0.94,0.875,1.25,1,1.1,1.3,20,"Ah_lin=506.5856, PF=2.3426, Ah_req=1631.7804, Std_Ah=None",needs_review
+PEU-040,PEU 10kW 60min k=1.5 H=1h,10,10,0.8,0.9,60,120,0.94,0.875,1.25,1,1.1,1.5,1,"Ah_lin=111.4488, PF=1, Ah_req=153.2421, Std_Ah=200",needs_review
+PEU-041,PEU 25kW 120min k=2.0 H=5h,25,15,0.8,0.9,120,240,0.94,0.875,1.25,1,1.1,2,5,"Ah_lin=291.2867, PF=1.5811, Ah_req=633.2765, Std_Ah=800",needs_review
+PEU-042,PEU 40kW 300min k=1.0 H=10h,40,0,0.8,0.9,300,384,0.94,0.875,1.25,1,1.1,1,10,"Ah_lin=633.232, PF=1, Ah_req=870.694, Std_Ah=1000",needs_review
+PEU-043,PEU 60kW 600min k=1.1 H=20h,60,10,0.8,0.9,600,480,0.94,0.875,1.25,1,1.1,1.1,20,"Ah_lin=1671.7325, PF=1.065, Ah_req=2448.1378, Std_Ah=None",needs_review
+PEU-044,PEU 100kW 1200min k=1.15 H=1h,100,15,0.8,0.9,1200,120,0.94,0.875,1.25,1,1.1,1.15,1,"Ah_lin=23302.9382, PF=1, Ah_req=32041.54, Std_Ah=None",needs_review
+PEU-045,PEU 160kW 5min k=1.2 H=5h,160,0,0.8,0.9,5,240,0.94,0.875,1.25,1,1.1,1.2,5,"Ah_lin=67.5447, PF=1.9786, Ah_req=183.7608, Std_Ah=200",needs_review
+PEU-046,PEU 250kW 10min k=1.3 H=10h,250,10,0.8,0.9,10,384,0.94,0.875,1.25,1,1.1,1.3,10,"Ah_lin=145.1157, PF=2.5724, Ah_req=513.2862, Std_Ah=600",needs_review
+PEU-047,PEU 400kW 15min k=1.5 H=20h,400,15,0.8,0.9,15,480,0.94,0.875,1.25,1,1.1,1.5,20,"Ah_lin=291.2867, PF=4.3089, Ah_req=1725.7851, Std_Ah=None",needs_review
+PEU-048,PEU 10kW 30min k=2.0 H=1h,10,0,0.8,0.9,30,120,0.94,0.875,1.25,1,1.1,2,1,"Ah_lin=50.6586, PF=1.4142, Ah_req=98.5078, Std_Ah=100",needs_review
+PEU-049,Invalid: k=0.95 < 1,40,10,0.8,0.9,15,240,0.94,0.875,1.25,1,1.1,0.95,10,INVALID_INPUT (k=0.95 < 1),needs_review
+PEU-050,Invalid: k=2.1 > 2,40,10,0.8,0.9,15,240,0.94,0.875,1.25,1,1.1,2.1,10,INVALID_INPUT (k=2.1 > 2),needs_review
+PEU-051,Invalid: H_h=0,40,10,0.8,0.9,15,240,0.94,0.875,1.25,1,1.1,1.2,0,INVALID_INPUT (H_h=0),needs_review
+PEU-052,Invalid: H_h=-5,40,10,0.8,0.9,15,240,0.94,0.875,1.25,1,1.1,1.2,-5,INVALID_INPUT (H_h=-5),needs_review
+PEU-053,Invalid: loadKw=0,0,10,0.8,0.9,15,240,0.94,0.875,1.25,1,1.1,1.2,10,INVALID_INPUT (loadKw=0),needs_review
+PEU-054,Invalid: rtMin=0,40,10,0.8,0.9,0,240,0.94,0.875,1.25,1,1.1,1.2,10,INVALID_INPUT (rtMin=0),needs_review
+PEU-055,Invalid: k=0.95 < 1,40,10,0.8,0.9,15,240,0.94,0.875,1.25,1,1.1,0.95,10,INVALID_INPUT (k=0.95 < 1),needs_review
+PEU-056,Invalid: k=2.1 > 2,40,10,0.8,0.9,15,240,0.94,0.875,1.25,1,1.1,2.1,10,INVALID_INPUT (k=2.1 > 2),needs_review
+PEU-057,Invalid: H_h=0,40,10,0.8,0.9,15,240,0.94,0.875,1.25,1,1.1,1.2,0,INVALID_INPUT (H_h=0),needs_review
+PEU-058,Invalid: H_h=-5,40,10,0.8,0.9,15,240,0.94,0.875,1.25,1,1.1,1.2,-5,INVALID_INPUT (H_h=-5),needs_review
+PEU-059,Invalid: loadKw=0,0,10,0.8,0.9,15,240,0.94,0.875,1.25,1,1.1,1.2,10,INVALID_INPUT (loadKw=0),needs_review
+PEU-060,Invalid: rtMin=0,40,10,0.8,0.9,0,240,0.94,0.875,1.25,1,1.1,1.2,10,INVALID_INPUT (rtMin=0),needs_review
