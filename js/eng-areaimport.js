@@ -237,7 +237,7 @@
     var qHost = h.el('div', null); area.appendChild(qHost);
     var go = h.el('button', 'ec-btn', 'Calculate from this file'); go.type = 'button'; area.appendChild(go);
     var out = h.el('div', 'ec-out'); area.appendChild(out);
-    var ans = { cooling: 'undecided', ceil: 'undecided', height: '', rate: '24', special: 'undecided', specialKva: '', supply: 'undecided' };
+    var ans = { cooling: 'undecided', ceil: 'undecided', height: '', rate: '24', special: 'undecided', specialKva: '', supply: 'undecided', meters: '', reserve: '' };
 
     function chips(label, key, opts, hint) {
       var g = h.el('div', 'imp-q'); g.appendChild(h.el('div', 'imp-q-t', label));
@@ -263,7 +263,9 @@
       hx.innerHTML = ''; numInput(hx, 'Ceiling height (m)', 'height'); hx.style.display = ans.ceil === 'above' ? '' : 'none'; qHost.appendChild(hx);
       qHost.appendChild(chips('Special loads (lifts, pumps, central plant, kitchen)', 'special', [['undecided', 'Not decided (assumption: none)'], ['none', 'None'], ['add', 'Add kVA']]));
       sx.innerHTML = ''; numInput(sx, 'Special loads (kVA)', 'specialKva'); sx.style.display = ans.special === 'add' ? '' : 'none'; qHost.appendChild(sx);
-      qHost.appendChild(chips('Supply points', 'supply', [['undecided', 'Not decided (assumption: single)'], ['single', 'Single supply point'], ['multiple', 'Several meters']]));
+      function quick(host, text, key, val) { var b = h.el('button', 'imp-chip', text); b.type = 'button'; b.addEventListener('click', function () { ans[key] = val; host.querySelector('input').value = val; }); host.appendChild(b); }
+      var mx = h.el('div', 'imp-q', ''); numInput(mx, 'REQUIRED: number of meters / units N (for the coincidence factor CF(N))', 'meters'); quick(mx, 'One meter (N = 1, CF = 1)', 'meters', '1'); qHost.appendChild(mx);
+      var rx = h.el('div', 'imp-q', ''); numInput(rx, 'REQUIRED: reserve % (your own allowance, not from the code)', 'reserve'); quick(rx, 'No reserve (0%)', 'reserve', '0'); qHost.appendChild(rx);
     }
 
     function rebuild() {
@@ -325,6 +327,9 @@
       out.innerHTML = '';
       h.ensureTables().then(function () {
         var gs = state.groups || [], unconf = gs.filter(function (g) { return g.cat !== 'exclude' && !g.confirmed; });
+        var nN = Number(ans.meters), nR = Number(ans.reserve);
+        if (ans.meters === '' || !(nN >= 1) || Math.round(nN) !== nN) { out.appendChild(h.el('div', 'ec-err', 'Answer first: number of meters / units N (a whole number, or tap "One meter").')); return; }
+        if (ans.reserve === '' || !(nR >= 0)) { out.appendChild(h.el('div', 'ec-err', 'Answer first: reserve % (tap "No reserve (0%)" or enter your own).')); return; }
         if (unconf.length) { out.appendChild(h.el('div', 'ec-err', 'Confirm the category for every group first. Not confirmed: ' + unconf.map(function (g) { return g.key; }).join(', ') + '.')); return; }
         gs.forEach(function (g) { g.spaces.forEach(function (sp) { sp.cat = g.cat === 'exclude' ? '' : g.cat; sp.custDens = g.custDens; sp.custDf = g.custDf; sp.touched = true; if (g.cat === 'exclude') sp.excluded = true; }); });
         var used = state.spaces.filter(function (s) { return !s.excluded; }), bad = used.filter(function (s) { return !s.cat; }), touched = {}, areas = [];
@@ -343,7 +348,7 @@
         });
         var res = window.EngLoadEst.calculate({ areas: areas, sensitivity: false, assumptions: {
           touched: touched, cooling: ans.cooling, ceiling: ans.ceil, heightM: ans.height === '' ? undefined : Number(ans.height), rate: ans.rate,
-          special: ans.special, specialKva: ans.specialKva === '' ? undefined : Number(ans.specialKva), supply: ans.supply,
+          special: ans.special, specialKva: ans.specialKva === '' ? undefined : Number(ans.specialKva), supply: (Number(ans.meters) === 1 ? 'single' : 'undecided'),
           source: 'Areas read from the uploaded file "' + state.fileName + '" (' + used.length + ' spaces grouped by floor and category into ' + groups.length + ' lines; areas summed, no other change), categories confirmed by the user per group (' + gs.filter(function (g) { return g.cat !== 'exclude'; }).map(function (g) { return g.key + ' = ' + g.cat; }).join('; ') + '), code basis SEC DPS-01 Rev-02 Nov 2023 Table 19 pp.26-27 and Table 20 p.29 (secondary copy).' } });
         h.showResult(out, res, 'Load Estimate from file (SEC DPS-01)');
         if (res.ok) { var st = h.el('div', null); h.renderResultActions(out, st); out.appendChild(st); }
@@ -359,69 +364,62 @@
   function cell(x) { return String(x == null ? '' : x).replace(/\|/g, '/').replace(/\s+/g, ' ').trim(); }
   function n2(x) { return (Math.round(x * 100) / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
   var CAT = { C7: 'C7 Offices', C6: 'C6 Restaurant / cafe', custom: 'Custom (user assumption)' };
-  function buildReport(res, ctx) {
-    var L = [], lines = ctx.lines || [], ans = ctx.ans || {}, rows = res.rows || [], i;
-    L.push('# Load Estimate (SEC DPS-01)');
-    L.push('Areas file: ' + cell(ctx.fileName) + ' (' + ctx.used.length + ' spaces). Every number below comes from the file, the app table or your answers. No AI model computed or chose anything here.');
-    L.push('');
-    L.push('## Inputs and confirmed categories');
-    L.push('| Floor | Category (confirmed by you) | Spaces | Area m2 | Density VA/m2 | Demand factor | Connected kVA | Demand kVA |');
-    L.push('|---|---|---|---|---|---|---|---|');
-    var sCl = 0, sDl = 0, sA = 0, sN = 0, byFloor = {}, byCat = {}, fo = [], co = [];
+  function buildSheet(res, ctx) {
+    var lines = ctx.lines || [], ans = ctx.ans || {}, rows = res.rows || [], i, S = window.EngSheet;
+    var sCl = 0, sDl = 0, sA = 0, sN = 0, byFloor = {}, byCat = {}, fo = [], co = [], inputs = [];
     for (i = 0; i < rows.length; i++) {
       var r = rows[i], ln = lines[i] || {}, fl = ln.floor || '-', cc = CAT[r.category] || r.category;
-      L.push('| ' + cell(fl) + ' | ' + cell(cc) + ' | ' + (ln.n || '') + ' | ' + n2(r.areaM2) + ' | ' + r.densityVaM2 + ' | ' + r.demandFactor + ' | ' + n2(r.connectedKva) + ' | ' + n2(r.demandKva) + ' |');
+      inputs.push({ head: fl + ' \u00b7 ' + cc, cells: [['Spaces', String(ln.n || '')], ['Area', n2(r.areaM2) + ' m\u00b2'], ['Density', r.densityVaM2 + ' VA/m\u00b2'], ['Demand factor', String(r.demandFactor)], ['Connected', n2(r.connectedKva) + ' kVA'], ['Demand', n2(r.demandKva) + ' kVA']] });
       sCl += r.connectedKva; sDl += r.demandKva; sA += r.areaM2; sN += (ln.n || 0);
       if (!byFloor[fl]) { byFloor[fl] = { a: 0, cl: 0, dl: 0 }; fo.push(fl); } byFloor[fl].a += r.areaM2; byFloor[fl].cl += r.connectedKva; byFloor[fl].dl += r.demandKva;
       if (!byCat[cc]) { byCat[cc] = { a: 0, cl: 0, dl: 0 }; co.push(cc); } byCat[cc].a += r.areaM2; byCat[cc].cl += r.connectedKva; byCat[cc].dl += r.demandKva;
     }
-    L.push('| Total | | ' + sN + ' | ' + n2(sA) + ' | | | ' + n2(sCl) + ' | ' + n2(sDl) + ' |');
-    L.push('');
-    L.push('## Result');
+    function tri(o) { return [['Area', n2(o.a) + ' m\u00b2'], ['Connected', n2(o.cl) + ' kVA'], ['Demand', n2(o.dl) + ' kVA']]; }
     var addCl = res.connectedKva - sCl, addDl = res.demandKva - sDl;
-    L.push('| Item | Connected kVA | Demand kVA |');
-    L.push('|---|---|---|');
-    L.push('| Total from the table rows | ' + n2(sCl) + ' | ' + n2(sDl) + ' |');
-    if (Math.abs(addCl) > 0.004 || Math.abs(addDl) > 0.004) L.push('| Additions (ceiling height and/or special loads you entered) | ' + n2(addCl) + ' | ' + n2(addDl) + ' |');
-    L.push('| Total load estimate | ' + n2(res.connectedKva) + ' | ' + n2(res.demandKva) + ' |');
-    L.push('');
-    L.push('Per floor (table rows only)');
-    L.push('| Floor | Area m2 | Connected kVA | Demand kVA |');
-    L.push('|---|---|---|---|');
-    fo.forEach(function (k) { L.push('| ' + cell(k) + ' | ' + n2(byFloor[k].a) + ' | ' + n2(byFloor[k].cl) + ' | ' + n2(byFloor[k].dl) + ' |'); });
-    L.push('');
-    L.push('Per category (table rows only)');
-    L.push('| Category | Area m2 | Connected kVA | Demand kVA |');
-    L.push('|---|---|---|---|');
-    co.forEach(function (k) { L.push('| ' + cell(k) + ' | ' + n2(byCat[k].a) + ' | ' + n2(byCat[k].cl) + ' | ' + n2(byCat[k].dl) + ' |'); });
-    L.push('');
-    L.push('Coincident factor: ' + (ans.supply === 'single' ? '1 (single supply point, your choice).' : '1 (assumption: single supply point, not yet chosen). Multiple supply points would need a coincident factor from your source.'));
-    L.push('');
-    L.push('## Calculation steps');
-    L.push('| Step | Formula | Substitution | Result |');
-    L.push('|---|---|---|---|');
-    (res.steps || []).forEach(function (st) { L.push('| ' + cell(st.step) + ' | ' + cell(st.formula) + ' | ' + cell(st.substitution) + ' | ' + cell(st.result) + ' |'); });
-    L.push('');
+    var totals = [{ head: 'Table rows total', cells: [['Connected', n2(sCl) + ' kVA'], ['Demand', n2(sDl) + ' kVA']] }];
+    if (Math.abs(addCl) > 0.004 || Math.abs(addDl) > 0.004) totals.push({ head: 'Additions (ceiling / special loads you entered)', cells: [['Connected', n2(addCl) + ' kVA'], ['Demand', n2(addDl) + ' kVA']] });
+    totals.push({ head: 'Total (connected / demand before coincidence)', total: true, cells: [['Connected', n2(res.connectedKva) + ' kVA'], ['Demand', n2(res.demandKva) + ' kVA']] });
+    var N = ans.meters === '' || ans.meters == null ? NaN : Number(ans.meters), nOk = isFinite(N) && N >= 1 && Math.round(N) === N;
+    var CF = !nOk || N === 1 ? 1 : (0.67 + 0.33 / Math.sqrt(N)) / 1.25, cdl = res.demandKva * CF;
+    var rp = Number(ans.reserve === '' || ans.reserve == null ? 0 : ans.reserve); if (!isFinite(rp) || rp < 0) rp = 0;
+    var withRes = cdl * (1 + rp / 100);
+    function f3(x) { return (Math.round(x * 1000) / 1000).toFixed(3); }
+    var dem = [
+      { head: 'Total demand (sum CL x DF, with additions)', cells: [['Value', n2(res.demandKva) + ' kVA']] },
+      { head: 'Meters / units N', cells: [['Value', nOk ? String(N) : 'not given']] },
+      { head: 'Coincidence factor CF(N)' + (nOk ? '' : ' (assumed 1)'), cells: [['Value', f3(CF)]] },
+      { head: 'Diversity factor = 1 / CF', cells: [['Value', f3(1 / CF)]] },
+      { head: 'CDL = total demand x CF(N)', cells: [['Value', n2(cdl) + ' kVA']] },
+      { head: 'Reserve (user-entered, not from the code)', cells: [['Value', rp + ' %']] },
+      { head: 'Total with reserve = CDL x (1 + reserve)', total: true, cells: [['Value', n2(withRes) + ' kVA']] }
+    ];
+    var cfNote = nOk ? 'CF(N) for N = ' + N + ' = ' + (N === 1 ? '1.000' : '(0.67 + 0.33 / sqrt(N)) / 1.25 = ' + f3(CF)) + ' (formula as relayed from the DPS-01 full-PDF check; compare with Table 21 before submission).' : 'Number of meters N was not given: CF = 1 assumed, so the demand is shown before any coincidence.';
     var ue = [], da = [], nt = [];
-    (res.warnings || []).forEach(function (w) { if (/^User entered:/.test(w)) ue.push(w.replace(/^User entered:\s*/, '')); else if (/^Default \/ assumption:/.test(w)) da.push(w.replace(/^Default \/ assumption:\s*/, '')); else nt.push(w); });
-    L.push('## Assumptions and what you entered');
-    ue.forEach(function (w) { L.push('- User entered: ' + w); });
-    da.forEach(function (w) { L.push('- Assumption: ' + w); });
-    L.push('');
-    L.push('## Open questions');
+    (res.warnings || []).forEach(function (w) { if (/oincidence factor|Supply:|Supply points/i.test(w)) return; if (/^User entered:/.test(w)) ue.push('You entered: ' + w.replace(/^User entered:\s*/, '')); else if (/^Default \/ assumption:/.test(w)) da.push('Assumption: ' + w.replace(/^Default \/ assumption:\s*/, '')); else nt.push(w); });
     var q = [];
-    if (ans.ceil !== 'above' && ans.ceil !== 'not_above') q.push('Is any ceiling above 3.5 m? DPS-01 2023 sec 2.4 (as recorded in the app) adds 24 VA/m3 of the volume above 3.5 m. It was NOT applied. Answer in the ceiling question and run again. The app takes one height for the whole file, so tell it the height per floor if they differ.');
+    if (ans.ceil !== 'above' && ans.ceil !== 'not_above') q.push('Is any ceiling above 3.5 m? DPS-01 2023 sec 2.4 (as recorded in the app) adds 24 VA/m3 of the volume above 3.5 m. It was NOT applied. Answer the ceiling question and run again. The app takes one height for the whole file, so say the height per floor if they differ.');
     if (ans.cooling !== 'standard') q.push('Cooling type (standard, winter-peak or district cooling): standard density used. Only the standard density is verified in the app table.');
     if (ans.special !== 'none' && ans.special !== 'add') q.push('Special loads (lifts, pumps, central plant, kitchen equipment): none included.');
-    if (ans.supply !== 'single') q.push('Number of supply points: single point assumed.');
+    if (!nOk) q.push('Number of meters / units N: needed for CF(N) (DPS-01 coincidence step, Diversity = 1 / CF). Not applied until you enter N.');
     if (!q.length) q.push('None. All key questions were answered.');
-    q.forEach(function (x) { L.push('- ' + x); });
-    L.push('');
-    L.push('## Code basis');
-    L.push('Densities: SEC DPS-01 Rev-02 (Nov 2023) Table 19 pp.26-27 (with AC). Demand factors: Table 20 p.29 (other sources say p.30, please check). Status: verified_secondary (third-party mirror, not the official SEC file). Appendix 1 tables cover C1/C2 only and do not apply to C6/C7.');
-    nt.forEach(function (w) { L.push('- ' + w); });
-    return L.join('\n');
+    var meta = S.baseMeta('Load Estimate (SEC DPS-01)', 'SEC DPS-01 Rev-02 (Nov 2023) \u00b7 verified_secondary', [['Input file', ctx.fileName + ' (' + ctx.used.length + ' spaces)']]);
+    return {
+      title: 'Load Estimate', edition: 'SEC DPS-01 Rev-02 (Nov 2023)', meta: meta,
+      kpis: [{ l: 'Connected load', v: n2(res.connectedKva), u: 'kVA' }, { l: 'Demand load', v: n2(res.demandKva), u: 'kVA' }, { l: 'Total area', v: n2(sA), u: 'm\u00b2' }, { l: 'CDL (after CF)', v: n2(cdl), u: 'kVA' }, { l: 'Total with reserve', v: n2(withRes), u: 'kVA', sticky: true }, { l: 'CF(N)', v: f3(CF), u: nOk ? 'N=' + N : 'assumed' }],
+      sections: [
+        { type: 'cards', title: 'Inputs \u00b7 \u0627\u0644\u0645\u062f\u062e\u0644\u0627\u062a (categories confirmed by you)', rows: inputs.concat([{ head: 'Total', total: true, cells: [['Spaces', String(sN)], ['Area', n2(sA) + ' m\u00b2'], ['Density', ''], ['Demand factor', ''], ['Connected', n2(sCl) + ' kVA'], ['Demand', n2(sDl) + ' kVA']] }]) },
+        { type: 'cards', title: 'Per floor \u00b7 \u0644\u0643\u0644 \u062f\u0648\u0631', rows: fo.map(function (k) { return { head: k, cells: tri(byFloor[k]) }; }) },
+        { type: 'cards', title: 'Per category \u00b7 \u0644\u0643\u0644 \u0641\u0626\u0629', rows: co.map(function (k) { return { head: k, cells: tri(byCat[k]) }; }) },
+        { type: 'cards', title: 'Totals \u00b7 \u0627\u0644\u0625\u062c\u0645\u0627\u0644\u064a', rows: totals },
+        { type: 'cards', title: 'Coincidence and reserve \u00b7 \u0627\u0644\u062a\u0632\u0627\u0645\u0646 \u0648\u0627\u0644\u0627\u062d\u062a\u064a\u0627\u0637\u064a', rows: dem },
+        { type: 'steps', title: 'Calculation steps \u00b7 \u062e\u0637\u0648\u0627\u062a \u0627\u0644\u062d\u0633\u0627\u0628', rows: (res.steps || []).map(function (st) { return { step: st.step, formula: st.formula, substitution: st.substitution, result: st.result }; }).concat([{ step: 'Coincidence (CDL)', formula: 'CDL = sum(CL x DF) x CF(N)', substitution: n2(res.demandKva) + ' x ' + f3(CF), result: n2(cdl) + ' kVA' }, { step: 'Reserve (your entry)', formula: 'Total = CDL x (1 + reserve %)', substitution: n2(cdl) + ' x (1 + ' + rp + '/100)', result: n2(withRes) + ' kVA' }]) },
+        { type: 'box', kind: 'assump', title: 'Assumptions \u00b7 \u0627\u0644\u0627\u0641\u062a\u0631\u0627\u0636\u0627\u062a', items: ue.concat(['You entered: reserve ' + rp + ' % (your own allowance, not from the code; default 0)']).concat(nOk ? ['You entered: N = ' + N + ' meters / units'] : []).concat(da).concat([cfNote]) },
+        { type: 'box', kind: 'question', title: 'Open questions \u00b7 \u0623\u0633\u0626\u0644\u0629 \u0645\u0641\u062a\u0648\u062d\u0629', items: q },
+        { type: 'box', kind: 'basis', title: 'Code basis \u00b7 \u0623\u0633\u0627\u0633 \u0627\u0644\u0643\u0648\u062f', items: ['Densities: SEC DPS-01 Rev-02 (Nov 2023) Table 19 pp.26-27 (with AC). Demand factors: Table 20 p.29 (other sources say p.30, please check). Status: verified_secondary (third-party mirror, not the official SEC file). Appendix 1 tables cover C1/C2 only and do not apply to C6/C7.'].concat(nt) }
+      ]
+    };
   }
+  function buildReport(res, ctx) { var sh = buildSheet(res, ctx); sh.md = window.EngSheet.markdown(sh); return sh.md; }
   function chatFlow() {
     var EAI = window.EngAreaImport, file = EAI && EAI.chatFile, h = window.EngUI && window.EngUI.helpers;
     if (!file || !h) return Promise.resolve(null);
@@ -433,7 +431,7 @@
       var t = document.createElement('div'); t.className = 'imp-chat-t'; t.textContent = 'Load Estimate: confirm the categories here, then the app calculates and writes the report. Nothing is calculated before you confirm.';
       wrap.appendChild(t);
       function done() { EAI.onResult = null; }
-      EAI.onResult = function (res, ctx) { var text; try { text = buildReport(res, ctx); } catch (e) { done(); wrap.remove(); reject(e); return; } done(); wrap.remove(); resolve(text); };
+      EAI.onResult = function (res, ctx) { var text; try { var sh = buildSheet(res, ctx); sh.md = window.EngSheet.markdown(sh); window.__detSheet = sh; text = sh.md; } catch (e) { done(); wrap.remove(); reject(e); return; } done(); wrap.remove(); resolve(text); };
       try { if (typeof abort !== 'undefined' && abort && abort.signal) abort.signal.addEventListener('abort', function () { done(); wrap.remove(); var e = new Error('Aborted'); e.name = 'AbortError'; reject(e); }); } catch (e) {}
       EAI.pending = file;
       mount(wrap, h);
@@ -442,5 +440,5 @@
     });
   }
 
-  window.EngAreaImport = { summarize: summarize, mount: mount, parseCsv: parseCsv, parseXlsx: parseXlsx, detect: detect, buildSpaces: buildSpaces, classify: classify, readFile: readFile, num: num, chatFlow: chatFlow, buildReport: buildReport };
+  window.EngAreaImport = { summarize: summarize, mount: mount, parseCsv: parseCsv, parseXlsx: parseXlsx, detect: detect, buildSpaces: buildSpaces, classify: classify, readFile: readFile, num: num, chatFlow: chatFlow, buildReport: buildReport, buildSheet: buildSheet };
 })();
