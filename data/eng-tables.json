@@ -2602,13 +2602,19 @@
    ]
   },
   "iec_60364_5_52_voltage_drop_limits_informative": {
-    "title": "IEC 60364-5-52 informative voltage-drop limits (NOT SBC 401 text)",
-    "source": "https://whitearch.sa/blogs/voltage-drop-calculation (contractor page that quotes IEC 60364-5-52; no SBC 401 clause opened)",
-    "status": "from_memory_needs_review",
+    "title": "SBC 401 clause 52-5, Table G.52-1 (informative Annex G.52): maximum voltage drop from the installation origin to the load",
+    "source": "User-supplied extract of SBC 401-CR-2024 (printed pages 204, 261 and 262: clause 52-5, Annex G.52 and Table G.52-1). Annex G.52 is informative.",
+    "status": "verified_secondary",
     "unit": "percent",
-    "note": "Informative values recommended by IEC 60364-5-52, not mandatory and not confirmed as SBC 401 requirements. SBC 401 clause number not found. Type A = public LV supply, Type B = private LV supply (own transformer).",
+    "note": "Measured from the origin of the consumer's installation to the load point, as a percentage of nominal voltage. Type A = low voltage installation supplied directly from a public LV distribution system. Type B = low voltage installation supplied from a private LV supply. Footnote of the table: as far as possible, voltage drop within final circuits should not exceed the Type A values. Greater drop may be accepted for motor starting and high inrush equipment (Annex G.52 Note 1). Voltage drop is determined from the demand of current-using equipment (diversity factors where applicable) or from circuit design currents.",
     "columns": ["supply_type", "lighting_pct", "other_uses_pct"],
-    "rows": [["Type A", 3, 5], ["Type B", 6, 8]]
+    "rows": [["Type A", 3, 5], ["Type B", 6, 8]],
+    "long_run_rule": {
+      "main_wiring_longer_than_m": 100,
+      "supplement_pct_per_meter_beyond": 0.005,
+      "supplement_cap_pct": 0.5,
+      "text": "When the main wiring systems of the installation are longer than 100 m, these limits may be increased by 0.005 % per meter of wiring system beyond 100 m, without the supplement being greater than 0.5 %."
+    }
   },
   "sec_voltage_drop_allocation_dps": {
    "title": "SEC Distribution Planning Standard (DPS, March 2004): LV voltage drop allocation and standard voltages",
