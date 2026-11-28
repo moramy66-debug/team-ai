@@ -166,4 +166,19 @@ assert(blankEff.ok); near(blankEff.requiredUpsKva, 115, 1e-6);
 assert.strictEqual(ups.calculate({ loadKw: 80, loadPf: 0.8, upsRatedPf: 0.8, sparePct: 15, runtimeMin: 15, upsEff: 0 }).ok, false);
 assert.strictEqual(ups.calculate({ loadKw: 80, loadPf: 0.8, upsRatedPf: 0.8, sparePct: 15, runtimeMin: 15, upsEff: 1.5 }).ok, false);
 
+// Peukert (optional): hand case UPS-09 style. Idc = 551.3784 A, t = 5 min, k = 1.2, H = 20 h.
+// factor = (t/H)^(1/k - 1) = (0.0833333/20)^(-0.1666667) = 2.4929 ; Ah_lin = 45.9482 ; x1.375 = 157.497 Ah -> 200 Ah
+var pkBase = { loadKw: 200, loadPf: 0.85, upsRatedPf: 0.9, sparePct: 10, runtimeMin: 5, dcVoltageV: 480, inverterEff: 0.95, eodRatio: 0.875, ageingFactor: 1.25, tempFactor: 1.0, designMargin: 1.1 };
+var pk0 = ups.calculate(pkBase), pk1 = ups.calculate(Object.assign({}, pkBase, { peukertK: 1.2, ratedHours: 20 }));
+near(pk0.requiredAh, 63.1788, 1e-3);
+near(pk0.peukertFactor, 1, 1e-9);
+near(pk1.peukertFactor, 2.4929, 1e-3);
+near(pk1.requiredAh, 157.497, 1e-2);
+assert.strictEqual(pk1.standardAh, 200);
+assert.strictEqual(ups.calculate(Object.assign({}, pkBase, { peukertK: 2.5 })).ok, false);
+assert.strictEqual(ups.calculate(Object.assign({}, pkBase, { peukertK: 0.9 })).ok, false);
+assert.strictEqual(ups.calculate(Object.assign({}, pkBase, { ratedHours: 20 })).ok, false);
+near(ups.calculate(Object.assign({}, pkBase, { peukertK: 1.0 })).requiredAh, 63.1788, 1e-3);
+near(ups.calculate(Object.assign({}, pkBase, { runtimeMin: 180, peukertK: 1.2, ratedHours: 2 })).peukertFactor, 1, 1e-9);
+
 console.log('ALL ENG-UPS TESTS PASSED');
