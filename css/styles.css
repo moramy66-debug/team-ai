@@ -586,3 +586,5 @@ body .imp-chip{background:transparent;background-image:none;box-shadow:none;colo
 body .imp-chip.on{background:#2563eb;color:#fff;border-color:#2563eb}
 .imp-chat-card{margin:10px 0;padding:10px 12px;border:1px solid #2563eb;border-radius:10px}
 .imp-chat-t{font-weight:700;margin-bottom:4px;unicode-bidi:plaintext}
+.imp-basis{font-size:13px;line-height:1.7;margin:8px 0;padding:8px 10px;border-radius:8px;border:1px solid rgba(128,128,128,.4);unicode-bidi:plaintext}
+.imp-row details{margin-top:8px}
