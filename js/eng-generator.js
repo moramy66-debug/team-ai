@@ -73,7 +73,9 @@
     }
 
     var stdSiteKva = stdKva * deratingFactor;
-    var xd = CONSTANTS.xdSubtransientPct.value;
+    var xdGiven = !(inp.xdPct === undefined || inp.xdPct === null || inp.xdPct === '');
+    if (xdGiven && !(Number(inp.xdPct) > 0 && Number(inp.xdPct) <= 100)) return { ok: false, error: 'Xd\'\' غير صالح (' + inp.xdPct + '): لازم يكون أكبر من 0 وأقل من أو يساوي 100 (%). سيبه فاضي لو عايز القيمة الافتراضية.' };
+    var xd = xdGiven ? Number(inp.xdPct) : CONSTANTS.xdSubtransientPct.value;
     var voltageDipPct = motorStartKva > 0 ? (motorStartKva * xd) / (stdSiteKva + motorStartKva * (xd / 100)) : 0;
 
     var warnings = [AR_WARNING];
@@ -151,6 +153,7 @@
         grid.appendChild(h.createField('gn-alt', 'Site Altitude (m)', 'number', '600'));
         grid.appendChild(h.createField('gn-tmp', 'Ambient Temperature (°C)', 'number', '45'));
         grid.appendChild(h.createField('gn-spr', 'Spare Margin (%)', 'number', '15'));
+        grid.appendChild(h.createField('gn-xd', 'Generator Xd" (%) - optional override', 'number', ''));
         grid.appendChild(h.createField('gn-df', 'Derating factor - optional manual override (0-1)', 'number', ''));
         panel.appendChild(grid);
         var btn = h.el('button', 'ec-btn', 'Calculate Generator Size');
@@ -168,7 +171,8 @@
             altitudeM: h.numVal('gn-alt'),
             ambientTempC: h.numVal('gn-tmp'),
             sparePct: h.numVal('gn-spr'),
-            deratingFactor: h.numVal('gn-df')
+            deratingFactor: h.numVal('gn-df'),
+            xdPct: h.numVal('gn-xd')
           });
           out.innerHTML = '';
           h.showResult(out, res, 'Generator Sizing');
