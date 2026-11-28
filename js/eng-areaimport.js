@@ -258,10 +258,10 @@
     function renderQuestions() {
       qHost.innerHTML = '';
       qHost.appendChild(h.el('div', 'imp-q-h', 'Key questions (each has a proposed default)'));
-      qHost.appendChild(chips('Cooling type', 'cooling', [['undecided', 'Not decided (assumption: standard)'], ['standard', 'Standard'], ['winter', 'Winter-peak'], ['district', 'District cooling']], 'Only the standard density is verified in the app. Other choices are recorded in the report but not applied.'));
-      qHost.appendChild(chips('Ceiling height above 3.5 m?', 'ceil', [['undecided', 'Not decided (assumption: no extra)'], ['not_above', 'No'], ['above', 'Yes']]));
+      qHost.appendChild(chips('Cooling type', 'cooling', [['undecided', 'Not answered yet (required)'], ['standard', 'Standard'], ['winter', 'Winter-peak'], ['district', 'District cooling']], 'Only the standard density is verified in the app. Other choices are recorded in the report but not applied.'));
+      qHost.appendChild(chips('Ceiling height above 3.5 m?', 'ceil', [['undecided', 'Not answered yet (required)'], ['not_above', 'No'], ['above', 'Yes']]));
       hx.innerHTML = ''; numInput(hx, 'Ceiling height (m)', 'height'); hx.style.display = ans.ceil === 'above' ? '' : 'none'; qHost.appendChild(hx);
-      qHost.appendChild(chips('Special loads (lifts, pumps, central plant, kitchen)', 'special', [['undecided', 'Not decided (assumption: none)'], ['none', 'None'], ['add', 'Add kVA']]));
+      qHost.appendChild(chips('Special loads (lifts, pumps, central plant, kitchen)', 'special', [['undecided', 'Not answered yet (required)'], ['none', 'None'], ['add', 'Add kVA']]));
       sx.innerHTML = ''; numInput(sx, 'Special loads (kVA)', 'specialKva'); sx.style.display = ans.special === 'add' ? '' : 'none'; qHost.appendChild(sx);
       function quick(host, text, key, val) { var b = h.el('button', 'imp-chip', text); b.type = 'button'; b.addEventListener('click', function () { ans[key] = val; host.querySelector('input').value = val; }); host.appendChild(b); }
       var mx = h.el('div', 'imp-q', ''); numInput(mx, 'REQUIRED: number of meters / units N (for the coincidence factor CF(N))', 'meters'); quick(mx, 'One meter (N = 1, CF = 1)', 'meters', '1'); qHost.appendChild(mx);
@@ -328,6 +328,11 @@
       h.ensureTables().then(function () {
         var gs = state.groups || [], unconf = gs.filter(function (g) { return g.cat !== 'exclude' && !g.confirmed; });
         var nN = Number(ans.meters), nR = Number(ans.reserve);
+        var need = []; if (ans.cooling === 'undecided') need.push('Cooling type'); if (ans.ceil === 'undecided') need.push('Ceiling height above 3.5 m?'); if (ans.special === 'undecided') need.push('Special loads');
+        if (need.length) { out.appendChild(h.el('div', 'ec-err', 'Answer first (no silent assumptions): ' + need.join(', ') + '.')); return; }
+        if (ans.cooling === 'winter' || ans.cooling === 'district') { out.appendChild(h.el('div', 'ec-err', 'Winter-peak / district cooling densities are not verified in the app, so they are not applied. Use the Custom category per group with your own density and demand factor, or choose Standard.')); return; }
+        if (ans.ceil === 'above' && !(Number(ans.height) > 3.5)) { out.appendChild(h.el('div', 'ec-err', 'Enter the ceiling height (more than 3.5 m).')); return; }
+        if (ans.special === 'add' && !(Number(ans.specialKva) > 0)) { out.appendChild(h.el('div', 'ec-err', 'Enter the special loads in kVA.')); return; }
         if (ans.meters === '' || !(nN >= 1) || Math.round(nN) !== nN) { out.appendChild(h.el('div', 'ec-err', 'Answer first: number of meters / units N (a whole number, or tap "One meter").')); return; }
         if (ans.reserve === '' || !(nR >= 0)) { out.appendChild(h.el('div', 'ec-err', 'Answer first: reserve % (tap "No reserve (0%)" or enter your own).')); return; }
         if (unconf.length) { out.appendChild(h.el('div', 'ec-err', 'Confirm the category for every group first. Not confirmed: ' + unconf.map(function (g) { return g.key; }).join(', ') + '.')); return; }
@@ -400,6 +405,8 @@
     if (ans.ceil !== 'above' && ans.ceil !== 'not_above') q.push('Is any ceiling above 3.5 m? DPS-01 2023 sec 2.4 (as recorded in the app) adds 24 VA/m3 of the volume above 3.5 m. It was NOT applied. Answer the ceiling question and run again. The app takes one height for the whole file, so say the height per floor if they differ.');
     if (ans.cooling !== 'standard') q.push('Cooling type (standard, winter-peak or district cooling): standard density used. Only the standard density is verified in the app table.');
     if (ans.special !== 'none' && ans.special !== 'add') q.push('Special loads (lifts, pumps, central plant, kitchen equipment): none included.');
+    q.push('Category sum: adding C7 and C6 results is an assumption. DPS-01 states per-category addition only for combined C1 + C2 buildings (sec 2.4), not for C3 to C29 mixes.');
+    if (ans.ceil === 'above') q.push('Ceiling rule: the 24 VA/m3 rule is written for categories C1 and C2 (sec 2.4 p.25). Applying it to C7 / C6 is your decision, not the code. It is also added after the demand factor here (assumption); the code text adds it to the total connected load.');
     if (!nOk) q.push('Number of meters / units N: needed for CF(N) (DPS-01 coincidence step, Diversity = 1 / CF). Not applied until you enter N.');
     if (!q.length) q.push('None. All key questions were answered.');
     var meta = S.baseMeta('Load Estimate (SEC DPS-01)', 'SEC DPS-01 Rev-02 (Nov 2023) \u00b7 verified_secondary', [['Input file', ctx.fileName + ' (' + ctx.used.length + ' spaces)']]);
