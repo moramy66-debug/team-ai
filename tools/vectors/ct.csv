@@ -1,0 +1,26 @@
+id,desc,count,diaMm,type,sparePct,depthMm,fillLimitPct,hand_result,standard_ref
+CT-01,Normal 6x multicore 32mm 100mm deep,6,32,multicore,20,100,40,"W_area=144.7646mm, W_lay=230.4000mm, W_req=230.4000mm, Std=300mm, Fill=16.0850%",NEMA VE 1 / IEC 61537 [needs verification]
+CT-02,Control 24x multicore 12mm 50mm deep,24,12,multicore,25,50,40,"W_area=169.6460mm, W_lay=360.0000mm, W_req=360.0000mm, Std=450mm, Fill=12.0637%",Single-layer rule inflates W
+CT-03,Single-core trefoil 9x 42mm 100mm deep,9,42,single-core,20,100,40,"W_area=374.0694mm, W_lay=302.4000mm, W_req=374.0694mm, Std=450mm, Fill=27.7088%",NEMA VE 1 / IEC 61537
+CT-04,Single-core trefoil non-multiple 7x 38mm,7,38,single-core,15,100,40,"W_area=228.2406mm, W_lay=262.2000mm, W_req=262.2000mm, Std=300mm, Fill=26.4627%",ceil(7/3)=3 trefoils
+CT-05,Large feeder 4x 65mm (>50mm dia),4,65,multicore,20,100,40,"W_area=398.1969mm, W_lay=312.0000mm, W_req=398.1969mm, Std=450mm, Fill=29.4961%",Single-layer forced
+CT-06,Shallow 50mm tray 8x 28mm,8,28,multicore,20,50,40,"W_area=295.5610mm, W_lay=268.8000mm, W_req=295.5610mm, Std=300mm, Fill=32.8401%",Area governs
+CT-07,Deep 150mm tray 12x 45mm,12,45,multicore,20,150,40,"W_area=381.7035mm, W_lay=648.0000mm, W_req=648.0000mm, Std=750mm, Fill=16.9646%",Layout governs
+CT-08,Zero spare 10x 25mm 100mm deep,10,25,multicore,0,100,40,"W_area=122.7185mm, W_lay=250.0000mm, W_req=250.0000mm, Std=300mm, Fill=16.3625%",NEMA VE 1 / IEC 61537
+CT-09,Strict 30% fill limit 10x 35mm,10,35,multicore,20,100,30,"W_area=384.8451mm, W_lay=420.0000mm, W_req=420.0000mm, Std=450mm, Fill=21.3803%",NEMA VE 1 / IEC 61537
+CT-10,50% fill limit 15x 30mm,15,30,multicore,20,100,50,"W_area=254.4690mm, W_lay=540.0000mm, W_req=540.0000mm, Std=600mm, Fill=17.6715%",NEMA VE 1 / IEC 61537
+CT-11,Single-core 3x 55mm (1 trefoil),3,55,single-core,0,120,40,"W_area=148.4893mm, W_lay=110.0000mm, W_req=148.4893mm, Std=150mm, Fill=39.5972%",Area governs
+CT-12,Single-core 12x 48mm (4 trefoils),12,48,single-core,25,120,40,"W_area=565.4867mm, W_lay=480.0000mm, W_req=565.4867mm, Std=600mm, Fill=30.1593%",Area governs
+CT-13,Tiny 1x 14mm -> min 50mm tray,1,14,multicore,20,50,40,"W_area=9.2363mm, W_lay=16.8000mm, W_req=16.8000mm, Std=50mm, Fill=6.1575%",Min width 50mm
+CT-14,Lighting trunking 30x 10mm,30,10,multicore,20,50,40,"W_area=141.3717mm, W_lay=360.0000mm, W_req=360.0000mm, Std=450mm, Fill=10.4720%",Single-layer inflation
+CT-15,Sub-main 10x 40mm 100mm deep,10,40,multicore,20,100,40,"W_area=376.9911mm, W_lay=480.0000mm, W_req=480.0000mm, Std=600mm, Fill=20.9440%",Layout governs
+CT-16,High spare 50% 8x 30mm,8,30,multicore,50,100,40,"W_area=212.0575mm, W_lay=360.0000mm, W_req=360.0000mm, Std=450mm, Fill=12.5664%",Layout governs
+CT-17,Heavy power 16x 52mm,16,52,multicore,10,100,40,"W_area=934.4353mm, W_lay=915.2000mm, W_req=934.4353mm, Std=1000mm, Fill=33.9795%",Area governs
+CT-18,Tricky: d=110mm > depth=100mm,2,110,multicore,20,100,40,"W_area=570.1991mm, W_lay=264.0000mm, W_req=570.1991mm, Std=600mm, Fill=31.6777% [d>depth warning]",Depth check
+CT-19,Tricky: trefoil h=102.6mm > depth 100mm,6,55,single-core,20,100,40,"W_area=427.6493mm, W_lay=264.0000mm, W_req=427.6493mm, Std=450mm, Fill=31.6777% [trefoil_h>depth BUG]",App misses trefoil height check
+CT-20,Tricky: >1000mm width exceeded,30,50,multicore,20,100,40,"W_area=1767.1459mm, W_lay=1800.0000mm, W_req=1800.0000mm, Std=None (>1000mm), Fill=58.9049%",Split into 2 trays
+CT-21,Tricky: 40x 12mm control inflation,40,12,multicore,20,100,40,"W_area=135.7168mm, W_lay=576.0000mm, W_req=576.0000mm, Std=600mm, Fill=7.5398%",Oversized by single-layer rule
+CT-22,Edge: count=0 (invalid),0,30,multicore,20,100,40,"INVALID_INPUT (Error: count <= 0)",Validation check
+CT-23,Edge: dia=0 (invalid),6,0,multicore,20,100,40,"INVALID_INPUT (Error: dia <= 0)",Validation check
+CT-24,Edge: fill=120% > 100 (invalid),6,30,multicore,20,100,120,"INVALID_INPUT (Error: fill > 100)",Validation check
+CT-25,Edge: depth=-50 (invalid),6,30,multicore,20,-50,40,"INVALID_INPUT (Error: depth <= 0)",Validation check
