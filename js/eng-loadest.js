@@ -46,6 +46,9 @@
       return { ok: false, error: 'Ceiling height لازم يكون أكبر من 3.5 m لما تختار "Yes, above 3.5 m" (القيمة المدخلة: ' + A.heightM + '). اكتب الارتفاع أو اختار "No".' };
     } else if (A.ceiling === 'not_above') ch.push('Ceiling height: not above 3.5 m (no extra load).');
     else asm.push('Ceiling height not chosen: no extra load applied for ceilings over 3.5 m (assumption).');
+    if (A.cooling === 'standard') ch.push('Cooling type: standard (the density in the app table).');
+    else if (A.cooling === 'winter' || A.cooling === 'district') asm.push('Cooling type chosen: ' + (A.cooling === 'winter' ? 'winter-peak' : 'district cooling') + '. NOT applied: the app has no verified density for it (reviewer-reported values are unverified), so the standard density is used and the result may be overestimated.');
+    else asm.push('Cooling type not decided: standard density assumed (assumption). District cooling or winter-peak would give lower values, but their densities are not verified in the app.');
     if (A.special === 'add' && pos(num(A.specialKva))) {
       extraDl += num(A.specialKva); extraCl += num(A.specialKva);
       ch.push('Special loads (lifts, pumps, central plant, kitchen): ' + num(A.specialKva) + ' kVA entered by the user, added as is to connected and demand.');
@@ -57,25 +60,30 @@
     else asm.push('Supply points not chosen: single supply point assumed, coincidence factor 1 (assumption).');
     var cats = rows.map(function (x) { return x.category; });
     var T = A.touched || {}, catUser = [], catDef = [];
-    rows.forEach(function (x, ix) { var d = x.label + ' = ' + (x.category === 'custom' ? 'custom (assumption)' : x.category); (T['c' + (rowsIn[ix].slot || (ix + 1))] ? catUser : catDef).push(d); });
+    var custRows = [];
+    rows.forEach(function (x, ix) { if (x.category === 'custom') { custRows.push(x.label); return; } var d = x.label + ' = ' + x.category; (T['c' + (rowsIn[ix].slot || (ix + 1))] ? catUser : catDef).push(d); });
+    if (custRows.length) ch.push('Custom rows (' + custRows.join(', ') + '): density and demand factor entered by the user, not from DPS-01.');
     if (catUser.length) ch.push('Category per space: ' + catUser.join('; ') + '.');
-    if (catDef.length) asm.push('Category left at the default selection: ' + catDef.join('; ') + '. Confirm each space is really that DPS-01 category.');
-    ch.push('Demand factor source: ' + (anyCustom ? 'Table 20 for coded rows, user-entered for custom rows (assumption).' : 'DPS-01 (2023) Table 20.'));
+    if (catDef.length) asm.push('Category left at the app proposal / default selection: ' + catDef.join('; ') + '. Confirm each space is really that DPS-01 category.');
+    var methodNote = 'Method: demand factor source = ' + (anyCustom ? 'DPS-01 (2023) Table 20 for coded rows, user-entered for custom rows.' : 'DPS-01 (2023) Table 20.') + ' Coverage: only C6 (restaurant / cafe) and C7 (offices) are in the app table; other space types need a Custom row.';
+    if (A.source) ch.push(A.source);
     if (extraDl) { tot.dl += extraDl; tot.cl += extraCl; steps.push({ step: 'Total with additions', formula: 'DL + additions', substitution: '', result: 'CL = ' + r2(tot.cl) + ' kVA | DL = ' + r2(tot.dl) + ' kVA', value: tot.dl, unit: 'kVA' }); }
+    warnings.push(methodNote);
     ch.forEach(function (x) { warnings.push('User entered: ' + x); });
     asm.forEach(function (x) { warnings.push('Default / assumption: ' + x); });
     warnings.push('Not in the DPS-01 table, so never labeled "from the code": the ceiling-height extra, special loads and the coincidence factor. They count only as the choices or assumptions listed above.');
     warnings.push('Demand factor is applied once, from Table 20. No separate diversity factor is stacked on it because no source was given for one.');
     if (anyCustom) warnings.push('Rows marked "assumption" use values the user entered. They are not from DPS-01.');
     var sensTxt = null;
-    if (sens && o.sensitivity && tot15.skip) warnings.push('2015 sensitivity skipped: a Custom row has no 2015 value in the table.');
-    if (sens && o.sensitivity && !tot15.skip) {
-      sensTxt = 'Sensitivity only (previous edition DPS-01 Rev-02, Sep 2015, needs_review): CL = ' + r2(tot15.cl) + ' kVA, DL = ' + r2(tot15.dl) + ' kVA if DF 0.6 or ' + r2(tot15.dl2) + ' kVA if DF 0.70 (the 2015 demand factor is unconfirmed)';
+    var partial15 = !!(sens && o.sensitivity && tot15.skip && tot15.cl > 0);
+    if (sens && o.sensitivity && tot15.skip && !partial15) warnings.push('2015 sensitivity not shown: no coded row has a 2015 value.');
+    if (sens && o.sensitivity && (!tot15.skip || partial15)) {
+      sensTxt = 'Sensitivity only (previous edition DPS-01 Rev-02, Sep 2015, needs_review)' + (partial15 ? ', coded rows only, custom rows n/a (no 2015 value)' : '') + ': CL = ' + r2(tot15.cl) + ' kVA, DL = ' + r2(tot15.dl) + ' kVA if DF 0.6 or ' + r2(tot15.dl2) + ' kVA if DF 0.70 (the 2015 demand factor is unconfirmed)';
       warnings.push(sensTxt + '. Do not use for design.');
       steps.push({ step: 'Sensitivity (2015 edition)', formula: 'same method with 2015 densities (offices 220, restaurant 235 VA/m2), DF 0.6 or 0.70 unconfirmed', substitution: 'for comparison only', result: sensTxt, value: tot15.dl, unit: 'kVA' });
     }
     var used = [{ id: TID, source: (a.meta(TID) || {}).source || '', status: (a.meta(TID) || {}).status || 'unknown', title: (a.meta(TID) || {}).title || '' }];
-    return { ok: true, rows: rows, totalAreaM2: tot.area, connectedKva: tot.cl, demandKva: tot.dl, sensitivity: sens && o.sensitivity && !tot15.skip ? { connectedKva: tot15.cl, demandKva: tot15.dl, demandKvaDf070: tot15.dl2 } : null,
+    return { ok: true, rows: rows, totalAreaM2: tot.area, connectedKva: tot.cl, demandKva: tot.dl, sensitivity: sens && o.sensitivity && (!tot15.skip || partial15) ? { partial: partial15, connectedKva: tot15.cl, demandKva: tot15.dl, demandKvaDf070: tot15.dl2 } : null,
       steps: steps, tablesUsed: used, warnings: warnings,
       summary: 'Connected ' + r1(tot.cl) + ' kVA | Demand ' + r1(tot.dl) + ' kVA | Area ' + r1(tot.area) + ' m2 | Source: SEC DPS-01 Rev-02 (Nov 2023), Table 19 pp.26-27 and Table 20 pp.29-30 as reported by a reviewer (secondary copies, not official SEC)' + (anyCustom || asm.length || extraDl ? ' | includes custom rows, additions or default assumptions, see the list' : '') };
   }
@@ -85,6 +93,8 @@
     var h = window.EngUI.helpers;
     window.EngUI.registerTab('loadest', 'Load Estimate', function (body) {
       body.appendChild(h.el('div', 'ec-note', 'التقدير ده بيستخدم جدول SEC DPS-01 (إصدار 2023) المسجل في التطبيق. أي قيمة مش في الجدول بتظهر في التقرير كـ assumption.'));
+      if (window.EngAreaImport) window.EngAreaImport.mount(body, h);
+      body.appendChild(h.el('div', 'ec-note', 'Or enter the spaces by hand (fallback when there is no file).'));
       var grid = h.el('div', 'ec-grid');
       var cats = [{ value: 'C7', label: 'Offices (C7)', selected: true }, { value: 'C6', label: 'Restaurant / cafe (C6)' }, { value: 'custom', label: 'Custom (assumption)' }];
       [1, 2, 3].forEach(function (n) {
@@ -95,7 +105,8 @@
       });
       grid.appendChild(h.createField('le-ceil', 'Ceiling height above 3.5 m?', 'select', [{ value: 'undecided', label: 'Not decided (assumption: no extra)', selected: true }, { value: 'not_above', label: 'No, 3.5 m or lower' }, { value: 'above', label: 'Yes, above 3.5 m' }]));
       grid.appendChild(h.createField('le-h', 'Ceiling height (m) - if above', 'number', ''));
-      grid.appendChild(h.createField('le-rate', 'Extra load rate - if above', 'select', [{ value: '24', label: '24 VA/m3 (DPS-01 2023)', selected: true }, { value: '30', label: '30 VA/m3 (SERA guide V8)' }]));
+      grid.appendChild(h.createField('le-rate', 'Extra load rate - if above', 'select', [{ value: '24', label: '24 VA/m3 (DPS-01 2023)', selected: true }, { value: '30', label: '30 VA/m3 (SERA Electricity Service Guide 9th ed. 2025)' }]));
+      grid.appendChild(h.createField('le-cool', 'Cooling type', 'select', [{ value: 'undecided', label: 'Not decided (assumption: standard)', selected: true }, { value: 'standard', label: 'Standard' }, { value: 'winter', label: 'Winter-peak (not in app table)' }, { value: 'district', label: 'District cooling (not in app table)' }]));
       grid.appendChild(h.createField('le-sp', 'Special loads (lifts, pumps, central plant, kitchen)', 'select', [{ value: 'undecided', label: 'Not decided (assumption: none)', selected: true }, { value: 'none', label: 'None' }, { value: 'add', label: 'Add kVA below' }]));
       grid.appendChild(h.createField('le-spk', 'Special loads (kVA) - if add', 'number', ''));
       grid.appendChild(h.createField('le-sup', 'Supply points', 'select', [{ value: 'undecided', label: 'Not decided (assumption: single)', selected: true }, { value: 'single', label: 'Single supply point' }, { value: 'multiple', label: 'Several meters (no factor applied)' }]));
@@ -114,7 +125,7 @@
             if (ar === undefined) return;
             areas.push({ slot: n, category: h.val('le-c' + n), areaM2: ar, densityVaM2: h.numVal('le-d' + n), demandFactor: h.numVal('le-f' + n) });
           });
-          var res = calculate({ areas: areas, sensitivity: h.val('le-s') === '1', assumptions: { touched: touched, ceiling: h.val('le-ceil'), heightM: h.numVal('le-h'), rate: h.val('le-rate'), special: h.val('le-sp'), specialKva: h.numVal('le-spk'), supply: h.val('le-sup') } });
+          var res = calculate({ areas: areas, sensitivity: h.val('le-s') === '1', assumptions: { touched: touched, cooling: h.val('le-cool'), ceiling: h.val('le-ceil'), heightM: h.numVal('le-h'), rate: h.val('le-rate'), special: h.val('le-sp'), specialKva: h.numVal('le-spk'), supply: h.val('le-sup') } });
           h.showResult(out, res, 'Load Estimate (SEC DPS-01)');
           if (res.ok) { var st = h.el('div', null); h.renderResultActions(out, st); out.appendChild(st); }
         }).catch(function (e) { out.appendChild(h.el('div', 'ec-err', e.message || 'Calculation error')); });
