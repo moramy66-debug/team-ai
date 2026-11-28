@@ -61,16 +61,16 @@
         { k: 'method', l: 'Installation', t: 'select', opts: ['', 'air', 'ground', 'duct'], hint: 'air' },
         { k: 'ambientC', l: 'Ambient (C)', t: 'number', hint: 'calculator default, see the report' },
         { k: 'circuits', l: 'Circuits grouped together', t: 'number', hint: '1' },
-        { k: 'lengthM', l: 'Length (m)', t: 'number', hint: 'blank = voltage drop NOT checked' },
-        { k: 'maxVdropPct', l: 'Max voltage drop (%)', t: 'number', hint: 'blank = voltage drop NOT checked' }
+        { k: 'lengthM', l: 'Length (m)', t: 'number', hint: 'blank = voltage drop NOT checked', opt: true },
+        { k: 'maxVdropPct', l: 'Max voltage drop (%)', t: 'number', hint: 'blank = voltage drop NOT checked', opt: true }
       ]
     },
     breaker: {
       title: 'Breaker Selection', fn: 'breakerSelection',
       fields: [
         { k: 'currentA', l: 'Design current Ib (A)', t: 'number', req: true },
-        { k: 'type', l: 'Breaker type', t: 'select', opts: ['', 'MCB', 'MCCB'], hint: 'any (first standard rating that fits)' },
-        { k: 'cableAmpacityA', l: 'Cable ampacity Iz (A), optional', t: 'number', hint: 'blank = overload check skipped' }
+        { k: 'type', l: 'Breaker type', t: 'select', opts: ['', 'MCB', 'MCCB'], hint: 'any (first standard rating that fits)', opt: true },
+        { k: 'cableAmpacityA', l: 'Cable ampacity Iz (A), optional', t: 'number', hint: 'blank = overload check skipped', opt: true }
       ]
     }
   };
@@ -136,7 +136,7 @@
         else if (v !== '') b.textContent = SRC_USER;
         else if (f.req) b.textContent = 'missing (required)';
         else if (f.alt) b.textContent = 'give this or the other one';
-        else b.textContent = f.hint ? SRC_DEF + ': ' + f.hint : 'optional';
+        else b.textContent = f.hint ? (f.opt ? 'optional: ' + f.hint : 'missing, required (common value: ' + f.hint + ')') : 'optional';
       }
       S.fields.forEach(function (f) {
         var row = document.createElement('div'); row.className = 'imp-row';
@@ -167,6 +167,7 @@
         });
         S.fields.forEach(function (f) { if (f.req && vals[f.k] === '') miss.push(f.l); });
         if (kind === 'cable' && vals.currentA === '' && vals.powerKW === '') miss.push('Design current or Power');
+        S.fields.forEach(function (f) { if (f.hint && !f.opt && !f.req && vals[f.k] === '' && !(f.k === 'powerFactor' && kind === 'cable' && vals.powerKW === '')) miss.push(f.l + ' (no silent default)'); });
         if (miss.length) { msg.textContent = 'Missing: ' + miss.join(', ') + '.'; msg.style.display = ''; return; }
         var inp = {};
         S.fields.forEach(function (f) {
