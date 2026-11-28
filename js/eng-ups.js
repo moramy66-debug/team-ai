@@ -187,6 +187,7 @@
     }
 
     var warnings = [AR_WARN];
+    if (runtimeMin < 60 && !hasPk) warnings.push('Warning: runtime is under 1 h and no Peukert exponent k was entered. Battery Ah here is treated as rate independent, so a short discharge can need much more rated Ah. Use the manufacturer kW per cell table for this runtime, or enter k and H from the datasheet.');
     if (hasUpsEff) {
       warnings.push('UPS efficiency was entered, so the required UPS kVA is divided by it (more conservative). This is an optional assumption with no source recorded (needs_review).');
     } else {
