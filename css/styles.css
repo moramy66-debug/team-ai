@@ -562,3 +562,4 @@ body .ec-warn,body .ec-note{direction:rtl;unicode-bidi:isolate;text-align:start}
 .key-note{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:space-between;margin:0 0 12px;padding:10px 12px;border:1px solid var(--bd,#2a3550);border-radius:12px;background:rgba(99,102,241,.10);font-size:14px;line-height:1.6}
 .key-note button{min-height:44px;font-size:16px}
 body .ec-nc{font-weight:700}
+.app-ver{font-size:12px;opacity:.7;text-align:center;padding:10px 0;direction:ltr}
