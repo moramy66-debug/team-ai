@@ -2562,7 +2562,7 @@
   },
   "mccb_iec60947_2_typical_ratings": {
    "title": "Typical MCCB rated currents (IEC 60947-2 does not fix a list; manufacturers choose frames)",
-   "source": "Manufacturer catalogues e.g. https://www.chintglobal.com/content/dam/chint/global/product-center/low-voltage/iec/secondary-power-distribution/mccb/nm8n/catalog/NM8N-MCCB-Catalog.pdf and https://viox.com/standard-breaker-sizes/ ; the exact list below is FROM MEMORY (R10/R20 style).",
+   "source": "Manufacturer catalogues e.g. https://www.chintglobal.com/content/dam/chint/global/product-center/low-voltage/iec/secondary-power-distribution/mccb/nm8n/catalog/NM8N-MCCB-Catalog.pdf and https://viox.com/standard-breaker-sizes/ ; the exact list below is FROM MEMORY (R10/R20 style). 320 A added Nov 28 2026 at the user's decision because three independent external reviewers listed it (their claim, no official source checked).",
    "status": "from_memory_needs_review",
    "unit": "A",
    "values": [
@@ -2580,6 +2580,7 @@
     200,
     250,
     315,
+    320,
     400,
     500,
     630,
