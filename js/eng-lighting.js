@@ -31,7 +31,7 @@
     var A = L * W;
     var K = (L * W) / (Hm * (L + W));
     var N_exact = (E * A) / (F * UF * MF);
-    var N = Math.ceil(N_exact);
+    var N = Math.ceil(Math.round(N_exact * 1e9) / 1e9); /* guards 9.000000000000002 -> 10 */
 
     var cols = Math.max(1, Math.round(Math.sqrt(N * (L / W))));
     var rows = Math.ceil(N / cols);
