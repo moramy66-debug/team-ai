@@ -26,7 +26,7 @@
       } else {
         var tr = t.rows.filter(function (x) { return x[0] === cat; })[0];
         if (!tr) return { ok: false, error: 'Category غير معروفة (' + cat + '): المتاح C7 أو C6 أو custom.' };
-        name = tr[1]; dens = tr[2]; df = tr[3]; src = 'DPS-01 (2023) Table 19 / Table 20, code ' + cat;
+        name = r.label || tr[1]; dens = tr[2]; df = tr[3]; src = 'DPS-01 (2023) Table 19 / Table 20, code ' + cat;
         if (sens && sens.density[cat]) row15 = sens.density[cat];
       }
       var cl = area * dens / 1000, dl = cl * df;
