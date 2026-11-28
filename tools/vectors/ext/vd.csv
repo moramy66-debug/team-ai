@@ -1,0 +1,101 @@
+id,desc,ph,I_A,L_m,V,PF,insul,cond,theta_C,X_ohmkm,size_mm2,hand_result,source_ref
+VD-001,XLPE Cu 25mm2 100A 50m 3ph,3,100,50,400,0.85,XLPE,Cu,,,25,"dV_V=7.1888, dV_pct=1.7972, Method=rx",needs_review
+VD-002,PVC Cu 10mm2 40A 30m 1ph (4d1b),1,40,30,230,0.85,PVC,Cu,,,10,"dV_V=5.28, dV_pct=2.2957, Method=4d1b",needs_review
+VD-003,PVC Cu 16mm2 60A 45m 3ph (4d1b),3,60,45,400,0.9,PVC,Cu,,,16,"dV_V=6.48, dV_pct=1.62, Method=4d1b",needs_review
+VD-004,PVC Cu 25mm2 80A 60m 3ph (rx >16mm2),3,80,60,400,0.85,PVC,Cu,,,25,"dV_V=6.4974, dV_pct=1.6244, Method=rx",needs_review
+VD-005,XLPE Al 95mm2 150A 120m 3ph,3,150,120,400,0.85,XLPE,Al,,,95,"dV_V=12.1862, dV_pct=3.0466, Method=rx",needs_review
+VD-006,XLPE Cu 4mm2 20A 25m 1ph defaults,1,20,25,,,XLPE,Cu,,,4,"dV_V=5.0386, dV_pct=2.1907, Method=rx",needs_review
+VD-007,XLPE Cu 70mm2 180A 80m PF=1.0 custom theta 75C,3,180,80,400,1,XLPE,Cu,75,0.075,70,"dV_V=8.1291, dV_pct=2.0323, Method=rx",needs_review
+VD-008,PVC Al 35mm2 70A 90m 3ph (rx Al),3,70,90,380,0.8,PVC,Al,,,35,"dV_V=9.6278, dV_pct=2.5336, Method=rx",needs_review
+VD-009,Invalid: size 12mm2 not in tables,3,50,30,400,0.85,XLPE,Cu,,,12,INVALID_INPUT (size not in R20 table),needs_review
+VD-010,Invalid: PF=1.1 > 1,3,50,30,400,1.1,XLPE,Cu,,,16,"INVALID_INPUT (PF out of (0,1])",needs_review
+VD-011,PVC Cu 1mm2 5A 15m 1ph (4d1b min),1,5,15,230,0.85,PVC,Cu,,,1,"dV_V=3.3, dV_pct=1.4348, Method=4d1b",needs_review
+VD-012,PVC Cu 1.5mm2 12A 20m 1ph (4d1b),1,12,20,230,0.9,PVC,Cu,,,1.5,"dV_V=6.96, dV_pct=3.0261, Method=4d1b",needs_review
+VD-013,PVC Cu 2.5mm2 18A 25m 1ph (4d1b),1,18,25,230,0.8,PVC,Cu,,,2.5,"dV_V=8.1, dV_pct=3.5217, Method=4d1b",needs_review
+VD-014,PVC Cu 4mm2 25A 35m 1ph (4d1b),1,25,35,230,0.85,PVC,Cu,,,4,"dV_V=9.625, dV_pct=4.1848, Method=4d1b",needs_review
+VD-015,PVC Cu 6mm2 32A 40m 1ph (4d1b),1,32,40,230,0.85,PVC,Cu,,,6,"dV_V=9.344, dV_pct=4.0626, Method=4d1b",needs_review
+VD-016,PVC Cu 16mm2 55A 50m 1ph (4d1b),1,55,50,230,0.85,PVC,Cu,,,16,"dV_V=7.7, dV_pct=3.3478, Method=4d1b",needs_review
+VD-017,PVC Cu 1mm2 6A 18m 3ph (4d1b),3,6,18,400,0.85,PVC,Cu,,,1,"dV_V=4.104, dV_pct=1.026, Method=4d1b",needs_review
+VD-018,PVC Cu 1.5mm2 14A 22m 3ph (4d1b),3,14,22,400,0.85,PVC,Cu,,,1.5,"dV_V=7.7, dV_pct=1.925, Method=4d1b",needs_review
+VD-019,PVC Cu 2.5mm2 20A 30m 3ph (4d1b),3,20,30,400,0.85,PVC,Cu,,,2.5,"dV_V=9, dV_pct=2.25, Method=4d1b",needs_review
+VD-020,PVC Cu 4mm2 28A 40m 3ph (4d1b),3,28,40,400,0.85,PVC,Cu,,,4,"dV_V=10.64, dV_pct=2.66, Method=4d1b",needs_review
+VD-021,PVC Cu 6mm2 36A 55m 3ph (4d1b),3,36,55,400,0.85,PVC,Cu,,,6,"dV_V=12.672, dV_pct=3.168, Method=4d1b",needs_review
+VD-022,PVC Cu 10mm2 48A 65m 3ph (4d1b),3,48,65,400,0.85,PVC,Cu,,,10,"dV_V=11.856, dV_pct=2.964, Method=4d1b",needs_review
+VD-023,PVC Cu 16mm2 65A 80m 3ph 220V (4d1b),3,65,80,220,0.85,PVC,Cu,,,16,"dV_V=12.48, dV_pct=5.6727, Method=4d1b",needs_review
+VD-024,PVC Cu 10mm2 30A 40m 1ph ignores PF/theta/X (4d1b),1,30,40,230,0.6,PVC,Cu,50,0.12,10,"dV_V=5.28, dV_pct=2.2957, Method=4d1b",needs_review
+VD-025,XLPE Cu 1.5mm2 10A 12m 1ph (rx),1,10,12,230,0.85,XLPE,Cu,,,1.5,"dV_V=3.1576, dV_pct=1.3729, Method=rx",needs_review
+VD-026,XLPE Cu 2.5mm2 16A 20m 1ph (rx),1,16,20,230,0.9,XLPE,Cu,,,2.5,"dV_V=5.4646, dV_pct=2.3759, Method=rx",needs_review
+VD-027,XLPE Cu 6mm2 32A 35m 1ph (rx),1,32,35,220,0.85,XLPE,Cu,,,6,"dV_V=7.572, dV_pct=3.4418, Method=rx",needs_review
+VD-028,XLPE Cu 10mm2 45A 45m 1ph (rx),1,45,45,230,0.85,XLPE,Cu,,,10,"dV_V=8.2035, dV_pct=3.5667, Method=rx",needs_review
+VD-029,XLPE Cu 16mm2 63A 50m 1ph (rx),1,63,50,230,0.85,XLPE,Cu,,,16,"dV_V=8.1179, dV_pct=3.5295, Method=rx",needs_review
+VD-030,XLPE Cu 1.5mm2 12A 15m 3ph (rx),3,12,15,400,0.85,XLPE,Cu,,,1.5,"dV_V=4.1018, dV_pct=1.0255, Method=rx",needs_review
+VD-031,XLPE Cu 2.5mm2 18A 25m 3ph (rx),3,18,25,400,0.85,XLPE,Cu,,,2.5,"dV_V=6.2926, dV_pct=1.5731, Method=rx",needs_review
+VD-032,XLPE Cu 4mm2 25A 30m 3ph (rx),3,25,30,400,0.85,XLPE,Cu,,,4,"dV_V=6.5454, dV_pct=1.6363, Method=rx",needs_review
+VD-033,XLPE Cu 6mm2 35A 40m 3ph (rx),3,35,40,400,0.85,XLPE,Cu,,,6,"dV_V=8.1969, dV_pct=2.0492, Method=rx",needs_review
+VD-034,XLPE Cu 10mm2 50A 55m 3ph (rx),3,50,55,400,0.85,XLPE,Cu,,,10,"dV_V=9.648, dV_pct=2.412, Method=rx",needs_review
+VD-035,XLPE Cu 16mm2 70A 60m 3ph (rx),3,70,60,400,0.85,XLPE,Cu,,,16,"dV_V=9.3737, dV_pct=2.3434, Method=rx",needs_review
+VD-036,XLPE Cu 35mm2 110A 75m 3ph (rx),3,110,75,400,0.85,XLPE,Cu,,,35,"dV_V=8.7176, dV_pct=2.1794, Method=rx",needs_review
+VD-037,XLPE Cu 50mm2 140A 90m 3ph (rx),3,140,90,400,0.85,XLPE,Cu,,,50,"dV_V=10.0736, dV_pct=2.5184, Method=rx",needs_review
+VD-038,XLPE Cu 95mm2 220A 110m 3ph (rx),3,220,110,400,0.85,XLPE,Cu,,,95,"dV_V=10.5344, dV_pct=2.6336, Method=rx",needs_review
+VD-039,XLPE Cu 120mm2 260A 130m 3ph (rx),3,260,130,400,0.85,XLPE,Cu,,,120,"dV_V=12.1752, dV_pct=3.0438, Method=rx",needs_review
+VD-040,XLPE Cu 150mm2 300A 150m 3ph (rx),3,300,150,400,0.85,XLPE,Cu,,,150,"dV_V=13.7598, dV_pct=3.4399, Method=rx",needs_review
+VD-041,XLPE Cu 185mm2 350A 160m 3ph (rx),3,350,160,400,0.85,XLPE,Cu,,,185,"dV_V=14.5056, dV_pct=3.6264, Method=rx",needs_review
+VD-042,XLPE Cu 240mm2 420A 180m 3ph (rx),3,420,180,400,0.85,XLPE,Cu,,,240,"dV_V=16.2191, dV_pct=4.0548, Method=rx",needs_review
+VD-043,XLPE Cu 300mm2 480A 200m 3ph (rx),3,480,200,400,0.85,XLPE,Cu,,,300,"dV_V=17.8384, dV_pct=4.4596, Method=rx",needs_review
+VD-044,XLPE Cu 400mm2 550A 220m 3ph (rx),3,550,220,400,0.85,XLPE,Cu,,,400,"dV_V=19.5081, dV_pct=4.877, Method=rx",needs_review
+VD-045,XLPE Cu 500mm2 620A 250m 3ph (rx),3,620,250,400,0.85,XLPE,Cu,,,500,"dV_V=21.9636, dV_pct=5.4909, Method=rx",needs_review
+VD-046,XLPE Cu 630mm2 700A 300m 3ph (rx),3,700,300,400,0.85,XLPE,Cu,,,630,"dV_V=26.4851, dV_pct=6.6213, Method=rx",needs_review
+VD-047,XLPE Cu 800mm2 800A 350m 3ph (rx),3,800,350,400,0.85,XLPE,Cu,,,800,"dV_V=32.0546, dV_pct=8.0136, Method=rx",needs_review
+VD-048,XLPE Cu 1000mm2 900A 400m 3ph (rx),3,900,400,400,0.85,XLPE,Cu,,,1000,"dV_V=38.1718, dV_pct=9.543, Method=rx",needs_review
+VD-049,XLPE Al 16mm2 50A 40m 3ph (rx min Al),3,50,40,400,0.85,XLPE,Al,,,16,"dV_V=7.3565, dV_pct=1.8391, Method=rx",needs_review
+VD-050,XLPE Al 25mm2 75A 60m 3ph (rx),3,75,60,400,0.85,XLPE,Al,,,25,"dV_V=10.5213, dV_pct=2.6303, Method=rx",needs_review
+VD-051,XLPE Al 50mm2 110A 80m 3ph (rx),3,110,80,400,0.85,XLPE,Al,,,50,"dV_V=11.2897, dV_pct=2.8224, Method=rx",needs_review
+VD-052,XLPE Al 120mm2 200A 140m 3ph (rx),3,200,140,400,0.85,XLPE,Al,,,120,"dV_V=15.4153, dV_pct=3.8538, Method=rx",needs_review
+VD-053,XLPE Al 185mm2 260A 180m 3ph (rx),3,260,180,400,0.85,XLPE,Al,,,185,"dV_V=17.9035, dV_pct=4.4759, Method=rx",needs_review
+VD-054,XLPE Al 240mm2 310A 200m 3ph (rx),3,310,200,400,0.85,XLPE,Al,,,240,"dV_V=19.1542, dV_pct=4.7885, Method=rx",needs_review
+VD-055,XLPE Al 400mm2 420A 260m 3ph (rx),3,420,260,400,0.85,XLPE,Al,,,400,"dV_V=24.0071, dV_pct=6.0018, Method=rx",needs_review
+VD-056,XLPE Al 630mm2 550A 320m 3ph (rx),3,550,320,400,0.85,XLPE,Al,,,630,"dV_V=28.4275, dV_pct=7.1069, Method=rx",needs_review
+VD-057,XLPE Al 1000mm2 750A 500m 3ph (rx),3,750,500,400,0.85,XLPE,Al,,,1000,"dV_V=47.9705, dV_pct=11.9926, Method=rx",needs_review
+VD-058,PVC Cu 35mm2 95A 70m 3ph (rx),3,95,70,400,0.85,PVC,Cu,,,35,"dV_V=6.6237, dV_pct=1.6559, Method=rx",needs_review
+VD-059,PVC Cu 50mm2 120A 85m 3ph (rx),3,120,85,400,0.85,PVC,Cu,,,50,"dV_V=7.698, dV_pct=1.9245, Method=rx",needs_review
+VD-060,PVC Al 70mm2 130A 100m 3ph (rx),3,130,100,400,0.85,PVC,Al,,,70,"dV_V=11.136, dV_pct=2.784, Method=rx",needs_review
+VD-061,PVC Al 150mm2 210A 130m 3ph (rx),3,210,130,400,0.85,PVC,Al,,,150,"dV_V=11.9407, dV_pct=2.9852, Method=rx",needs_review
+VD-062,XLPE Cu 50mm2 very short 1m 100A 3ph,3,100,1,400,0.85,XLPE,Cu,,,50,"dV_V=0.0799, dV_pct=0.02, Method=rx",needs_review
+VD-063,XLPE Cu 25mm2 low PF 0.50 80A 100m 3ph,3,80,100,400,0.5,XLPE,Cu,,,25,"dV_V=7.3824, dV_pct=1.8456, Method=rx",needs_review
+VD-064,XLPE Cu 70mm2 480V 160A 120m X=0.07,3,160,120,480,0.92,XLPE,Cu,85,0.07,70,"dV_V=11.2063, dV_pct=2.3347, Method=rx",needs_review
+VD-065,XLPE Cu 95mm2 690V 250A 150m theta=30C,3,250,150,690,0.88,XLPE,Cu,30,0.09,95,"dV_V=14.2415, dV_pct=2.064, Method=rx",needs_review
+VD-066,XLPE Cu 25mm2 X=0 pure resistive PF=1,3,90,50,400,1,XLPE,Cu,20,0,25,"dV_V=5.6664, dV_pct=1.4166, Method=rx",needs_review
+VD-067,Invalid: I_A=0,3,0,50,400,0.85,XLPE,Cu,,,25,"INVALID_INPUT (I_A, L_m, or size_mm2 <= 0)",needs_review
+VD-068,Invalid: I_A negative -20A,3,-20,50,400,0.85,XLPE,Cu,,,25,"INVALID_INPUT (I_A, L_m, or size_mm2 <= 0)",needs_review
+VD-069,Invalid: L_m=0,3,50,0,400,0.85,XLPE,Cu,,,25,"INVALID_INPUT (I_A, L_m, or size_mm2 <= 0)",needs_review
+VD-070,Invalid: L_m negative -10m,1,20,-10,230,0.85,PVC,Cu,,,4,"INVALID_INPUT (I_A, L_m, or size_mm2 <= 0)",needs_review
+VD-071,Invalid: size_mm2=0,3,50,30,400,0.85,XLPE,Cu,,,0,"INVALID_INPUT (I_A, L_m, or size_mm2 <= 0)",needs_review
+VD-072,Invalid: size_mm2 negative -16,3,50,30,400,0.85,XLPE,Cu,,,-16,"INVALID_INPUT (I_A, L_m, or size_mm2 <= 0)",needs_review
+VD-073,Invalid: V=0,3,50,30,0,0.85,XLPE,Cu,,,16,INVALID_INPUT (V <= 0),needs_review
+VD-074,Invalid: V negative -400,3,50,30,-400,0.85,XLPE,Cu,,,16,INVALID_INPUT (V <= 0),needs_review
+VD-075,Invalid: PF=0,3,50,30,400,0,XLPE,Cu,,,16,"INVALID_INPUT (PF out of (0,1])",needs_review
+VD-076,Invalid: PF negative -0.8,3,50,30,400,-0.8,XLPE,Cu,,,16,"INVALID_INPUT (PF out of (0,1])",needs_review
+VD-077,Invalid: Al 10mm2 not in R20 Al table,3,30,40,400,0.85,XLPE,Al,,,10,INVALID_INPUT (size not in R20 table),needs_review
+VD-078,Invalid: Al 6mm2 not in R20 Al table,3,20,25,400,0.85,PVC,Al,,,6,INVALID_INPUT (size not in R20 table),needs_review
+VD-079,Invalid: Cu 200mm2 not in R20 Cu table,3,300,50,400,0.85,XLPE,Cu,,,200,INVALID_INPUT (size not in R20 table),needs_review
+VD-080,Invalid: XLPE Cu 1mm2 not in R20 Cu table,1,10,20,230,0.85,XLPE,Cu,,,1,INVALID_INPUT (size not in R20 table),needs_review
+VD-081,XLPE Cu 16mm2 55A 100m 3ph,3,55,100,400,0.85,XLPE,Cu,,,16,"dV_V=12.2751, dV_pct=3.0688, Method=rx",needs_review
+VD-082,XLPE Cu 25mm2 85A 75m 3ph,3,85,75,400,0.9,XLPE,Cu,,,25,"dV_V=9.5972, dV_pct=2.3993, Method=rx",needs_review
+VD-083,XLPE Cu 35mm2 115A 95m 3ph,3,115,95,400,0.8,XLPE,Cu,,,35,"dV_V=11.0229, dV_pct=2.7557, Method=rx",needs_review
+VD-084,XLPE Cu 50mm2 150A 110m 3ph,3,150,110,400,0.85,XLPE,Cu,,,50,"dV_V=13.1916, dV_pct=3.2979, Method=rx",needs_review
+VD-085,XLPE Cu 70mm2 190A 140m 3ph,3,190,140,400,0.85,XLPE,Cu,,,70,"dV_V=15.3242, dV_pct=3.8311, Method=rx",needs_review
+VD-086,XLPE Cu 95mm2 230A 160m 3ph,3,230,160,400,0.85,XLPE,Cu,,,95,"dV_V=16.0192, dV_pct=4.0048, Method=rx",needs_review
+VD-087,XLPE Cu 120mm2 275A 175m 3ph,3,275,175,400,0.85,XLPE,Cu,,,120,"dV_V=17.3353, dV_pct=4.3338, Method=rx",needs_review
+VD-088,XLPE Cu 150mm2 315A 210m 3ph,3,315,210,400,0.85,XLPE,Cu,,,150,"dV_V=20.2269, dV_pct=5.0567, Method=rx",needs_review
+VD-089,XLPE Cu 185mm2 365A 230m 3ph,3,365,230,400,0.85,XLPE,Cu,,,185,"dV_V=21.7455, dV_pct=5.4364, Method=rx",needs_review
+VD-090,XLPE Cu 240mm2 430A 260m 3ph,3,430,260,400,0.85,XLPE,Cu,,,240,"dV_V=23.9854, dV_pct=5.9963, Method=rx",needs_review
+VD-091,PVC Cu 4mm2 22A 18m 1ph 220V (4d1b),1,22,18,220,0.85,PVC,Cu,,,4,"dV_V=4.356, dV_pct=1.98, Method=4d1b",needs_review
+VD-092,PVC Cu 6mm2 30A 25m 3ph 380V (4d1b),3,30,25,380,0.85,PVC,Cu,,,6,"dV_V=4.8, dV_pct=1.2632, Method=4d1b",needs_review
+VD-093,XLPE Al 35mm2 85A 75m 3ph,3,85,75,400,0.85,XLPE,Al,,,35,"dV_V=10.9102, dV_pct=2.7275, Method=rx",needs_review
+VD-094,XLPE Al 70mm2 140A 110m 3ph,3,140,110,400,0.85,XLPE,Al,,,70,"dV_V=14.0014, dV_pct=3.5004, Method=rx",needs_review
+VD-095,XLPE Al 150mm2 230A 150m 3ph,3,230,150,400,0.85,XLPE,Al,,,150,"dV_V=15.9332, dV_pct=3.9833, Method=rx",needs_review
+VD-096,XLPE Cu 50mm2 high theta 105C X=0.10,3,120,80,400,0.75,XLPE,Cu,105,0.1,50,"dV_V=7.5382, dV_pct=1.8845, Method=rx",needs_review
+VD-097,Invalid: ph=2 unsupported,2,50,30,400,0.85,XLPE,Cu,,,16,INVALID_INPUT (ph must be 1 or 3),needs_review
+VD-098,Invalid: Al 4mm2 not in R20 Al,3,15,20,400,0.85,XLPE,Al,,,4,INVALID_INPUT (size not in R20 table),needs_review
+VD-099,Invalid: Cu 1200mm2 not in R20 Cu,3,800,100,400,0.85,XLPE,Cu,,,1200,INVALID_INPUT (size not in R20 table),needs_review
+VD-100,Invalid: PF=1.05 > 1,1,25,20,230,1.05,XLPE,Cu,,,6,"INVALID_INPUT (PF out of (0,1])",needs_review
