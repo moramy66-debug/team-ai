@@ -255,3 +255,13 @@
     init();
   }
 })();
+
+/* keep the active calculator tab in view in the scrolling tab strip */
+(function () {
+  'use strict';
+  document.addEventListener('click', function (e) {
+    var t = e.target && e.target.closest ? e.target.closest('.ec-tab') : null;
+    if (!t) return;
+    setTimeout(function () { try { t.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' }); } catch (x) {} }, 60);
+  });
+})();
