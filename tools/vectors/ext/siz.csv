@@ -1,0 +1,151 @@
+id,desc,ph,P_kW,I_A,V,PF,insul,cond,method,ambC,circuits,spacing,L_m,maxVD_pct,hand_result,source_ref
+SIZ-001,3ph 25kW XLPE Cu air 40C 3 circuits 35m,3,25,,400,0.85,XLPE,Cu,air,40,3,,35,5,"Ib=42.4522, In=50, Ca=0.91, Cg=0.7, Ct=0.637, Iz_req=78.4929, Size=16, Iz=61.152, VD_pct=0.829, Compliant=True",needs_review
+SIZ-002,3ph XLPE Cu air 35C 3c,3,,22,400,0.8,XLPE,Cu,air,35,3,,,,"Ib=22, In=25, Ca=0.96, Cg=0.7, Ct=0.672, Iz_req=37.2024, Size=4, Iz=26.88, Compliant=True",needs_review
+SIZ-003,1ph XLPE Cu air 40C 4c L=70m,1,11,,230,1,XLPE,Cu,air,40,4,,70,8,"Ib=47.8261, In=50, Ca=0.91, Cg=0.65, Ct=0.5915, Iz_req=84.5309, Size=16, Iz=63.2905, VD_pct=4.2688, Compliant=True",needs_review
+SIZ-004,3ph PVC Cu ground 40C 6c L=100m,3,,44,400,0.75,PVC,Cu,ground,40,6,0.5,100,3,"Ib=44, In=50, Ca=0.77, Cg=0.8, Ct=0.616, Iz_req=81.1688, Size=25, Iz=56.672, VD_pct=1.3438, Compliant=True",needs_review
+SIZ-005,3ph XLPE Al air 50C 9c L=150m,3,25,,400,0.85,XLPE,Al,air,50,9,,150,5,"Ib=42.4522, In=50, Ca=0.82, Cg=0.5, Ct=0.41, Iz_req=121.9512, Size=50, Iz=55.76, VD_pct=2.0424, Compliant=True",needs_review
+SIZ-006,1ph XLPE Cu air 55C 12c,1,,72,230,0.9,XLPE,Cu,air,55,12,,,,"Ib=72, In=80, Ca=0.76, Cg=0.45, Ct=0.342, Iz_req=233.9181, Size=70, Iz=91.998, Compliant=True",needs_review
+SIZ-007,3ph XLPE Cu ground 25C 16c L=15m,3,45,,400,0.8,XLPE,Cu,ground,25,16,0.125,15,8,"Ib=81.1899, In=100, Ca=0.96, Cg=0.47, Ct=0.4512, Iz_req=221.6312, Size=95, Iz=101.9712, VD_pct=0.1291, Compliant=True",needs_review
+SIZ-008,3ph PVC Cu air 25C 20c L=30m,3,,118,400,1,PVC,Cu,air,25,20,,30,3,"Ib=118, In=125, Ca=1.06, Cg=0.38, Ct=0.4028, Iz_req=310.3277, Size=185, Iz=137.3548, VD_pct=0.1818, Compliant=True",needs_review
+SIZ-009,1ph XLPE Cu air 35C 24c L=45m,1,22,,230,0.75,XLPE,Cu,air,35,24,,45,5,"Ib=127.5362, In=160, Ca=0.96, Cg=0.38, Ct=0.3648, Iz_req=438.5965, Size=150, Iz=160.8768, VD_pct=0.8559, Compliant=True",needs_review
+SIZ-010,3ph XLPE Al ground 40C 1c,3,,180,400,0.85,XLPE,Al,ground,40,1,,,,"Ib=180, In=200, Ca=0.85, Cg=1, Ct=0.85, Iz_req=235.2941, Size=185, Iz=212.5, Compliant=True",needs_review
+SIZ-011,3ph XLPE Cu air 45C 2c L=100m,3,110,,380,0.9,XLPE,Cu,air,45,2,,100,8,"Ib=185.6975, In=200, Ca=0.87, Cg=0.8, Ct=0.696, Iz_req=287.3563, Size=120, Iz=224.112, VD_pct=1.7813, Compliant=True",needs_review
+SIZ-012,1ph PVC Cu air 45C 3c L=150m,1,,120,230,0.8,PVC,Cu,air,45,3,,150,3,"Ib=120, In=125, Ca=0.79, Cg=0.7, Ct=0.553, Iz_req=226.0398, Size=150, Iz=190.232, VD_pct=2.6091, Compliant=True",needs_review
+SIZ-013,3ph XLPE Cu ground 55C 4c L=220m,3,160,,400,1,XLPE,Cu,ground,55,4,0.25,220,5,"Ib=230.9401, In=250, Ca=0.71, Cg=0.75, Ct=0.5325, Iz_req=469.4836, Size=None, Iz=None, Compliant=False",needs_review
+SIZ-014,3ph XLPE Cu air 25C 6c,3,,420,400,0.75,XLPE,Cu,air,25,6,,,,"Ib=420, In=500, Ca=1.04, Cg=0.57, Ct=0.5928, Iz_req=843.4548, Size=None, Iz=None, Compliant=False",needs_review
+SIZ-015,1ph XLPE Al air 30C 9c L=30m,1,22,,230,0.85,XLPE,Al,air,30,9,,30,8,"Ib=112.532, In=125, Ca=1, Cg=0.5, Ct=0.5, Iz_req=250, Size=120, Iz=140, VD_pct=0.9331, Compliant=True",needs_review
+SIZ-016,3ph PVC Cu ground 30C 12c L=45m,3,,14,400,0.9,PVC,Cu,ground,30,12,one_diameter,45,3,"Ib=14, In=16, Ca=0.89, Cg=0.42, Ct=0.3738, Iz_req=42.8036, Size=10, Iz=20.1852, VD_pct=0.5985, Compliant=True",needs_review
+SIZ-017,3ph XLPE Cu air 40C 16c L=70m,3,1.5,,400,0.8,XLPE,Cu,air,40,16,,70,5,"Ib=2.7063, In=6, Ca=0.91, Cg=0.41, Ct=0.3731, Iz_req=16.0815, Size=1.5, Iz=8.2082, VD_pct=1.0164, Compliant=True",needs_review
+SIZ-018,1ph XLPE Cu air 45C 20c,1,,31,230,1,XLPE,Cu,air,45,20,,,,"Ib=31, In=32, Ca=0.87, Cg=0.38, Ct=0.3306, Iz_req=96.7937, Size=16, Iz=35.3742, Compliant=True",needs_review
+SIZ-019,3ph XLPE Cu ground 50C 24c L=150m,3,5.5,,400,0.75,XLPE,Cu,ground,50,24,0.5,150,8,"Ib=10.5848, In=13, Ca=0.76, Cg=0.66, Ct=0.5016, Iz_req=25.9171, Size=2.5, Iz=15.048, VD_pct=4.9083, Compliant=True",needs_review
+SIZ-020,3ph PVC Al air 50C 1c L=220m,3,,58,400,0.85,PVC,Al,air,50,1,,220,3,"Ib=58, In=63, Ca=0.71, Cg=1, Ct=0.71, Iz_req=88.7324, Size=70, Iz=99.4, VD_pct=2.7326, Compliant=True",needs_review
+SIZ-021,1ph XLPE Cu air 25C 2c L=15m,1,18,,230,0.9,XLPE,Cu,air,25,2,,15,5,"Ib=86.9565, In=100, Ca=1.04, Cg=0.8, Ct=0.832, Iz_req=120.1923, Size=25, Iz=114.816, VD_pct=0.9858, Compliant=True",needs_review
+SIZ-022,3ph XLPE Cu ground 30C 3c,3,,95,380,0.8,XLPE,Cu,ground,30,3,0.125,,,"Ib=95, In=100, Ca=0.93, Cg=0.75, Ct=0.6975, Iz_req=143.3692, Size=50, Iz=106.7175, Compliant=True",needs_review
+SIZ-023,3ph XLPE Cu air 35C 4c L=45m,3,37,,400,1,XLPE,Cu,air,35,4,,45,8,"Ib=53.4049, In=63, Ca=0.96, Cg=0.65, Ct=0.624, Iz_req=100.9615, Size=25, Iz=74.256, VD_pct=0.9647, Compliant=True",needs_review
+SIZ-024,1ph PVC Cu air 35C 6c L=70m,1,,120,230,0.75,PVC,Cu,air,35,6,,70,3,"Ib=120, In=125, Ca=0.94, Cg=0.57, Ct=0.5358, Iz_req=233.296, Size=95, Iz=138.2364, VD_pct=1.6516, Compliant=True",needs_review
+SIZ-025,3ph XLPE Al ground 45C 9c L=100m,3,55,,400,0.85,XLPE,Al,ground,45,9,touching,100,5,"Ib=93.3949, In=100, Ca=0.8, Cg=0.41, Ct=0.328, Iz_req=304.878, Size=300, Iz=106.928, VD_pct=0.6112, Compliant=True",needs_review
+SIZ-026,3ph XLPE Cu air 50C 12c,3,,220,400,0.9,XLPE,Cu,air,50,12,,,,"Ib=220, In=250, Ca=0.82, Cg=0.45, Ct=0.369, Iz_req=677.5068, Size=None, Iz=None, Compliant=False",needs_review
+SIZ-027,1ph XLPE Cu air 55C 16c L=220m,1,22,,230,0.8,XLPE,Cu,air,55,16,,220,8,"Ib=119.5652, In=125, Ca=0.76, Cg=0.41, Ct=0.3116, Iz_req=401.1553, Size=150, Iz=137.4156, VD_pct=3.9912, Compliant=True",needs_review
+SIZ-028,3ph PVC Cu ground 20C 20c L=15m,3,,340,400,1,PVC,Cu,ground,20,20,0.25,15,3,"Ib=340, In=400, Ca=1, Cg=0.53, Ct=0.53, Iz_req=754.717, Size=None, Iz=None, Compliant=False",needs_review
+SIZ-029,3ph XLPE Cu air 30C 24c L=30m,3,132,,400,0.75,XLPE,Cu,air,30,24,,30,5,"Ib=254.0341, In=315, Ca=1, Cg=0.38, Ct=0.38, Iz_req=828.9474, Size=None, Iz=None, Compliant=False",needs_review
+SIZ-030,1ph XLPE Al air 35C 1c,1,,8,230,0.85,XLPE,Al,air,35,1,,,,"Ib=8, In=8, Ca=0.96, Cg=1, Ct=0.96, Iz_req=8.3333, Size=2.5, Iz=24.96, Compliant=True",needs_review
+SIZ-031,3ph XLPE Cu ground 40C 2c L=70m,3,200,,400,0.9,XLPE,Cu,ground,40,2,one_diameter,70,8,"Ib=320.7501, In=400, Ca=0.85, Cg=0.8, Ct=0.68, Iz_req=588.2353, Size=None, Iz=None, Compliant=False",needs_review
+SIZ-032,3ph PVC Cu air 40C 3c L=100m,3,,22,400,0.8,PVC,Cu,air,40,3,,100,3,"Ib=22, In=25, Ca=0.87, Cg=0.7, Ct=0.609, Iz_req=41.0509, Size=10, Iz=34.713, VD_pct=2.09, Compliant=True",needs_review
+SIZ-033,1ph XLPE Cu air 50C 4c L=150m,1,22,,220,1,XLPE,Cu,air,50,4,,150,5,"Ib=100, In=100, Ca=0.82, Cg=0.65, Ct=0.533, Iz_req=187.6173, Size=70, Iz=143.377, VD_pct=4.6599, Compliant=True",needs_review
+SIZ-034,3ph XLPE Cu ground 55C 6c,3,,44,400,0.75,XLPE,Cu,ground,55,6,0.5,,,"Ib=44, In=50, Ca=0.71, Cg=0.8, Ct=0.568, Iz_req=88.0282, Size=25, Iz=60.776, Compliant=True",needs_review
+SIZ-035,3ph XLPE Al air 25C 9c L=15m,3,3.2,,400,0.85,XLPE,Al,air,25,9,,15,8,"Ib=5.4339, In=6, Ca=1.04, Cg=0.5, Ct=0.52, Iz_req=11.5385, Size=16, Iz=39.52, VD_pct=0.075, Compliant=True",needs_review
+SIZ-036,1ph PVC Cu air 25C 12c L=30m,1,,72,230,0.9,PVC,Cu,air,25,12,,30,3,"Ib=72, In=80, Ca=1.06, Cg=0.45, Ct=0.477, Iz_req=167.7149, Size=50, Iz=80.136, VD_pct=0.8482, Compliant=True",needs_review
+SIZ-037,3ph XLPE Cu ground 35C 16c L=45m,3,11,,400,0.8,XLPE,Cu,ground,35,16,0.125,45,5,"Ib=19.8464, In=20, Ca=0.89, Cg=0.47, Ct=0.4183, Iz_req=47.8126, Size=6, Iz=20.4967, VD_pct=1.2336, Compliant=True",needs_review
+SIZ-038,3ph XLPE Cu air 40C 20c,3,,118,400,1,XLPE,Cu,air,40,20,,,,"Ib=118, In=125, Ca=0.91, Cg=0.38, Ct=0.3458, Iz_req=361.4806, Size=150, Iz=128.2918, Compliant=True",needs_review
+SIZ-039,1ph XLPE Cu air 45C 24c L=100m,1,22,,230,0.75,XLPE,Cu,air,45,24,,100,8,"Ib=127.5362, In=160, Ca=0.87, Cg=0.38, Ct=0.3306, Iz_req=483.9685, Size=185, Iz=167.2836, VD_pct=1.6379, Compliant=True",needs_review
+SIZ-040,3ph PVC Al ground 45C 1c L=150m,3,,180,400,0.85,PVC,Al,ground,45,1,,150,3,"Ib=180, In=200, Ca=0.71, Cg=1, Ct=0.71, Iz_req=281.6901, Size=300, Iz=200.22, VD_pct=1.6867, Compliant=True",needs_review
+SIZ-041,3ph XLPE Cu air 55C 2c L=220m,3,45,,400,0.9,XLPE,Cu,air,55,2,,220,5,"Ib=72.1688, In=80, Ca=0.76, Cg=0.8, Ct=0.608, Iz_req=131.5789, Size=35, Iz=89.376, VD_pct=4.3739, Compliant=True",needs_review
+SIZ-042,1ph XLPE Cu air 25C 3c,1,,120,230,0.8,XLPE,Cu,air,25,3,,,,"Ib=120, In=125, Ca=1.04, Cg=0.7, Ct=0.728, Iz_req=171.7033, Size=50, Iz=152.152, Compliant=True",needs_review
+SIZ-043,3ph XLPE Cu ground 30C 4c L=30m,3,75,,400,1,XLPE,Cu,ground,30,4,0.25,30,8,"Ib=108.2532, In=125, Ca=0.93, Cg=0.75, Ct=0.6975, Iz_req=179.2115, Size=70, Iz=131.13, VD_pct=0.4806, Compliant=True",needs_review
+SIZ-044,3ph PVC Cu air 30C 6c L=45m,3,,420,380,0.75,PVC,Cu,air,30,6,,45,3,"Ib=420, In=500, Ca=1, Cg=0.57, Ct=0.57, Iz_req=877.193, Size=None, Iz=None, Compliant=False",needs_review
+SIZ-045,1ph XLPE Al air 40C 9c L=70m,1,22,,230,0.85,XLPE,Al,air,40,9,,70,5,"Ib=112.532, In=125, Ca=0.91, Cg=0.5, Ct=0.455, Iz_req=274.7253, Size=120, Iz=127.4, VD_pct=2.1773, Compliant=True",needs_review
+SIZ-046,3ph XLPE Cu ground 45C 12c,3,,14,400,0.9,XLPE,Cu,ground,45,12,one_diameter,,,"Ib=14, In=16, Ca=0.8, Cg=0.42, Ct=0.336, Iz_req=47.619, Size=6, Iz=16.464, Compliant=True",needs_review
+SIZ-047,3ph XLPE Cu air 50C 16c L=150m,3,160,,400,0.8,XLPE,Cu,air,50,16,,150,8,"Ib=288.6751, In=315, Ca=0.82, Cg=0.41, Ct=0.3362, Iz_req=936.9423, Size=None, Iz=None, Compliant=False",needs_review
+SIZ-048,1ph PVC Cu air 50C 20c L=220m,1,,31,230,1,PVC,Cu,air,50,20,,220,3,"Ib=31, In=32, Ca=0.71, Cg=0.38, Ct=0.2698, Iz_req=118.6064, Size=50, Iz=45.3264, VD_pct=2.7461, Compliant=True",needs_review
+SIZ-049,3ph XLPE Cu ground 25C 24c L=15m,3,250,,400,0.75,XLPE,Cu,ground,25,24,0.5,15,5,"Ib=481.1252, In=500, Ca=0.96, Cg=0.66, Ct=0.6336, Iz_req=789.1414, Size=None, Iz=None, Compliant=False",needs_review
+SIZ-050,3ph XLPE Al air 30C 1c,3,,58,400,0.85,XLPE,Al,air,30,1,,,,"Ib=58, In=63, Ca=1, Cg=1, Ct=1, Iz_req=63, Size=16, Iz=76, Compliant=True",needs_review
+SIZ-051,1ph XLPE Cu air 35C 2c L=45m,1,1.5,,230,0.9,XLPE,Cu,air,35,2,,45,8,"Ib=7.2464, In=8, Ca=0.96, Cg=0.8, Ct=0.768, Iz_req=10.4167, Size=1.5, Iz=18.432, VD_pct=3.9473, Compliant=True",needs_review
+SIZ-052,3ph PVC Cu ground 35C 3c L=70m,3,,95,400,0.8,PVC,Cu,ground,35,3,0.125,70,3,"Ib=95, In=100, Ca=0.84, Cg=0.75, Ct=0.63, Iz_req=158.7302, Size=70, Iz=102.06, VD_pct=0.8769, Compliant=True",needs_review
+SIZ-053,3ph XLPE Cu air 45C 4c L=100m,3,5.5,,400,1,XLPE,Cu,air,45,4,,100,5,"Ib=7.9386, In=8, Ca=0.87, Cg=0.65, Ct=0.5655, Iz_req=14.1468, Size=2.5, Iz=16.965, VD_pct=3.2479, Compliant=True",needs_review
+SIZ-054,1ph XLPE Cu air 50C 6c,1,,120,230,0.75,XLPE,Cu,air,50,6,,,,"Ib=120, In=125, Ca=0.82, Cg=0.57, Ct=0.4674, Iz_req=267.4369, Size=70, Iz=125.7306, Compliant=True",needs_review
+SIZ-055,3ph XLPE Al ground 55C 9c L=220m,3,18,,380,0.85,XLPE,Al,ground,55,9,touching,220,8,"Ib=32.1743, In=40, Ca=0.71, Cg=0.41, Ct=0.2911, Iz_req=137.4098, Size=70, Iz=41.9184, VD_pct=1.6936, Compliant=True",needs_review
+SIZ-056,3ph PVC Cu air 20C 12c L=15m,3,,220,400,0.9,PVC,Cu,air,20,12,,15,3,"Ib=220, In=250, Ca=1.12, Cg=0.45, Ct=0.504, Iz_req=496.0317, Size=None, Iz=None, Compliant=False",needs_review
+SIZ-057,1ph XLPE Cu air 30C 16c L=30m,1,22,,230,0.8,XLPE,Cu,air,30,16,,30,5,"Ib=119.5652, In=125, Ca=1, Cg=0.41, Ct=0.41, Iz_req=304.878, Size=95, Iz=134.48, VD_pct=0.7638, Compliant=True",needs_review
+SIZ-058,3ph XLPE Cu ground 35C 20c,3,,340,400,1,XLPE,Cu,ground,35,20,0.25,,,"Ib=340, In=400, Ca=0.89, Cg=0.53, Ct=0.4717, Iz_req=847.9966, Size=None, Iz=None, Compliant=False",needs_review
+SIZ-059,3ph XLPE Cu air 40C 24c L=70m,3,55,,400,0.75,XLPE,Cu,air,40,24,,70,8,"Ib=105.8475, In=125, Ca=0.91, Cg=0.38, Ct=0.3458, Iz_req=361.4806, Size=150, Iz=128.2918, VD_pct=0.5502, Compliant=True",needs_review
+SIZ-060,1ph PVC Al air 40C 1c L=100m,1,,8,230,0.85,PVC,Al,air,40,1,,100,3,"Ib=8, In=8, Ca=0.87, Cg=1, Ct=0.87, Iz_req=9.1954, Size=16, Iz=57.42, VD_pct=1.3863, Compliant=True",needs_review
+SIZ-061,3ph XLPE Cu ground 50C 2c L=150m,3,90,,400,0.9,XLPE,Cu,ground,50,2,one_diameter,150,5,"Ib=144.3376, In=160, Ca=0.76, Cg=0.8, Ct=0.608, Iz_req=263.1579, Size=150, Iz=174.496, VD_pct=1.661, Compliant=True",needs_review
+SIZ-062,3ph XLPE Cu air 55C 3c,3,,22,400,0.8,XLPE,Cu,air,55,3,,,,"Ib=22, In=25, Ca=0.76, Cg=0.7, Ct=0.532, Iz_req=46.9925, Size=6, Iz=27.664, Compliant=True",needs_review
+SIZ-063,1ph XLPE Cu air 25C 4c L=15m,1,22,,230,1,XLPE,Cu,air,25,4,,15,8,"Ib=95.6522, In=100, Ca=1.04, Cg=0.65, Ct=0.676, Iz_req=147.929, Size=35, Iz=115.596, VD_pct=0.8336, Compliant=True",needs_review
+SIZ-064,3ph PVC Cu ground 25C 6c L=30m,3,,44,400,0.75,PVC,Cu,ground,25,6,0.5,30,3,"Ib=44, In=50, Ca=0.95, Cg=0.8, Ct=0.76, Iz_req=65.7895, Size=16, Iz=53.2, VD_pct=0.792, Compliant=True",needs_review
+SIZ-065,3ph XLPE Al air 35C 9c L=45m,3,200,,400,0.85,XLPE,Al,air,35,9,,45,5,"Ib=339.6178, In=400, Ca=0.96, Cg=0.5, Ct=0.48, Iz_req=833.3333, Size=None, Iz=None, Compliant=False",needs_review
+SIZ-066,1ph XLPE Cu air 40C 12c,1,,72,220,0.9,XLPE,Cu,air,40,12,,,,"Ib=72, In=80, Ca=0.91, Cg=0.45, Ct=0.4095, Iz_req=195.3602, Size=50, Iz=85.5855, Compliant=True",needs_review
+SIZ-067,3ph XLPE Cu ground 45C 16c L=100m,3,350,,400,0.8,XLPE,Cu,ground,45,16,0.125,100,8,"Ib=631.4769, In=800, Ca=0.8, Cg=0.47, Ct=0.376, Iz_req=2127.6596, Size=None, Iz=None, Compliant=False",needs_review
+SIZ-068,3ph PVC Cu air 45C 20c L=150m,3,,118,400,1,PVC,Cu,air,45,20,,150,3,"Ib=118, In=125, Ca=0.79, Cg=0.38, Ct=0.3002, Iz_req=416.3891, Size=300, Iz=139.2928, VD_pct=0.5511, Compliant=True",needs_review
+SIZ-069,1ph XLPE Cu air 55C 24c L=220m,1,3.2,,230,0.75,XLPE,Cu,air,55,24,,220,5,"Ib=18.5507, In=20, Ca=0.76, Cg=0.38, Ct=0.2888, Iz_req=69.2521, Size=16, Iz=30.9016, VD_pct=4.0907, Compliant=True",needs_review
+SIZ-070,3ph XLPE Al ground 25C 1c,3,,180,400,0.85,XLPE,Al,ground,25,1,,,,"Ib=180, In=200, Ca=0.96, Cg=1, Ct=0.96, Iz_req=208.3333, Size=150, Iz=211.2, Compliant=True",needs_review
+SIZ-071,3ph XLPE Cu air 30C 2c L=30m,3,11,,400,0.9,XLPE,Cu,air,30,2,,30,8,"Ib=17.6413, In=20, Ca=1, Cg=0.8, Ct=0.8, Iz_req=25, Size=2.5, Iz=24, VD_pct=1.9567, Compliant=True",needs_review
+SIZ-072,1ph PVC Cu air 30C 3c L=45m,1,,120,230,0.8,PVC,Cu,air,30,3,,45,3,"Ib=120, In=125, Ca=1, Cg=0.7, Ct=0.7, Iz_req=178.5714, Size=70, Iz=149.1, VD_pct=1.43, Compliant=True",needs_review
+SIZ-073,3ph XLPE Cu ground 40C 4c L=70m,3,25,,400,1,XLPE,Cu,ground,40,4,0.25,70,5,"Ib=36.0844, In=40, Ca=0.85, Cg=0.75, Ct=0.6375, Iz_req=62.7451, Size=10, Iz=41.4375, VD_pct=2.5522, Compliant=True",needs_review
+SIZ-074,3ph XLPE Cu air 45C 6c,3,,420,400,0.75,XLPE,Cu,air,45,6,,,,"Ib=420, In=500, Ca=0.87, Cg=0.57, Ct=0.4959, Iz_req=1008.2678, Size=None, Iz=None, Compliant=False",needs_review
+SIZ-075,1ph XLPE Al air 50C 9c L=150m,1,22,,230,0.85,XLPE,Al,air,50,9,,150,8,"Ib=112.532, In=125, Ca=0.82, Cg=0.5, Ct=0.41, Iz_req=304.878, Size=150, Iz=132.84, VD_pct=3.9137, Compliant=True",needs_review
+SIZ-076,3ph PVC Cu ground 50C 12c L=220m,3,,14,400,0.9,PVC,Cu,ground,50,12,one_diameter,220,3,"Ib=14, In=16, Ca=0.63, Cg=0.42, Ct=0.2646, Iz_req=60.4686, Size=16, Iz=18.522, VD_pct=1.848, Compliant=True",needs_review
+SIZ-077,3ph XLPE Cu air 25C 16c L=15m,3,75,,380,0.8,XLPE,Cu,air,25,16,,15,5,"Ib=142.4384, In=160, Ca=1.04, Cg=0.41, Ct=0.4264, Iz_req=375.2345, Size=185, Iz=180.7936, VD_pct=0.1452, Compliant=True",needs_review
+SIZ-078,1ph XLPE Cu air 30C 20c,1,,31,230,1,XLPE,Cu,air,30,20,,,,"Ib=31, In=32, Ca=1, Cg=0.38, Ct=0.38, Iz_req=84.2105, Size=16, Iz=40.66, Compliant=True",needs_review
+SIZ-079,3ph XLPE Cu ground 35C 24c L=45m,3,110,,400,0.75,XLPE,Cu,ground,35,24,0.5,45,8,"Ib=211.6951, In=250, Ca=0.89, Cg=0.66, Ct=0.5874, Iz_req=425.6044, Size=None, Iz=None, Compliant=False",needs_review
+SIZ-080,3ph PVC Al air 35C 1c L=70m,3,,58,400,0.85,PVC,Al,air,35,1,,70,3,"Ib=58, In=63, Ca=0.94, Cg=1, Ct=0.94, Iz_req=67.0213, Size=25, Iz=68.62, VD_pct=2.2286, Compliant=True",needs_review
+SIZ-081,1ph XLPE Cu air 45C 2c L=100m,1,22,,230,0.9,XLPE,Cu,air,45,2,,100,5,"Ib=106.2802, In=125, Ca=0.87, Cg=0.8, Ct=0.696, Iz_req=179.5977, Size=50, Iz=145.464, VD_pct=4.4267, Compliant=True",needs_review
+SIZ-082,3ph XLPE Cu ground 50C 3c,3,,95,400,0.8,XLPE,Cu,ground,50,3,0.125,,,"Ib=95, In=100, Ca=0.76, Cg=0.75, Ct=0.57, Iz_req=175.4386, Size=70, Iz=107.16, Compliant=True",needs_review
+SIZ-083,3ph XLPE Cu air 55C 4c L=220m,3,250,,400,1,XLPE,Cu,air,55,4,,220,8,"Ib=360.8439, In=400, Ca=0.76, Cg=0.65, Ct=0.494, Iz_req=809.7166, Size=None, Iz=None, Compliant=False",needs_review
+SIZ-084,1ph PVC Cu air 20C 6c L=15m,1,,120,230,0.75,PVC,Cu,air,20,6,,15,3,"Ib=120, In=125, Ca=1.12, Cg=0.57, Ct=0.6384, Iz_req=195.802, Size=70, Iz=135.9792, VD_pct=0.4593, Compliant=True",needs_review
+SIZ-085,3ph XLPE Al ground 30C 9c L=30m,3,1.5,,400,0.85,XLPE,Al,ground,30,9,touching,30,5,"Ib=2.5471, In=6, Ca=0.93, Cg=0.41, Ct=0.3813, Iz_req=15.7356, Size=16, Iz=24.4032, VD_pct=0.0703, Compliant=True",needs_review
+SIZ-086,3ph XLPE Cu air 35C 12c,3,,220,400,0.9,XLPE,Cu,air,35,12,,,,"Ib=220, In=250, Ca=0.96, Cg=0.45, Ct=0.432, Iz_req=578.7037, Size=None, Iz=None, Compliant=False",needs_review
+SIZ-087,1ph XLPE Cu air 40C 16c L=70m,1,5.5,,230,0.8,XLPE,Cu,air,40,16,,70,8,"Ib=29.8913, In=32, Ca=0.91, Cg=0.41, Ct=0.3731, Iz_req=85.7679, Size=16, Iz=39.9217, VD_pct=2.2217, Compliant=True",needs_review
+SIZ-088,3ph PVC Cu ground 40C 20c L=100m,3,,340,380,1,PVC,Cu,ground,40,20,0.25,100,3,"Ib=340, In=400, Ca=0.77, Cg=0.53, Ct=0.4081, Iz_req=980.1519, Size=None, Iz=None, Compliant=False",needs_review
+SIZ-089,3ph XLPE Cu air 50C 24c L=150m,3,18,,400,0.75,XLPE,Cu,air,50,24,,150,5,"Ib=34.641, In=40, Ca=0.82, Cg=0.38, Ct=0.3116, Iz_req=128.3697, Size=35, Iz=45.8052, VD_pct=1.2466, Compliant=True",needs_review
+SIZ-090,1ph XLPE Al air 55C 1c,1,,8,230,0.85,XLPE,Al,air,55,1,,,,"Ib=8, In=8, Ca=0.76, Cg=1, Ct=0.76, Iz_req=10.5263, Size=2.5, Iz=19.76, Compliant=True",needs_review
+SIZ-091,3ph XLPE Cu ground 25C 2c L=15m,3,37,,400,0.9,XLPE,Cu,ground,25,2,one_diameter,15,8,"Ib=59.3388, In=63, Ca=0.96, Cg=0.8, Ct=0.768, Iz_req=82.0312, Size=16, Iz=64.512, VD_pct=0.5221, Compliant=True",needs_review
+SIZ-092,3ph PVC Cu air 25C 3c L=30m,3,,22,400,0.8,PVC,Cu,air,25,3,,30,3,"Ib=22, In=25, Ca=1.06, Cg=0.7, Ct=0.742, Iz_req=33.6927, Size=6, Iz=30.422, VD_pct=1.056, Compliant=True",needs_review
+SIZ-093,1ph XLPE Cu air 35C 4c L=45m,1,22,,230,1,XLPE,Cu,air,35,4,,45,5,"Ib=95.6522, In=100, Ca=0.96, Cg=0.65, Ct=0.624, Iz_req=160.2564, Size=35, Iz=106.704, VD_pct=2.5008, Compliant=True",needs_review
+SIZ-094,3ph XLPE Cu ground 40C 6c,3,,44,400,0.75,XLPE,Cu,ground,40,6,0.5,,,"Ib=44, In=50, Ca=0.85, Cg=0.8, Ct=0.68, Iz_req=73.5294, Size=16, Iz=57.12, Compliant=True",needs_review
+SIZ-095,3ph XLPE Al air 45C 9c L=100m,3,90,,400,0.85,XLPE,Al,air,45,9,,100,8,"Ib=152.828, In=160, Ca=0.87, Cg=0.5, Ct=0.435, Iz_req=367.8161, Size=240, Iz=166.17, VD_pct=1.1804, Compliant=True",needs_review
+SIZ-096,1ph PVC Cu air 45C 12c L=150m,1,,72,230,0.9,PVC,Cu,air,45,12,,150,3,"Ib=72, In=80, Ca=0.79, Cg=0.45, Ct=0.3555, Iz_req=225.0352, Size=95, Iz=91.719, VD_pct=2.2793, Compliant=True",needs_review
+SIZ-097,3ph XLPE Cu ground 55C 16c L=220m,3,132,,400,0.8,XLPE,Cu,ground,55,16,0.125,220,5,"Ib=238.157, In=250, Ca=0.71, Cg=0.47, Ct=0.3337, Iz_req=749.1759, Size=None, Iz=None, Compliant=False",needs_review
+SIZ-098,3ph XLPE Cu air 25C 20c,3,,118,400,1,XLPE,Cu,air,25,20,,,,"Ib=118, In=125, Ca=1.04, Cg=0.38, Ct=0.3952, Iz_req=316.2955, Size=120, Iz=127.2544, Compliant=True",needs_review
+SIZ-099,1ph XLPE Cu air 30C 24c L=30m,1,22,,220,0.75,XLPE,Cu,air,30,24,,30,8,"Ib=133.3333, In=160, Ca=1, Cg=0.38, Ct=0.38, Iz_req=421.0526, Size=150, Iz=167.58, VD_pct=0.6236, Compliant=True",needs_review
+SIZ-100,3ph PVC Al ground 30C 1c L=45m,3,,180,400,0.85,PVC,Al,ground,30,1,,45,3,"Ib=180, In=200, Ca=0.89, Cg=1, Ct=0.89, Iz_req=224.7191, Size=240, Iz=222.5, VD_pct=0.5956, Compliant=True",needs_review
+SIZ-101,3ph XLPE Cu air 40C 2c L=70m,3,350,,400,0.9,XLPE,Cu,air,40,2,,70,5,"Ib=561.3128, In=630, Ca=0.91, Cg=0.8, Ct=0.728, Iz_req=865.3846, Size=None, Iz=None, Compliant=False",needs_review
+SIZ-102,1ph XLPE Cu air 45C 3c,1,,120,230,0.8,XLPE,Cu,air,45,3,,,,"Ib=120, In=125, Ca=0.87, Cg=0.7, Ct=0.609, Iz_req=205.2545, Size=50, Iz=127.281, Compliant=True",needs_review
+SIZ-103,3ph XLPE Cu ground 50C 4c L=150m,3,3.2,,400,1,XLPE,Cu,ground,50,4,0.25,150,8,"Ib=4.6188, In=6, Ca=0.76, Cg=0.75, Ct=0.57, Iz_req=10.5263, Size=1.5, Iz=13.11, VD_pct=4.6286, Compliant=True",needs_review
+SIZ-104,3ph PVC Cu air 50C 6c L=220m,3,,420,400,0.75,PVC,Cu,air,50,6,,220,3,"Ib=420, In=500, Ca=0.71, Cg=0.57, Ct=0.4047, Iz_req=1235.4831, Size=None, Iz=None, Compliant=False",needs_review
+SIZ-105,1ph XLPE Al air 25C 9c L=15m,1,11,,230,0.85,XLPE,Al,air,25,9,,15,5,"Ib=56.266, In=63, Ca=1.04, Cg=0.5, Ct=0.52, Iz_req=121.1538, Size=35, Iz=65.52, VD_pct=0.7252, Compliant=True",needs_review
+SIZ-106,3ph XLPE Cu ground 30C 12c,3,,14,400,0.9,XLPE,Cu,ground,30,12,one_diameter,,,"Ib=14, In=16, Ca=0.93, Cg=0.42, Ct=0.3906, Iz_req=40.9626, Size=6, Iz=19.1394, Compliant=True",needs_review
+SIZ-107,3ph XLPE Cu air 35C 16c L=45m,3,25,,400,0.8,XLPE,Cu,air,35,16,,45,8,"Ib=45.1055, In=50, Ca=0.96, Cg=0.41, Ct=0.3936, Iz_req=127.0325, Size=35, Iz=57.8592, VD_pct=0.512, Compliant=True",needs_review
+SIZ-108,1ph PVC Cu air 35C 20c L=70m,1,,31,230,1,PVC,Cu,air,35,20,,70,3,"Ib=31, In=32, Ca=0.94, Cg=0.38, Ct=0.3572, Iz_req=89.5857, Size=25, Iz=40.0064, VD_pct=1.6414, Compliant=True",needs_review
+SIZ-109,3ph XLPE Cu ground 45C 24c L=100m,3,45,,400,0.75,XLPE,Cu,ground,45,24,0.5,100,5,"Ib=86.6025, In=100, Ca=0.8, Cg=0.66, Ct=0.528, Iz_req=189.3939, Size=95, Iz=119.328, VD_pct=0.8906, Compliant=True",needs_review
+SIZ-110,3ph XLPE Al air 50C 1c,3,,58,380,0.85,XLPE,Al,air,50,1,,,,"Ib=58, In=63, Ca=0.82, Cg=1, Ct=0.82, Iz_req=76.8293, Size=25, Iz=73.8, Compliant=True",needs_review
+SIZ-111,1ph XLPE Cu air 55C 2c L=220m,1,22,,230,0.9,XLPE,Cu,air,55,2,,220,8,"Ib=106.2802, In=125, Ca=0.76, Cg=0.8, Ct=0.608, Iz_req=205.5921, Size=70, Iz=163.552, VD_pct=6.9621, Compliant=True",needs_review
+SIZ-112,3ph PVC Cu ground 20C 3c L=15m,3,,95,400,0.8,PVC,Cu,ground,20,3,0.125,15,3,"Ib=95, In=100, Ca=1, Cg=0.75, Ct=0.75, Iz_req=133.3333, Size=70, Iz=121.5, VD_pct=0.1879, Compliant=True",needs_review
+SIZ-113,3ph XLPE Cu air 30C 4c L=30m,3,110,,400,1,XLPE,Cu,air,30,4,,30,5,"Ib=158.7713, In=160, Ca=1, Cg=0.65, Ct=0.65, Iz_req=246.1538, Size=95, Iz=180.7, VD_pct=0.5076, Compliant=True",needs_review
+SIZ-114,1ph XLPE Cu air 35C 6c,1,,120,230,0.75,XLPE,Cu,air,35,6,,,,"Ib=120, In=125, Ca=0.96, Cg=0.57, Ct=0.5472, Iz_req=228.4357, Size=70, Iz=147.1968, Compliant=True",needs_review
+SIZ-115,3ph XLPE Al ground 40C 9c L=70m,3,160,,400,0.85,XLPE,Al,ground,40,9,touching,70,8,"Ib=271.6942, In=315, Ca=0.85, Cg=0.41, Ct=0.3485, Iz_req=903.8737, Size=None, Iz=None, Compliant=False",needs_review
+SIZ-116,3ph PVC Cu air 40C 12c L=100m,3,,220,400,0.9,PVC,Cu,air,40,12,,100,3,"Ib=220, In=250, Ca=0.87, Cg=0.45, Ct=0.3915, Iz_req=638.5696, Size=None, Iz=None, Compliant=False",needs_review
+SIZ-117,1ph XLPE Cu air 50C 16c L=150m,1,22,,230,0.8,XLPE,Cu,air,50,16,,150,5,"Ib=119.5652, In=125, Ca=0.82, Cg=0.41, Ct=0.3362, Iz_req=371.8025, Size=120, Iz=128.4284, VD_pct=3.1826, Compliant=True",needs_review
+SIZ-118,3ph XLPE Cu ground 55C 20c,3,,340,400,1,XLPE,Cu,ground,55,20,0.25,,,"Ib=340, In=400, Ca=0.71, Cg=0.53, Ct=0.3763, Iz_req=1062.9817, Size=None, Iz=None, Compliant=False",needs_review
+SIZ-119,3ph XLPE Cu air 25C 24c L=15m,3,1.5,,400,0.75,XLPE,Cu,air,25,24,,15,8,"Ib=2.8868, In=6, Ca=1.04, Cg=0.38, Ct=0.3952, Iz_req=15.1822, Size=1.5, Iz=8.6944, VD_pct=0.218, Compliant=True",needs_review
+SIZ-120,Huge 600A exceeds 300mm2 table (Compliant false),3,,600,400,0.85,PVC,Al,air,50,6,,100,3,"Ib=600, In=630, Ca=0.71, Cg=0.57, Ct=0.4047, Iz_req=1556.7087, Size=None, Iz=None, Compliant=False",needs_review
+SIZ-121,Invalid: P and I both empty,3,,,400,0.85,XLPE,Cu,air,40,1,,,,INVALID_INPUT (give P_kW or I_A),needs_review
+SIZ-122,Invalid: P and I both given,3,25,40,400,0.85,XLPE,Cu,air,40,1,,,,INVALID_INPUT (give P_kW or I_A),needs_review
+SIZ-123,Invalid: P=0,3,0,,400,0.85,XLPE,Cu,air,40,1,,,,INVALID_INPUT (P_kW <= 0),needs_review
+SIZ-124,Invalid: P=-10,3,-10,,400,0.85,XLPE,Cu,air,40,1,,,,INVALID_INPUT (P_kW <= 0),needs_review
+SIZ-125,Invalid: I=0,1,,0,230,0.85,PVC,Cu,air,40,1,,,,INVALID_INPUT (I_A <= 0),needs_review
+SIZ-126,Invalid: I=-25,1,,-25,230,0.85,PVC,Cu,air,40,1,,,,INVALID_INPUT (I_A <= 0),needs_review
+SIZ-127,Invalid: V=0,3,20,,0,0.85,XLPE,Cu,air,40,1,,,,INVALID_INPUT (V <= 0),needs_review
+SIZ-128,Invalid: V=-400,3,20,,-400,0.85,XLPE,Cu,air,40,1,,,,INVALID_INPUT (V <= 0),needs_review
+SIZ-129,Invalid: PF=0,3,20,,400,0,XLPE,Cu,air,40,1,,,,"INVALID_INPUT (PF out of (0,1])",needs_review
+SIZ-130,Invalid: PF=1.1 > 1,3,20,,400,1.1,XLPE,Cu,air,40,1,,,,"INVALID_INPUT (PF out of (0,1])",needs_review
+SIZ-131,Invalid: method duct skipped,3,20,,400,0.85,XLPE,Cu,duct,35,1,,,,INVALID_INPUT (method must be air or ground),needs_review
+SIZ-132,Invalid: method B1 unsupported,3,20,,400,0.85,XLPE,Cu,B1,35,1,,,,INVALID_INPUT (method must be air or ground),needs_review
+SIZ-133,Invalid: ambC 65C null for PVC air,3,20,,400,0.85,PVC,Cu,air,65,1,,,,INVALID_INPUT (ambC out of Ca table),needs_review
+SIZ-134,Invalid: ambC 85C above XLPE air,3,20,,400,0.85,XLPE,Cu,air,85,1,,,,INVALID_INPUT (ambC out of Ca table),needs_review
+SIZ-135,Invalid: ambC 65C null for PVC ground,3,20,,400,0.85,PVC,Cu,ground,65,1,,,,INVALID_INPUT (ambC out of Ca table),needs_review
+SIZ-136,Invalid: ambC 85C above XLPE ground,3,20,,400,0.85,XLPE,Cu,ground,85,1,,,,INVALID_INPUT (ambC out of Ca table),needs_review
+SIZ-137,Invalid: circuits=0,3,20,,400,0.85,XLPE,Cu,air,40,0,,,,INVALID_INPUT (circuits < 1),needs_review
+SIZ-138,Invalid: L given without maxVD,3,20,,400,0.85,XLPE,Cu,air,40,1,,30,,INVALID_INPUT (L_m and maxVD_pct must both be given or empty),needs_review
+SIZ-139,Invalid: maxVD given without L,3,20,,400,0.85,XLPE,Cu,air,40,1,,,5,INVALID_INPUT (L_m and maxVD_pct must both be given or empty),needs_review
+SIZ-140,Invalid: L=0,3,20,,400,0.85,XLPE,Cu,air,40,1,,0,5,INVALID_INPUT (L_m or maxVD_pct <= 0),needs_review
+SIZ-141,Invalid: maxVD=0,3,20,,400,0.85,XLPE,Cu,air,40,1,,30,0,INVALID_INPUT (L_m or maxVD_pct <= 0),needs_review
+SIZ-142,Invalid: Ib=1700A no breaker,3,,1700,400,0.85,XLPE,Cu,air,40,1,,,,INVALID_INPUT (no breaker for Ib),needs_review
+SIZ-143,Invalid: P=1200kW Ib>1600A,3,1200,,400,0.85,XLPE,Cu,air,40,1,,,,INVALID_INPUT (no breaker for Ib),needs_review
+SIZ-144,Invalid: ph=2,2,20,,400,0.85,XLPE,Cu,air,40,1,,,,INVALID_INPUT (ph must be 1 or 3),needs_review
+SIZ-145,Invalid: PF=-0.5,3,20,,400,-0.5,XLPE,Cu,air,40,1,,,,"INVALID_INPUT (PF out of (0,1])",needs_review
+SIZ-146,Invalid: ambC 70C PVC air,3,15,,400,0.85,PVC,Al,air,70,2,,,,INVALID_INPUT (ambC out of Ca table),needs_review
+SIZ-147,Invalid: ambC 90C XLPE ground,3,15,,400,0.85,XLPE,Al,ground,90,2,touching,,,INVALID_INPUT (ambC out of Ca table),needs_review
+SIZ-148,Invalid: L=-15m,1,5,,230,0.85,PVC,Cu,air,30,1,,-15,3,INVALID_INPUT (L_m or maxVD_pct <= 0),needs_review
+SIZ-149,Invalid: maxVD=-3%,1,5,,230,0.85,PVC,Cu,air,30,1,,15,-3,INVALID_INPUT (L_m or maxVD_pct <= 0),needs_review
+SIZ-150,Invalid: spacing bad,3,20,,400,0.85,XLPE,Cu,ground,35,3,0.75,,,INVALID_INPUT (invalid spacing),needs_review
