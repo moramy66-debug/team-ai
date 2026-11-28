@@ -1,0 +1,26 @@
+id,desc,ph,P_kW,V,PF,L_m,insul,Ca,Cg,maxVD_pct,parallel,hand_result,standard_ref
+CAB-01,Normal 3ph office feeder,3,25,400,0.85,35,XLPE,0.87,0.80,5.0,1,"Ib=42.4522A, In=50A, Ct=0.6960, Iz_req/cable=71.8391A, MinS_VD=4mm2 (VD=3.2418%)",IEC 60364 / R20 IEC 60228 [needs verification]
+CAB-02,Normal 1ph lighting circuit,1,3.2,230,0.90,28,PVC,0.87,0.80,3.0,1,"Ib=15.4589A, In=16A, Ct=0.6960, Iz_req/cable=22.9885A, MinS_VD=4mm2 (VD=1.8816%)",IEC 60364 / VD 3% test value [needs verification]
+CAB-03,Very short 3ph motor run,3,15,400,0.85,5,XLPE,0.91,1.00,5.0,1,"Ib=25.4713A, In=32A, Ct=0.9100, Iz_req/cable=35.1648A, MinS_VD=1.5mm2 (VD=0.7255%)",IEC 60364 / VD 5% test value [needs verification]
+CAB-04,Very long 3ph site lighting,3,8,400,0.90,250,XLPE,0.82,0.80,3.0,1,"Ib=12.8300A, In=16A, Ct=0.6560, Iz_req/cable=24.3902A, MinS_VD=10mm2 (VD=2.9652%)",IEC 60364 / VD 3% test value [needs verification]
+CAB-05,High ambient 50C [needs verification] outdoor,3,45,400,0.85,40,XLPE,0.82,0.70,5.0,1,"Ib=76.4140A, In=80A, Ct=0.5740, Iz_req/cable=139.3728A, MinS_VD=6mm2 (VD=4.4740%)",IEC 60364-5-52 [needs verification]
+CAB-06,Grouped 6 circuits PVC 40C [needs verification],3,18,400,0.85,30,PVC,0.87,0.57,5.0,1,"Ib=30.5656A, In=32A, Ct=0.4959, Iz_req/cable=64.5291A, MinS_VD=1.5mm2 (VD=4.9029%)",IEC 60364-5-52 [needs verification]
+CAB-07,Low PF 0.70 chiller feeder,3,60,400,0.70,45,XLPE,0.87,0.80,5.0,1,"Ib=123.7179A, In=125A, Ct=0.6960, Iz_req/cable=179.5977A, MinS_VD=10mm2 (VD=4.0754%)",IEC 60364 / R20 IEC 60228 [needs verification]
+CAB-08,Unity PF 1.0 resistive heater,3,30,400,1.00,50,XLPE,0.87,1.00,5.0,1,"Ib=43.3013A, In=50A, Ct=0.8700, Iz_req/cable=57.4713A, MinS_VD=6mm2 (VD=3.6819%)",IEC 60364 / R20 IEC 60228 [needs verification]
+CAB-09,Parallel runs 2x main sub-feeder,3,220,400,0.85,65,XLPE,0.82,0.80,5.0,2,"Ib=373.5796A, In=400A, Ct=0.6560, Iz_req/cable=304.8780A, MinS_VD=25mm2 (VD=4.3641%)",IEC 60364 / parallel equal sharing [needs verification]
+CAB-10,Parallel runs 3x long main feeder,3,380,400,0.85,110,XLPE,0.82,0.75,5.0,3,"Ib=645.2738A, In=800A, Ct=0.6150, Iz_req/cable=433.6043A, MinS_VD=50mm2 (VD=4.7290%)",IEC 60364 / parallel equal sharing [needs verification]
+CAB-11,Legacy 380V 3ph system,3,35,380,0.85,40,XLPE,0.87,0.80,5.0,1,"Ib=62.5612A, In=63A, Ct=0.6960, Iz_req/cable=90.5172A, MinS_VD=6mm2 (VD=3.6629%)",IEC 60364 / 380V test case [needs verification]
+CAB-12,Legacy 220V 1ph socket radial,1,4.5,220,0.85,25,PVC,0.87,0.80,5.0,1,"Ib=24.0642A, In=25A, Ct=0.6960, Iz_req/cable=35.9195A, MinS_VD=2.5mm2 (VD=3.9645%)",IEC 60364 / 220V test case [needs verification]
+CAB-13,Long 1ph pump 120m VD-governed,1,2.2,230,0.80,120,XLPE,0.91,1.00,3.0,1,"Ib=11.9565A, In=16A, Ct=0.9100, Iz_req/cable=17.5824A, MinS_VD=10mm2 (VD=2.3889%)",IEC 60364 / VD 3% test value [needs verification]
+CAB-14,Buried duct soil 35C [needs verification],3,95,400,0.85,85,XLPE,0.89,0.80,5.0,1,"Ib=161.3185A, In=200A, Ct=0.7120, Iz_req/cable=280.8989A, MinS_VD=25mm2 (VD=4.9287%)",IEC 60364-5-52 soil 35C [needs verification]
+CAB-15,Private tx 8% VD limit [needs verification],3,110,400,0.85,140,XLPE,0.82,0.80,8.0,1,"Ib=186.7898A, In=200A, Ct=0.6560, Iz_req/cable=304.8780A, MinS_VD=35mm2 (VD=6.9082%)",IEC 60364 / VD 8% test value [needs verification]
+CAB-16,High-power 3ph fire pump 75kW,3,75,400,0.85,55,XLPE,0.87,1.00,5.0,1,"Ib=127.3567A, In=160A, Ct=0.8700, Iz_req/cable=183.9080A, MinS_VD=16mm2 (VD=3.9083%)",IEC 60364 / SBC 801 fire pump [needs verification]
+CAB-17,Small control load 0.5kW 1ph,1,0.5,230,0.85,15,PVC,0.94,0.80,3.0,1,"Ib=2.5575A, In=6A, Ct=0.7520, Iz_req/cable=7.9787A, MinS_VD=1.5mm2 (VD=0.4119%)",IEC 60364
+CAB-18,Tricky: 0.65 PF + long run 150m,3,12,400,0.65,150,XLPE,0.82,0.70,3.0,1,"Ib=26.6469A, In=32A, Ct=0.5740, Iz_req/cable=55.7491A, MinS_VD=10mm2 (VD=2.7303%)",IEC 60364 / VD 3% test value [needs verification]
+CAB-19,Tricky: extreme grouping Cg=0.45,3,14,400,0.85,20,PVC,0.87,0.45,5.0,1,"Ib=23.7732A, In=25A, Ct=0.3915, Iz_req/cable=63.8570A, MinS_VD=1.5mm2 (VD=2.5423%)",IEC 60364-5-52 [needs verification]
+CAB-20,Tricky: L=0m busbar stub,3,50,400,0.85,0,XLPE,0.91,1.00,5.0,1,"Ib=84.9045A, In=100A, Ct=0.9100, Iz_req/cable=109.8901A, MinS_VD=1.5mm2 (VD=0.0000%)",IEC 60364 (ampacity governs)
+CAB-21,Tricky: 55C extreme roof ambient,3,20,400,0.85,35,XLPE,0.76,0.80,5.0,1,"Ib=33.9618A, In=40A, Ct=0.6080, Iz_req/cable=65.7895A, MinS_VD=2.5mm2 (VD=4.1554%)",IEC 60364-5-52 [needs verification]
+CAB-22,Edge: P=0 kW (invalid),3,0,400,0.85,30,XLPE,0.87,0.80,5.0,1,"INVALID_INPUT (Error: P <= 0)",Validation check
+CAB-23,Edge: PF=1.2 > 1 (invalid),3,20,400,1.20,30,XLPE,0.87,0.80,5.0,1,"INVALID_INPUT (Error: PF > 1)",Validation check
+CAB-24,Edge: V=-400 V (invalid),3,20,-400,0.85,30,XLPE,0.87,0.80,5.0,1,"INVALID_INPUT (Error: V <= 0)",Validation check
+CAB-25,Edge: Ca=0 (div-by-zero invalid),3,20,400,0.85,30,XLPE,0.0,0.80,5.0,1,"INVALID_INPUT (Error: Ca <= 0)",Validation check
