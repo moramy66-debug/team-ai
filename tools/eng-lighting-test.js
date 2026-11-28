@@ -90,5 +90,10 @@ eq('large N', rLarge.N, 17858);
 eq('large N_grid >= N', rLarge.N_grid >= rLarge.N, true);
 eq('large actualLux >= target', rLarge.actualLux >= 1000, true);
 
+// Exact integer N must not round up because of float error (750*43.2/(12000*0.5*0.6) = 9 exactly).
+var rExact = L.calculate({ lengthM: 24, widthM: 1.8, mountingHeightM: 6, targetLux: 750, lumensPerFixture: 12000, wattPerFixture: 32, uf: 0.5, mf: 0.6 });
+eq('exact N = 9 (no float round-up)', rExact.N, 9);
+eq('exact grid 11 x 1', rExact.cols, 11);
+
 if (fails) { console.log(fails + ' FAILED'); process.exit(1); }
 console.log('ALL ENG-LIGHTING TESTS PASSED');
