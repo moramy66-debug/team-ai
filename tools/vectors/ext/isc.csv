@@ -1,0 +1,121 @@
+id,desc,S_mm2,cond,insul,Isc_kA,t_s,I2t_in_kA2s,hand_result,source_ref
+ISC-001,Cu XLPE 16mm2 Isc=10kA t=0.2s,16,Cu,XLPE,10,0.2,,"k=143, I2t=20, cap=5.2349, S_min=31.2737, StdS=35, Pass=False",needs_review
+ISC-002,Cu PVC 400mm2 Isc=40kA t=0.3s,400,Cu,PVC,40,0.3,,"k=103, I2t=480, cap=1697.44, S_min=212.7078, StdS=240, Pass=True",needs_review
+ISC-003,Al PVC 500mm2 Isc=30kA t=0.4s,500,Al,PVC,30,0.4,,"k=68, I2t=360, cap=1156, S_min=279.0245, StdS=300, Pass=True",needs_review
+ISC-004,Cu PVC 6mm2 Isc=14.3kA t=0.3s,6,Cu,PVC,14.3,0.3,,"k=115, I2t=61.347, cap=0.4761, S_min=68.1081, StdS=70, Pass=False",needs_review
+ISC-005,Cu XLPE 10mm2 Isc=18kA I2t=350,10,Cu,XLPE,18,,350,"k=143, I2t=350, cap=2.0449, S_min=130.8272, StdS=150, Pass=False",needs_review
+ISC-006,Al PVC 16mm2 Isc=25kA t=0.5s,16,Al,PVC,25,0.5,,"k=76, I2t=312.5, cap=1.4787, S_min=232.6009, StdS=240, Pass=False",needs_review
+ISC-007,Cu XLPE 25mm2 Isc=35kA t=1s,25,Cu,XLPE,35,1,,"k=143, I2t=1225, cap=12.7806, S_min=244.7552, StdS=300, Pass=False",needs_review
+ISC-008,Cu PVC 35mm2 Isc=42kA t=2.5s,35,Cu,PVC,42,2.5,,"k=115, I2t=4410, cap=16.2006, S_min=577.4594, StdS=630, Pass=False",needs_review
+ISC-009,Al XLPE 50mm2 Isc=50kA t=0.01s,50,Al,XLPE,50,0.01,,"k=94, I2t=25, cap=22.09, S_min=53.1915, StdS=70, Pass=False",needs_review
+ISC-010,Cu PVC 70mm2 Isc=65kA I2t=20,70,Cu,PVC,65,,20,"k=115, I2t=20, cap=64.8025, S_min=38.8881, StdS=50, Pass=True",needs_review
+ISC-011,Cu XLPE 95mm2 Isc=80kA t=0.1s,95,Cu,XLPE,80,0.1,,"k=143, I2t=640, cap=184.5522, S_min=176.9106, StdS=185, Pass=False",needs_review
+ISC-012,Al PVC 120mm2 Isc=1.5kA t=0.2s,120,Al,PVC,1.5,0.2,,"k=76, I2t=0.45, cap=83.1744, S_min=8.8266, StdS=10, Pass=True",needs_review
+ISC-013,Cu XLPE 150mm2 Isc=3kA t=0.3s,150,Cu,XLPE,3,0.3,,"k=143, I2t=2.7, cap=460.1025, S_min=11.4907, StdS=16, Pass=True",needs_review
+ISC-014,Cu PVC 185mm2 Isc=6kA t=0.4s,185,Cu,PVC,6,0.4,,"k=115, I2t=14.4, cap=452.6256, S_min=32.9977, StdS=35, Pass=True",needs_review
+ISC-015,Al XLPE 240mm2 Isc=10kA I2t=1500,240,Al,XLPE,10,,1500,"k=94, I2t=1500, cap=508.9536, S_min=412.0195, StdS=500, Pass=False",needs_review
+ISC-016,Cu PVC 300mm2 Isc=14.3kA t=1s,300,Cu,PVC,14.3,1,,"k=115, I2t=204.49, cap=1190.25, S_min=124.3478, StdS=150, Pass=True",needs_review
+ISC-017,Cu XLPE 400mm2 Isc=18kA t=2.5s,400,Cu,XLPE,18,2.5,,"k=143, I2t=810, cap=3271.84, S_min=199.0245, StdS=240, Pass=True",needs_review
+ISC-018,Al PVC 500mm2 Isc=25kA t=0.01s,500,Al,PVC,25,0.01,,"k=68, I2t=6.25, cap=1156, S_min=36.7647, StdS=50, Pass=True",needs_review
+ISC-019,Cu XLPE 630mm2 Isc=35kA t=0.04s,630,Cu,XLPE,35,0.04,,"k=143, I2t=49, cap=8116.2081, S_min=48.951, StdS=50, Pass=True",needs_review
+ISC-020,Cu PVC 1.5mm2 Isc=42kA I2t=120,1.5,Cu,PVC,42,,120,"k=115, I2t=120, cap=0.0298, S_min=95.2561, StdS=120, Pass=False",needs_review
+ISC-021,Al XLPE 2.5mm2 Isc=50kA t=0.2s,2.5,Al,XLPE,50,0.2,,"k=94, I2t=500, cap=0.0552, S_min=237.8796, StdS=240, Pass=False",needs_review
+ISC-022,Cu PVC 4mm2 Isc=65kA t=0.3s,4,Cu,PVC,65,0.3,,"k=115, I2t=1267.5, cap=0.2116, S_min=309.5823, StdS=400, Pass=False",needs_review
+ISC-023,Cu XLPE 6mm2 Isc=80kA t=0.4s,6,Cu,XLPE,80,0.4,,"k=143, I2t=2560, cap=0.7362, S_min=353.8213, StdS=400, Pass=False",needs_review
+ISC-024,Al PVC 10mm2 Isc=1.5kA t=0.5s,10,Al,PVC,1.5,0.5,,"k=76, I2t=1.125, cap=0.5776, S_min=13.9561, StdS=16, Pass=False",needs_review
+ISC-025,Cu XLPE 16mm2 Isc=3kA I2t=5,16,Cu,XLPE,3,,5,"k=143, I2t=5, cap=5.2349, S_min=15.6368, StdS=16, Pass=True",needs_review
+ISC-026,Cu PVC 25mm2 Isc=6kA t=2.5s,25,Cu,PVC,6,2.5,,"k=115, I2t=90, cap=8.2656, S_min=82.4942, StdS=95, Pass=False",needs_review
+ISC-027,Al XLPE 35mm2 Isc=10kA t=0.01s,35,Al,XLPE,10,0.01,,"k=94, I2t=1, cap=10.8241, S_min=10.6383, StdS=16, Pass=True",needs_review
+ISC-028,Cu PVC 50mm2 Isc=14.3kA t=0.04s,50,Cu,PVC,14.3,0.04,,"k=115, I2t=8.1796, cap=33.0625, S_min=24.8696, StdS=25, Pass=True",needs_review
+ISC-029,Cu XLPE 70mm2 Isc=18kA t=0.1s,70,Cu,XLPE,18,0.1,,"k=143, I2t=32.4, cap=100.2001, S_min=39.8049, StdS=50, Pass=True",needs_review
+ISC-030,Al PVC 95mm2 Isc=25kA I2t=800,95,Al,PVC,25,,800,"k=76, I2t=800, cap=52.1284, S_min=372.1615, StdS=400, Pass=False",needs_review
+ISC-031,Cu XLPE 120mm2 Isc=35kA t=0.3s,120,Cu,XLPE,35,0.3,,"k=143, I2t=367.5, cap=294.4656, S_min=134.058, StdS=150, Pass=False",needs_review
+ISC-032,Cu PVC 150mm2 Isc=42kA t=0.4s,150,Cu,PVC,42,0.4,,"k=115, I2t=705.6, cap=297.5625, S_min=230.9838, StdS=240, Pass=False",needs_review
+ISC-033,Al XLPE 185mm2 Isc=50kA t=0.5s,185,Al,XLPE,50,0.5,,"k=94, I2t=1250, cap=302.4121, S_min=376.1206, StdS=400, Pass=False",needs_review
+ISC-034,Cu PVC 240mm2 Isc=65kA t=1s,240,Cu,PVC,65,1,,"k=115, I2t=4225, cap=761.76, S_min=565.2174, StdS=630, Pass=False",needs_review
+ISC-035,Cu XLPE 300mm2 Isc=80kA I2t=45,300,Cu,XLPE,80,,45,"k=143, I2t=45, cap=1840.41, S_min=46.9105, StdS=50, Pass=True",needs_review
+ISC-036,Al PVC 400mm2 Isc=1.5kA t=0.01s,400,Al,PVC,1.5,0.01,,"k=68, I2t=0.0225, cap=739.84, S_min=2.2059, StdS=2.5, Pass=True",needs_review
+ISC-037,Cu XLPE 500mm2 Isc=3kA t=0.04s,500,Cu,XLPE,3,0.04,,"k=143, I2t=0.36, cap=5112.25, S_min=4.1958, StdS=6, Pass=True",needs_review
+ISC-038,Cu PVC 630mm2 Isc=6kA t=0.1s,630,Cu,PVC,6,0.1,,"k=103, I2t=3.6, cap=4210.7121, S_min=18.421, StdS=25, Pass=True",needs_review
+ISC-039,Al XLPE 1.5mm2 Isc=10kA t=0.2s,1.5,Al,XLPE,10,0.2,,"k=94, I2t=20, cap=0.0199, S_min=47.5759, StdS=50, Pass=False",needs_review
+ISC-040,Cu PVC 2.5mm2 Isc=14.3kA I2t=0.5,2.5,Cu,PVC,14.3,,0.5,"k=115, I2t=0.5, cap=0.0827, S_min=6.1488, StdS=10, Pass=False",needs_review
+ISC-041,Cu XLPE 4mm2 Isc=18kA t=0.4s,4,Cu,XLPE,18,0.4,,"k=143, I2t=129.6, cap=0.3272, S_min=79.6098, StdS=95, Pass=False",needs_review
+ISC-042,Al PVC 6mm2 Isc=25kA t=0.5s,6,Al,PVC,25,0.5,,"k=76, I2t=312.5, cap=0.2079, S_min=232.6009, StdS=240, Pass=False",needs_review
+ISC-043,Cu XLPE 10mm2 Isc=35kA t=1s,10,Cu,XLPE,35,1,,"k=143, I2t=1225, cap=2.0449, S_min=244.7552, StdS=300, Pass=False",needs_review
+ISC-044,Cu PVC 16mm2 Isc=42kA t=2.5s,16,Cu,PVC,42,2.5,,"k=115, I2t=4410, cap=3.3856, S_min=577.4594, StdS=630, Pass=False",needs_review
+ISC-045,Al XLPE 25mm2 Isc=50kA I2t=350,25,Al,XLPE,50,,350,"k=94, I2t=350, cap=5.5225, S_min=199.0243, StdS=240, Pass=False",needs_review
+ISC-046,Cu PVC 35mm2 Isc=65kA t=0.04s,35,Cu,PVC,65,0.04,,"k=115, I2t=169, cap=16.2006, S_min=113.0435, StdS=120, Pass=False",needs_review
+ISC-047,Cu XLPE 50mm2 Isc=80kA t=0.1s,50,Cu,XLPE,80,0.1,,"k=143, I2t=640, cap=51.1225, S_min=176.9106, StdS=185, Pass=False",needs_review
+ISC-048,Al PVC 70mm2 Isc=1.5kA t=0.2s,70,Al,PVC,1.5,0.2,,"k=76, I2t=0.45, cap=28.3024, S_min=8.8266, StdS=10, Pass=True",needs_review
+ISC-049,Cu XLPE 95mm2 Isc=3kA t=0.3s,95,Cu,XLPE,3,0.3,,"k=143, I2t=2.7, cap=184.5522, S_min=11.4907, StdS=16, Pass=True",needs_review
+ISC-050,Cu PVC 120mm2 Isc=6kA I2t=20,120,Cu,PVC,6,,20,"k=115, I2t=20, cap=190.44, S_min=38.8881, StdS=50, Pass=True",needs_review
+ISC-051,Al XLPE 150mm2 Isc=10kA t=0.5s,150,Al,XLPE,10,0.5,,"k=94, I2t=50, cap=198.81, S_min=75.2241, StdS=95, Pass=True",needs_review
+ISC-052,Cu PVC 185mm2 Isc=14.3kA t=1s,185,Cu,PVC,14.3,1,,"k=115, I2t=204.49, cap=452.6256, S_min=124.3478, StdS=150, Pass=True",needs_review
+ISC-053,Cu XLPE 240mm2 Isc=18kA t=2.5s,240,Cu,XLPE,18,2.5,,"k=143, I2t=810, cap=1177.8624, S_min=199.0245, StdS=240, Pass=True",needs_review
+ISC-054,Al PVC 300mm2 Isc=25kA t=0.01s,300,Al,PVC,25,0.01,,"k=76, I2t=6.25, cap=519.84, S_min=32.8947, StdS=35, Pass=True",needs_review
+ISC-055,Cu XLPE 400mm2 Isc=35kA I2t=1500,400,Cu,XLPE,35,,1500,"k=143, I2t=1500, cap=3271.84, S_min=270.838, StdS=300, Pass=True",needs_review
+ISC-056,Cu PVC 500mm2 Isc=42kA t=0.1s,500,Cu,PVC,42,0.1,,"k=103, I2t=176.4, cap=2652.25, S_min=128.9472, StdS=150, Pass=True",needs_review
+ISC-057,Al XLPE 630mm2 Isc=50kA t=0.2s,630,Al,XLPE,50,0.2,,"k=94, I2t=500, cap=3507.0084, S_min=237.8796, StdS=240, Pass=True",needs_review
+ISC-058,Cu PVC 1.5mm2 Isc=65kA t=0.3s,1.5,Cu,PVC,65,0.3,,"k=115, I2t=1267.5, cap=0.0298, S_min=309.5823, StdS=400, Pass=False",needs_review
+ISC-059,Cu XLPE 2.5mm2 Isc=80kA t=0.4s,2.5,Cu,XLPE,80,0.4,,"k=143, I2t=2560, cap=0.1278, S_min=353.8213, StdS=400, Pass=False",needs_review
+ISC-060,Al PVC 4mm2 Isc=1.5kA I2t=120,4,Al,PVC,1.5,,120,"k=76, I2t=120, cap=0.0924, S_min=144.1375, StdS=150, Pass=False",needs_review
+ISC-061,Cu XLPE 6mm2 Isc=3kA t=1s,6,Cu,XLPE,3,1,,"k=143, I2t=9, cap=0.7362, S_min=20.979, StdS=25, Pass=False",needs_review
+ISC-062,Cu PVC 10mm2 Isc=6kA t=2.5s,10,Cu,PVC,6,2.5,,"k=115, I2t=90, cap=1.3225, S_min=82.4942, StdS=95, Pass=False",needs_review
+ISC-063,Al XLPE 16mm2 Isc=10kA t=0.01s,16,Al,XLPE,10,0.01,,"k=94, I2t=1, cap=2.262, S_min=10.6383, StdS=16, Pass=True",needs_review
+ISC-064,Cu PVC 25mm2 Isc=14.3kA t=0.04s,25,Cu,PVC,14.3,0.04,,"k=115, I2t=8.1796, cap=8.2656, S_min=24.8696, StdS=25, Pass=True",needs_review
+ISC-065,Cu XLPE 35mm2 Isc=18kA I2t=5,35,Cu,XLPE,18,,5,"k=143, I2t=5, cap=25.05, S_min=15.6368, StdS=16, Pass=True",needs_review
+ISC-066,Al PVC 50mm2 Isc=25kA t=0.2s,50,Al,PVC,25,0.2,,"k=76, I2t=125, cap=14.44, S_min=147.1097, StdS=150, Pass=False",needs_review
+ISC-067,Cu XLPE 70mm2 Isc=35kA t=0.3s,70,Cu,XLPE,35,0.3,,"k=143, I2t=367.5, cap=100.2001, S_min=134.058, StdS=150, Pass=False",needs_review
+ISC-068,Cu PVC 95mm2 Isc=42kA t=0.4s,95,Cu,PVC,42,0.4,,"k=115, I2t=705.6, cap=119.3556, S_min=230.9838, StdS=240, Pass=False",needs_review
+ISC-069,Al XLPE 120mm2 Isc=50kA t=0.5s,120,Al,XLPE,50,0.5,,"k=94, I2t=1250, cap=127.2384, S_min=376.1206, StdS=400, Pass=False",needs_review
+ISC-070,Cu PVC 150mm2 Isc=65kA I2t=800,150,Cu,PVC,65,,800,"k=115, I2t=800, cap=297.5625, S_min=245.9502, StdS=300, Pass=False",needs_review
+ISC-071,Cu XLPE 185mm2 Isc=80kA t=2.5s,185,Cu,XLPE,80,2.5,,"k=143, I2t=16000, cap=699.867, S_min=884.5532, StdS=None, Pass=False",needs_review
+ISC-072,Al PVC 240mm2 Isc=1.5kA t=0.01s,240,Al,PVC,1.5,0.01,,"k=76, I2t=0.0225, cap=332.6976, S_min=1.9737, StdS=2.5, Pass=True",needs_review
+ISC-073,Cu XLPE 300mm2 Isc=3kA t=0.04s,300,Cu,XLPE,3,0.04,,"k=143, I2t=0.36, cap=1840.41, S_min=4.1958, StdS=6, Pass=True",needs_review
+ISC-074,Cu PVC 400mm2 Isc=6kA t=0.1s,400,Cu,PVC,6,0.1,,"k=103, I2t=3.6, cap=1697.44, S_min=18.421, StdS=25, Pass=True",needs_review
+ISC-075,Al XLPE 500mm2 Isc=10kA I2t=45,500,Al,XLPE,10,,45,"k=94, I2t=45, cap=2209, S_min=71.3639, StdS=95, Pass=True",needs_review
+ISC-076,Cu PVC 630mm2 Isc=14.3kA t=0.3s,630,Cu,PVC,14.3,0.3,,"k=103, I2t=61.347, cap=4210.7121, S_min=76.043, StdS=95, Pass=True",needs_review
+ISC-077,Cu XLPE 1.5mm2 Isc=18kA t=0.4s,1.5,Cu,XLPE,18,0.4,,"k=143, I2t=129.6, cap=0.046, S_min=79.6098, StdS=95, Pass=False",needs_review
+ISC-078,Al PVC 2.5mm2 Isc=25kA t=0.5s,2.5,Al,PVC,25,0.5,,"k=76, I2t=312.5, cap=0.0361, S_min=232.6009, StdS=240, Pass=False",needs_review
+ISC-079,Cu XLPE 4mm2 Isc=35kA t=1s,4,Cu,XLPE,35,1,,"k=143, I2t=1225, cap=0.3272, S_min=244.7552, StdS=300, Pass=False",needs_review
+ISC-080,Cu PVC 6mm2 Isc=42kA I2t=0.5,6,Cu,PVC,42,,0.5,"k=115, I2t=0.5, cap=0.4761, S_min=6.1488, StdS=10, Pass=False",needs_review
+ISC-081,Al XLPE 10mm2 Isc=50kA t=0.01s,10,Al,XLPE,50,0.01,,"k=94, I2t=25, cap=0.8836, S_min=53.1915, StdS=70, Pass=False",needs_review
+ISC-082,Cu PVC 16mm2 Isc=65kA t=0.04s,16,Cu,PVC,65,0.04,,"k=115, I2t=169, cap=3.3856, S_min=113.0435, StdS=120, Pass=False",needs_review
+ISC-083,Cu XLPE 25mm2 Isc=80kA t=0.1s,25,Cu,XLPE,80,0.1,,"k=143, I2t=640, cap=12.7806, S_min=176.9106, StdS=185, Pass=False",needs_review
+ISC-084,Al PVC 35mm2 Isc=1.5kA t=0.2s,35,Al,PVC,1.5,0.2,,"k=76, I2t=0.45, cap=7.0756, S_min=8.8266, StdS=10, Pass=True",needs_review
+ISC-085,Cu XLPE 50mm2 Isc=3kA I2t=350,50,Cu,XLPE,3,,350,"k=143, I2t=350, cap=51.1225, S_min=130.8272, StdS=150, Pass=False",needs_review
+ISC-086,Cu PVC 70mm2 Isc=6kA t=0.4s,70,Cu,PVC,6,0.4,,"k=115, I2t=14.4, cap=64.8025, S_min=32.9977, StdS=35, Pass=True",needs_review
+ISC-087,Al XLPE 95mm2 Isc=10kA t=0.5s,95,Al,XLPE,10,0.5,,"k=94, I2t=50, cap=79.7449, S_min=75.2241, StdS=95, Pass=True",needs_review
+ISC-088,Cu PVC 120mm2 Isc=14.3kA t=1s,120,Cu,PVC,14.3,1,,"k=115, I2t=204.49, cap=190.44, S_min=124.3478, StdS=150, Pass=False",needs_review
+ISC-089,Cu XLPE 150mm2 Isc=18kA t=2.5s,150,Cu,XLPE,18,2.5,,"k=143, I2t=810, cap=460.1025, S_min=199.0245, StdS=240, Pass=False",needs_review
+ISC-090,Al PVC 185mm2 Isc=25kA I2t=20,185,Al,PVC,25,,20,"k=76, I2t=20, cap=197.6836, S_min=58.8439, StdS=70, Pass=True",needs_review
+ISC-091,Cu XLPE 240mm2 Isc=35kA t=0.04s,240,Cu,XLPE,35,0.04,,"k=143, I2t=49, cap=1177.8624, S_min=48.951, StdS=50, Pass=True",needs_review
+ISC-092,Cu PVC 300mm2 Isc=42kA t=0.1s,300,Cu,PVC,42,0.1,,"k=115, I2t=176.4, cap=1190.25, S_min=115.4919, StdS=120, Pass=True",needs_review
+ISC-093,Al XLPE 400mm2 Isc=50kA t=0.2s,400,Al,XLPE,50,0.2,,"k=94, I2t=500, cap=1413.76, S_min=237.8796, StdS=240, Pass=True",needs_review
+ISC-094,Cu PVC 500mm2 Isc=65kA t=0.3s,500,Cu,PVC,65,0.3,,"k=103, I2t=1267.5, cap=2652.25, S_min=345.6502, StdS=400, Pass=True",needs_review
+ISC-095,Cu XLPE 630mm2 Isc=80kA I2t=1500,630,Cu,XLPE,80,,1500,"k=143, I2t=1500, cap=8116.2081, S_min=270.838, StdS=300, Pass=True",needs_review
+ISC-096,Al PVC 1.5mm2 Isc=1.5kA t=0.5s,1.5,Al,PVC,1.5,0.5,,"k=76, I2t=1.125, cap=0.013, S_min=13.9561, StdS=16, Pass=False",needs_review
+ISC-097,Invalid: S=0,0,Cu,XLPE,10,0.2,,INVALID_INPUT (S=0),needs_review
+ISC-098,Invalid: S=-16,-16,Cu,XLPE,10,0.2,,INVALID_INPUT (S=-16),needs_review
+ISC-099,Invalid: Isc=0,16,Cu,XLPE,0,0.2,,INVALID_INPUT (Isc=0),needs_review
+ISC-100,Invalid: Isc=-10,16,Cu,XLPE,-10,0.2,,INVALID_INPUT (Isc=-10),needs_review
+ISC-101,Invalid: t and I2t both empty,16,Cu,XLPE,10,,,INVALID_INPUT (t and I2t both empty),needs_review
+ISC-102,Invalid: t=0 without I2t,16,Cu,XLPE,10,0,,INVALID_INPUT (t=0 without I2t),needs_review
+ISC-103,Invalid: t=-0.2 without I2t,16,Cu,XLPE,10,-0.2,,INVALID_INPUT (t=-0.2 without I2t),needs_review
+ISC-104,Invalid: I2t=0 without t,16,Cu,XLPE,10,,0,INVALID_INPUT (I2t=0 without t),needs_review
+ISC-105,Invalid: I2t=-5 without t,16,Cu,XLPE,10,,-5,INVALID_INPUT (I2t=-5 without t),needs_review
+ISC-106,Invalid: S=0 with I2t,0,Al,PVC,10,,20,INVALID_INPUT (S=0 with I2t),needs_review
+ISC-107,Invalid: Isc=0 with I2t,25,Al,PVC,0,,20,INVALID_INPUT (Isc=0 with I2t),needs_review
+ISC-108,Invalid: t=-1,25,Cu,PVC,10,-1,,INVALID_INPUT (t=-1),needs_review
+ISC-109,Invalid: S=0,0,Cu,XLPE,10,0.2,,INVALID_INPUT (S=0),needs_review
+ISC-110,Invalid: S=-16,-16,Cu,XLPE,10,0.2,,INVALID_INPUT (S=-16),needs_review
+ISC-111,Invalid: Isc=0,16,Cu,XLPE,0,0.2,,INVALID_INPUT (Isc=0),needs_review
+ISC-112,Invalid: Isc=-10,16,Cu,XLPE,-10,0.2,,INVALID_INPUT (Isc=-10),needs_review
+ISC-113,Invalid: t and I2t both empty,16,Cu,XLPE,10,,,INVALID_INPUT (t and I2t both empty),needs_review
+ISC-114,Invalid: t=0 without I2t,16,Cu,XLPE,10,0,,INVALID_INPUT (t=0 without I2t),needs_review
+ISC-115,Invalid: t=-0.2 without I2t,16,Cu,XLPE,10,-0.2,,INVALID_INPUT (t=-0.2 without I2t),needs_review
+ISC-116,Invalid: I2t=0 without t,16,Cu,XLPE,10,,0,INVALID_INPUT (I2t=0 without t),needs_review
+ISC-117,Invalid: I2t=-5 without t,16,Cu,XLPE,10,,-5,INVALID_INPUT (I2t=-5 without t),needs_review
+ISC-118,Invalid: S=0 with I2t,0,Al,PVC,10,,20,INVALID_INPUT (S=0 with I2t),needs_review
+ISC-119,Invalid: Isc=0 with I2t,25,Al,PVC,0,,20,INVALID_INPUT (Isc=0 with I2t),needs_review
+ISC-120,Invalid: t=-1,25,Cu,PVC,10,-1,,INVALID_INPUT (t=-1),needs_review
