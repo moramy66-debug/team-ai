@@ -322,7 +322,7 @@
       if (!isNum(tab) || tab < izReq) continue;
       if (!firstOk) firstOk = rows[i];
       if (useVd) {
-        var tmp = voltageDrop({ size_mm2: rows[i][0], currentA: d.Ib, lengthM: o.lengthM, voltageV: d.V, phases: d.phases, conductor: cond, insulation: ins, powerFactor: d.pf, operatingTempC: o.operatingTempC }, a);
+        var tmp = voltageDrop({ size_mm2: rows[i][0], currentA: d.Ib, lengthM: o.lengthM, voltageV: d.V, phases: d.phases, conductor: cond, insulation: ins, powerFactor: d.pf, operatingTempC: o.operatingTempC, reactanceOhmKm: o.reactanceOhmKm }, a);
         if (tmp.vdropPct > o.maxVdropPct) { vd = tmp; continue; }
         vd = tmp;
       }
