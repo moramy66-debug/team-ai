@@ -1,0 +1,111 @@
+id,desc,loadKw,sparePct,loadPF,upsPF,rtMin,Vdc,invEff,eodRatio,ageing,Tf,margin,hand_result,source_ref
+UPS-001,UPS 40kW 15min,40,10,0.8,0.9,15,240,0.94,0.875,1.25,1,1.1,"S_ups=55, Std_kVA=60, P_batt=46.8085, V_eod=210, I_dc=222.8977, Ah_lin=55.7244, Ah_req=76.6211, Std_Ah=100",needs_review
+UPS-002,UPS 10kW 15min,10,15,0.8,1,15,120,0.94,0.875,1.25,1.2,1.15,"S_ups=14.375, Std_kVA=15, P_batt=12.234, V_eod=105, I_dc=116.5147, Ah_lin=29.1287, Ah_req=50.247, Std_Ah=65",needs_review
+UPS-003,UPS 25kW 20min,25,25,0.85,0.8,20,240,0.96,0.9,1,1,1,"S_ups=39.0625, Std_kVA=40, P_batt=32.5521, V_eod=216, I_dc=150.7041, Ah_lin=50.2347, Ah_req=50.2347, Std_Ah=65",needs_review
+UPS-004,UPS 40kW 30min,40,50,0.9,0.9,30,384,1,0.8,1.15,1.1,1.1,"S_ups=66.6667, Std_kVA=80, P_batt=60, V_eod=307.2, I_dc=195.3125, Ah_lin=97.6562, Ah_req=135.8887, Std_Ah=150",needs_review
+UPS-005,UPS 60kW 60min,60,200,1,1,60,480,0.88,0.85,1.25,1.2,1.15,"S_ups=180, Std_kVA=200, P_batt=204.5455, V_eod=408, I_dc=501.3369, Ah_lin=501.3369, Ah_req=864.8061, Std_Ah=1000",needs_review
+UPS-006,UPS 80kW 120min,80,0,0.65,0.8,120,24,0.92,0.875,1,1,1,"S_ups=123.0769, Std_kVA=160, P_batt=86.9565, V_eod=21, I_dc=4140.7867, Ah_lin=8281.5735, Ah_req=8281.5735, Std_Ah=None",needs_review
+UPS-007,UPS 120kW 180min,120,10,0.75,0.9,180,48,0.94,0.9,1.15,1.1,1.1,"S_ups=176, Std_kVA=200, P_batt=140.4255, V_eod=43.2, I_dc=3250.591, Ah_lin=9751.773, Ah_req=13569.5922, Std_Ah=None",needs_review
+UPS-008,UPS 200kW 5min,200,15,0.8,1,5,120,0.96,0.8,1.25,1.2,1.15,"S_ups=287.5, Std_kVA=300, P_batt=239.5833, V_eod=96, I_dc=2495.6597, Ah_lin=207.9716, Ah_req=358.7511, Std_Ah=400",needs_review
+UPS-009,UPS 400kW 10min,400,25,0.85,0.8,10,240,1,0.85,1,1,1,"S_ups=625, Std_kVA=800, P_batt=500, V_eod=204, I_dc=2450.9804, Ah_lin=408.4967, Ah_req=408.4967, Std_Ah=500",needs_review
+UPS-010,UPS 650kW 15min,650,50,0.9,0.9,15,384,0.88,0.875,1.15,1.1,1.1,"S_ups=1083.3333, Std_kVA=None, P_batt=1107.9545, V_eod=336, I_dc=3297.4838, Ah_lin=824.3709, Ah_req=1147.1122, Std_Ah=None",needs_review
+UPS-011,UPS 950kW 20min,950,200,1,1,20,480,0.92,0.9,1.25,1.2,1.15,"S_ups=2850, Std_kVA=None, P_batt=3097.8261, V_eod=432, I_dc=7170.8937, Ah_lin=2390.2979, Ah_req=4123.2639, Std_Ah=None",needs_review
+UPS-012,UPS 0.8kW 30min,0.8,0,0.65,0.8,30,24,0.94,0.8,1,1,1,"S_ups=1.2308, Std_kVA=2, P_batt=0.8511, V_eod=19.2, I_dc=44.3262, Ah_lin=22.1631, Ah_req=22.1631, Std_Ah=24",needs_review
+UPS-013,UPS 3.5kW 60min,3.5,10,0.75,0.9,60,48,0.96,0.85,1.15,1.1,1.1,"S_ups=5.1333, Std_kVA=6, P_batt=4.0104, V_eod=40.8, I_dc=98.2945, Ah_lin=98.2945, Ah_req=136.7768, Std_Ah=150",needs_review
+UPS-014,UPS 10kW 120min,10,15,0.8,1,120,120,1,0.875,1.25,1.2,1.15,"S_ups=14.375, Std_kVA=15, P_batt=11.5, V_eod=105, I_dc=109.5238, Ah_lin=219.0476, Ah_req=377.8571, Std_Ah=400",needs_review
+UPS-015,UPS 25kW 180min,25,25,0.85,0.8,180,240,0.88,0.9,1,1,1,"S_ups=39.0625, Std_kVA=40, P_batt=35.5114, V_eod=216, I_dc=164.4045, Ah_lin=493.2134, Ah_req=493.2134, Std_Ah=500",needs_review
+UPS-016,UPS 40kW 5min,40,50,0.9,0.9,5,384,0.92,0.8,1.15,1.1,1.1,"S_ups=66.6667, Std_kVA=80, P_batt=65.2174, V_eod=307.2, I_dc=212.2962, Ah_lin=17.6913, Ah_req=24.6175, Std_Ah=26",needs_review
+UPS-017,UPS 60kW 10min,60,200,1,1,10,480,0.94,0.85,1.25,1.2,1.15,"S_ups=180, Std_kVA=200, P_batt=191.4894, V_eod=408, I_dc=469.3367, Ah_lin=78.2228, Ah_req=134.9343, Std_Ah=150",needs_review
+UPS-018,UPS 80kW 15min,80,0,0.65,0.8,15,24,0.96,0.875,1,1,1,"S_ups=123.0769, Std_kVA=160, P_batt=83.3333, V_eod=21, I_dc=3968.254, Ah_lin=992.0635, Ah_req=992.0635, Std_Ah=1000",needs_review
+UPS-019,UPS 120kW 20min,120,10,0.75,0.9,20,48,1,0.9,1.15,1.1,1.1,"S_ups=176, Std_kVA=200, P_batt=132, V_eod=43.2, I_dc=3055.5556, Ah_lin=1018.5185, Ah_req=1417.2685, Std_Ah=None",needs_review
+UPS-020,UPS 200kW 30min,200,15,0.8,1,30,120,0.88,0.8,1.25,1.2,1.15,"S_ups=287.5, Std_kVA=300, P_batt=261.3636, V_eod=96, I_dc=2722.5379, Ah_lin=1361.2689, Ah_req=2348.1889, Std_Ah=None",needs_review
+UPS-021,UPS 400kW 60min,400,25,0.85,0.8,60,240,0.92,0.85,1,1,1,"S_ups=625, Std_kVA=800, P_batt=543.4783, V_eod=204, I_dc=2664.1091, Ah_lin=2664.1091, Ah_req=2664.1091, Std_Ah=None",needs_review
+UPS-022,UPS 650kW 120min,650,50,0.9,0.9,120,384,0.94,0.875,1.15,1.1,1.1,"S_ups=1083.3333, Std_kVA=None, P_batt=1037.234, V_eod=336, I_dc=3087.0061, Ah_lin=6174.0122, Ah_req=8591.1379, Std_Ah=None",needs_review
+UPS-023,UPS 950kW 180min,950,200,1,1,180,480,0.96,0.9,1.25,1.2,1.15,"S_ups=2850, Std_kVA=None, P_batt=2968.75, V_eod=432, I_dc=6872.1065, Ah_lin=20616.3194, Ah_req=35563.151, Std_Ah=None",needs_review
+UPS-024,UPS 0.8kW 5min,0.8,0,0.65,0.8,5,24,1,0.8,1,1,1,"S_ups=1.2308, Std_kVA=2, P_batt=0.8, V_eod=19.2, I_dc=41.6667, Ah_lin=3.4722, Ah_req=3.4722, Std_Ah=7",needs_review
+UPS-025,UPS 3.5kW 10min,3.5,10,0.75,0.9,10,48,0.88,0.85,1.15,1.1,1.1,"S_ups=5.1333, Std_kVA=6, P_batt=4.375, V_eod=40.8, I_dc=107.2304, Ah_lin=17.8717, Ah_req=24.8685, Std_Ah=26",needs_review
+UPS-026,UPS 10kW 15min,10,15,0.8,1,15,120,0.92,0.875,1.25,1.2,1.15,"S_ups=14.375, Std_kVA=15, P_batt=12.5, V_eod=105, I_dc=119.0476, Ah_lin=29.7619, Ah_req=51.3393, Std_Ah=65",needs_review
+UPS-027,UPS 25kW 20min,25,25,0.85,0.8,20,240,0.94,0.9,1,1,1,"S_ups=39.0625, Std_kVA=40, P_batt=33.2447, V_eod=216, I_dc=153.9106, Ah_lin=51.3035, Ah_req=51.3035, Std_Ah=65",needs_review
+UPS-028,UPS 40kW 30min,40,50,0.9,0.9,30,384,0.96,0.8,1.15,1.1,1.1,"S_ups=66.6667, Std_kVA=80, P_batt=62.5, V_eod=307.2, I_dc=203.4505, Ah_lin=101.7253, Ah_req=141.5507, Std_Ah=150",needs_review
+UPS-029,UPS 60kW 60min,60,200,1,1,60,480,1,0.85,1.25,1.2,1.15,"S_ups=180, Std_kVA=200, P_batt=180, V_eod=408, I_dc=441.1765, Ah_lin=441.1765, Ah_req=761.0294, Std_Ah=800",needs_review
+UPS-030,UPS 80kW 120min,80,0,0.65,0.8,120,24,0.88,0.875,1,1,1,"S_ups=123.0769, Std_kVA=160, P_batt=90.9091, V_eod=21, I_dc=4329.0043, Ah_lin=8658.0087, Ah_req=8658.0087, Std_Ah=None",needs_review
+UPS-031,UPS 120kW 180min,120,10,0.75,0.9,180,48,0.92,0.9,1.15,1.1,1.1,"S_ups=176, Std_kVA=200, P_batt=143.4783, V_eod=43.2, I_dc=3321.256, Ah_lin=9963.7681, Ah_req=13864.5833, Std_Ah=None",needs_review
+UPS-032,UPS 200kW 5min,200,15,0.8,1,5,120,0.94,0.8,1.25,1.2,1.15,"S_ups=287.5, Std_kVA=300, P_batt=244.6809, V_eod=96, I_dc=2548.7589, Ah_lin=212.3966, Ah_req=366.3841, Std_Ah=400",needs_review
+UPS-033,UPS 400kW 10min,400,25,0.85,0.8,10,240,0.96,0.85,1,1,1,"S_ups=625, Std_kVA=800, P_batt=520.8333, V_eod=204, I_dc=2553.1046, Ah_lin=425.5174, Ah_req=425.5174, Std_Ah=500",needs_review
+UPS-034,UPS 650kW 15min,650,50,0.9,0.9,15,384,1,0.875,1.15,1.1,1.1,"S_ups=1083.3333, Std_kVA=None, P_batt=975, V_eod=336, I_dc=2901.7857, Ah_lin=725.4464, Ah_req=1009.4587, Std_Ah=None",needs_review
+UPS-035,UPS 950kW 20min,950,200,1,1,20,480,0.88,0.9,1.25,1.2,1.15,"S_ups=2850, Std_kVA=None, P_batt=3238.6364, V_eod=432, I_dc=7496.8434, Ah_lin=2498.9478, Ah_req=4310.685, Std_Ah=None",needs_review
+UPS-036,UPS 0.8kW 30min,0.8,0,0.65,0.8,30,24,0.92,0.8,1,1,1,"S_ups=1.2308, Std_kVA=2, P_batt=0.8696, V_eod=19.2, I_dc=45.2899, Ah_lin=22.6449, Ah_req=22.6449, Std_Ah=24",needs_review
+UPS-037,UPS 3.5kW 60min,3.5,10,0.75,0.9,60,48,0.94,0.85,1.15,1.1,1.1,"S_ups=5.1333, Std_kVA=6, P_batt=4.0957, V_eod=40.8, I_dc=100.3859, Ah_lin=100.3859, Ah_req=139.687, Std_Ah=150",needs_review
+UPS-038,UPS 10kW 120min,10,15,0.8,1,120,120,0.96,0.875,1.25,1.2,1.15,"S_ups=14.375, Std_kVA=15, P_batt=11.9792, V_eod=105, I_dc=114.0873, Ah_lin=228.1746, Ah_req=393.6012, Std_Ah=400",needs_review
+UPS-039,UPS 25kW 180min,25,25,0.85,0.8,180,240,1,0.9,1,1,1,"S_ups=39.0625, Std_kVA=40, P_batt=31.25, V_eod=216, I_dc=144.6759, Ah_lin=434.0278, Ah_req=434.0278, Std_Ah=500",needs_review
+UPS-040,UPS 40kW 5min,40,50,0.9,0.9,5,384,0.88,0.8,1.15,1.1,1.1,"S_ups=66.6667, Std_kVA=80, P_batt=68.1818, V_eod=307.2, I_dc=221.946, Ah_lin=18.4955, Ah_req=25.7365, Std_Ah=26",needs_review
+UPS-041,UPS 60kW 10min,60,200,1,1,10,480,0.92,0.85,1.25,1.2,1.15,"S_ups=180, Std_kVA=200, P_batt=195.6522, V_eod=408, I_dc=479.5396, Ah_lin=79.9233, Ah_req=137.8676, Std_Ah=150",needs_review
+UPS-042,UPS 80kW 15min,80,0,0.65,0.8,15,24,0.94,0.875,1,1,1,"S_ups=123.0769, Std_kVA=160, P_batt=85.1064, V_eod=21, I_dc=4052.6849, Ah_lin=1013.1712, Ah_req=1013.1712, Std_Ah=None",needs_review
+UPS-043,UPS 120kW 20min,120,10,0.75,0.9,20,48,0.96,0.9,1.15,1.1,1.1,"S_ups=176, Std_kVA=200, P_batt=137.5, V_eod=43.2, I_dc=3182.8704, Ah_lin=1060.9568, Ah_req=1476.3214, Std_Ah=None",needs_review
+UPS-044,UPS 200kW 30min,200,15,0.8,1,30,120,1,0.8,1.25,1.2,1.15,"S_ups=287.5, Std_kVA=300, P_batt=230, V_eod=96, I_dc=2395.8333, Ah_lin=1197.9167, Ah_req=2066.4062, Std_Ah=None",needs_review
+UPS-045,UPS 400kW 60min,400,25,0.85,0.8,60,240,0.88,0.85,1,1,1,"S_ups=625, Std_kVA=800, P_batt=568.1818, V_eod=204, I_dc=2785.205, Ah_lin=2785.205, Ah_req=2785.205, Std_Ah=None",needs_review
+UPS-046,UPS 650kW 120min,650,50,0.9,0.9,120,384,0.92,0.875,1.15,1.1,1.1,"S_ups=1083.3333, Std_kVA=None, P_batt=1059.7826, V_eod=336, I_dc=3154.1149, Ah_lin=6308.2298, Ah_req=8777.9018, Std_Ah=None",needs_review
+UPS-047,UPS 950kW 180min,950,200,1,1,180,480,0.94,0.9,1.25,1.2,1.15,"S_ups=2850, Std_kVA=None, P_batt=3031.9149, V_eod=432, I_dc=7018.3215, Ah_lin=21054.9645, Ah_req=36319.8138, Std_Ah=None",needs_review
+UPS-048,UPS 0.8kW 5min,0.8,0,0.65,0.8,5,24,0.96,0.8,1,1,1,"S_ups=1.2308, Std_kVA=2, P_batt=0.8333, V_eod=19.2, I_dc=43.4028, Ah_lin=3.6169, Ah_req=3.6169, Std_Ah=7",needs_review
+UPS-049,UPS 3.5kW 10min,3.5,10,0.75,0.9,10,48,1,0.85,1.15,1.1,1.1,"S_ups=5.1333, Std_kVA=6, P_batt=3.85, V_eod=40.8, I_dc=94.3627, Ah_lin=15.7271, Ah_req=21.8843, Std_Ah=24",needs_review
+UPS-050,UPS 10kW 15min,10,15,0.8,1,15,120,0.88,0.875,1.25,1.2,1.15,"S_ups=14.375, Std_kVA=15, P_batt=13.0682, V_eod=105, I_dc=124.4589, Ah_lin=31.1147, Ah_req=53.6729, Std_Ah=65",needs_review
+UPS-051,UPS 25kW 20min,25,25,0.85,0.8,20,240,0.92,0.9,1,1,1,"S_ups=39.0625, Std_kVA=40, P_batt=33.9674, V_eod=216, I_dc=157.2564, Ah_lin=52.4188, Ah_req=52.4188, Std_Ah=65",needs_review
+UPS-052,UPS 40kW 30min,40,50,0.9,0.9,30,384,0.94,0.8,1.15,1.1,1.1,"S_ups=66.6667, Std_kVA=80, P_batt=63.8298, V_eod=307.2, I_dc=207.7793, Ah_lin=103.8896, Ah_req=144.5624, Std_Ah=150",needs_review
+UPS-053,UPS 60kW 60min,60,200,1,1,60,480,0.96,0.85,1.25,1.2,1.15,"S_ups=180, Std_kVA=200, P_batt=187.5, V_eod=408, I_dc=459.5588, Ah_lin=459.5588, Ah_req=792.739, Std_Ah=800",needs_review
+UPS-054,UPS 80kW 120min,80,0,0.65,0.8,120,24,1,0.875,1,1,1,"S_ups=123.0769, Std_kVA=160, P_batt=80, V_eod=21, I_dc=3809.5238, Ah_lin=7619.0476, Ah_req=7619.0476, Std_Ah=None",needs_review
+UPS-055,UPS 120kW 180min,120,10,0.75,0.9,180,48,0.88,0.9,1.15,1.1,1.1,"S_ups=176, Std_kVA=200, P_batt=150, V_eod=43.2, I_dc=3472.2222, Ah_lin=10416.6667, Ah_req=14494.7917, Std_Ah=None",needs_review
+UPS-056,UPS 200kW 5min,200,15,0.8,1,5,120,0.92,0.8,1.25,1.2,1.15,"S_ups=287.5, Std_kVA=300, P_batt=250, V_eod=96, I_dc=2604.1667, Ah_lin=217.0139, Ah_req=374.349, Std_Ah=400",needs_review
+UPS-057,UPS 400kW 10min,400,25,0.85,0.8,10,240,0.94,0.85,1,1,1,"S_ups=625, Std_kVA=800, P_batt=531.9149, V_eod=204, I_dc=2607.4259, Ah_lin=434.571, Ah_req=434.571, Std_Ah=500",needs_review
+UPS-058,UPS 650kW 15min,650,50,0.9,0.9,15,384,0.96,0.875,1.15,1.1,1.1,"S_ups=1083.3333, Std_kVA=None, P_batt=1015.625, V_eod=336, I_dc=3022.6935, Ah_lin=755.6734, Ah_req=1051.5195, Std_Ah=None",needs_review
+UPS-059,UPS 950kW 20min,950,200,1,1,20,480,1,0.9,1.25,1.2,1.15,"S_ups=2850, Std_kVA=None, P_batt=2850, V_eod=432, I_dc=6597.2222, Ah_lin=2199.0741, Ah_req=3793.4028, Std_Ah=None",needs_review
+UPS-060,UPS 0.8kW 30min,0.8,0,0.65,0.8,30,24,0.88,0.8,1,1,1,"S_ups=1.2308, Std_kVA=2, P_batt=0.9091, V_eod=19.2, I_dc=47.3485, Ah_lin=23.6742, Ah_req=23.6742, Std_Ah=24",needs_review
+UPS-061,UPS 3.5kW 60min,3.5,10,0.75,0.9,60,48,0.92,0.85,1.15,1.1,1.1,"S_ups=5.1333, Std_kVA=6, P_batt=4.1848, V_eod=40.8, I_dc=102.5682, Ah_lin=102.5682, Ah_req=142.7237, Std_Ah=150",needs_review
+UPS-062,UPS 10kW 120min,10,15,0.8,1,120,120,0.94,0.875,1.25,1.2,1.15,"S_ups=14.375, Std_kVA=15, P_batt=12.234, V_eod=105, I_dc=116.5147, Ah_lin=233.0294, Ah_req=401.9757, Std_Ah=500",needs_review
+UPS-063,UPS 25kW 180min,25,25,0.85,0.8,180,240,0.96,0.9,1,1,1,"S_ups=39.0625, Std_kVA=40, P_batt=32.5521, V_eod=216, I_dc=150.7041, Ah_lin=452.1123, Ah_req=452.1123, Std_Ah=500",needs_review
+UPS-064,UPS 40kW 5min,40,50,0.9,0.9,5,384,1,0.8,1.15,1.1,1.1,"S_ups=66.6667, Std_kVA=80, P_batt=60, V_eod=307.2, I_dc=195.3125, Ah_lin=16.276, Ah_req=22.6481, Std_Ah=24",needs_review
+UPS-065,UPS 60kW 10min,60,200,1,1,10,480,0.88,0.85,1.25,1.2,1.15,"S_ups=180, Std_kVA=200, P_batt=204.5455, V_eod=408, I_dc=501.3369, Ah_lin=83.5561, Ah_req=144.1344, Std_Ah=150",needs_review
+UPS-066,UPS 80kW 15min,80,0,0.65,0.8,15,24,0.92,0.875,1,1,1,"S_ups=123.0769, Std_kVA=160, P_batt=86.9565, V_eod=21, I_dc=4140.7867, Ah_lin=1035.1967, Ah_req=1035.1967, Std_Ah=None",needs_review
+UPS-067,UPS 120kW 20min,120,10,0.75,0.9,20,48,0.94,0.9,1.15,1.1,1.1,"S_ups=176, Std_kVA=200, P_batt=140.4255, V_eod=43.2, I_dc=3250.591, Ah_lin=1083.5303, Ah_req=1507.7325, Std_Ah=None",needs_review
+UPS-068,UPS 200kW 30min,200,15,0.8,1,30,120,0.96,0.8,1.25,1.2,1.15,"S_ups=287.5, Std_kVA=300, P_batt=239.5833, V_eod=96, I_dc=2495.6597, Ah_lin=1247.8299, Ah_req=2152.5065, Std_Ah=None",needs_review
+UPS-069,UPS 400kW 60min,400,25,0.85,0.8,60,240,1,0.85,1,1,1,"S_ups=625, Std_kVA=800, P_batt=500, V_eod=204, I_dc=2450.9804, Ah_lin=2450.9804, Ah_req=2450.9804, Std_Ah=None",needs_review
+UPS-070,UPS 650kW 120min,650,50,0.9,0.9,120,384,0.88,0.875,1.15,1.1,1.1,"S_ups=1083.3333, Std_kVA=None, P_batt=1107.9545, V_eod=336, I_dc=3297.4838, Ah_lin=6594.9675, Ah_req=9176.8973, Std_Ah=None",needs_review
+UPS-071,UPS 950kW 180min,950,200,1,1,180,480,0.92,0.9,1.25,1.2,1.15,"S_ups=2850, Std_kVA=None, P_batt=3097.8261, V_eod=432, I_dc=7170.8937, Ah_lin=21512.6812, Ah_req=37109.375, Std_Ah=None",needs_review
+UPS-072,UPS 0.8kW 5min,0.8,0,0.65,0.8,5,24,0.94,0.8,1,1,1,"S_ups=1.2308, Std_kVA=2, P_batt=0.8511, V_eod=19.2, I_dc=44.3262, Ah_lin=3.6939, Ah_req=3.6939, Std_Ah=7",needs_review
+UPS-073,UPS 3.5kW 10min,3.5,10,0.75,0.9,10,48,0.96,0.85,1.15,1.1,1.1,"S_ups=5.1333, Std_kVA=6, P_batt=4.0104, V_eod=40.8, I_dc=98.2945, Ah_lin=16.3824, Ah_req=22.7961, Std_Ah=24",needs_review
+UPS-074,UPS 10kW 15min,10,15,0.8,1,15,120,1,0.875,1.25,1.2,1.15,"S_ups=14.375, Std_kVA=15, P_batt=11.5, V_eod=105, I_dc=109.5238, Ah_lin=27.381, Ah_req=47.2321, Std_Ah=50",needs_review
+UPS-075,UPS 25kW 20min,25,25,0.85,0.8,20,240,0.88,0.9,1,1,1,"S_ups=39.0625, Std_kVA=40, P_batt=35.5114, V_eod=216, I_dc=164.4045, Ah_lin=54.8015, Ah_req=54.8015, Std_Ah=65",needs_review
+UPS-076,UPS 40kW 30min,40,50,0.9,0.9,30,384,0.92,0.8,1.15,1.1,1.1,"S_ups=66.6667, Std_kVA=80, P_batt=65.2174, V_eod=307.2, I_dc=212.2962, Ah_lin=106.1481, Ah_req=147.7051, Std_Ah=150",needs_review
+UPS-077,UPS 60kW 60min,60,200,1,1,60,480,0.94,0.85,1.25,1.2,1.15,"S_ups=180, Std_kVA=200, P_batt=191.4894, V_eod=408, I_dc=469.3367, Ah_lin=469.3367, Ah_req=809.6058, Std_Ah=1000",needs_review
+UPS-078,UPS 80kW 120min,80,0,0.65,0.8,120,24,0.96,0.875,1,1,1,"S_ups=123.0769, Std_kVA=160, P_batt=83.3333, V_eod=21, I_dc=3968.254, Ah_lin=7936.5079, Ah_req=7936.5079, Std_Ah=None",needs_review
+UPS-079,UPS 120kW 180min,120,10,0.75,0.9,180,48,1,0.9,1.15,1.1,1.1,"S_ups=176, Std_kVA=200, P_batt=132, V_eod=43.2, I_dc=3055.5556, Ah_lin=9166.6667, Ah_req=12755.4167, Std_Ah=None",needs_review
+UPS-080,UPS 200kW 5min,200,15,0.8,1,5,120,0.88,0.8,1.25,1.2,1.15,"S_ups=287.5, Std_kVA=300, P_batt=261.3636, V_eod=96, I_dc=2722.5379, Ah_lin=226.8782, Ah_req=391.3648, Std_Ah=400",needs_review
+UPS-081,UPS 400kW 10min,400,25,0.85,0.8,10,240,0.92,0.85,1,1,1,"S_ups=625, Std_kVA=800, P_batt=543.4783, V_eod=204, I_dc=2664.1091, Ah_lin=444.0182, Ah_req=444.0182, Std_Ah=500",needs_review
+UPS-082,UPS 650kW 15min,650,50,0.9,0.9,15,384,0.94,0.875,1.15,1.1,1.1,"S_ups=1083.3333, Std_kVA=None, P_batt=1037.234, V_eod=336, I_dc=3087.0061, Ah_lin=771.7515, Ah_req=1073.8922, Std_Ah=None",needs_review
+UPS-083,UPS 950kW 20min,950,200,1,1,20,480,0.96,0.9,1.25,1.2,1.15,"S_ups=2850, Std_kVA=None, P_batt=2968.75, V_eod=432, I_dc=6872.1065, Ah_lin=2290.7022, Ah_req=3951.4612, Std_Ah=None",needs_review
+UPS-084,UPS 0.8kW 30min,0.8,0,0.65,0.8,30,24,1,0.8,1,1,1,"S_ups=1.2308, Std_kVA=2, P_batt=0.8, V_eod=19.2, I_dc=41.6667, Ah_lin=20.8333, Ah_req=20.8333, Std_Ah=24",needs_review
+UPS-085,UPS 3.5kW 60min,3.5,10,0.75,0.9,60,48,0.88,0.85,1.15,1.1,1.1,"S_ups=5.1333, Std_kVA=6, P_batt=4.375, V_eod=40.8, I_dc=107.2304, Ah_lin=107.2304, Ah_req=149.2111, Std_Ah=150",needs_review
+UPS-086,UPS 10kW 120min,10,15,0.8,1,120,120,0.92,0.875,1.25,1.2,1.15,"S_ups=14.375, Std_kVA=15, P_batt=12.5, V_eod=105, I_dc=119.0476, Ah_lin=238.0952, Ah_req=410.7143, Std_Ah=500",needs_review
+UPS-087,UPS 25kW 180min,25,25,0.85,0.8,180,240,0.94,0.9,1,1,1,"S_ups=39.0625, Std_kVA=40, P_batt=33.2447, V_eod=216, I_dc=153.9106, Ah_lin=461.7317, Ah_req=461.7317, Std_Ah=500",needs_review
+UPS-088,UPS 40kW 5min,40,50,0.9,0.9,5,384,0.96,0.8,1.15,1.1,1.1,"S_ups=66.6667, Std_kVA=80, P_batt=62.5, V_eod=307.2, I_dc=203.4505, Ah_lin=16.9542, Ah_req=23.5918, Std_Ah=24",needs_review
+UPS-089,Invalid: loadKw=0,0,10,0.8,0.9,15,240,0.94,0.875,1.25,1,1.1,INVALID_INPUT (loadKw=0),needs_review
+UPS-090,Invalid: sparePct=205 > 200,40,205,0.8,0.9,15,240,0.94,0.875,1.25,1,1.1,INVALID_INPUT (sparePct=205 > 200),needs_review
+UPS-091,Invalid: sparePct=-5,40,-5,0.8,0.9,15,240,0.94,0.875,1.25,1,1.1,INVALID_INPUT (sparePct=-5),needs_review
+UPS-092,Invalid: loadPF=1.1,40,10,1.1,0.9,15,240,0.94,0.875,1.25,1,1.1,INVALID_INPUT (loadPF=1.1),needs_review
+UPS-093,Invalid: upsPF=0,40,10,0.8,0,15,240,0.94,0.875,1.25,1,1.1,INVALID_INPUT (upsPF=0),needs_review
+UPS-094,Invalid: rtMin=0,40,10,0.8,0.9,0,240,0.94,0.875,1.25,1,1.1,INVALID_INPUT (rtMin=0),needs_review
+UPS-095,Invalid: Vdc=-240,40,10,0.8,0.9,15,-240,0.94,0.875,1.25,1,1.1,INVALID_INPUT (Vdc=-240),needs_review
+UPS-096,Invalid: invEff=1.05,40,10,0.8,0.9,15,240,1.05,0.875,1.25,1,1.1,INVALID_INPUT (invEff=1.05),needs_review
+UPS-097,Invalid: eodRatio=0,40,10,0.8,0.9,15,240,0.94,0,1.25,1,1.1,INVALID_INPUT (eodRatio=0),needs_review
+UPS-098,Invalid: ageing=0.9 < 1,40,10,0.8,0.9,15,240,0.94,0.875,0.9,1,1.1,INVALID_INPUT (ageing=0.9 < 1),needs_review
+UPS-099,Invalid: margin=0.95 < 1,40,10,0.8,0.9,15,240,0.94,0.875,1.25,1,0.95,INVALID_INPUT (margin=0.95 < 1),needs_review
+UPS-100,Invalid: loadKw=0,0,10,0.8,0.9,15,240,0.94,0.875,1.25,1,1.1,INVALID_INPUT (loadKw=0),needs_review
+UPS-101,Invalid: sparePct=205 > 200,40,205,0.8,0.9,15,240,0.94,0.875,1.25,1,1.1,INVALID_INPUT (sparePct=205 > 200),needs_review
+UPS-102,Invalid: sparePct=-5,40,-5,0.8,0.9,15,240,0.94,0.875,1.25,1,1.1,INVALID_INPUT (sparePct=-5),needs_review
+UPS-103,Invalid: loadPF=1.1,40,10,1.1,0.9,15,240,0.94,0.875,1.25,1,1.1,INVALID_INPUT (loadPF=1.1),needs_review
+UPS-104,Invalid: upsPF=0,40,10,0.8,0,15,240,0.94,0.875,1.25,1,1.1,INVALID_INPUT (upsPF=0),needs_review
+UPS-105,Invalid: rtMin=0,40,10,0.8,0.9,0,240,0.94,0.875,1.25,1,1.1,INVALID_INPUT (rtMin=0),needs_review
+UPS-106,Invalid: Vdc=-240,40,10,0.8,0.9,15,-240,0.94,0.875,1.25,1,1.1,INVALID_INPUT (Vdc=-240),needs_review
+UPS-107,Invalid: invEff=1.05,40,10,0.8,0.9,15,240,1.05,0.875,1.25,1,1.1,INVALID_INPUT (invEff=1.05),needs_review
+UPS-108,Invalid: eodRatio=0,40,10,0.8,0.9,15,240,0.94,0,1.25,1,1.1,INVALID_INPUT (eodRatio=0),needs_review
+UPS-109,Invalid: ageing=0.9 < 1,40,10,0.8,0.9,15,240,0.94,0.875,0.9,1,1.1,INVALID_INPUT (ageing=0.9 < 1),needs_review
+UPS-110,Invalid: margin=0.95 < 1,40,10,0.8,0.9,15,240,0.94,0.875,1.25,1,0.95,INVALID_INPUT (margin=0.95 < 1),needs_review
