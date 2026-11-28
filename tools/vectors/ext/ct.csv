@@ -1,0 +1,101 @@
+id,desc,count,diaMm,type,sparePct,depthMm,fillLimitPct,hand_result,source_ref
+CT-001,CT 6x multicore 32mm,6,32,multicore,20,100,40,"W_area=144.7646, W_lay=230.4, W_req=230.4, Std=300, Fill=16.085",needs_review
+CT-002,CT 4x multicore 22mm,4,22,multicore,20,100,50,"W_area=36.4927, W_lay=105.6, W_req=105.6, Std=150, Fill=10.1369",needs_review
+CT-003,CT 6x single-core 28mm,6,28,single-core,25,120,60,"W_area=64.1409, W_lay=140, W_req=140, Std=150, Fill=20.5251",needs_review
+CT-004,CT 7x multicore 32mm,7,32,multicore,50,150,100,"W_area=56.2973, W_lay=336, W_req=336, Std=450, Fill=8.3403",needs_review
+CT-005,CT 9x multicore 38mm,9,38,multicore,0,50,30,"W_area=680.469, W_lay=342, W_req=680.469, Std=750, Fill=27.2188",needs_review
+CT-006,CT 12x single-core 45mm,12,45,single-core,10,75,40,"W_area=699.7898, W_lay=396, W_req=699.7898, Std=750, Fill=33.9292",needs_review
+CT-007,CT 16x multicore 52mm,16,52,multicore,20,100,50,"W_area=815.5072, W_lay=998.4, W_req=998.4, Std=1000, Fill=33.9795",needs_review
+CT-008,CT 24x multicore 65mm,24,65,multicore,25,120,60,"W_area=1382.628, W_lay=1950, W_req=1950, Std=1000, Fill=66.3661",needs_review
+CT-009,CT 30x single-core 85mm,30,85,single-core,50,150,100,"W_area=1702.3505, W_lay=2550, W_req=2550, Std=1000, Fill=113.49",needs_review
+CT-010,CT 40x multicore 10mm,40,10,multicore,0,50,30,"W_area=209.4395, W_lay=400, W_req=400, Std=450, Fill=13.9626",needs_review
+CT-011,CT 1x multicore 14mm,1,14,multicore,10,75,40,"W_area=5.6444, W_lay=15.4, W_req=15.4, Std=50, Fill=4.105",needs_review
+CT-012,CT 3x single-core 22mm,3,22,single-core,20,100,50,"W_area=27.3696, W_lay=52.8, W_req=52.8, Std=75, Fill=15.2053",needs_review
+CT-013,CT 4x multicore 28mm,4,28,multicore,25,120,60,"W_area=42.7606, W_lay=140, W_req=140, Std=150, Fill=13.6834",needs_review
+CT-014,CT 6x multicore 32mm,6,32,multicore,50,150,100,"W_area=48.2549, W_lay=288, W_req=288, Std=300, Fill=10.7233",needs_review
+CT-015,CT 7x single-core 38mm,7,38,single-core,0,50,30,"W_area=529.2536, W_lay=228, W_req=529.2536, Std=600, Fill=26.4627",needs_review
+CT-016,CT 9x multicore 45mm,9,45,multicore,10,75,40,"W_area=524.8423, W_lay=445.5, W_req=524.8423, Std=600, Fill=31.8086",needs_review
+CT-017,CT 12x multicore 52mm,12,52,multicore,20,100,50,"W_area=611.6304, W_lay=748.8, W_req=748.8, Std=750, Fill=33.9795",needs_review
+CT-018,CT 16x single-core 65mm,16,65,single-core,25,120,60,"W_area=921.752, W_lay=975, W_req=975, Std=1000, Fill=44.2441",needs_review
+CT-019,CT 24x multicore 85mm,24,85,multicore,50,150,100,"W_area=1361.8804, W_lay=3060, W_req=3060, Std=1000, Fill=90.792",needs_review
+CT-020,CT 30x multicore 10mm,30,10,multicore,0,50,30,"W_area=157.0796, W_lay=300, W_req=300, Std=300, Fill=15.708",needs_review
+CT-021,CT 40x single-core 14mm,40,14,single-core,10,75,40,"W_area=225.7758, W_lay=431.2, W_req=431.2, Std=450, Fill=18.2445",needs_review
+CT-022,CT 1x multicore 22mm,1,22,multicore,20,100,50,"W_area=9.1232, W_lay=26.4, W_req=26.4, Std=50, Fill=7.6027",needs_review
+CT-023,CT 3x multicore 28mm,3,28,multicore,25,120,60,"W_area=32.0704, W_lay=105, W_req=105, Std=150, Fill=10.2625",needs_review
+CT-024,CT 4x single-core 32mm,4,32,single-core,50,150,100,"W_area=32.1699, W_lay=192, W_req=192, Std=200, Fill=10.7233",needs_review
+CT-025,CT 6x multicore 38mm,6,38,multicore,0,50,30,"W_area=453.646, W_lay=228, W_req=453.646, Std=600, Fill=22.6823",needs_review
+CT-026,CT 7x multicore 45mm,7,45,multicore,10,75,40,"W_area=408.2107, W_lay=346.5, W_req=408.2107, Std=450, Fill=32.9867",needs_review
+CT-027,CT 9x single-core 52mm,9,52,single-core,20,100,50,"W_area=458.7228, W_lay=374.4, W_req=458.7228, Std=600, Fill=31.8557",needs_review
+CT-028,CT 12x multicore 65mm,12,65,multicore,25,120,60,"W_area=691.314, W_lay=975, W_req=975, Std=1000, Fill=33.1831",needs_review
+CT-029,CT 16x multicore 85mm,16,85,multicore,50,150,100,"W_area=907.9203, W_lay=2040, W_req=2040, Std=1000, Fill=60.528",needs_review
+CT-030,CT 24x single-core 10mm,24,10,single-core,0,50,30,"W_area=125.6637, W_lay=160, W_req=160, Std=200, Fill=18.8496",needs_review
+CT-031,CT 30x multicore 14mm,30,14,multicore,10,75,40,"W_area=169.3318, W_lay=462, W_req=462, Std=600, Fill=10.2625",needs_review
+CT-032,CT 40x multicore 22mm,40,22,multicore,20,100,50,"W_area=364.9274, W_lay=1056, W_req=1056, Std=1000, Fill=15.2053",needs_review
+CT-033,CT 1x single-core 28mm,1,28,single-core,25,120,60,"W_area=10.6901, W_lay=70, W_req=70, Std=75, Fill=6.8417",needs_review
+CT-034,CT 3x multicore 32mm,3,32,multicore,50,150,100,"W_area=24.1274, W_lay=144, W_req=144, Std=150, Fill=10.7233",needs_review
+CT-035,CT 4x multicore 38mm,4,38,multicore,0,50,30,"W_area=302.4307, W_lay=152, W_req=302.4307, Std=450, Fill=20.162",needs_review
+CT-036,CT 6x single-core 45mm,6,45,single-core,10,75,40,"W_area=349.8949, W_lay=198, W_req=349.8949, Std=450, Fill=28.2743",needs_review
+CT-037,CT 7x multicore 52mm,7,52,multicore,20,100,50,"W_area=356.7844, W_lay=436.8, W_req=436.8, Std=450, Fill=33.0356",needs_review
+CT-038,CT 9x multicore 65mm,9,65,multicore,25,120,60,"W_area=518.4855, W_lay=731.25, W_req=731.25, Std=750, Fill=33.1831",needs_review
+CT-039,CT 12x single-core 85mm,12,85,single-core,50,150,100,"W_area=680.9402, W_lay=1020, W_req=1020, Std=1000, Fill=45.396",needs_review
+CT-040,CT 16x multicore 10mm,16,10,multicore,0,50,30,"W_area=83.7758, W_lay=160, W_req=160, Std=200, Fill=12.5664",needs_review
+CT-041,CT 24x multicore 14mm,24,14,multicore,10,75,40,"W_area=135.4655, W_lay=369.6, W_req=369.6, Std=450, Fill=10.9467",needs_review
+CT-042,CT 30x single-core 22mm,30,22,single-core,20,100,50,"W_area=273.6956, W_lay=528, W_req=528, Std=600, Fill=19.0066",needs_review
+CT-043,CT 40x multicore 28mm,40,28,multicore,25,120,60,"W_area=427.6057, W_lay=1400, W_req=1400, Std=1000, Fill=20.5251",needs_review
+CT-044,CT 1x multicore 32mm,1,32,multicore,50,150,100,"W_area=8.0425, W_lay=48, W_req=48, Std=50, Fill=10.7233",needs_review
+CT-045,CT 3x single-core 38mm,3,38,single-core,0,50,30,"W_area=226.823, W_lay=76, W_req=226.823, Std=300, Fill=22.6823",needs_review
+CT-046,CT 4x multicore 45mm,4,45,multicore,10,75,40,"W_area=233.2633, W_lay=198, W_req=233.2633, Std=300, Fill=28.2743",needs_review
+CT-047,CT 6x multicore 52mm,6,52,multicore,20,100,50,"W_area=305.8152, W_lay=374.4, W_req=374.4, Std=450, Fill=28.3162",needs_review
+CT-048,CT 7x single-core 65mm,7,65,single-core,25,120,60,"W_area=403.2665, W_lay=487.5, W_req=487.5, Std=600, Fill=32.2613",needs_review
+CT-049,CT 9x multicore 85mm,9,85,multicore,50,150,100,"W_area=510.7052, W_lay=1147.5, W_req=1147.5, Std=1000, Fill=34.047",needs_review
+CT-050,CT 12x multicore 10mm,12,10,multicore,0,50,30,"W_area=62.8319, W_lay=120, W_req=120, Std=150, Fill=12.5664",needs_review
+CT-051,CT 16x single-core 14mm,16,14,single-core,10,75,40,"W_area=90.3103, W_lay=184.8, W_req=184.8, Std=200, Fill=16.4201",needs_review
+CT-052,CT 24x multicore 22mm,24,22,multicore,20,100,50,"W_area=218.9564, W_lay=633.6, W_req=633.6, Std=750, Fill=12.1642",needs_review
+CT-053,CT 30x multicore 28mm,30,28,multicore,25,120,60,"W_area=320.7043, W_lay=1050, W_req=1050, Std=1000, Fill=15.3938",needs_review
+CT-054,CT 40x single-core 32mm,40,32,single-core,50,150,100,"W_area=321.6991, W_lay=1344, W_req=1344, Std=1000, Fill=21.4466",needs_review
+CT-055,CT 1x multicore 38mm,1,38,multicore,0,50,30,"W_area=75.6077, W_lay=38, W_req=75.6077, Std=100, Fill=22.6823",needs_review
+CT-056,CT 3x multicore 45mm,3,45,multicore,10,75,40,"W_area=174.9474, W_lay=148.5, W_req=174.9474, Std=200, Fill=31.8086",needs_review
+CT-057,CT 4x single-core 52mm,4,52,single-core,20,100,50,"W_area=203.8768, W_lay=249.6, W_req=249.6, Std=300, Fill=28.3162",needs_review
+CT-058,CT 6x multicore 65mm,6,65,multicore,25,120,60,"W_area=345.657, W_lay=487.5, W_req=487.5, Std=600, Fill=27.6526",needs_review
+CT-059,CT 7x multicore 85mm,7,85,multicore,50,150,100,"W_area=397.2151, W_lay=892.5, W_req=892.5, Std=900, Fill=29.4233",needs_review
+CT-060,CT 9x single-core 10mm,9,10,single-core,0,50,30,"W_area=47.1239, W_lay=60, W_req=60, Std=75, Fill=18.8496",needs_review
+CT-061,CT 12x multicore 14mm,12,14,multicore,10,75,40,"W_area=67.7327, W_lay=184.8, W_req=184.8, Std=200, Fill=12.315",needs_review
+CT-062,CT 16x multicore 22mm,16,22,multicore,20,100,50,"W_area=145.971, W_lay=422.4, W_req=422.4, Std=450, Fill=13.5158",needs_review
+CT-063,CT 24x single-core 28mm,24,28,single-core,25,120,60,"W_area=256.5634, W_lay=560, W_req=560, Std=600, Fill=20.5251",needs_review
+CT-064,CT 30x multicore 32mm,30,32,multicore,50,150,100,"W_area=241.2743, W_lay=1440, W_req=1440, Std=1000, Fill=16.085",needs_review
+CT-065,CT 40x multicore 38mm,40,38,multicore,0,50,30,"W_area=3024.3065, W_lay=1520, W_req=3024.3065, Std=1000, Fill=90.7292",needs_review
+CT-066,CT 1x single-core 45mm,1,45,single-core,10,75,40,"W_area=58.3158, W_lay=99, W_req=99, Std=100, Fill=21.2058",needs_review
+CT-067,CT 3x multicore 52mm,3,52,multicore,20,100,50,"W_area=152.9076, W_lay=187.2, W_req=187.2, Std=200, Fill=31.8557",needs_review
+CT-068,CT 4x multicore 65mm,4,65,multicore,25,120,60,"W_area=230.438, W_lay=325, W_req=325, Std=450, Fill=24.5801",needs_review
+CT-069,CT 6x single-core 85mm,6,85,single-core,50,150,100,"W_area=340.4701, W_lay=510, W_req=510, Std=600, Fill=37.83",needs_review
+CT-070,CT 7x multicore 10mm,7,10,multicore,0,50,30,"W_area=36.6519, W_lay=70, W_req=70, Std=75, Fill=14.6608",needs_review
+CT-071,CT 9x multicore 14mm,9,14,multicore,10,75,40,"W_area=50.7996, W_lay=138.6, W_req=138.6, Std=150, Fill=12.315",needs_review
+CT-072,CT 12x single-core 22mm,12,22,single-core,20,100,50,"W_area=109.4782, W_lay=211.2, W_req=211.2, Std=300, Fill=15.2053",needs_review
+CT-073,CT 16x multicore 28mm,16,28,multicore,25,120,60,"W_area=171.0423, W_lay=560, W_req=560, Std=600, Fill=13.6834",needs_review
+CT-074,CT 24x multicore 32mm,24,32,multicore,50,150,100,"W_area=193.0195, W_lay=1152, W_req=1152, Std=1000, Fill=12.868",needs_review
+CT-075,CT 30x single-core 38mm,30,38,single-core,0,50,30,"W_area=2268.2299, W_lay=760, W_req=2268.2299, Std=1000, Fill=68.0469",needs_review
+CT-076,CT 40x multicore 45mm,40,45,multicore,10,75,40,"W_area=2332.6325, W_lay=1980, W_req=2332.6325, Std=1000, Fill=84.823",needs_review
+CT-077,CT 1x multicore 52mm,1,52,multicore,20,100,50,"W_area=50.9692, W_lay=62.4, W_req=62.4, Std=75, Fill=28.3162",needs_review
+CT-078,CT 3x single-core 65mm,3,65,single-core,25,120,60,"W_area=172.8285, W_lay=162.5, W_req=172.8285, Std=200, Fill=41.4788",needs_review
+CT-079,CT 4x multicore 85mm,4,85,multicore,50,150,100,"W_area=226.9801, W_lay=510, W_req=510, Std=600, Fill=25.22",needs_review
+CT-080,CT 6x multicore 10mm,6,10,multicore,0,50,30,"W_area=31.4159, W_lay=60, W_req=60, Std=75, Fill=12.5664",needs_review
+CT-081,Invalid: count=0,0,30,multicore,20,100,40,INVALID_INPUT (count=0),needs_review
+CT-082,Invalid: count=-5,-5,30,multicore,20,100,40,INVALID_INPUT (count=-5),needs_review
+CT-083,Invalid: diaMm=0,6,0,multicore,20,100,40,INVALID_INPUT (diaMm=0),needs_review
+CT-084,Invalid: diaMm=-15,6,-15,single-core,20,100,40,INVALID_INPUT (diaMm=-15),needs_review
+CT-085,Invalid: depthMm=0,6,30,multicore,20,0,40,INVALID_INPUT (depthMm=0),needs_review
+CT-086,Invalid: depthMm=-50,6,30,multicore,20,-50,40,INVALID_INPUT (depthMm=-50),needs_review
+CT-087,Invalid: fillLimitPct=0,6,30,multicore,20,100,0,INVALID_INPUT (fillLimitPct=0),needs_review
+CT-088,Invalid: fillLimitPct=110 > 100,6,30,multicore,20,100,110,INVALID_INPUT (fillLimitPct=110 > 100),needs_review
+CT-089,Invalid: sparePct=-10,6,30,multicore,-10,100,40,INVALID_INPUT (sparePct=-10),needs_review
+CT-090,Invalid: fillLimitPct=-20,6,30,single-core,20,100,-20,INVALID_INPUT (fillLimitPct=-20),needs_review
+CT-091,Invalid: count=0,0,30,multicore,20,100,40,INVALID_INPUT (count=0),needs_review
+CT-092,Invalid: count=-5,-5,30,multicore,20,100,40,INVALID_INPUT (count=-5),needs_review
+CT-093,Invalid: diaMm=0,6,0,multicore,20,100,40,INVALID_INPUT (diaMm=0),needs_review
+CT-094,Invalid: diaMm=-15,6,-15,single-core,20,100,40,INVALID_INPUT (diaMm=-15),needs_review
+CT-095,Invalid: depthMm=0,6,30,multicore,20,0,40,INVALID_INPUT (depthMm=0),needs_review
+CT-096,Invalid: depthMm=-50,6,30,multicore,20,-50,40,INVALID_INPUT (depthMm=-50),needs_review
+CT-097,Invalid: fillLimitPct=0,6,30,multicore,20,100,0,INVALID_INPUT (fillLimitPct=0),needs_review
+CT-098,Invalid: fillLimitPct=110 > 100,6,30,multicore,20,100,110,INVALID_INPUT (fillLimitPct=110 > 100),needs_review
+CT-099,Invalid: sparePct=-10,6,30,multicore,-10,100,40,INVALID_INPUT (sparePct=-10),needs_review
+CT-100,Invalid: fillLimitPct=-20,6,30,single-core,20,100,-20,INVALID_INPUT (fillLimitPct=-20),needs_review
