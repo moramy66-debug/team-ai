@@ -1,0 +1,26 @@
+id,desc,S_mm2,cond,insul,Isc_kA,t_s,I2t_in_kA2s,hand_result,standard_ref
+ISC-01,Normal Cu XLPE 16mm2 10kA 0.2s,16,Cu,XLPE,10,0.2,,"k=143, I2t=20.0000 kA2s, cap=5.2349 kA2s, S_min=31.2737 mm2, StdS=35, Pass=False",IEC 60364-4-43 [needs verification]
+ISC-02,Normal Cu PVC 10mm2 6kA 0.1s,10,Cu,PVC,6,0.1,,"k=115, I2t=3.6000 kA2s, cap=1.3225 kA2s, S_min=16.4988 mm2, StdS=25, Pass=False",IEC 60364-4-43 [needs verification]
+ISC-03,Main feeder Cu XLPE 240mm2 35kA 0.5s,240,Cu,XLPE,35,0.5,,"k=143, I2t=612.5000 kA2s, cap=1177.8624 kA2s, S_min=173.0681 mm2, StdS=185, Pass=True",IEC 60364-4-43 [needs verification]
+ISC-04,Al XLPE 185mm2 20kA 0.4s,185,Al,XLPE,20,0.4,,"k=94, I2t=160.0000 kA2s, cap=302.4121 kA2s, S_min=134.5650 mm2, StdS=150, Pass=True",IEC 60364-4-43 [needs verification]
+ISC-05,Al PVC 95mm2 10kA 0.3s,95,Al,PVC,10,0.3,,"k=76, I2t=30.0000 kA2s, cap=52.1284 kA2s, S_min=72.0688 mm2, StdS=95, Pass=True",IEC 60364-4-43 [needs verification]
+ISC-06,Let-through I2t given 45 kA2s Cu XLPE 4mm2,4,Cu,XLPE,,,45,"k=143, I2t=45.0000 kA2s, cap=0.3272 kA2s, S_min=46.9105 mm2, StdS=50, Pass=False",IEC 60364-4-43
+ISC-07,Let-through I2t given 120 kA2s Cu PVC 10mm2,10,Cu,PVC,,,120,"k=115, I2t=120.0000 kA2s, cap=1.3225 kA2s, S_min=95.2561 mm2, StdS=120, Pass=False",IEC 60364-4-43
+ISC-08,Fast MCB 0.01s 6kA Cu PVC 1.5mm2,1.5,Cu,PVC,6,0.01,,"k=115, I2t=0.3600 kA2s, cap=0.0298 kA2s, S_min=5.2174 mm2, StdS=6, Pass=False",IEC 60364-4-43
+ISC-09,Tricky: Slow relay 1.0s 15kA Cu XLPE 70mm2 (fails),70,Cu,XLPE,15,1.0,,"k=143, I2t=225.0000 kA2s, cap=100.2001 kA2s, S_min=104.8951 mm2, StdS=120, Pass=False",IEC 60364-4-43
+ISC-10,Tricky: Al PVC 50mm2 8kA 0.5s (fails),50,Al,PVC,8,0.5,,"k=76, I2t=32.0000 kA2s, cap=14.4400 kA2s, S_min=74.4323 mm2, StdS=95, Pass=False",IEC 60364-4-43
+ISC-11,High fault 50kA 0.2s Cu XLPE 185mm2,185,Cu,XLPE,50,0.2,,"k=143, I2t=500.0000 kA2s, cap=699.8670 kA2s, S_min=156.3684 mm2, StdS=185, Pass=True",IEC 60364-4-43
+ISC-12,High fault 65kA 0.3s Cu XLPE 300mm2,300,Cu,XLPE,65,0.3,,"k=143, I2t=1267.5000 kA2s, cap=1840.4100 kA2s, S_min=248.9648 mm2, StdS=300, Pass=True",IEC 60364-4-43
+ISC-13,Low fault 1.5kA 0.4s Cu PVC 2.5mm2,2.5,Cu,PVC,1.5,0.4,,"k=115, I2t=0.9000 kA2s, cap=0.0827 kA2s, S_min=8.2494 mm2, StdS=10, Pass=False",IEC 60364-4-43
+ISC-14,Boundary exact pass Cu XLPE 10mm2 14.3kA 0.01s,10,Cu,XLPE,14.3,0.01,,"k=143, I2t=2.0449 kA2s, cap=2.0449 kA2s, S_min=10.0000 mm2, StdS=10, Pass=True",IEC 60364-4-43
+ISC-15,Sub-main 25kA 0.15s Cu XLPE 95mm2,95,Cu,XLPE,25,0.15,,"k=143, I2t=93.7500 kA2s, cap=184.5522 kA2s, S_min=67.7095 mm2, StdS=70, Pass=True",IEC 60364-4-43
+ISC-16,Sub-main 25kA 0.15s Al XLPE 95mm2 (Al fails),95,Al,XLPE,25,0.15,,"k=94, I2t=93.7500 kA2s, cap=79.7449 kA2s, S_min=103.0049 mm2, StdS=120, Pass=False",IEC 60364-4-43
+ISC-17,Lighting 1.5mm2 Cu XLPE 3kA 0.05s,1.5,Cu,XLPE,3,0.05,,"k=143, I2t=0.4500 kA2s, cap=0.0460 kA2s, S_min=4.6911 mm2, StdS=6, Pass=False",IEC 60364-4-43
+ISC-18,Long clearing 3.0s 4kA Cu XLPE 50mm2,50,Cu,XLPE,4,3.0,,"k=143, I2t=48.0000 kA2s, cap=51.1225 kA2s, S_min=48.4490 mm2, StdS=50, Pass=True",IEC 60364-4-43
+ISC-19,Transformer sec 42kA 0.25s Cu XLPE 150mm2,150,Cu,XLPE,42,0.25,,"k=143, I2t=441.0000 kA2s, cap=460.1025 kA2s, S_min=146.8531 mm2, StdS=150, Pass=True",IEC 60364-4-43
+ISC-20,Generator feeder 18kA 0.4s Cu XLPE 120mm2,120,Cu,XLPE,18,0.4,,"k=143, I2t=129.6000 kA2s, cap=294.4656 kA2s, S_min=79.6098 mm2, StdS=95, Pass=True",IEC 60364-4-43
+ISC-21,Tricky: t=6s > 5s adiabatic limit warning,95,Cu,XLPE,2,6.0,,"k=143, I2t=24.0000 kA2s, cap=184.5522 kA2s, S_min=34.2586 mm2, StdS=35, Pass=True [t>5s warning]",IEC 60364-4-43 (t<=5s limit)
+ISC-22,Edge: Isc=0 kA (invalid),16,Cu,XLPE,0,0.2,,"INVALID_INPUT (Error: Isc <= 0)",Validation check
+ISC-23,Edge: t=-0.1s (invalid),16,Cu,XLPE,10,-0.1,,"INVALID_INPUT (Error: t <= 0)",Validation check
+ISC-24,Edge: S=0 mm2 (invalid),0,Cu,XLPE,10,0.2,,"INVALID_INPUT (Error: S <= 0)",Validation check
+ISC-25,Edge: S=800mm2 > 630mm2,800,Cu,XLPE,65,0.5,,"k=143, I2t=2112.5000 kA2s, cap=13087.3600 kA2s, S_min=321.4122 mm2, StdS=400, Pass=True",IEC 60364-4-43
