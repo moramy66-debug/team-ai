@@ -46,6 +46,7 @@ jobs:
           node tools/eng-pfccpc-test.js
           node tools/eng-sld-test.js
           node tools/eng-lighting-test.js
+          node tools/eng-loadest-test.js
           node tools/eng-cabletray-test.js
           node tools/eng-isc-test.js
           node tools/eng-cablecalc-test.js
