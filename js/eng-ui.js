@@ -198,7 +198,11 @@
     var used = res.tablesUsed || [];
     used.forEach(function (u) {
       var ok = isOkStatus(u.status);
-      var line = el('div', ok ? 'ec-ok' : 'ec-warn', 'الجدول: ' + u.id + ' | الحالة: ' + u.status + (u.source ? ' | المصدر: ' + u.source : ' | ' + (window.SourceInfo ? window.SourceInfo.NR : 'المصدر غير مسجل')));
+      var line = el('div', (ok ? 'ec-ok' : 'ec-warn') + ' ec-src');
+      var badge = el('span', 'ec-badge ' + (ok ? 'ec-badge-ok' : 'ec-badge-warn'), String(u.status || '').replace(/from_memory_needs_review/g, 'from memory, needs review').replace(/needs_review/g, 'needs review').replace(/old_edition/g, 'old edition').replace(/_/g, ' '));
+      var idEl = el('span', 'ec-src-id', u.id);
+      var srcEl = el('span', 'ec-src-from', u.source ? u.source : (window.SourceInfo ? window.SourceInfo.NR : 'المصدر غير مسجل'));
+      line.appendChild(badge); line.appendChild(idEl); line.appendChild(srcEl);
       if (window.SourceInfo) line.insertBefore(window.SourceInfo.marker(used, used.indexOf(u), 'تفاصيل مصدر الجدول ' + u.id), line.firstChild);
       out.appendChild(line);
     });
