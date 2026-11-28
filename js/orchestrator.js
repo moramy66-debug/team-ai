@@ -94,8 +94,9 @@ function showResume(){var c=ckPeek(),b=$('resumeBox');if(!b)return;if(!c||!c.tas
 function taskKind(t){t=String(t||'').toLowerCase();var wr=/(خطاب|إيميل|ايميل|رد على|لخص|تلخيص|ترجم|صياغة|اكتب|humanize|email|letter|summar|translate|rewrite)/.test(t),te=/(حساب|احسب|مراجعة|راجع|كود|sbc|iec|nfpa|boq|تحقق|voltage|load|calc|check|verify|review|short circuit|كابل|مقطع)/.test(t);return te?'tech':wr?'write':'general'}
 function routeOrder(A,task){if(A.length<2)return A;var k=taskKind(task),big=estTok(task)>4500,pri=function(a){if(a.id==='openrouter')return 9;if(big)return a.id==='gemini'?0:5;if(k==='write')return a.id==='gemini'?0:a.id==='groq2'?1:a.id==='groq'?2:3;if(k==='tech')return a.id==='groq'?0:a.id==='gemini'?1:a.id==='groq2'?2:3;return a.id==='gemini'?0:a.id==='groq'?1:2};return A.map(function(a,i){return[a,i]}).sort(function(x,y){return pri(x[0])-pri(y[0])||x[1]-y[1]}).map(function(x){return x[0]})}
 async function runTask(task,_r){
- window.__detFinal=null;
+ window.__detFinal=null;window.__detSheet=null;
  if(!(RCK&&RCK.resumed)&&window.EngAreaImport&&window.EngAreaImport.chatFile&&files.some(f=>f.name===window.EngAreaImport.chatFile.name)&&/load|احمال|أحمال|حمل|DPS|kVA|area|مساح|تقدير/i.test(task)){const det=await window.EngAreaImport.chatFlow();if(det){window.__detFinal=det;for(const f of files){if(f.xl)xlCtx={name:f.name,wb:f.wb,text:f.text}}return det}}
+ if(!(RCK&&RCK.resumed)&&!files.length&&window.EngChatCalc){const d2=await window.EngChatCalc.flow(task);if(d2){window.__detFinal=d2;return d2}}
  const A=routeOrder(agents(),task),N=A.length,lead=A[0],log=[];
  const E=$('effort').value,rounds=E==='3'?3:E==='2'?1:0;
  const EF=E==='1'?'\n\nBe direct and concise: give the answer without long preambles or unnecessary detail.':E==='3'?'\n\nBe exhaustive and rigorous: analyze deeply, double-check every number and assumption, consider edge cases and conflicts, and state anything uncertain explicitly.':'';
