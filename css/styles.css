@@ -633,3 +633,19 @@ body .imp-chip.on{background:#2563eb;color:#fff;border-color:#2563eb}
 .cs-sticky{position:sticky;bottom:0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:44px;padding:8px 14px;margin-top:12px;background:#526d94;color:#fff;border-radius:10px 10px 0 0;font-size:15px;box-shadow:0 -2px 8px rgba(0,0,0,.18)}
 .cs-sticky b{font-size:17px}
 .cs-kpis{direction:ltr}.cs-kpi{direction:rtl}.cs-kv{white-space:nowrap;direction:ltr}.cs-ku{display:inline-block;white-space:nowrap}
+
+/* v193 UI polish: mixed Arabic/English notes read correctly, tidy file pickers and checkboxes, readable wide tables */
+body .ec-warn,body .ec-note,body .ec-summary,body .ec-ok,body .ec-err{direction:ltr;unicode-bidi:plaintext;text-align:start}
+input[type=file]{font-size:14px;color:var(--mut,#9ca3af);max-width:100%;min-height:44px}
+input[type=file]::file-selector-button{min-height:36px;margin-inline-end:10px;padding:0 14px;border-radius:8px;border:1px solid var(--line,#2a3347);background:var(--bg,#0b1020);color:var(--tx,#e5e7eb);font-weight:600;cursor:pointer}
+label:has(>input[type=checkbox]){display:inline-flex;align-items:center;gap:10px;min-height:44px}
+input[type=checkbox]{width:22px;height:22px;accent-color:#4f46e5}
+.ec-table td,.ec-table th{overflow-wrap:anywhere}
+.ec-table-wrap .ec-table td{font-size:12px;line-height:1.6}
+body .ec-modal textarea,body .ec-modal input:not([type=checkbox]):not([type=file]),body .ec-modal select{font-size:16px}
+.ec-tab:focus-visible{outline:2px solid #818cf8;outline-offset:2px}
+body .ec-modal textarea,body .ec-modal .ec-input,body .ec-modal select{font-size:16px!important}
+.ec-badge{white-space:nowrap;word-break:normal;overflow-wrap:normal}
+.ec-modal table td,.ec-modal table th{overflow-wrap:anywhere;word-break:normal;vertical-align:top}
+.ec-modal table td:nth-child(1){min-width:96px}
+.ec-modal table td:nth-child(3){min-width:130px}
