@@ -4,7 +4,7 @@
   var AR_WARNING = 'تحذير: حسابات حجم Transformer و Short-circuit Current (Isc = Is / Z%) تعتمد على ثوابت إرشادية (needs_review) وتقريب المصدر اللانهائي (Infinite Bus) دون احتساب Impedance الشبكة الأمامية أو مساهمة المحركات. يلزم التحقق من شركة الكهرباء و Short-circuit Study التفصيلية قبل الاعتماد.';
 
   var CONSTANTS = {
-    standardRatingsKva: { value: [50, 100, 160, 200, 250, 315, 400, 500, 630, 800, 1000, 1250, 1600, 2000, 2500, 3150], unit: 'kVA', status: 'needs_review', source_url: null, source_note: 'السعات القياسية الشائعة لـ Transformers Three-phase؛ تُراجع مع شركة الكهرباء والمورد' },
+    standardRatingsKva: { value: [50, 100, 160, 200, 250, 315, 400, 500, 630, 800, 1000, 1250, 1500, 1600, 2000, 2500, 3150], unit: 'kVA', status: 'needs_review', source_url: null, source_note: 'السعات القياسية الشائعة لـ Transformers Three-phase؛ تُراجع مع شركة الكهرباء والمورد؛ 1500 kVA أُضيفت بقرار المستخدم لأن ثلاثة مراجعين خارجيين ذكروها (ادعاء بدون مصدر رسمي)' },
     defaultTargetLoadPct: { value: 80, unit: '%', status: 'needs_review', source_url: null, source_note: 'نسبة التحميل التصميمية الإرشادية (80%) لتحقيق الكفاءة وعمر تشغيلي مناسب' },
     defaultImpedancePct: { value: 5.0, unit: '%', status: 'needs_review', source_url: null, source_note: 'نسبة المعاوقة الإرشادية Z%؛ تُراجع من Nameplate Transformer (Nameplate)' },
     defaultVPrimary: { value: 13800, unit: 'V', status: 'needs_review', source_url: null, source_note: 'Voltage ابتدائي افتراضي 13.8 kV؛ يُعدل حسب Voltage شبكة التوزيع المحلية' },
