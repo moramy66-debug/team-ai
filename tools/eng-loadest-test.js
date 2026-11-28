@@ -14,7 +14,8 @@ eq('restaurant CL = 836.27 x 188 / 1000', r.rows[1].connectedKva, 157.22, 0.005)
 eq('total CL', r.connectedKva, 2087.8 + 836.27 * 188 / 1000, 1e-9);
 eq('demand = CL x 0.6 once', r.demandKva, (2087.8 + 836.27 * 188 / 1000) * 0.6, 1e-9);
 eq('2015 sensitivity CL', r.sensitivity.connectedKva, 11862.5 * 0.22 + 836.27 * 0.235, 1e-9);
-eq('2015 sensitivity DL', r.sensitivity.demandKva, (11862.5 * 0.22 + 836.27 * 0.235) * 0.6, 1e-9);
+eq('2015 sensitivity DL at 0.6', r.sensitivity.demandKva, (11862.5 * 0.22 + 836.27 * 0.235) * 0.6, 1e-9);
+eq('2015 sensitivity DL at 0.70', r.sensitivity.demandKvaDf070, (11862.5 * 0.22 + 836.27 * 0.235) * 0.7, 1e-9);
 var c = E.calculate({ areas: [{ category: 'custom', areaM2: 100, densityVaM2: 144, demandFactor: 0.5 }] });
 eq('custom DL = 100 x 144 / 1000 x 0.5', c.demandKva, 7.2, 1e-9);
 eq('custom labeled assumption', c.rows[0].basis.indexOf('assumption') === 0, true);
