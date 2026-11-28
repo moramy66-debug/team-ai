@@ -1,4 +1,4 @@
-/* Runs the 225 external-audit vectors through the real app code and lists mismatches against the audit's hand results.
+/* Runs the 225 external-audit vectors (+ PEU/BRK vectors for the Peukert and 1.45 Iz checks) through the real app code and lists mismatches against the audit's hand results.
    Usage: node tools/vectors/run.js [--all]   (exit 0 always; this is a report, not a gate) */
 'use strict';
 var fs = require('fs'), path = require('path');
@@ -88,6 +88,15 @@ var RUN = {
     if (!(+v.Sph_mm2 > 0)) return { invalid: true, msg: 'Sph<=0 accepted by app? ' };
     return { k: r.k, S_ad: r.adiabaticMm2, S_std: r.selectedMm2, S_simp: r.simplifiedMm2 };
   },
+  peu: function (v) {
+    var r = W.EngUps.calculate({ loadKw: +v.loadKw, sparePct: +v.sparePct, loadPf: +v.loadPF, upsRatedPf: +v.upsPF, runtimeMin: +v.rtMin, dcVoltageV: +v.Vdc, inverterEff: +v.invEff, eodRatio: +v.eodRatio, ageingFactor: +v.ageing, tempFactor: +v.Tf, designMargin: +v.margin, peukertK: +v.k, ratedHours: +v.H_h });
+    if (bad(r)) return inv(r);
+    return { Ah_lin: r.rawAh, PF: r.peukertFactor, Ah_req: r.requiredAh, Std: r.standardAh };
+  },
+  brk: function (v) {
+    var r = W.EngCalc.breakerSelection({ designCurrentA: +v.Ib, cableAmpacityA: +v.Iz, type: v.type, i2Factor: v.i2Factor === '' ? undefined : +v.i2Factor });
+    return { In: r.rating_a, I2: r.i2A, Lim: 1.45 * +v.Iz, OverloadOK: r.overloadOk, Coord: r.coordinated };
+  },
   ct: function (v) {
     var r = W.EngCableTray.calculate({ cableCount: +v.count, outerDiaMm: +v.diaMm, arrangement: v.type === 'single-core' ? 'single_core' : 'multicore', sparePct: +v.sparePct, trayDepthMm: +v.depthMm, fillLimitPct: +v.fillLimitPct });
     if (bad(r)) return inv(r);
@@ -111,7 +120,7 @@ function close(a, b, key) {
   var tol = key === 'Std' || /^(Std|StdS|S_std|MinS_VD)$/.test(key) ? 1e-9 : Math.max(2e-3 * Math.abs(b), 2e-3);
   return Math.abs(a - b) <= tol;
 }
-var files = ['cab', 'isc', 'tx', 'gen', 'ups', 'lgt', 'pfc', 'cpc', 'ct'], total = 0, mism = [], matched = 0;
+var files = ['cab', 'isc', 'tx', 'gen', 'ups', 'lgt', 'pfc', 'cpc', 'ct', 'peu', 'brk'], total = 0, mism = [], matched = 0;
 files.forEach(function (f) {
   parseCsv(fs.readFileSync(path.join(__dirname, f + '.csv'), 'utf8')).forEach(function (v) {
     total++;
