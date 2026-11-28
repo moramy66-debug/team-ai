@@ -76,6 +76,21 @@ nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;bord
 <li><span class="en">Load Schedule</span> و<span class="en">SLD</span> و<span class="en">Submittal</span> و<span class="en">Direct Formulas</span></li>
 </ul>
 <div class="note"><b>مهم:</b> الأرقام مساعدة للحساب والمراجعة وليست اعتماد. أي نتيجة عليها <span class="en">needs_review</span> لازم تتراجع على الكود المعتمد والـ <span class="en">Datasheet</span> قبل ما تستخدمها. لو مصدر قيمة مش متسجل التطبيق بيكتب "غير مسجل" ومبيخمّنش.</div>
+<h3>حقول اختيارية جديدة</h3>
+<ul>
+<li><span class="en">Breaker</span>: حقل <span class="en">Tripping Factor I2/In</span>. لو دخلت <span class="en">Iz</span> التطبيق بيحسب <span class="en">I2 = f × In</span> ويتأكد إن <span class="en">I2 &lt;= 1.45 × Iz</span>. لو سيبت الحقل فاضي بياخد <span class="en">f</span> = 1.45 لـ <span class="en">MCB</span> و 1.30 لـ <span class="en">MCCB</span>، والقيمتين <span class="en">needs_review</span>. الأفضل تدخل القيمة من الـ <span class="en">Datasheet</span>.</li>
+<li><span class="en">UPS</span>: حقل <span class="en">Peukert Exponent k</span> (من 1 لـ 2) وحقل <span class="en">Rated Discharge Time H</span>. لو سيبت <span class="en">k</span> فاضي مفيش تصحيح. لو دخلته، <span class="en">H</span> الافتراضي 20 ساعة والسعة بتتضرب في <span class="en">(t/H)^(1/k - 1)</span>. التصحيح عمره ما بيقلل النتيجة عن الحساب الخطي. القيمتين من الـ <span class="en">Datasheet</span> بتاع البطارية ومفيش مصدر مسجل ليهم.</li>
+</ul>
+<h3>حدود معروفة (متكتوبة في الكود)</h3>
+<ul>
+<li><span class="en">Cable sizing</span> للكابلات المدفونة: بيستخدم معامل الحرارة ومعامل التجميع بس. مفيش معاملات للمقاومة الحرارية للتربة ولا للعمق.</li>
+<li><span class="en">Voltage drop</span>: للنحاس <span class="en">PVC</span> لحد 16 mm² بياخد <span class="en">mV/A/m</span> من جدول مرجعي (مصدره غير مسجل). باقي الحالات بتتحسب من <span class="en">R</span> و <span class="en">X</span>، و <span class="en">X</span> الافتراضي 0.08 ohm/km <span class="en">needs_review</span> ممكن تغيره.</li>
+<li><span class="en">Generator</span>: <span class="en">Xd</span> ثابت في الكود ومفيش حقل ليه. <span class="en">stepLoad</span> = <span class="en">kVA</span> التشغيل + <span class="en">kVA</span> بدء أكبر موتور، يعني الموتور بيتحسب مرتين لو هو أصلا جوه الـ <span class="en">Load</span> المستمر.</li>
+<li>قوايم المقاسات القياسية (<span class="en">Generator</span> و <span class="en">UPS kVA</span> و <span class="en">Battery Ah</span> و <span class="en">PFC</span> و <span class="en">Breaker</span>) ثابتة في الكود أو في جداول البيانات و <span class="en">needs_review</span>. قارنها بكتالوج المصنع.</li>
+<li><span class="en">Lighting</span>: ارتفاع التركيب <span class="en">Hm</span> بيتاخد زي ما هو من غير طرح ارتفاع مستوى العمل.</li>
+<li><span class="en">Cable Tray</span>: مفيش فحص لارتفاع الـ <span class="en">trefoil</span> مقابل عمق الحامل. العرض للكابل المتعدد القلوب = العدد × القطر (مع الـ <span class="en">spare</span>).</li>
+<li><span class="en">Short-circuit</span> و <span class="en">CPC</span>: لو زمن القطع أكبر من 5 ثواني بيظهر تحذير والحساب بيكمل.</li>
+</ul>
 </section>
 
 <section id="proj">
