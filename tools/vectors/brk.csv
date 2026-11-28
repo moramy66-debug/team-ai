@@ -1,0 +1,5 @@
+id,desc,Ib,Iz,type,i2Factor,hand_result,standard_ref
+BRK-01,MCB 45A Ib Iz=75,45,75,MCB,,"In=50, I2=72.5, Lim=108.75, OverloadOK=True, Coord=True",I2<=1.45Iz
+BRK-02,MCCB In=100 Iz=105 with datasheet f=1.6 (fails),100,105,MCCB,1.6,"In=100, I2=160, Lim=152.25, OverloadOK=False, Coord=False",I2<=1.45Iz
+BRK-03,MCCB 100A Iz=100 default f=1.30,100,100,MCCB,,"In=100, I2=130, Lim=145, OverloadOK=True, Coord=True",I2<=1.45Iz
+BRK-04,MCB In=16 Iz=15 (In>Iz),14,15,MCB,,"In=16, I2=23.2, Lim=21.75, OverloadOK=False, Coord=False",I2<=1.45Iz
