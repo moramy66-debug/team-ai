@@ -2618,7 +2618,7 @@
   },
   "sec_dps01_load_density_demand": {
     "title": "SEC DPS-01 Rev-02 (Nov 2023) Estimation of Customer Load Guideline: load density (Table 19, with AC) and demand factor (Table 20)",
-    "source": "https://studylib.net/doc/28734960/dps-2023-1 (third-party mirror of the SEC document); same table at https://www.scribd.com/document/1008918274/SEC-DPS-Load-Density. Table numbers and values taken from the sourced sheet the user supplied (load-estimation-sec-dps). Page numbers (Table 19 pp.26-27, Table 20 pp.29-30 of DPS-01 Rev-02 Nov 2023) come from another reviewer and were not checked here. Verify against SEC's current official DPS before a formal submittal.",
+    "source": "https://studylib.net/doc/28734960/dps-2023-1 (third-party mirror of the SEC document; a reviewer also found studylib.net/doc/28791914 with the same title, neither verified as identical to the official SEC file); same table at https://www.scribd.com/document/1008918274/SEC-DPS-Load-Density. Table numbers and values taken from the sourced sheet the user supplied (load-estimation-sec-dps). Page numbers (Table 19 pp.26-27, Table 20 pp.29-30 of DPS-01 Rev-02 Nov 2023) come from another reviewer and were not checked here. Verify against SEC's current official DPS before a formal submittal.",
     "status": "verified_secondary",
     "unit": "VA/m2",
     "note": "Density covers lights + AC + sockets, already in VA, so connected kVA = area x density / 1000 with no PF. Demand load = connected load x demand factor. Not in this table and therefore never labeled as from the code: extra load for ceilings over 3.5 m (sheet quotes +24 VA/m3 in DPS 2023 sec 2.4 and +30 VA/m3 in SERA Electricity Service Guide V8 Art. 8-2), special loads, coincidence factor for multi-meter buildings.",
