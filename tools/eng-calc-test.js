@@ -130,5 +130,11 @@ var okpf = C.cableSizing(Object.assign({}, wbase, { powerFactor: 0.9 }));
 eq('valid PF gives no PF warning', okpf.warnings.some(function (x) { return String(x).indexOf('Power Factor') >= 0; }), false);
 var msg = ''; try { C.cableSizing(Object.assign({}, wbase, { method: 'E', powerFactor: 0.9 })); } catch (e) { msg = e.message; }
 has('method E gives clear unsupported message', [msg], 'غير مدعومة');
+// Overload check I2 <= 1.45 Iz, I2 = f x In. MCCB In=100, Iz=105, datasheet f=1.6: I2 = 160 > 152.25 -> not coordinated.
+var o1 = C.breakerSelection({ designCurrentA: 100, type: 'MCCB', cableAmpacityA: 105, i2Factor: 1.6 });
+eq('overload I2 = 160', o1.i2A, 160); eq('overload fails with f=1.6', o1.overloadOk, false); eq('not coordinated with f=1.6', o1.coordinated, false);
+var o2 = C.breakerSelection({ designCurrentA: 100, type: 'MCCB', cableAmpacityA: 100 });
+eq('MCCB default f=1.30 I2 = 130', o2.i2A, 130); eq('overload ok 130 <= 145', o2.overloadOk, true); eq('coordinated In=Iz', o2.coordinated, true);
+eq('no Iz gives overloadOk null', C.breakerSelection({ designCurrentA: 45, type: 'MCB' }).overloadOk, null);
 if (fails) { console.log(fails + ' FAILED'); process.exit(1); }
 console.log('ALL ENG-CALC TESTS PASSED');
