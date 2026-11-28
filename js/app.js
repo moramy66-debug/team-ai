@@ -60,7 +60,7 @@ $('hist').addEventListener('click',()=>document.body.classList.remove('menu-open
 $('setClose').onclick=()=>{$('settings').hidden=true};
 $('setBtn').addEventListener('click',()=>document.body.classList.remove('menu-open'));
 $('newBtn').onclick=()=>{if(abort)return;current=null;xlCtx=null;files=[];renderChips();clearTmpl();$('task').value='';$('run').hidden=true;$('steps').innerHTML='';$('finalCard').hidden=true;$('xlOut').hidden=true;$('pdfOut').hidden=true;document.body.classList.remove('menu-open');scrollTo(0,0);$('task').focus()};
-loadCfg();showWho();renderHist();if(!agents().length)$('settings').hidden=false;
+loadCfg();showWho();renderHist();if(!agents().length){const n=document.createElement('div');n.id='keyNote';n.className='key-note';const t=document.createElement('span');t.textContent='الحاسبات الهندسية شغالة من غير مفتاح. عشان مهام الـ AI ضيف مفتاح API.';const b=document.createElement('button');b.type='button';b.className='sec';b.textContent='Add API key';b.onclick=()=>{$('settings').hidden=false;n.remove()};n.appendChild(t);n.appendChild(b);const cp=document.querySelector('section.compose');if(cp&&cp.parentNode)cp.parentNode.insertBefore(n,cp);else document.body.appendChild(n)}
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(function(e){console.warn('SW registration failed',e)});
 
 (function(){var d=document,b=d.body;function t(v){b.classList.toggle('log-open',v)}d.getElementById('logBtn').onclick=function(){t(!b.classList.contains('log-open'))};d.getElementById('logClose').onclick=function(){t(false)};d.getElementById('logScrim').onclick=function(){t(false)};d.addEventListener('keydown',function(e){if(e.key==='Escape')t(false)})})();
