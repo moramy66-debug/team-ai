@@ -1,0 +1,26 @@
+id,desc,If_kA,t_s,cond,type,insul,Sph_mm2,protected,hand_result,standard_ref
+CPC-01,Normal Cu single XLPE 10kA 0.2s Sph=50,10,0.2,Cu,single,XLPE,50,true,"k=176, S_ad=25.4099mm2, Mech=2.5, S_std=35mm2, S_simp=25.0000mm2",IEC 60364-5-54 [needs verification]
+CPC-02,Unprotected Cu single PVC 6kA 0.1s Sph=16,6,0.1,Cu,single,PVC,16,false,"k=143, S_ad=13.2683mm2, Mech=4.0, S_std=16mm2, S_simp=16.0000mm2",IEC 60364-5-54
+CPC-03,Multicore Cu XLPE 25kA 0.3s Sph=120,25,0.3,Cu,multi,XLPE,120,true,"k=143, S_ad=95.7557mm2, Mech=2.5, S_std=120mm2, S_simp=60.0000mm2",IEC 60364-5-54 (adiabatic > simp)
+CPC-04,Multicore Cu PVC 15kA 0.4s Sph=95,15,0.4,Cu,multi,PVC,95,true,"k=115, S_ad=82.4942mm2, Mech=2.5, S_std=95mm2, S_simp=47.5000mm2",IEC 60364-5-54
+CPC-05,Al single XLPE 12kA 0.2s Sph=70,12,0.2,Al,single,XLPE,70,true,"k=116, S_ad=46.2635mm2, Mech=2.5, S_std=50mm2, S_simp=35.0000mm2",IEC 60364-5-54
+CPC-06,Al multi PVC 8kA 0.3s Sph=50,8,0.3,Al,multi,PVC,50,true,"k=76, S_ad=57.6550mm2, Mech=2.5, S_std=70mm2, S_simp=25.0000mm2",IEC 60364-5-54
+CPC-07,Mech min 1kA 0.1s protected,1,0.1,Cu,single,XLPE,2.5,true,"k=176, S_ad=1.7967mm2, Mech=2.5, S_std=2.5mm2, S_simp=2.5000mm2",IEC 60364-5-54 mech min
+CPC-08,Mech min 1kA 0.1s unprotected,1,0.1,Cu,single,XLPE,2.5,false,"k=176, S_ad=1.7967mm2, Mech=4.0, S_std=4mm2, S_simp=2.5000mm2",IEC 60364-5-54 mech min
+CPC-09,Main earth 50kA 0.5s Cu single XLPE,50,0.5,Cu,single,XLPE,400,true,"k=176, S_ad=200.8826mm2, Mech=2.5, S_std=240mm2, S_simp=200.0000mm2",IEC 60364-5-54
+CPC-10,Sub-main 35kA 0.25s Cu single PVC,35,0.25,Cu,single,PVC,240,true,"k=143, S_ad=122.3776mm2, Mech=2.5, S_std=150mm2, S_simp=120.0000mm2",IEC 60364-5-54
+CPC-11,Lighting 3kA 0.04s Cu multi PVC,3,0.04,Cu,multi,PVC,1.5,true,"k=115, S_ad=5.2174mm2, Mech=2.5, S_std=6mm2, S_simp=1.5000mm2",IEC 60364-5-54
+CPC-12,Small motor 12kA 0.15s Cu multi XLPE,12,0.15,Cu,multi,XLPE,16,true,"k=143, S_ad=32.5006mm2, Mech=2.5, S_std=35mm2, S_simp=16.0000mm2",IEC 60364-5-54
+CPC-13,Sph=25 -> simplified=16mm2 check,8,0.1,Cu,single,XLPE,25,true,"k=176, S_ad=14.3740mm2, Mech=2.5, S_std=16mm2, S_simp=16.0000mm2",IEC Table 54.2
+CPC-14,Sph=35 -> simplified=16mm2 check,10,0.1,Cu,single,XLPE,35,true,"k=176, S_ad=17.9675mm2, Mech=2.5, S_std=25mm2, S_simp=16.0000mm2",IEC Table 54.2
+CPC-15,Sph=300 -> simplified=150mm2 check,30,0.2,Cu,single,XLPE,300,true,"k=176, S_ad=76.2296mm2, Mech=2.5, S_std=95mm2, S_simp=150.0000mm2",IEC Table 54.2
+CPC-16,Al single PVC 18kA 0.4s Sph=185,18,0.4,Al,single,PVC,185,true,"k=94, S_ad=121.1085mm2, Mech=2.5, S_std=150mm2, S_simp=92.5000mm2",IEC 60364-5-54
+CPC-17,Al multi XLPE 22kA 0.3s Sph=150,22,0.3,Al,multi,XLPE,150,true,"k=94, S_ad=128.1904mm2, Mech=2.5, S_std=150mm2, S_simp=75.0000mm2",IEC 60364-5-54
+CPC-18,High fault 65kA 0.4s Cu single XLPE,65,0.4,Cu,single,XLPE,500,true,"k=176, S_ad=233.5773mm2, Mech=2.5, S_std=240mm2, S_simp=250.0000mm2",IEC 60364-5-54
+CPC-19,Long clearing 1.2s 14kA Cu single PVC,14,1.2,Cu,single,PVC,120,true,"k=143, S_ad=107.2464mm2, Mech=2.5, S_std=120mm2, S_simp=60.0000mm2",IEC 60364-5-54
+CPC-20,Tricky: t=6s > 5s adiabatic limit,3,6.0,Cu,single,XLPE,35,true,"k=176, S_ad=41.7527mm2, Mech=2.5, S_std=50mm2, S_simp=16.0000mm2 [t>5s warning]",t<=5s limit violated
+CPC-21,Tricky: Sph=630mm2 80kA 1s,80,1.0,Cu,single,PVC,630,true,"k=143, S_ad=559.4406mm2, Mech=2.5, S_std=630mm2, S_simp=315.0000mm2",IEC 60364-5-54
+CPC-22,Edge: If=0 (invalid),0,0.2,Cu,single,XLPE,50,true,"INVALID_INPUT (Error: If <= 0)",Validation check
+CPC-23,Edge: t=0 (invalid),10,0.0,Cu,single,XLPE,50,true,"INVALID_INPUT (Error: t <= 0)",Validation check
+CPC-24,Edge: Sph=-10 (invalid),10,0.2,Cu,single,XLPE,-10,true,"INVALID_INPUT (Error: Sph <= 0)",Validation check
+CPC-25,Edge: t=-0.5 (invalid),10,-0.5,Cu,single,XLPE,50,true,"INVALID_INPUT (Error: t <= 0)",Validation check
